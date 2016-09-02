@@ -161,8 +161,8 @@ function drawScene() {
 // Initialize the shaders, so WebGL knows how to light our scene.
 //
 function initShaders() {
-    var fragmentShader = getShader(gl, "shader-fs");
-    var vertexShader = getShader(gl, "shader-vs");
+    var fragmentShader = getShader(gl, "shader-fs", getFragmentShader(), true);
+    var vertexShader = getShader(gl, "shader-vs", getVertexShader(), false);
 
     // Create the shader program
 
@@ -192,11 +192,11 @@ function initShaders() {
 // Loads a shader program by scouring the current document,
 // looking for a script with the specified ID.
 //
-function getShader(gl, id) {
-    var shaderScript = document.getElementById(id);
+function getShader(gl, id, theSource, isFragment) {
+    //var shaderScript = document.getElementById(id);
 
     // Didn't find an element with the specified ID; abort.
-
+/*
     if (!shaderScript) {
         return null;
     }
@@ -214,18 +214,16 @@ function getShader(gl, id) {
 
         currentChild = currentChild.nextSibling;
     }
-
+*/
     // Now figure out what type of shader script we have,
     // based on its MIME type.
 
     var shader;
 
-    if (shaderScript.type == "x-shader/x-fragment") {
+    if (isFragment) {
         shader = gl.createShader(gl.FRAGMENT_SHADER);
-    } else if (shaderScript.type == "x-shader/x-vertex") {
-        shader = gl.createShader(gl.VERTEX_SHADER);
     } else {
-        return null;  // Unknown shader type
+        shader = gl.createShader(gl.VERTEX_SHADER);
     }
 
     // Send the source to the shader object
