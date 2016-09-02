@@ -3,34 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>HVAC Model Designer</title>
+
+    <script src="Shaders/MyShader-fragment.js"></script>
+    <script src="Shaders/MyShader-vertex.js"></script>
+
     <script src="Javascript/Libraries/sylvester.js"></script>
     <script src="Javascript/Libraries/glUtils.js"></script>
     <script src="Javascript/WebGLCanvas.js"></script>
     <script src="Javascript/Main.js"></script>
     <link rel="stylesheet" href="CSS/Main.css">
-
-    <!-- Fragment shader program -->
-
-    <script id="shader-fs" type="x-shader/x-fragment">
-      varying lowp vec4 vColor;
-      void main(void) {
-        gl_FragColor = vColor;
-      }
-    </script>
-
-    <!-- Vertex shader program -->
-
-    <script id="shader-vs" type="x-shader/x-vertex">
-      attribute vec3 aVertexPosition;
-      attribute vec4 aVertexColor;
-      uniform mat4 uMVMatrix;
-      uniform mat4 uPMatrix;
-      varying lowp vec4 vColor;
-      void main(void) {
-        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-        vColor = aVertexColor;
-      }
-    </script>
 
 </head>
 <body>
