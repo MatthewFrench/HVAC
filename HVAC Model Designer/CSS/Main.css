@@ -18,3 +18,20 @@ body {
     height:100%;
     background-size:50px 50px;
 }
+.WebGLCanvas {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    left: calc(50% - 250px);
+    top: calc(50% - 250px);
+    background-color: white;
+}
+.TopTitle {
+    position: absolute;
+    color: white;
+    font-size: 35px;
+    text-align: center;
+    left: 0px;
+    width: 100%;
+    top: calc(50% - 300px);
+}
