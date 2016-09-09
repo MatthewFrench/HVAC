@@ -4,10 +4,5 @@
 window.onload = main;
 
 function main() {
-    //Create webgl canvas
-    canvas = document.createElement('canvas');
-    canvas.className = "WebGLCanvas";
-    document.body.appendChild(canvas);
-
-    initializeWebGL();
+    var myApp = new HVACApplication();
 }
