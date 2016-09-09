@@ -61,3 +61,15 @@ body {
     top: 150px;
     left: 0px;
 }
+.CreateWallButton {
+    position: absolute;
+    bottom: 5px;
+    width: 150px;
+    left: calc(25% - 75px);
+}
+.EditWallButton {
+    position: absolute;
+    bottom: 5px;
+    width: 150px;
+    left: calc(75% - 75px);
+}
