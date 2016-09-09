@@ -7,6 +7,7 @@ var HVACApplication = function () {
     this.myBannerDiv = null;
     this.titleSpan = null;
     this.layoutCanvas = null;
+    this.wallList = [];
 
     this.createUI();
 };
@@ -24,6 +25,17 @@ HVACApplication.prototype.createUI = function() {
     this.layoutCanvas = document.createElement("canvas");
     this.layoutCanvas.className = "LayoutCanvas";
     document.body.append(this.layoutCanvas);
+    var self = this;
+    this.layoutCanvas.onmousemove = function(event){
+        self.layoutCanvasMouseMoved(event);
+    };
+    this.layoutCanvas.onmousedown = function(event){
+        self.layoutCanvasMousePressed(event);
+    };
+    this.layoutCanvas.onmouseup = function(event){
+        self.layoutCanvasMouseReleased(event);
+    };
+
 
     this.resizeCanvas();
 };
@@ -42,10 +54,10 @@ HVACApplication.prototype.layoutDraw = function() {
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.strokeStyle = "white";
-    ctx.beginPath();
-    ctx.arc(canvasWidth/2,canvasHeight/2,canvasWidth/2 - 50,0,2*Math.PI);
-    ctx.stroke();
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
+        wall.draw(ctx);
+    }
 }
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
@@ -54,4 +66,27 @@ HVACApplication.prototype.resizeCanvas = function() {
     "use strict";
     this.layoutCanvas.width = window.innerWidth;
     this.layoutCanvas.height = window.innerHeight - 150;
+}
+
+
+HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
+    "use strict";
+    var mouseX = event.offsetX;
+    var mouseY = event.offsetY;
+
+
+    console.log("Wall list: " + this.wallList);
+    this.wallList.push(new WallObject(mouseX, mouseY, mouseX + 40, mouseY + 40));
+}
+
+HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
+    "use strict";
+    var mouseX = event.offsetX;
+    var mouseY = event.offsetY;
+}
+
+HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
+    "use strict";
+    var mouseX = event.offsetX;
+    var mouseY = event.offsetY;
 }
