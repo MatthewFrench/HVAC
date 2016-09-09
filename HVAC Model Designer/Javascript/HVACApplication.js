@@ -2,12 +2,18 @@
  * Created by Matt on 9/9/16.
  */
 
+var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1
+
 //Constructor
 var HVACApplication = function () {
     this.myBannerDiv = null;
     this.titleSpan = null;
     this.layoutCanvas = null;
     this.wallList = [];
+    this.currentCreateWall = null;
+    this.createWallButton = null;
+    this.editWallButton = null;
+    this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
 
     this.createUI();
 };
@@ -35,6 +41,25 @@ HVACApplication.prototype.createUI = function() {
     this.layoutCanvas.onmouseup = function(event){
         self.layoutCanvasMouseReleased(event);
     };
+
+    this.createWallButton = document.createElement("button");
+    this.createWallButton.className = "CreateWallButton";
+    this.createWallButton.innerHTML = "Create Wall";
+    var self = this;
+    this.createWallButton.onclick = function(event) {
+        "use strict";
+        self.createWallButtonClicked();
+    }
+    this.myBannerDiv.append(this.createWallButton);
+
+    this.editWallButton = document.createElement("button");
+    this.editWallButton.className = "EditWallButton";
+    this.editWallButton.innerHTML = "Edit Wall";
+    this.editWallButton.onclick = function(event) {
+        "use strict";
+        self.editWallButtonClicked();
+    }
+    this.myBannerDiv.append(this.editWallButton);
 
 
     this.resizeCanvas();
@@ -74,19 +99,40 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
 
-
-    console.log("Wall list: " + this.wallList);
-    this.wallList.push(new WallObject(mouseX, mouseY, mouseX + 40, mouseY + 40));
+    if (this.currentCreateWall == null) {
+        this.currentCreateWall = new WallObject(mouseX, mouseY, mouseX, mouseY);
+        this.wallList.push(this.currentCreateWall);
+    }
 }
 
 HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
+    if (this.currentCreateWall != null) {
+        this.currentCreateWall.x2 = mouseX;
+        this.currentCreateWall.y2 = mouseY;
+        this.currentCreateWall = null;
+    }
 }
 
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
+    if (this.currentCreateWall != null) {
+        this.currentCreateWall.x2 = mouseX;
+        this.currentCreateWall.y2 = mouseY;
+    }
+}
+
+HVACApplication.prototype.createWallButtonClicked = function() {
+    "use strict";
+    console.log("createWallButtonClicked");
+    this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
+}
+HVACApplication.prototype.editWallButtonClicked = function() {
+    "use strict";
+    console.log("editWallButtonClicked");
+    this.currentLayoutMode = LAYOUT_MODE_EDIT_WALL;
 }
