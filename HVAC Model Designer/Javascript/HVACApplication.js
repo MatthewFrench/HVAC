@@ -17,6 +17,7 @@ var HVACApplication = function () {
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.selectedWall = null;
     this.selectedWallPoint = WALL_POINT_ONE;
+    this.shiftPressed = false;
 
     this.createUI();
 };
@@ -154,6 +155,15 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
         if (this.currentCreateWall != null) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
+
+            this.autoSnapWallPointTwo(this.currentCreateWall);
+            
+            if (this.shiftPressed) {
+                var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
+                    this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
+                this.currentCreateWall.x2 = line.x2;
+                this.currentCreateWall.y2 = line.y2;
+            }
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
@@ -162,8 +172,17 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
                 this.selectedWall.x1 = mouseX;
                 this.selectedWall.y1 = mouseY;
 
+
                 //Auto snap
                 this.autoSnapWallPointOne(this.selectedWall);
+
+                if (this.shiftPressed) {
+                    var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
+                        this.selectedWall.x2, this.selectedWall.y2, 45);
+                    this.selectedWall.x1 = line.x1;
+                    this.selectedWall.y1 = line.y1;
+                }
+
             }
             if (this.selectedWallPoint == WALL_POINT_TWO) {
                 this.selectedWall.x2 = mouseX;
@@ -172,6 +191,14 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
                 //Auto snap
                 this.autoSnapWallPointTwo(this.selectedWall);
+
+                if (this.shiftPressed) {
+                    var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
+                        this.selectedWall.x2, this.selectedWall.y2, 45);
+                    this.selectedWall.x2 = line.x2;
+                    this.selectedWall.y2 = line.y2;
+                }
+
             }
         }
     }
@@ -246,3 +273,17 @@ HVACApplication.prototype.editWallButtonClicked = function() {
     console.log("editWallButtonClicked");
     this.currentLayoutMode = LAYOUT_MODE_EDIT_WALL;
 }
+HVACApplication.prototype.onKeydown = function(event) {
+    "use strict";
+    //var key = event.which;
+    if (!!event.shiftKey) {
+        this.shiftPressed = true;
+    }
+};
+HVACApplication.prototype.onKeyup = function(event) {
+    "use strict";
+    //var key = event.which;
+    if (!!!event.shiftKey) {
+        this.shiftPressed = false;
+    }
+};

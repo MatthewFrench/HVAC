@@ -9,6 +9,15 @@ function main() {
 
     animationFrameTimer();
     document.body.onresize = windowResized;
+
+    document.body.onkeydown = function(event) {
+        "use strict";
+        myApp.onKeydown(event);
+    }
+    document.body.onkeyup = function(event) {
+        "use strict";
+        myApp.onKeyup(event);
+    }
 }
 
 function animationFrameTimer() {
