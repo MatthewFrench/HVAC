@@ -136,7 +136,7 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
         if (this.currentCreateWall != null) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
-            this.autoSnapWallPointOne(this.currentCreateWall);
+            this.autoSnapWallPointTwo(this.currentCreateWall);
             this.currentCreateWall = null;
         }
     }
@@ -179,30 +179,59 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
 //Auto snap
 HVACApplication.prototype.autoSnapWallPointOne = function(snapWall) {
+    var snappedToEnd = false;
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         if (wall == snapWall) continue;
         if (Math.hypot(snapWall.x1 - wall.x1, snapWall.y1 - wall.y1) < 15) {
             snapWall.x1 = wall.x1;
             snapWall.y1 = wall.y1;
+            snappedToEnd = true;
         }
         if (Math.hypot(snapWall.x1 - wall.x2, snapWall.y1 - wall.y2) < 15) {
             snapWall.x1 = wall.x2;
             snapWall.y1 = wall.y2;
+            snappedToEnd = true;
         }
     }
-}
+    if (!snappedToEnd) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            if (wall == snapWall) continue;
+            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, snapWall.x1, snapWall.y1);
+            if (Math.hypot(snapPoint.x - snapWall.x1, snapPoint.y - snapWall.y1) < 15) {
+                snapWall.x1 = snapPoint.x;
+                snapWall.y1 = snapPoint.y;
+            }
+        }
+    }
+};
 HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
+    var snappedToEnd = false;
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         if (wall == snapWall) continue;
         if (Math.hypot(snapWall.x2 - wall.x1, snapWall.y2 - wall.y1) < 15) {
             snapWall.x2 = wall.x1;
             snapWall.y2 = wall.y1;
+            snappedToEnd = true;
         }
         if (Math.hypot(snapWall.x2 - wall.x2, snapWall.y2 - wall.y2) < 15) {
             snapWall.x2 = wall.x2;
             snapWall.y2 = wall.y2;
+            snappedToEnd = true;
+        }
+    }
+
+    if (!snappedToEnd) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            if (wall == snapWall) continue;
+            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, snapWall.x2, snapWall.y2);
+            if (Math.hypot(snapPoint.x - snapWall.x2, snapPoint.y - snapWall.y2) < 15) {
+                snapWall.x2 = snapPoint.x;
+                snapWall.y2 = snapPoint.y;
+            }
         }
     }
 }
