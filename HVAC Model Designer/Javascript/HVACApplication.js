@@ -3,6 +3,7 @@
  */
 
 var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1
+var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 
 //Constructor
 var HVACApplication = function () {
@@ -14,6 +15,8 @@ var HVACApplication = function () {
     this.createWallButton = null;
     this.editWallButton = null;
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
+    this.selectedWall = null;
+    this.selectedWallPoint = WALL_POINT_ONE;
 
     this.createUI();
 };
@@ -81,7 +84,7 @@ HVACApplication.prototype.layoutDraw = function() {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx);
+        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL);
     }
 }
 HVACApplication.prototype.windowResized = function() {
@@ -98,10 +101,28 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
+    if(event.which == 3) return;
 
-    if (this.currentCreateWall == null) {
-        this.currentCreateWall = new WallObject(mouseX, mouseY, mouseX, mouseY);
-        this.wallList.push(this.currentCreateWall);
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        if (this.currentCreateWall == null) {
+            this.currentCreateWall = new WallObject(mouseX, mouseY, mouseX, mouseY);
+            this.wallList.push(this.currentCreateWall);
+        }
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            if (pointInCircle(mouseX, mouseY, wall.x1, wall.y1, 25)) {
+                this.selectedWallPoint = WALL_POINT_ONE;
+                this.selectedWall = wall;
+                break;
+            }
+            if (pointInCircle(mouseX, mouseY, wall.x2, wall.y2, 25)) {
+                this.selectedWallPoint = WALL_POINT_TWO;
+                this.selectedWall = wall;
+                break;
+            }
+        }
     }
 }
 
@@ -109,10 +130,16 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.x2 = mouseX;
-        this.currentCreateWall.y2 = mouseY;
-        this.currentCreateWall = null;
+    if(event.which == 3) return;
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        if (this.currentCreateWall != null) {
+            this.currentCreateWall.x2 = mouseX;
+            this.currentCreateWall.y2 = mouseY;
+            this.currentCreateWall = null;
+        }
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
+        this.selectedWall = null;
     }
 }
 
@@ -120,9 +147,24 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
     var mouseX = event.offsetX;
     var mouseY = event.offsetY;
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.x2 = mouseX;
-        this.currentCreateWall.y2 = mouseY;
+    if(event.which == 3) return;
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        if (this.currentCreateWall != null) {
+            this.currentCreateWall.x2 = mouseX;
+            this.currentCreateWall.y2 = mouseY;
+        }
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
+        if (this.selectedWall != null) {
+            if (this.selectedWallPoint == WALL_POINT_ONE) {
+                this.selectedWall.x1 = mouseX;
+                this.selectedWall.y1 = mouseY;
+            }
+            if (this.selectedWallPoint == WALL_POINT_TWO) {
+                this.selectedWall.x2 = mouseX;
+                this.selectedWall.y2 = mouseY;
+            }
+        }
     }
 }
 
