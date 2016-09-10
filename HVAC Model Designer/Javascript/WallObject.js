@@ -15,6 +15,7 @@ WallObject.prototype.draw = function(context, showHandles) {
 
     context.lineWidth = 5;
     context.beginPath();
+    context.lineCap = "round";
     context.moveTo(this.x1, this.y1);
     context.lineTo(this.x2, this.y2);
     context.stroke();
