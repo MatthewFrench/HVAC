@@ -36,7 +36,7 @@ HVACApplication.prototype.createUI = function() {
     this.layoutCanvas.className = "LayoutCanvas";
     document.body.append(this.layoutCanvas);
     var self = this;
-    this.layoutCanvas.onmousemove = function(event){
+    document.body.onmousemove = function(event){
         self.layoutCanvasMouseMoved(event);
     };
     this.layoutCanvas.onmousedown = function(event){
@@ -138,6 +138,19 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
             this.autoSnapWallPointTwo(this.currentCreateWall);
+
+            if (this.shiftPressed) {
+                var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
+                    this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
+                this.currentCreateWall.x2 = line.x2;
+                this.currentCreateWall.y2 = line.y2;
+            }
+
+            if (this.currentCreateWall.x1 == this.currentCreateWall.x2 &&
+            this.currentCreateWall.y1 == this.currentCreateWall.y1) {
+                this.wallList.splice(this.wallList.indexOf(this.currentCreateWall), 1);
+            }
+
             this.currentCreateWall = null;
         }
     }
@@ -148,8 +161,8 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
 
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
-    var mouseX = event.offsetX;
-    var mouseY = event.offsetY;
+    var mouseX = event.clientX - this.layoutCanvas.offsetLeft;
+    var mouseY = event.clientY - this.layoutCanvas.offsetTop;
     if(event.which == 3) return;
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         if (this.currentCreateWall != null) {
@@ -157,7 +170,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
             this.currentCreateWall.y2 = mouseY;
 
             this.autoSnapWallPointTwo(this.currentCreateWall);
-            
+
             if (this.shiftPressed) {
                 var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
                     this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
