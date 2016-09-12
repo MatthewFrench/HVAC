@@ -26,6 +26,67 @@ WallObject.prototype.draw = function(context, showHandles) {
     }
 }
 
+WallObject.prototype.drawLength = function(context) {
+    "use strict";
+    //Go down to 5 decimal places
+
+    var lengthInFeet = Math.hypot(this.x1 - this.x2, this.y1 - this.y2) / PIXELS_IN_FOOT;
+    var feet = Math.floor(lengthInFeet);
+    var inches = ((lengthInFeet - feet) * 12).toFixed(1);
+    //var inches = ((lengthInFeet - feet) * 12);
+    var centerX = (this.x1 - this.x2) / 2.0 + this.x2;
+    var centerY = (this.y1 - this.y2) / 2.0 + this.y2;
+
+
+
+    context.textAlign = "center";
+    context.font = '30px Helvetica';
+
+    var textSize = context.measureText(feet+" ft " + inches + " in").width + 6;
+    context.globalAlpha = 0.9;
+    context.fillStyle = "black";
+    fillRoundedRect(context, centerX - textSize / 2, centerY - 15 - 2, textSize, 30, 5);
+    //context.fillRect(centerX - textSize / 2, centerY - 28, textSize, 30);
+    context.globalAlpha = 1.0;
+    context.fillStyle = "white";
+    context.textBaseline = "middle";
+    context.fillText(feet+" ft " + inches + " in", centerX, centerY);
+}
+
+function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
+    "use strict";
+
+    context.beginPath();
+    context.moveTo(x + cornerRadius, y);
+    context.lineTo(x + width - cornerRadius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + cornerRadius);
+    context.lineTo(x + width, y + height - cornerRadius);
+    context.quadraticCurveTo(x + width, y + height, x + width - cornerRadius, y + height);
+    context.lineTo(x + cornerRadius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - cornerRadius);
+    context.lineTo(x, y + cornerRadius);
+    context.quadraticCurveTo(x, y, x + cornerRadius, y);
+    context.closePath();
+    context.stroke();
+}
+
+function fillRoundedRect(context, x, y, width, height, cornerRadius) {
+    "use strict";
+
+    context.beginPath();
+    context.moveTo(x + cornerRadius, y);
+    context.lineTo(x + width - cornerRadius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + cornerRadius);
+    context.lineTo(x + width, y + height - cornerRadius);
+    context.quadraticCurveTo(x + width, y + height, x + width - cornerRadius, y + height);
+    context.lineTo(x + cornerRadius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - cornerRadius);
+    context.lineTo(x, y + cornerRadius);
+    context.quadraticCurveTo(x, y, x + cornerRadius, y);
+    context.closePath();
+    context.fill();
+}
+
 function drawHandle(context, x, y) {
     "use strict";
     context.lineWidth = 2;

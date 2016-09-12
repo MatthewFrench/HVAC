@@ -87,6 +87,10 @@ HVACApplication.prototype.layoutDraw = function() {
         var wall = this.wallList[i];
         wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL);
     }
+
+    if (this.currentCreateWall != null) {
+        this.currentCreateWall.drawLength(ctx);
+    }
 }
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
@@ -137,6 +141,9 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
         if (this.currentCreateWall != null) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
+
+            this.snapToDecimalFromPoint1(this.currentCreateWall);
+
             this.autoSnapWallPointTwo(this.currentCreateWall);
 
             if (this.shiftPressed) {
@@ -168,6 +175,8 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
         if (this.currentCreateWall != null) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
+
+            this.snapToDecimalFromPoint1(this.currentCreateWall);
 
             this.autoSnapWallPointTwo(this.currentCreateWall);
 
@@ -274,6 +283,24 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
             }
         }
     }
+};
+HVACApplication.prototype.snapToDecimalFromPoint1 = function(snapWall) {
+    "use strict";
+
+    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
+    var feet = Math.floor(lengthInFeet);
+    var inches = (lengthInFeet - feet) * 12;
+
+    inches = Math.round(inches * 10) / 10.0;
+
+    var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
+    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
+
+    var newX = snapWall.x1 + lineLength * Math.cos(nearestAngle);
+    var newY = snapWall.y1 + lineLength * Math.sin(nearestAngle);
+
+    snapWall.x2 = newX;
+    snapWall.y2 = newY;
 }
 
 HVACApplication.prototype.createWallButtonClicked = function() {
