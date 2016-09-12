@@ -265,6 +265,19 @@ HVACApplication.prototype.autoSnapWallPointOne = function(snapWall) {
             if (Math.hypot(snapPoint.x - snapWall.x1, snapPoint.y - snapWall.y1) < 15) {
                 snapWall.x1 = snapPoint.x;
                 snapWall.y1 = snapPoint.y;
+            } else {
+                //Try snapping on perpendicular
+                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x1, snapWall.y1);
+                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x1, snapWall.y1);
+                if (Math.hypot(snapPoint1.x - snapWall.x1, snapPoint1.y - snapWall.y1) < 15) {
+                    snapWall.x1 = snapPoint1.x;
+                    snapWall.y1 = snapPoint1.y;
+                } else if (Math.hypot(snapPoint2.x - snapWall.x1, snapPoint2.y - snapWall.y1) < 15) {
+                    snapWall.x1 = snapPoint2.x;
+                    snapWall.y1 = snapPoint2.y;
+                }
             }
         }
     }
@@ -294,6 +307,19 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
             if (Math.hypot(snapPoint.x - snapWall.x2, snapPoint.y - snapWall.y2) < 15) {
                 snapWall.x2 = snapPoint.x;
                 snapWall.y2 = snapPoint.y;
+            } else {
+                //Try snapping on perpendicular
+                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x2, snapWall.y2);
+                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x2, snapWall.y2);
+                if (Math.hypot(snapPoint1.x - snapWall.x2, snapPoint1.y - snapWall.y2) < 15) {
+                    snapWall.x2 = snapPoint1.x;
+                    snapWall.y2 = snapPoint1.y;
+                } else if (Math.hypot(snapPoint2.x - snapWall.x2, snapPoint2.y - snapWall.y2) < 15) {
+                    snapWall.x2 = snapPoint2.x;
+                    snapWall.y2 = snapPoint2.y;
+                }
             }
         }
     }
