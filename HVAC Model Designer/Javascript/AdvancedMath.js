@@ -63,6 +63,38 @@ function getLinePoint1SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     return new Line2D(newX, newY, x2, y2);
 }
 
+function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
+    "use strict";
+
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
+
+    var lineLength = 2000.0;
+
+    var newX1 = x1 + lineLength * Math.cos(nearestAngle);
+    var newY1 = y1 + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = x1 - lineLength * Math.cos(nearestAngle);
+    var newY2 = y1 - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+}
+
+function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
+    "use strict";
+
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
+
+    var lineLength = 2000.0;
+
+    var newX1 = x2 + lineLength * Math.cos(nearestAngle);
+    var newY1 = y2 + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = x2 - lineLength * Math.cos(nearestAngle);
+    var newY2 = y2 - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+}
+
 var Point2D = function (x, y) {
     "use strict";
 

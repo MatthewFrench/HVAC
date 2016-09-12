@@ -83,6 +83,17 @@ HVACApplication.prototype.layoutDraw = function() {
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+    console.log("Wall list length: " + this.wallList.length);
+
+    if (this.currentCreateWall != null || this.selectedWall != null) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            wall.drawPerpendicular(ctx);
+
+
+        }
+    }
+
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL);

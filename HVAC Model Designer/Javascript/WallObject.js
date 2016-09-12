@@ -26,6 +26,23 @@ WallObject.prototype.draw = function(context, showHandles) {
     }
 }
 
+WallObject.prototype.drawPerpendicular = function(context) {
+    var line = getPerpendicularInfiniteLinePoint1(this.x1, this.y1, this.x2, this.y2);
+    var line2 = getPerpendicularInfiniteLinePoint2(this.x1, this.y1, this.x2, this.y2);
+    context.globalAlpha = 0.05;
+    context.lineWidth = 2;
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.beginPath();
+    context.moveTo(line.x1, line.y1);
+    context.lineTo(line.x2, line.y2);
+    context.stroke();
+    context.moveTo(line2.x1, line2.y1);
+    context.lineTo(line2.x2, line2.y2);
+    context.stroke();
+    context.globalAlpha = 1.0;
+};
+
 WallObject.prototype.drawLength = function(context) {
     "use strict";
     //Go down to 5 decimal places
