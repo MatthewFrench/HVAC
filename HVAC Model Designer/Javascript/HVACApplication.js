@@ -91,6 +91,9 @@ HVACApplication.prototype.layoutDraw = function() {
     if (this.currentCreateWall != null) {
         this.currentCreateWall.drawLength(ctx);
     }
+    if (this.selectedWall != null) {
+        this.selectedWall.drawLength(ctx);
+    }
 }
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
