@@ -147,7 +147,7 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
             }
 
             if (this.currentCreateWall.x1 == this.currentCreateWall.x2 &&
-            this.currentCreateWall.y1 == this.currentCreateWall.y1) {
+            this.currentCreateWall.y1 == this.currentCreateWall.y2) {
                 this.wallList.splice(this.wallList.indexOf(this.currentCreateWall), 1);
             }
 
