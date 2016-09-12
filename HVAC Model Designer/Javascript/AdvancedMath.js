@@ -1,9 +1,9 @@
 /**
  * Created by Matt on 9/10/16.
  */
-/**
- * Returns true if the point is in the defined circle.
- */
+
+var PIXELS_IN_FOOT = 20.0;
+
 function pointInCircle( x,  y,  cx,  cy,  radius) {
     var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
     return distancesquared <= radius * radius;
@@ -41,7 +41,6 @@ function getLinePoint2SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     "use strict";
     increment = increment * Math.PI / 180;
     var angleOfLine = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
-    console.log("Angle of line: " + angleOfLine);
     var nearestAngle = Math.round(angleOfLine / increment) * increment;
     var lineLength = Math.hypot(x1 - x2, y1 - y2);
 
