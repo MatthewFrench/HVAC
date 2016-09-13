@@ -2,7 +2,7 @@
  * Created by Matt on 9/9/16.
  */
 
-var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1
+var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1, LAYOUT_MODE_DRAG = 2;
 var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 
 //Constructor
@@ -16,8 +16,6 @@ var HVACApplication = function () {
     this.selectedWall = null;
     this.selectedWallPoint = WALL_POINT_ONE;
     this.shiftPressed = false;
-    this.createWallButton = null;
-    this.editWallButton = null;
     this.dragButtonDiv = null;
     this.createButtonDiv = null;
     this.editButtonDiv = null;
@@ -49,43 +47,38 @@ HVACApplication.prototype.createUI = function() {
         self.layoutCanvasMouseReleased(event);
     };
 
-    this.createWallButton = document.createElement("button");
-    this.createWallButton.className = "CreateWallButton";
-    this.createWallButton.innerHTML = "Create Wall";
-    var self = this;
-    this.createWallButton.onclick = function(event) {
-        "use strict";
-        self.createWallButtonClicked();
-    }
-    this.myBannerDiv.append(this.createWallButton);
-
-    this.editWallButton = document.createElement("button");
-    this.editWallButton.className = "EditWallButton";
-    this.editWallButton.innerHTML = "Edit Wall";
-    this.editWallButton.onclick = function(event) {
-        "use strict";
-        self.editWallButtonClicked();
-    }
-    this.myBannerDiv.append(this.editWallButton);
-
 
 
     this.dragButtonDiv = document.createElement("div");
     this.dragButtonDiv.className = "DragButtonDiv";
     this.dragButtonDiv.innerText = "Drag";
+    this.dragButtonDiv.onclick = function(event) {
+        "use strict";
+        self.dragButtonClicked();
+    };
     document.body.append(this.dragButtonDiv);
 
     this.createButtonDiv = document.createElement("div");
     this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.innerText = "Create";
+    this.createButtonDiv.onclick = function(event) {
+        "use strict";
+        self.createWallButtonClicked();
+    };
     document.body.append(this.createButtonDiv);
 
     this.editButtonDiv = document.createElement("div");
     this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.innerText = "Edit";
+    this.editButtonDiv.onclick = function(event) {
+        "use strict";
+        self.editWallButtonClicked();
+    }
     document.body.append(this.editButtonDiv);
 
     this.resizeCanvas();
+
+    this.createWallButtonClicked();
 };
 
 HVACApplication.prototype.logic = function() {
@@ -342,14 +335,27 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
     }
 };
 
+HVACApplication.prototype.dragButtonClicked = function() {
+    "use strict";
+    this.currentLayoutMode = LAYOUT_MODE_DRAG;
+    this.dragButtonDiv.className = "DragButtonDiv selectedButtonDiv";
+    this.createButtonDiv.className = "CreateButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+};
 HVACApplication.prototype.createWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-}
+    this.dragButtonDiv.className = "DragButtonDiv";
+    this.createButtonDiv.className = "CreateButtonDiv selectedButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+};
 HVACApplication.prototype.editWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT_WALL;
-}
+    this.dragButtonDiv.className = "DragButtonDiv";
+    this.createButtonDiv.className = "CreateButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
+};
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
