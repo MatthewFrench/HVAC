@@ -29,6 +29,7 @@ WallObject.prototype.draw = function(context, showHandles) {
 WallObject.prototype.drawPerpendicular = function(context) {
     var line = getPerpendicularInfiniteLinePoint1(this.x1, this.y1, this.x2, this.y2);
     var line2 = getPerpendicularInfiniteLinePoint2(this.x1, this.y1, this.x2, this.y2);
+    var line3 = getLongerLine(this.x1, this.y1, this.x2, this.y2);
     context.globalAlpha = 0.2;
     context.lineWidth = 2;
     context.lineCap = "round";
@@ -38,6 +39,8 @@ WallObject.prototype.drawPerpendicular = function(context) {
     context.lineTo(line.x2, line.y2);
     context.moveTo(line2.x1, line2.y1);
     context.lineTo(line2.x2, line2.y2);
+    context.moveTo(line3.x1, line3.y1);
+    context.lineTo(line3.x2, line3.y2);
     context.stroke();
     context.globalAlpha = 1.0;
 };

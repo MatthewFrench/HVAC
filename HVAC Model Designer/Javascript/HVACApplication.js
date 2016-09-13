@@ -324,10 +324,15 @@ HVACApplication.prototype.autoSnapWallPointOne = function(snapWall) {
                 snapWallY = snapPoint.y;
             } else {
                 //Try snapping on perpendicular
+
+                //Need to make it snap to intersections of the guidelines a little better
+
                 var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
                 var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
                 var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x1, snapWall.y1);
                 var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x1, snapWall.y1);
+                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, snapWall.x1, snapWall.y1);
                 if (Math.hypot(snapPoint1.x - snapWall.x1, snapPoint1.y - snapWall.y1) < closest) {
                     snapWallX = snapPoint1.x;
                     snapWallY = snapPoint1.y;
@@ -336,6 +341,10 @@ HVACApplication.prototype.autoSnapWallPointOne = function(snapWall) {
                     snapWallX = snapPoint2.x;
                     snapWallY = snapPoint2.y;
                     closest = Math.hypot(snapPoint2.x - snapWall.x1, snapPoint2.y - snapWall.y1);
+                } else if (Math.hypot(snapPoint3.x - snapWall.x1, snapPoint3.y - snapWall.y1) < closest) {
+                    snapWallX = snapPoint3.x;
+                    snapWallY = snapPoint3.y;
+                    closest = Math.hypot(snapPoint3.x - snapWall.x1, snapPoint3.y - snapWall.y1);
                 }
             }
         }
@@ -376,8 +385,10 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
                 //Try snapping on perpendicular
                 var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
                 var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
                 var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x2, snapWall.y2);
                 var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x2, snapWall.y2);
+                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, snapWall.x2, snapWall.y2);
                 if (Math.hypot(snapPoint1.x - snapWall.x2, snapPoint1.y - snapWall.y2) < closest) {
                     snapWallX = snapPoint1.x;
                     snapWallY = snapPoint1.y;
@@ -386,6 +397,10 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
                     snapWallX = snapPoint2.x;
                     snapWallY = snapPoint2.y;
                     closest = Math.hypot(snapPoint2.x - snapWall.x2, snapPoint2.y - snapWall.y2);
+                } else if (Math.hypot(snapPoint3.x - snapWall.x2, snapPoint3.y - snapWall.y2) < closest) {
+                    snapWallX = snapPoint3.x;
+                    snapWallY = snapPoint3.y;
+                    closest = Math.hypot(snapPoint3.x - snapWall.x2, snapPoint3.y - snapWall.y2);
                 }
             }
         }
