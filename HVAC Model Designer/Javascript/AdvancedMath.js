@@ -95,6 +95,24 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
+function getLongerLine(x1, y1, x2, y2) {
+    "use strict";
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
+
+    var lineLength = 2000.0;
+
+    var centerX = (x1 - x2) / 2 + x2;
+    var centerY = (y1 - y2) / 2 + y2;
+
+    var newX1 = centerX + lineLength * Math.cos(nearestAngle);
+    var newY1 = centerY + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = centerX - lineLength * Math.cos(nearestAngle);
+    var newY2 = centerY - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+}
+
 function snapWallToDecimalFromPoint1(snapWall) {
     "use strict";
 
