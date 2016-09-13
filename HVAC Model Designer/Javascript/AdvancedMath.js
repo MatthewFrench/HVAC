@@ -95,7 +95,7 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
-HVACApplication.prototype.snapWallToDecimalFromPoint1 = function(snapWall) {
+function snapWallToDecimalFromPoint1(snapWall) {
     "use strict";
 
     var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
@@ -114,7 +114,7 @@ HVACApplication.prototype.snapWallToDecimalFromPoint1 = function(snapWall) {
     snapWall.y2 = newY;
 }
 
-HVACApplication.prototype.snapWallToDecimalFromPoint2 = function(snapWall) {
+function snapWallToDecimalFromPoint2(snapWall) {
     "use strict";
 
     var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;

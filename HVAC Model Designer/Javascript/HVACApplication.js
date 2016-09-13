@@ -12,12 +12,15 @@ var HVACApplication = function () {
     this.layoutCanvas = null;
     this.wallList = [];
     this.currentCreateWall = null;
-    this.createWallButton = null;
-    this.editWallButton = null;
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.selectedWall = null;
     this.selectedWallPoint = WALL_POINT_ONE;
     this.shiftPressed = false;
+    this.createWallButton = null;
+    this.editWallButton = null;
+    this.dragButtonDiv = null;
+    this.createButtonDiv = null;
+    this.editButtonDiv = null;
 
     this.createUI();
 };
@@ -66,6 +69,22 @@ HVACApplication.prototype.createUI = function() {
     this.myBannerDiv.append(this.editWallButton);
 
 
+
+    this.dragButtonDiv = document.createElement("div");
+    this.dragButtonDiv.className = "DragButtonDiv";
+    this.dragButtonDiv.innerText = "Drag";
+    document.body.append(this.dragButtonDiv);
+
+    this.createButtonDiv = document.createElement("div");
+    this.createButtonDiv.className = "CreateButtonDiv";
+    this.createButtonDiv.innerText = "Create";
+    document.body.append(this.createButtonDiv);
+
+    this.editButtonDiv = document.createElement("div");
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.editButtonDiv.innerText = "Edit";
+    document.body.append(this.editButtonDiv);
+
     this.resizeCanvas();
 };
 
@@ -87,8 +106,6 @@ HVACApplication.prototype.layoutDraw = function() {
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
             wall.drawPerpendicular(ctx);
-
-
         }
     }
 
