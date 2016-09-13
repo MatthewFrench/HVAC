@@ -83,8 +83,6 @@ HVACApplication.prototype.layoutDraw = function() {
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log("Wall list length: " + this.wallList.length);
-
     if (this.currentCreateWall != null || this.selectedWall != null) {
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
@@ -156,7 +154,7 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
 
-            this.snapToDecimalFromPoint1(this.currentCreateWall);
+            snapWallToDecimalFromPoint1(this.currentCreateWall);
 
             this.autoSnapWallPointTwo(this.currentCreateWall);
 
@@ -190,7 +188,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
             this.currentCreateWall.x2 = mouseX;
             this.currentCreateWall.y2 = mouseY;
 
-            this.snapToDecimalFromPoint1(this.currentCreateWall);
+            snapWallToDecimalFromPoint1(this.currentCreateWall);
 
             this.autoSnapWallPointTwo(this.currentCreateWall);
 
@@ -208,6 +206,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
                 this.selectedWall.x1 = mouseX;
                 this.selectedWall.y1 = mouseY;
 
+                snapWallToDecimalFromPoint2(this.selectedWall);
 
                 //Auto snap
                 this.autoSnapWallPointOne(this.selectedWall);
@@ -224,6 +223,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
                 this.selectedWall.x2 = mouseX;
                 this.selectedWall.y2 = mouseY;
 
+                snapWallToDecimalFromPoint1(this.selectedWall);
 
                 //Auto snap
                 this.autoSnapWallPointTwo(this.selectedWall);
@@ -324,33 +324,13 @@ HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
         }
     }
 };
-HVACApplication.prototype.snapToDecimalFromPoint1 = function(snapWall) {
-    "use strict";
-
-    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
-    var feet = Math.floor(lengthInFeet);
-    var inches = (lengthInFeet - feet) * 12;
-
-    inches = Math.round(inches * 10) / 10.0;
-
-    var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
-    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
-
-    var newX = snapWall.x1 + lineLength * Math.cos(nearestAngle);
-    var newY = snapWall.y1 + lineLength * Math.sin(nearestAngle);
-
-    snapWall.x2 = newX;
-    snapWall.y2 = newY;
-}
 
 HVACApplication.prototype.createWallButtonClicked = function() {
     "use strict";
-    console.log("createWallButtonClicked");
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
 }
 HVACApplication.prototype.editWallButtonClicked = function() {
     "use strict";
-    console.log("editWallButtonClicked");
     this.currentLayoutMode = LAYOUT_MODE_EDIT_WALL;
 }
 HVACApplication.prototype.onKeydown = function(event) {

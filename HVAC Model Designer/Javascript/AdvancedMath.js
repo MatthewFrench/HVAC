@@ -95,6 +95,44 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
+HVACApplication.prototype.snapWallToDecimalFromPoint1 = function(snapWall) {
+    "use strict";
+
+    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
+    var feet = Math.floor(lengthInFeet);
+    var inches = (lengthInFeet - feet) * 12;
+
+    inches = Math.round(inches * 10) / 10.0;
+
+    var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
+    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
+
+    var newX = snapWall.x1 + lineLength * Math.cos(nearestAngle);
+    var newY = snapWall.y1 + lineLength * Math.sin(nearestAngle);
+
+    snapWall.x2 = newX;
+    snapWall.y2 = newY;
+}
+
+HVACApplication.prototype.snapWallToDecimalFromPoint2 = function(snapWall) {
+    "use strict";
+
+    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
+    var feet = Math.floor(lengthInFeet);
+    var inches = (lengthInFeet - feet) * 12;
+
+    inches = Math.round(inches * 10) / 10.0;
+
+    var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
+    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
+
+    var newX = snapWall.x2 - lineLength * Math.cos(nearestAngle);
+    var newY = snapWall.y2 - lineLength * Math.sin(nearestAngle);
+
+    snapWall.x1 = newX;
+    snapWall.y1 = newY;
+}
+
 var Point2D = function (x, y) {
     "use strict";
 
@@ -104,10 +142,8 @@ var Point2D = function (x, y) {
 
 var Line2D = function(x1, y1, x2, y2) {
     "use strict";
-    console.log("Creating line");
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
-    console.log("Created new line");
 };
