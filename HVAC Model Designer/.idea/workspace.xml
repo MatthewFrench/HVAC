@@ -69,8 +69,8 @@
       <file leaf-file-name="HVACApplication.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="52" column="42" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
+            <state relative-caret-position="181">
+              <caret line="284" column="0" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
               <folding>
                 <element signature="e#0#37#0" expanded="false" />
               </folding>
@@ -93,8 +93,8 @@
       <file leaf-file-name="WallObject.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="28" column="60" selection-start-line="28" selection-start-column="60" selection-end-line="30" selection-end-column="87" />
+            <state relative-caret-position="-692">
+              <caret line="37" column="37" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
               <folding>
                 <element signature="e#0#37#0" expanded="false" />
               </folding>
@@ -156,10 +156,10 @@
         <option value="$PROJECT_DIR$/Shaders/MyShader-vertex.js" />
         <option value="$PROJECT_DIR$/Javascript/WebGLCanvas.js" />
         <option value="$PROJECT_DIR$/Javascript/Main.js" />
-        <option value="$PROJECT_DIR$/Javascript/WallObject.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Javascript/AdvancedMath.js" />
         <option value="$PROJECT_DIR$/CSS/Main.css" />
+        <option value="$PROJECT_DIR$/Javascript/WallObject.js" />
         <option value="$PROJECT_DIR$/Javascript/HVACApplication.js" />
       </list>
     </option>
@@ -384,12 +384,12 @@
       <workItem from="1473530082286" duration="9593000" />
       <workItem from="1473635484488" duration="6107000" />
       <workItem from="1473696562658" duration="593000" />
-      <workItem from="1473730525316" duration="3417000" />
+      <workItem from="1473730525316" duration="6663000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30295000" />
+    <option name="totallyTimeSpent" value="33541000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="774" extended-state="6" />
@@ -750,31 +750,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="28" column="60" selection-start-line="28" selection-start-column="60" selection-end-line="30" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#37#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Javascript/Main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#37#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -796,10 +776,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Javascript/Main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-692">
+          <caret line="37" column="37" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="52" column="42" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
+        <state relative-caret-position="181">
+          <caret line="284" column="0" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="false" />
           </folding>
