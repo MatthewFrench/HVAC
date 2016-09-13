@@ -85,6 +85,11 @@ body {
     text-align: center;
     font-size: 30px;
     font-family: Helvetica;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .CreateButtonDiv {
     position: absolute;
@@ -98,6 +103,11 @@ body {
     text-align: center;
     font-size: 30px;
     font-family: Helvetica;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .EditButtonDiv {
     position: absolute;
@@ -111,4 +121,12 @@ body {
     text-align: center;
     font-size: 30px;
     font-family: Helvetica;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.selectedButtonDiv {
+    background-color: rgba(25, 25, 250, 0.4);
 }
