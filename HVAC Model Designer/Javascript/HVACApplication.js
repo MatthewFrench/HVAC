@@ -103,10 +103,21 @@ HVACApplication.prototype.layoutDraw = function() {
     ctx.save();
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
+    var closePointArray = [];
+    closePointArray.push(new Point2D(this.lastMouseX, this.lastMouseY));
+    if (this.currentCreateWall != null) {
+        closePointArray.push(new Point2D(this.currentCreateWall.x1, this.currentCreateWall.y1));
+        closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
+    }
+    if (this.selectedWall != null) {
+        closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
+        closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+    }
+
     if (this.currentCreateWall != null || this.selectedWall != null) {
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
-            wall.drawPerpendicular(ctx);
+            wall.drawPerpendicular(ctx, closePointArray);
         }
     }
 
