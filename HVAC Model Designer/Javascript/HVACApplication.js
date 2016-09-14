@@ -31,16 +31,16 @@ var HVACApplication = function () {
 HVACApplication.prototype.createUI = function() {
     this.myBannerDiv = document.createElement("div");
     this.myBannerDiv.className = "RibbonBanner";
-    document.body.append(this.myBannerDiv);
+    document.body.appendChild(this.myBannerDiv);
 
     this.titleSpan = document.createElement("span");
     this.titleSpan.className = "TopTitle";
     this.titleSpan.innerText = "HVAC Model Designer";
-    document.body.append(this.titleSpan);
+    document.body.appendChild(this.titleSpan);
 
     this.layoutCanvas = document.createElement("canvas");
     this.layoutCanvas.className = "LayoutCanvas";
-    document.body.append(this.layoutCanvas);
+    document.body.appendChild(this.layoutCanvas);
     var self = this;
     document.body.onmousemove = function(event){
         self.layoutCanvasMouseMoved(event);
@@ -61,7 +61,7 @@ HVACApplication.prototype.createUI = function() {
         "use strict";
         self.dragButtonClicked();
     };
-    document.body.append(this.dragButtonDiv);
+    document.body.appendChild(this.dragButtonDiv);
 
     this.createButtonDiv = document.createElement("div");
     this.createButtonDiv.className = "CreateButtonDiv";
@@ -70,7 +70,7 @@ HVACApplication.prototype.createUI = function() {
         "use strict";
         self.createWallButtonClicked();
     };
-    document.body.append(this.createButtonDiv);
+    document.body.appendChild(this.createButtonDiv);
 
     this.editButtonDiv = document.createElement("div");
     this.editButtonDiv.className = "EditButtonDiv";
@@ -79,7 +79,7 @@ HVACApplication.prototype.createUI = function() {
         "use strict";
         self.editWallButtonClicked();
     }
-    document.body.append(this.editButtonDiv);
+    document.body.appendChild(this.editButtonDiv);
 
     this.resizeCanvas();
 
