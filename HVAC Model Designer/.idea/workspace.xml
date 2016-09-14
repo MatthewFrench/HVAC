@@ -78,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdvancedMath.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AdvancedMath.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Javascript/AdvancedMath.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-62">
-              <caret line="275" column="4" selection-start-line="275" selection-start-column="4" selection-end-line="275" selection-end-column="4" />
+            <state relative-caret-position="45">
+              <caret line="5" column="21" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="21" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -90,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WallObject.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WallObject.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+            <state relative-caret-position="420">
+              <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
               <folding>
                 <element signature="e#0#37#0" expanded="false" />
               </folding>
@@ -158,9 +158,9 @@
         <option value="$PROJECT_DIR$/Javascript/Main.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/CSS/Main.css" />
-        <option value="$PROJECT_DIR$/Javascript/WallObject.js" />
         <option value="$PROJECT_DIR$/Javascript/HVACApplication.js" />
         <option value="$PROJECT_DIR$/Javascript/AdvancedMath.js" />
+        <option value="$PROJECT_DIR$/Javascript/WallObject.js" />
       </list>
     </option>
   </component>
@@ -175,6 +175,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="103" />
     <option name="y" value="22" />
     <option name="width" value="1104" />
     <option name="height" value="774" />
@@ -385,15 +386,15 @@
       <workItem from="1473635484488" duration="6107000" />
       <workItem from="1473696562658" duration="593000" />
       <workItem from="1473730525316" duration="7438000" />
-      <workItem from="1473827671117" duration="4633000" />
+      <workItem from="1473827671117" duration="5871000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38949000" />
+    <option name="totallyTimeSpent" value="40187000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1104" height="774" extended-state="0" />
+    <frame x="103" y="22" width="1104" height="774" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20221607" sideWeight="0.4878049" order="0" side_tool="false" content_ui="tabs" />
@@ -777,16 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#37#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -799,10 +790,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Javascript/AdvancedMath.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-62">
-          <caret line="275" column="4" selection-start-line="275" selection-start-column="4" selection-end-line="275" selection-end-column="4" />
+        <state relative-caret-position="45">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="21" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>
