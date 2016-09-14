@@ -3,6 +3,7 @@
  */
 
 var PIXELS_IN_FOOT = 20.0;
+var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
 
 function pointInCircle( x,  y,  cx,  cy,  radius) {
     var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
@@ -68,7 +69,7 @@ function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
 
     var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
 
-    var lineLength = 2000.0;
+    var lineLength = GUIDE_LINE_LENGTH / 2.0;
 
     var newX1 = x1 + lineLength * Math.cos(nearestAngle);
     var newY1 = y1 + lineLength * Math.sin(nearestAngle);
@@ -84,7 +85,7 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
 
     var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
 
-    var lineLength = 2000.0;
+    var lineLength = GUIDE_LINE_LENGTH / 2.0;
 
     var newX1 = x2 + lineLength * Math.cos(nearestAngle);
     var newY1 = y2 + lineLength * Math.sin(nearestAngle);
@@ -99,7 +100,7 @@ function getLongerLine(x1, y1, x2, y2) {
     "use strict";
     var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
 
-    var lineLength = 2000.0;
+    var lineLength = Math.hypot(x1 - x2, y1 - y2) / 2.0 + (GUIDE_LINE_LENGTH)/2.0;
 
     var centerX = (x1 - x2) / 2 + x2;
     var centerY = (y1 - y2) / 2 + y2;
