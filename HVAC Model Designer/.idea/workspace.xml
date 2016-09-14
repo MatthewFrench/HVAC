@@ -66,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HVACApplication.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HVACApplication.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="327" column="89" selection-start-line="327" selection-start-column="89" selection-end-line="327" selection-end-column="89" />
+            <state relative-caret-position="148">
+              <caret line="276" column="5" selection-start-line="276" selection-start-column="5" selection-end-line="276" selection-end-column="5" />
               <folding>
                 <element signature="e#0#37#0" expanded="false" />
               </folding>
@@ -78,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdvancedMath.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AdvancedMath.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Javascript/AdvancedMath.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="97" column="22" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="22" />
+            <state relative-caret-position="-62">
+              <caret line="275" column="4" selection-start-line="275" selection-start-column="4" selection-end-line="275" selection-end-column="4" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -93,7 +93,7 @@
       <file leaf-file-name="WallObject.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
+            <state relative-caret-position="450">
               <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
               <folding>
                 <element signature="e#0#37#0" expanded="false" />
@@ -129,7 +129,7 @@
       <file leaf-file-name="Main.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSS/Main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
+            <state relative-caret-position="1935">
               <caret line="129" column="18" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="18" />
               <folding />
             </state>
@@ -159,8 +159,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/CSS/Main.css" />
         <option value="$PROJECT_DIR$/Javascript/WallObject.js" />
-        <option value="$PROJECT_DIR$/Javascript/AdvancedMath.js" />
         <option value="$PROJECT_DIR$/Javascript/HVACApplication.js" />
+        <option value="$PROJECT_DIR$/Javascript/AdvancedMath.js" />
       </list>
     </option>
   </component>
@@ -176,7 +176,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1280" />
+    <option name="width" value="1104" />
     <option name="height" value="774" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -226,6 +226,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -274,8 +276,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -384,25 +384,26 @@
       <workItem from="1473530082286" duration="9593000" />
       <workItem from="1473635484488" duration="6107000" />
       <workItem from="1473696562658" duration="593000" />
-      <workItem from="1473730525316" duration="7299000" />
+      <workItem from="1473730525316" duration="7438000" />
+      <workItem from="1473827671117" duration="4633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34177000" />
+    <option name="totallyTimeSpent" value="38949000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="774" extended-state="6" />
+    <frame x="0" y="22" width="1104" height="774" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2112788" sideWeight="0.49390244" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20221607" sideWeight="0.4878049" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2112788" sideWeight="0.50609756" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20221607" sideWeight="0.5121951" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -760,7 +761,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSS/Main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
+        <state relative-caret-position="1935">
           <caret line="129" column="18" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="18" />
           <folding />
         </state>
@@ -778,8 +779,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Javascript/WallObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
+        <state relative-caret-position="450">
           <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="276" column="5" selection-start-line="276" selection-start-column="5" selection-end-line="276" selection-end-column="5" />
           <folding>
             <element signature="e#0#37#0" expanded="false" />
           </folding>
@@ -788,20 +799,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Javascript/AdvancedMath.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="97" column="22" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="22" />
+        <state relative-caret-position="-62">
+          <caret line="275" column="4" selection-start-line="275" selection-start-column="4" selection-end-line="275" selection-end-column="4" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Javascript/HVACApplication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="327" column="89" selection-start-line="327" selection-start-column="89" selection-end-line="327" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -150,7 +150,10 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
         if (this.currentCreateWall == null) {
             this.currentCreateWall = new WallObject(canvasMouseX, canvasMouseY, canvasMouseX, canvasMouseY);
             this.wallList.push(this.currentCreateWall);
-            this.autoSnapWallPointOne(this.currentCreateWall);
+            var point = snapPointToWalls(this.currentCreateWall.x1,
+                this.currentCreateWall.y1, this.wallList, [this.currentCreateWall]);
+            this.currentCreateWall.x1 = point.x;
+            this.currentCreateWall.y1 = point.y;
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
@@ -189,7 +192,10 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
 
             snapWallToDecimalFromPoint1(this.currentCreateWall);
 
-            this.autoSnapWallPointTwo(this.currentCreateWall);
+            var point = snapPointToWalls(this.currentCreateWall.x2,
+                this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
+            this.currentCreateWall.x2 = point.x;
+            this.currentCreateWall.y2 = point.y;
 
             if (this.shiftPressed) {
                 var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
@@ -238,7 +244,10 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
             snapWallToDecimalFromPoint1(this.currentCreateWall);
 
-            this.autoSnapWallPointTwo(this.currentCreateWall);
+            var point = snapPointToWalls(this.currentCreateWall.x2,
+                this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
+            this.currentCreateWall.x2 = point.x;
+            this.currentCreateWall.y2 = point.y;
 
             if (this.shiftPressed) {
                 var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
@@ -257,7 +266,10 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
                 snapWallToDecimalFromPoint2(this.selectedWall);
 
                 //Auto snap
-                this.autoSnapWallPointOne(this.selectedWall);
+                var point = snapPointToWalls(this.selectedWall.x1,
+                    this.selectedWall.y1, this.wallList, [this.selectedWall]);
+                this.selectedWall.x1 = point.x;
+                this.selectedWall.y1 = point.y;
 
                 if (this.shiftPressed) {
                     var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
@@ -274,7 +286,10 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
                 snapWallToDecimalFromPoint1(this.selectedWall);
 
                 //Auto snap
-                this.autoSnapWallPointTwo(this.selectedWall);
+                var point = snapPointToWalls(this.selectedWall.x2,
+                    this.selectedWall.y2, this.wallList, [this.selectedWall]);
+                this.selectedWall.x2 = point.x;
+                this.selectedWall.y2 = point.y;
 
                 if (this.shiftPressed) {
                     var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
@@ -292,122 +307,6 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
         }
     }
 }
-
-//Auto snap
-HVACApplication.prototype.autoSnapWallPointOne = function(snapWall) {
-    var snappedToEnd = false;
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        if (wall == snapWall) continue;
-        if (Math.hypot(snapWall.x1 - wall.x1, snapWall.y1 - wall.y1) < 15) {
-            snapWall.x1 = wall.x1;
-            snapWall.y1 = wall.y1;
-            snappedToEnd = true;
-        }
-        if (Math.hypot(snapWall.x1 - wall.x2, snapWall.y1 - wall.y2) < 15) {
-            snapWall.x1 = wall.x2;
-            snapWall.y1 = wall.y2;
-            snappedToEnd = true;
-        }
-    }
-    if (!snappedToEnd) {
-        var closest = 15;
-        var snapWallX = snapWall.x1;
-        var snapWallY = snapWall.y1;
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            if (wall == snapWall) continue;
-            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, snapWall.x1, snapWall.y1);
-            if (Math.hypot(snapPoint.x - snapWall.x1, snapPoint.y - snapWall.y1) < closest) {
-                closest = Math.hypot(snapPoint.x - snapWall.x1, snapPoint.y - snapWall.y1);
-                snapWallX = snapPoint.x;
-                snapWallY = snapPoint.y;
-            } else {
-                //Try snapping on perpendicular
-
-                //Need to make it snap to intersections of the guidelines a little better
-
-                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
-                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
-                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
-                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x1, snapWall.y1);
-                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x1, snapWall.y1);
-                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, snapWall.x1, snapWall.y1);
-                if (Math.hypot(snapPoint1.x - snapWall.x1, snapPoint1.y - snapWall.y1) < closest) {
-                    snapWallX = snapPoint1.x;
-                    snapWallY = snapPoint1.y;
-                    closest = Math.hypot(snapPoint1.x - snapWall.x1, snapPoint1.y - snapWall.y1);
-                } else if (Math.hypot(snapPoint2.x - snapWall.x1, snapPoint2.y - snapWall.y1) < closest) {
-                    snapWallX = snapPoint2.x;
-                    snapWallY = snapPoint2.y;
-                    closest = Math.hypot(snapPoint2.x - snapWall.x1, snapPoint2.y - snapWall.y1);
-                } else if (Math.hypot(snapPoint3.x - snapWall.x1, snapPoint3.y - snapWall.y1) < closest) {
-                    snapWallX = snapPoint3.x;
-                    snapWallY = snapPoint3.y;
-                    closest = Math.hypot(snapPoint3.x - snapWall.x1, snapPoint3.y - snapWall.y1);
-                }
-            }
-        }
-        snapWall.x1 = snapWallX;
-        snapWall.y1 = snapWallY;
-    }
-};
-HVACApplication.prototype.autoSnapWallPointTwo = function(snapWall) {
-    var snappedToEnd = false;
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        if (wall == snapWall) continue;
-        if (Math.hypot(snapWall.x2 - wall.x1, snapWall.y2 - wall.y1) < 15) {
-            snapWall.x2 = wall.x1;
-            snapWall.y2 = wall.y1;
-            snappedToEnd = true;
-        }
-        if (Math.hypot(snapWall.x2 - wall.x2, snapWall.y2 - wall.y2) < 15) {
-            snapWall.x2 = wall.x2;
-            snapWall.y2 = wall.y2;
-            snappedToEnd = true;
-        }
-    }
-
-    if (!snappedToEnd) {
-        var closest = 15;
-        var snapWallX = snapWall.x2;
-        var snapWallY = snapWall.y2;
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            if (wall == snapWall) continue;
-            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, snapWall.x2, snapWall.y2);
-            if (Math.hypot(snapPoint.x - snapWall.x2, snapPoint.y - snapWall.y2) < closest) {
-                snapWallX = snapPoint.x;
-                snapWallY = snapPoint.y;
-                closest = Math.hypot(snapPoint.x - snapWall.x2, snapPoint.y - snapWall.y2);
-            } else {
-                //Try snapping on perpendicular
-                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
-                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
-                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
-                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, snapWall.x2, snapWall.y2);
-                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, snapWall.x2, snapWall.y2);
-                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, snapWall.x2, snapWall.y2);
-                if (Math.hypot(snapPoint1.x - snapWall.x2, snapPoint1.y - snapWall.y2) < closest) {
-                    snapWallX = snapPoint1.x;
-                    snapWallY = snapPoint1.y;
-                    closest = Math.hypot(snapPoint1.x - snapWall.x2, snapPoint1.y - snapWall.y2);
-                } else if (Math.hypot(snapPoint2.x - snapWall.x2, snapPoint2.y - snapWall.y2) < closest) {
-                    snapWallX = snapPoint2.x;
-                    snapWallY = snapPoint2.y;
-                    closest = Math.hypot(snapPoint2.x - snapWall.x2, snapPoint2.y - snapWall.y2);
-                } else if (Math.hypot(snapPoint3.x - snapWall.x2, snapPoint3.y - snapWall.y2) < closest) {
-                    snapWallX = snapPoint3.x;
-                    snapWallY = snapPoint3.y;
-                    closest = Math.hypot(snapPoint3.x - snapWall.x2, snapPoint3.y - snapWall.y2);
-                }
-            }
-        }
-        snapWall.x2 = snapWallX;
-        snapWall.y2 = snapWallY;
-    }
-};
 
 HVACApplication.prototype.dragButtonClicked = function() {
     "use strict";

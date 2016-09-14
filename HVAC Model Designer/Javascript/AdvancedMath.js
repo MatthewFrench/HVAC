@@ -151,6 +151,170 @@ function snapWallToDecimalFromPoint2(snapWall) {
     snapWall.y1 = newY;
 }
 
+function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
+                                  point2X1, point2Y1, point2X2, point2Y2)
+{
+    var s1_x, s1_y, s2_x, s2_y;
+    s1_x = point1X2 - point1X1;     s1_y = point1Y2 - point1Y1;
+    s2_x = point2X2 - point2X1;     s2_y = point2Y2 - point2Y1;
+
+    var s, t;
+    s = (-s1_y * (point1X1 - point2X1) + s1_x * (point1Y1 - point2Y1)) / (-s2_x * s1_y + s1_x * s2_y);
+    t = ( s2_x * (point1Y1 - point2Y1) - s2_y * (point1X1 - point2X1)) / (-s2_x * s1_y + s1_x * s2_y);
+
+    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+    {
+        // Collision detected
+        return new Point2D(point1X1 + (t * s1_x), point1Y1 + (t * s1_y));
+    }
+
+    return null; // No collision
+}
+
+function getWallIntersectionPoints(wallList, excludeWallList) {
+    "use strict";
+    var pointArray = [];
+
+    for (var i = 0; i < wallList.length; i++) {
+        var wall1 = wallList[i];
+        if (excludeWallList.includes(wall1)) continue;
+        for (var j = 0; j < wallList.length; j++) {
+            var wall2 = wallList[j];
+            if (excludeWallList.includes(wall2) || wall2 == wall1) continue;
+
+            //Get intersection point and add it to point array
+            var point = getLineIntersectionPoint(wall1.x1, wall1.y1, wall1.x2, wall1.y2,
+                wall2.x1, wall2.y1, wall2.x2, wall2.y2);
+            if (point != null) {
+                pointArray.push(point);
+            }
+        }
+    }
+
+    return pointArray;
+}
+
+function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
+    "use strict";
+
+    var perpendicularLineArray = [];
+    for (var i = 0; i < wallList.length; i++) {
+        var wall1 = wallList[i];
+        if (excludeWallList.includes(wall1)) continue;
+        //Add perpendicular lines
+        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint1(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
+        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint2(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
+        perpendicularLineArray.push(getLongerLine(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
+    }
+
+
+    var pointArray = [];
+
+    for (var i = 0; i < perpendicularLineArray.length; i++) {
+        var line = perpendicularLineArray[i];
+        for (var j = 0; j < perpendicularLineArray.length; j++) {
+            var line2 = perpendicularLineArray[j];
+            if (line == line2) continue;
+
+            //Get intersection point and add it to point array
+            var point = getLineIntersectionPoint(line.x1, line.y1, line.x2, line.y2,
+                line2.x1, line2.y1, line2.x2, line2.y2);
+            if (point != null) {
+                pointArray.push(point);
+            }
+        }
+    }
+
+    return pointArray;
+}
+
+function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
+    var snappedToEnd = false;
+    var closest = 15;
+    //Snap to wall end points
+    for (var i = 0; i < wallList.length; i++) {
+        var wall = wallList[i];
+        if (excludeWallList.includes(wall)) continue;
+        if (Math.hypot(pointX - wall.x1, pointY - wall.y1) < closest) {
+            pointX = wall.x1;
+            pointY = wall.y1;
+            snappedToEnd = true;
+            closest = Math.hypot(pointX - wall.x1, pointY - wall.y1);
+        }
+        if (Math.hypot(pointX - wall.x2, pointY - wall.y2) < closest) {
+            pointX = wall.x2;
+            pointY = wall.y2;
+            snappedToEnd = true;
+            closest = Math.hypot(pointX - wall.x2, pointY - wall.y2);
+        }
+    }
+    //Snap to wall intersection points
+    var points = getWallIntersectionPoints(wallList, excludeWallList);
+    for (var i = 0; i < points.length; i++) {
+        var point = points[i];
+        if (Math.hypot(pointX - point.x, pointY - point.y) < closest) {
+            pointX = point.x;
+            pointY = point.y;
+            snappedToEnd = true;
+            closest = Math.hypot(pointX - point.x, pointY - point.y);
+        }
+    }
+
+    //Snap to wall perpendicular intersection points
+    var points = getWallPerpendicularIntersectionPoints(wallList, excludeWallList);
+    for (var i = 0; i < points.length; i++) {
+        var point = points[i];
+        if (Math.hypot(pointX - point.x, pointY - point.y) < closest) {
+            pointX = point.x;
+            pointY = point.y;
+            snappedToEnd = true;
+            closest = Math.hypot(pointX - point.x, pointY - point.y);
+        }
+    }
+
+
+    if (!snappedToEnd) {
+        var snapWallX = pointX;
+        var snapWallY = pointY;
+        for (var i = 0; i < wallList.length; i++) {
+            var wall = wallList[i];
+            if (excludeWallList.includes(wall)) continue;
+            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, pointX, pointY);
+            //Snap to any point on the wall
+            if (Math.hypot(snapPoint.x - pointX, snapPoint.y - pointY) < closest) {
+                closest = Math.hypot(snapPoint.x - pointX, snapPoint.y - pointY);
+                snapWallX = snapPoint.x;
+                snapWallY = snapPoint.y;
+            } else {
+                //Snap to wall guide lines
+
+                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
+                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, pointX, pointY);
+                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, pointX, pointY);
+                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, pointX, pointY);
+                if (Math.hypot(snapPoint1.x - pointX, snapPoint1.y - pointY) < closest) {
+                    snapWallX = snapPoint1.x;
+                    snapWallY = snapPoint1.y;
+                    closest = Math.hypot(snapPoint1.x - pointX, snapPoint1.y - pointY);
+                } else if (Math.hypot(snapPoint2.x - pointX, snapPoint2.y - pointY) < closest) {
+                    snapWallX = snapPoint2.x;
+                    snapWallY = snapPoint2.y;
+                    closest = Math.hypot(snapPoint2.x - pointX, snapPoint2.y - pointY);
+                } else if (Math.hypot(snapPoint3.x - pointX, snapPoint3.y - pointY) < closest) {
+                    snapWallX = snapPoint3.x;
+                    snapWallY = snapPoint3.y;
+                    closest = Math.hypot(snapPoint3.x - pointX, snapPoint3.y - pointY);
+                }
+            }
+        }
+        pointX = snapWallX;
+        pointY = snapWallY;
+    }
+    return new Point2D(pointX, pointY);
+};
+
 var Point2D = function (x, y) {
     "use strict";
 
