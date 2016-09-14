@@ -26,10 +26,35 @@ WallObject.prototype.draw = function(context, showHandles) {
     }
 }
 
-WallObject.prototype.drawPerpendicular = function(context) {
+WallObject.prototype.drawPerpendicular = function(context, nearPointArray) {
+
+    var line1Near = false;
+    var line2Near = false;
+    var line3Near = false;
+
     var line = getPerpendicularInfiniteLinePoint1(this.x1, this.y1, this.x2, this.y2);
     var line2 = getPerpendicularInfiniteLinePoint2(this.x1, this.y1, this.x2, this.y2);
     var line3 = getLongerLine(this.x1, this.y1, this.x2, this.y2);
+
+    var nearPixels = 25.0;
+    for (var i = 0; i < nearPointArray.length; i++) {
+        var point = nearPointArray[i];
+
+        var nearPoint1 = nearestPointOnLine( line.x1,  line.y1,  line.x2,  line.y2,  point.x,  point.y);
+        var nearPoint2 = nearestPointOnLine( line2.x1,  line2.y1,  line2.x2,  line2.y2,  point.x,  point.y);
+        var nearPoint3 = nearestPointOnLine( line3.x1,  line3.y1,  line3.x2,  line3.y2,  point.x,  point.y);
+
+        if (Math.hypot(nearPoint1.x - point.x, nearPoint1.y - point.y) <= nearPixels) {
+            line1Near = true;
+        }
+        if (Math.hypot(nearPoint2.x - point.x, nearPoint2.y - point.y) <= nearPixels) {
+            line2Near = true;
+        }
+        if (Math.hypot(nearPoint3.x - point.x, nearPoint3.y - point.y) <= nearPixels) {
+            line3Near = true;
+        }
+    }
+
     context.globalAlpha = 0.2;
     context.lineWidth = 2;
     context.lineCap = "round";
@@ -43,12 +68,18 @@ WallObject.prototype.drawPerpendicular = function(context) {
 
     context.strokeStyle = grd;
     context.beginPath();
-    context.moveTo(line.x1, line.y1);
-    context.lineTo(line.x2, line.y2);
-    context.moveTo(line2.x1, line2.y1);
-    context.lineTo(line2.x2, line2.y2);
-    context.moveTo(line3.x1, line3.y1);
-    context.lineTo(line3.x2, line3.y2);
+    if (line1Near) {
+        context.moveTo(line.x1, line.y1);
+        context.lineTo(line.x2, line.y2);
+    }
+    if (line2Near) {
+        context.moveTo(line2.x1, line2.y1);
+        context.lineTo(line2.x2, line2.y2);
+    }
+    if (line3Near) {
+        context.moveTo(line3.x1, line3.y1);
+        context.lineTo(line3.x2, line3.y2);
+    }
     context.stroke();
     context.globalAlpha = 1.0;
 };
