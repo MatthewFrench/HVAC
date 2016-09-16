@@ -106,12 +106,20 @@ HVACApplication.prototype.layoutDraw = function() {
     var closePointArray = [];
     closePointArray.push(new Point2D(this.lastMouseX, this.lastMouseY));
     if (this.currentCreateWall != null) {
-        closePointArray.push(new Point2D(this.currentCreateWall.x1, this.currentCreateWall.y1));
-        closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
+        if (this.selectedWallPoint == WALL_POINT_ONE) {
+            closePointArray.push(new Point2D(this.currentCreateWall.x1, this.currentCreateWall.y1));
+        }
+        if (this.selectedWallPoint == WALL_POINT_TWO) {
+            closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
+        }
     }
     if (this.selectedWall != null) {
-        closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
-        closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+        if (this.selectedWallPoint == WALL_POINT_ONE) {
+            closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
+        }
+        if (this.selectedWallPoint == WALL_POINT_TWO) {
+            closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+        }
     }
 
     if (this.currentCreateWall != null || this.selectedWall != null) {
@@ -168,17 +176,18 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
+        var closest = 25;
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
-            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, 25)) {
+            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
+                closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
                 this.selectedWallPoint = WALL_POINT_ONE;
                 this.selectedWall = wall;
-                break;
             }
-            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, 25)) {
+            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
+                closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
                 this.selectedWallPoint = WALL_POINT_TWO;
                 this.selectedWall = wall;
-                break;
             }
         }
     }

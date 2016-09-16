@@ -4,6 +4,7 @@
 
 var PIXELS_IN_FOOT = 20.0;
 var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
+var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function pointInCircle( x,  y,  cx,  cy,  radius) {
     var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
@@ -231,7 +232,7 @@ function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
 
 function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     var snappedToEnd = false;
-    var closest = 15;
+    var closest = SNAP_TO_AMOUNT_PIXELS;
     //Snap to wall end points
     for (var i = 0; i < wallList.length; i++) {
         var wall = wallList[i];
