@@ -73,6 +73,24 @@ body {
     width: 150px;
     left: calc(75% - 75px);
 }
+.ViewButtonDiv {
+    position: absolute;
+    top: 150px;
+    width: 200px;
+    left: calc(50% - 200px - 100px);
+    background: rgba(25, 25, 25, 0.4);
+    height: 35px;
+    border: black 1px solid;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    font-family: Helvetica;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .DragButtonDiv {
     position: absolute;
     top: 150px;
