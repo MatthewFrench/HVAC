@@ -39,32 +39,6 @@ function getAngleOfLineBetweenPoints(x1, y1, x2, y2)
     return Math.atan2(yDiff, xDiff);
 }
 
-function getLinePoint2SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
-    "use strict";
-    increment = increment * Math.PI / 180;
-    var angleOfLine = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
-    var nearestAngle = Math.round(angleOfLine / increment) * increment;
-    var lineLength = Math.hypot(x1 - x2, y1 - y2);
-
-    var newX = x1 + lineLength * Math.cos(nearestAngle);
-    var newY = y1 + lineLength * Math.sin(nearestAngle);
-
-    return new Line2D(x1, y1, newX, newY);
-}
-
-function getLinePoint1SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
-    "use strict";
-    increment = increment * Math.PI / 180;
-    var angleOfLine = getAngleOfLineBetweenPoints(x2, y2, x1, y1);
-    var nearestAngle = Math.round(angleOfLine / increment) * increment;
-    var lineLength = Math.hypot(x1 - x2, y1 - y2);
-
-    var newX = x2 + lineLength * Math.cos(nearestAngle);
-    var newY = y2 + lineLength * Math.sin(nearestAngle);
-
-    return new Line2D(newX, newY, x2, y2);
-}
-
 function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
     "use strict";
 
@@ -151,6 +125,32 @@ function snapWallToDecimalFromPoint2(snapWall) {
 
     snapWall.x1 = newX;
     snapWall.y1 = newY;
+}
+
+function getLinePoint1SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
+    "use strict";
+    increment = increment * Math.PI / 180;
+    var angleOfLine = getAngleOfLineBetweenPoints(x2, y2, x1, y1);
+    var nearestAngle = Math.round(angleOfLine / increment) * increment;
+    var lineLength = Math.hypot(x1 - x2, y1 - y2);
+
+    var newX = x2 + lineLength * Math.cos(nearestAngle);
+    var newY = y2 + lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX, newY, x2, y2);
+}
+
+function getLinePoint2SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
+    "use strict";
+    increment = increment * Math.PI / 180;
+    var angleOfLine = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
+    var nearestAngle = Math.round(angleOfLine / increment) * increment;
+    var lineLength = Math.hypot(x1 - x2, y1 - y2);
+
+    var newX = x1 + lineLength * Math.cos(nearestAngle);
+    var newY = y1 + lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(x1, y1, newX, newY);
 }
 
 function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
