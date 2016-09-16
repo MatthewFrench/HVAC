@@ -2,8 +2,9 @@
  * Created by Matt on 9/9/16.
  */
 
-var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1, LAYOUT_MODE_DRAG = 2;
+var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2;
 var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
+var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1, EDIT_MODE_WALL = 2;
 
 //Constructor
 var HVACApplication = function () {
@@ -24,6 +25,10 @@ var HVACApplication = function () {
     this.lastMouseX = 0.0;
     this.lastMouseY = 0.0;
     this.mouseDown = false;
+    this.currentEditMode = EDIT_MODE_POINT;
+    this.editPointButtonDiv = null;
+    this.editCornerButtonDiv = null;
+    this.editWallButtonDiv = null;
 
     this.createUI();
 };
@@ -77,13 +82,38 @@ HVACApplication.prototype.createUI = function() {
     this.editButtonDiv.innerText = "Edit";
     this.editButtonDiv.onclick = function(event) {
         "use strict";
-        self.editWallButtonClicked();
+        self.editButtonClicked();
     }
     document.body.appendChild(this.editButtonDiv);
+
+    //Create edit mode buttons
+    this.editPointButtonDiv = document.createElement("div");
+    this.editPointButtonDiv.className = "EditPointButtonDiv";
+    this.editPointButtonDiv.innerText = "Point";
+    this.editPointButtonDiv.onclick = function(event) {
+        "use strict";
+        self.editPointButtonClicked();
+    }
+    this.editCornerButtonDiv = document.createElement("div");
+    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
+    this.editCornerButtonDiv.innerText = "Corner";
+    this.editCornerButtonDiv.onclick = function(event) {
+        "use strict";
+        self.editCornerButtonClicked();
+    }
+    this.editWallButtonDiv = document.createElement("div");
+    this.editWallButtonDiv.className = "EditWallButtonDiv";
+    this.editWallButtonDiv.innerText = "Wall";
+    this.editWallButtonDiv.onclick = function(event) {
+        "use strict";
+        self.editWallButtonClicked();
+    }
+
 
     this.resizeCanvas();
 
     this.createWallButtonClicked();
+    this.editPointButtonClicked();
 };
 
 HVACApplication.prototype.logic = function() {
@@ -113,12 +143,16 @@ HVACApplication.prototype.layoutDraw = function() {
             closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
         }
     }
-    if (this.selectedWall != null) {
-        if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
-        }
-        if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
+            if (this.selectedWall != null) {
+                if (this.selectedWallPoint == WALL_POINT_ONE) {
+                    closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
+                }
+                if (this.selectedWallPoint == WALL_POINT_TWO) {
+                    closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+                }
+            }
         }
     }
 
@@ -131,14 +165,18 @@ HVACApplication.prototype.layoutDraw = function() {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL);
+        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
     }
 
     if (this.currentCreateWall != null) {
         this.currentCreateWall.drawLength(ctx);
     }
-    if (this.selectedWall != null) {
-        this.selectedWall.drawLength(ctx);
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
+            if (this.selectedWall != null) {
+                this.selectedWall.drawLength(ctx);
+            }
+        }
     }
 
     ctx.restore();
@@ -175,19 +213,21 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
             this.currentCreateWall.y1 = point.y;
         }
     }
-    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
-        var closest = 25;
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
-                closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
-                this.selectedWallPoint = WALL_POINT_ONE;
-                this.selectedWall = wall;
-            }
-            if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
-                closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
-                this.selectedWallPoint = WALL_POINT_TWO;
-                this.selectedWall = wall;
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
+            var closest = 25;
+            for (var i = 0; i < this.wallList.length; i++) {
+                var wall = this.wallList[i];
+                if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
+                    closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
+                    this.selectedWallPoint = WALL_POINT_ONE;
+                    this.selectedWall = wall;
+                }
+                if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
+                    closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
+                    this.selectedWallPoint = WALL_POINT_TWO;
+                    this.selectedWall = wall;
+                }
             }
         }
     }
@@ -232,8 +272,10 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
             this.currentCreateWall = null;
         }
     }
-    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
-        this.selectedWall = null;
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
+            this.selectedWall = null;
+        }
     }
 }
 
@@ -277,52 +319,55 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
             }
         }
     }
-    if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
-        if (this.selectedWall != null) {
-            if (this.selectedWallPoint == WALL_POINT_ONE) {
-                this.selectedWall.x1 = canvasMouseX;
-                this.selectedWall.y1 = canvasMouseY;
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
 
-                snapWallToDecimalFromPoint2(this.selectedWall);
+            if (this.selectedWall != null) {
+                if (this.selectedWallPoint == WALL_POINT_ONE) {
+                    this.selectedWall.x1 = canvasMouseX;
+                    this.selectedWall.y1 = canvasMouseY;
 
-                //Auto snap
-                var point = snapPointToWalls(this.selectedWall.x1,
-                    this.selectedWall.y1, this.wallList, [this.selectedWall]);
-                this.selectedWall.x1 = point.x;
-                this.selectedWall.y1 = point.y;
+                    snapWallToDecimalFromPoint2(this.selectedWall);
 
-                if (this.shiftPressed) {
-                    var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                        this.selectedWall.x2, this.selectedWall.y2, 45);
-                    this.selectedWall.x1 = line.x1;
-                    this.selectedWall.y1 = line.y1;
+                    //Auto snap
+                    var point = snapPointToWalls(this.selectedWall.x1,
+                        this.selectedWall.y1, this.wallList, [this.selectedWall]);
+                    this.selectedWall.x1 = point.x;
+                    this.selectedWall.y1 = point.y;
+
+                    if (this.shiftPressed) {
+                        var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
+                            this.selectedWall.x2, this.selectedWall.y2, 45);
+                        this.selectedWall.x1 = line.x1;
+                        this.selectedWall.y1 = line.y1;
+                    }
+
                 }
+                if (this.selectedWallPoint == WALL_POINT_TWO) {
+                    this.selectedWall.x2 = canvasMouseX;
+                    this.selectedWall.y2 = canvasMouseY;
 
-            }
-            if (this.selectedWallPoint == WALL_POINT_TWO) {
-                this.selectedWall.x2 = canvasMouseX;
-                this.selectedWall.y2 = canvasMouseY;
+                    snapWallToDecimalFromPoint1(this.selectedWall);
 
-                snapWallToDecimalFromPoint1(this.selectedWall);
+                    //Auto snap
+                    var point = snapPointToWalls(this.selectedWall.x2,
+                        this.selectedWall.y2, this.wallList, [this.selectedWall]);
+                    this.selectedWall.x2 = point.x;
+                    this.selectedWall.y2 = point.y;
 
-                //Auto snap
-                var point = snapPointToWalls(this.selectedWall.x2,
-                    this.selectedWall.y2, this.wallList, [this.selectedWall]);
-                this.selectedWall.x2 = point.x;
-                this.selectedWall.y2 = point.y;
+                    if (this.shiftPressed) {
+                        var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
+                            this.selectedWall.x2, this.selectedWall.y2, 45);
+                        this.selectedWall.x2 = line.x2;
+                        this.selectedWall.y2 = line.y2;
+                    }
 
-                if (this.shiftPressed) {
-                    var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                        this.selectedWall.x2, this.selectedWall.y2, 45);
-                    this.selectedWall.x2 = line.x2;
-                    this.selectedWall.y2 = line.y2;
                 }
-
-            }
-        } else {
-            if (this.mouseDown) {
-                this.dragPositionX -= movedX;
-                this.dragPositionY -= movedY;
+            } else {
+                if (this.mouseDown) {
+                    this.dragPositionX -= movedX;
+                    this.dragPositionY -= movedY;
+                }
             }
         }
     }
@@ -334,6 +379,10 @@ HVACApplication.prototype.dragButtonClicked = function() {
     this.dragButtonDiv.className = "DragButtonDiv selectedButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
+
+    this.editPointButtonDiv.remove();
+    this.editCornerButtonDiv.remove();
+    this.editWallButtonDiv.remove();
 };
 HVACApplication.prototype.createWallButtonClicked = function() {
     "use strict";
@@ -341,14 +390,47 @@ HVACApplication.prototype.createWallButtonClicked = function() {
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv selectedButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
+
+    this.editPointButtonDiv.remove();
+    this.editCornerButtonDiv.remove();
+    this.editWallButtonDiv.remove();
 };
-HVACApplication.prototype.editWallButtonClicked = function() {
+HVACApplication.prototype.editButtonClicked = function() {
     "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_EDIT_WALL;
+    this.currentLayoutMode = LAYOUT_MODE_EDIT;
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
+
+    document.body.appendChild(this.editPointButtonDiv);
+    document.body.appendChild(this.editCornerButtonDiv);
+    document.body.appendChild(this.editWallButtonDiv);
 };
+
+HVACApplication.prototype.editPointButtonClicked = function() {
+    "use strict";
+    this.currentEditMode = EDIT_MODE_POINT;
+    this.editPointButtonDiv.className = "EditPointButtonDiv selectedButtonDiv";
+    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
+    this.editWallButtonDiv.className = "EditWallButtonDiv";
+};
+
+HVACApplication.prototype.editCornerButtonClicked = function() {
+    "use strict";
+    this.currentEditMode = EDIT_MODE_CORNER;
+    this.editPointButtonDiv.className = "EditPointButtonDiv";
+    this.editCornerButtonDiv.className = "EditCornerButtonDiv selectedButtonDiv";
+    this.editWallButtonDiv.className = "EditWallButtonDiv";
+};
+
+HVACApplication.prototype.editWallButtonClicked = function() {
+    "use strict";
+    this.currentEditMode = EDIT_MODE_WALL;
+    this.editPointButtonDiv.className = "EditPointButtonDiv";
+    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
+    this.editWallButtonDiv.className = "EditWallButtonDiv selectedButtonDiv";
+};
+
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
