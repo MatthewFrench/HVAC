@@ -10,6 +10,26 @@ HVACApplication.prototype.initEditCornerModeVariables = function () {
 
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     "use strict";
+    //Select all points near the mouse and track all walls of those points
+    var canvasMouseX = this.currentMouseX - this.dragPositionX;
+    var canvasMouseY = this.currentMouseY - this.dragPositionY;
+
+    this.currentEditCornerSelectedPoints = [];
+    this.currentEditCornerSelectedWalls = [];
+    var searchArea = 15;
+
+    //Need to keep track of points of walls
+
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
+        if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, searchArea)) {
+            //this.currentEditPointSelectedWall = wall;
+        }
+        if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, searchArea)) {
+            //this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
+            //this.currentEditPointSelectedWall = wall;
+        }
+    }
 };
 
 HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
