@@ -22,8 +22,10 @@ var HVACApplication = function () {
     this.editButtonDiv = null;
     this.dragPositionX = 0.0;
     this.dragPositionY = 0.0;
-    this.lastMouseX = 0.0;
-    this.lastMouseY = 0.0;
+    this.currentMouseX = 0.0;
+    this.currentMouseY = 0.0;
+    this.previousMouseX = 0.0;
+    this.previousMouseY = 0.0;
     this.mouseDown = false;
     this.currentEditMode = EDIT_MODE_POINT;
     this.editPointButtonDiv = null;
@@ -35,178 +37,40 @@ var HVACApplication = function () {
     this.createUI();
 };
 
-HVACApplication.prototype.createUI = function() {
-    this.myBannerDiv = document.createElement("div");
-    this.myBannerDiv.className = "RibbonBanner";
-    document.body.appendChild(this.myBannerDiv);
-
-    this.titleSpan = document.createElement("span");
-    this.titleSpan.className = "TopTitle";
-    this.titleSpan.innerText = "HVAC Model Designer";
-    document.body.appendChild(this.titleSpan);
-
-    this.layoutCanvas = document.createElement("canvas");
-    this.layoutCanvas.className = "LayoutCanvas";
-    document.body.appendChild(this.layoutCanvas);
-    var self = this;
-    document.body.onmousemove = function(event){
-        self.layoutCanvasMouseMoved(event);
-    };
-    this.layoutCanvas.onmousedown = function(event){
-        self.layoutCanvasMousePressed(event);
-    };
-    this.layoutCanvas.onmouseup = function(event){
-        self.layoutCanvasMouseReleased(event);
-    };
-
-
-
-    this.dragButtonDiv = document.createElement("div");
-    this.dragButtonDiv.className = "DragButtonDiv";
-    this.dragButtonDiv.innerText = "Drag";
-    this.dragButtonDiv.onclick = function(event) {
-        "use strict";
-        self.dragButtonClicked();
-    };
-    document.body.appendChild(this.dragButtonDiv);
-
-    this.createButtonDiv = document.createElement("div");
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.createButtonDiv.innerText = "Create";
-    this.createButtonDiv.onclick = function(event) {
-        "use strict";
-        self.createWallButtonClicked();
-    };
-    document.body.appendChild(this.createButtonDiv);
-
-    this.editButtonDiv = document.createElement("div");
-    this.editButtonDiv.className = "EditButtonDiv";
-    this.editButtonDiv.innerText = "Edit";
-    this.editButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editButtonClicked();
-    }
-    document.body.appendChild(this.editButtonDiv);
-
-    //Create edit mode buttons
-    this.editPointButtonDiv = document.createElement("div");
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editPointButtonDiv.innerText = "Point";
-    this.editPointButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editPointButtonClicked();
-    }
-    this.editCornerButtonDiv = document.createElement("div");
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editCornerButtonDiv.innerText = "Corner";
-    this.editCornerButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editCornerButtonClicked();
-    }
-    this.editWallButtonDiv = document.createElement("div");
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
-    this.editWallButtonDiv.innerText = "Wall";
-    this.editWallButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editWallButtonClicked();
-    }
-
-
-    this.resizeCanvas();
-
-    this.createWallButtonClicked();
-    this.editPointButtonClicked();
-};
-
 HVACApplication.prototype.logic = function() {
     "use strict";
 
     this.layoutDraw();
-}
+};
 HVACApplication.prototype.layoutDraw = function() {
     "use strict";
 
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
-
-    var closePointArray = [];
-    closePointArray.push(new Point2D(this.lastMouseX, this.lastMouseY));
-    if (this.currentCreateWall != null) {
-        if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D(this.currentCreateWall.x1, this.currentCreateWall.y1));
-        }
-        if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
-        }
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        this.drawCreateModeLayout();
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        this.drawDragModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
         if (this.currentEditMode == EDIT_MODE_POINT) {
-            if (this.selectedWall != null) {
-                if (this.selectedWallPoint == WALL_POINT_ONE) {
-                    closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
-                }
-                if (this.selectedWallPoint == WALL_POINT_TWO) {
-                    closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
-                }
-            }
+            this.drawEditPointModeLayout();
         }
         if (this.currentEditMode == EDIT_MODE_CORNER) {
-
+            this.drawEditCornerModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_WALL) {
+            this.drawEditWallModeLayout();
         }
     }
-
-    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL || this.selectedWall != null) {
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            wall.drawPerpendicular(ctx, closePointArray);
-        }
-    }
-
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
-    }
-
-    //Draw create mode starting point
-    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-        if (this.currentCreateWall == null) {
-            var x = this.lastMouseX;
-            var y = this.lastMouseY;
-            var point = snapPointToWalls(x, y, this.wallList, []);
-            ctx.fillStyle = "rgb(150,200,255)";
-            ctx.beginPath();
-            ctx.arc(point.x,point.y,5,0,2*Math.PI);
-            ctx.fill();
-        }
-    }
-
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.drawLength(ctx);
-    }
-    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-        if (this.currentEditMode == EDIT_MODE_POINT) {
-            if (this.selectedWall != null) {
-                this.selectedWall.drawLength(ctx);
-            }
-        }
-    }
-
-    ctx.restore();
-}
+};
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
-}
+};
 HVACApplication.prototype.resizeCanvas = function() {
     "use strict";
     this.layoutCanvas.width = window.innerWidth;
     this.layoutCanvas.height = window.innerHeight - 150;
-}
+};
 
 
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
@@ -215,41 +79,57 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     var mouseY = event.offsetY;
     if(event.which == 3) return;
     this.mouseDown = true;
-    this.lastMouseX = mouseX;
-    this.lastMouseY = mouseY;
-
-    var canvasMouseX = mouseX - this.dragPositionX;
-    var canvasMouseY = mouseY - this.dragPositionY;
+    this.previousMouseX = this.currentMouseX;
+    this.currentMouseX = mouseX;
+    this.previousMouseY = this.currentMouseY;
+    this.currentMouseY = mouseY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-        if (this.currentCreateWall == null) {
-            this.currentCreateWall = new WallObject(canvasMouseX, canvasMouseY, canvasMouseX, canvasMouseY);
-            this.wallList.push(this.currentCreateWall);
-            var point = snapPointToWalls(this.currentCreateWall.x1,
-                this.currentCreateWall.y1, this.wallList, [this.currentCreateWall]);
-            this.currentCreateWall.x1 = point.x;
-            this.currentCreateWall.y1 = point.y;
-        }
+        this.mousePressedCreateModeLayout();
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        this.mousePressedDragModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
         if (this.currentEditMode == EDIT_MODE_POINT) {
-            var closest = 25;
-            for (var i = 0; i < this.wallList.length; i++) {
-                var wall = this.wallList[i];
-                if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
-                    closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
-                    this.selectedWallPoint = WALL_POINT_ONE;
-                    this.selectedWall = wall;
-                }
-                if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
-                    closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
-                    this.selectedWallPoint = WALL_POINT_TWO;
-                    this.selectedWall = wall;
-                }
-            }
+            this.mousePressedEditPointModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_CORNER) {
+            this.mousePressedEditCornerModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_WALL) {
+            this.mousePressedEditWallModeLayout();
         }
     }
-}
+};
+
+HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
+    "use strict";
+    var mouseX = event.clientX - this.layoutCanvas.offsetLeft;
+    var mouseY = event.clientY - this.layoutCanvas.offsetTop;
+    this.previousMouseX = this.currentMouseX;
+    this.currentMouseX = mouseX;
+    this.previousMouseY = this.currentMouseY;
+    this.currentMouseY = mouseY;
+
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        this.mouseMovedCreateModeLayout();
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        this.mouseMovedDragModeLayout();
+    }
+    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        if (this.currentEditMode == EDIT_MODE_POINT) {
+            this.mouseMovedEditPointModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_CORNER) {
+            this.mouseMovedEditCornerModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_WALL) {
+            this.mouseMovedEditWallModeLayout();
+        }
+    }
+};
 
 HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
@@ -257,197 +137,30 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     var mouseY = event.offsetY;
     if(event.which == 3) return;
     this.mouseDown = false;
-    this.lastMouseX = mouseX;
-    this.lastMouseY = mouseY;
-
-    var canvasMouseX = mouseX - this.dragPositionX;
-    var canvasMouseY = mouseY - this.dragPositionY;
+    this.previousMouseX = this.currentMouseX;
+    this.currentMouseX = mouseX;
+    this.previousMouseY = this.currentMouseY;
+    this.currentMouseY = mouseY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-        if (this.currentCreateWall != null) {
-            this.currentCreateWall.x2 = canvasMouseX;
-            this.currentCreateWall.y2 = canvasMouseY;
-
-            snapWallToDecimalFromPoint1(this.currentCreateWall);
-
-            var point = snapPointToWalls(this.currentCreateWall.x2,
-                this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
-            this.currentCreateWall.x2 = point.x;
-            this.currentCreateWall.y2 = point.y;
-
-            if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
-                    this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
-                this.currentCreateWall.x2 = line.x2;
-                this.currentCreateWall.y2 = line.y2;
-            }
-
-            if (this.currentCreateWall.x1 == this.currentCreateWall.x2 &&
-            this.currentCreateWall.y1 == this.currentCreateWall.y2) {
-                this.wallList.splice(this.wallList.indexOf(this.currentCreateWall), 1);
-            }
-
-            this.currentCreateWall = null;
-        }
+        this.mouseReleasedCreateModeLayout();
     }
-    if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-        if (this.currentEditMode == EDIT_MODE_POINT) {
-            this.selectedWall = null;
-        }
-    }
-}
-
-HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
-    "use strict";
-    var mouseX = event.clientX - this.layoutCanvas.offsetLeft;
-    var mouseY = event.clientY - this.layoutCanvas.offsetTop;
-    var movedX = this.lastMouseX - mouseX;
-    var movedY = this.lastMouseY - mouseY;
-    this.lastMouseX = mouseX;
-    this.lastMouseY = mouseY;
-
-
-    var canvasMouseX = mouseX - this.dragPositionX;
-    var canvasMouseY = mouseY - this.dragPositionY;
-
-    if(event.which == 3) return;
     if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-        if (this.mouseDown) {
-            this.dragPositionX -= movedX;
-            this.dragPositionY -= movedY;
-        }
-    }
-    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-        if (this.currentCreateWall != null) {
-            this.currentCreateWall.x2 = canvasMouseX;
-            this.currentCreateWall.y2 = canvasMouseY;
-
-            snapWallToDecimalFromPoint1(this.currentCreateWall);
-
-            var point = snapPointToWalls(this.currentCreateWall.x2,
-                this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
-            this.currentCreateWall.x2 = point.x;
-            this.currentCreateWall.y2 = point.y;
-
-            if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
-                    this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
-                this.currentCreateWall.x2 = line.x2;
-                this.currentCreateWall.y2 = line.y2;
-            }
-        }
+        this.mouseReleasedDragModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
         if (this.currentEditMode == EDIT_MODE_POINT) {
-
-            if (this.selectedWall != null) {
-                if (this.selectedWallPoint == WALL_POINT_ONE) {
-                    this.selectedWall.x1 = canvasMouseX;
-                    this.selectedWall.y1 = canvasMouseY;
-
-                    snapWallToDecimalFromPoint2(this.selectedWall);
-
-                    //Auto snap
-                    var point = snapPointToWalls(this.selectedWall.x1,
-                        this.selectedWall.y1, this.wallList, [this.selectedWall]);
-                    this.selectedWall.x1 = point.x;
-                    this.selectedWall.y1 = point.y;
-
-                    if (this.shiftPressed) {
-                        var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                            this.selectedWall.x2, this.selectedWall.y2, 45);
-                        this.selectedWall.x1 = line.x1;
-                        this.selectedWall.y1 = line.y1;
-                    }
-
-                }
-                if (this.selectedWallPoint == WALL_POINT_TWO) {
-                    this.selectedWall.x2 = canvasMouseX;
-                    this.selectedWall.y2 = canvasMouseY;
-
-                    snapWallToDecimalFromPoint1(this.selectedWall);
-
-                    //Auto snap
-                    var point = snapPointToWalls(this.selectedWall.x2,
-                        this.selectedWall.y2, this.wallList, [this.selectedWall]);
-                    this.selectedWall.x2 = point.x;
-                    this.selectedWall.y2 = point.y;
-
-                    if (this.shiftPressed) {
-                        var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                            this.selectedWall.x2, this.selectedWall.y2, 45);
-                        this.selectedWall.x2 = line.x2;
-                        this.selectedWall.y2 = line.y2;
-                    }
-
-                }
-            } else {
-                if (this.mouseDown) {
-                    this.dragPositionX -= movedX;
-                    this.dragPositionY -= movedY;
-                }
-            }
+            this.mouseReleasedEditPointModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_CORNER) {
+            this.mouseReleasedEditCornerModeLayout();
+        }
+        if (this.currentEditMode == EDIT_MODE_WALL) {
+            this.mouseReleasedEditWallModeLayout();
         }
     }
-}
-
-HVACApplication.prototype.dragButtonClicked = function() {
-    "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_DRAG;
-    this.dragButtonDiv.className = "DragButtonDiv selectedButtonDiv";
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv";
-
-    this.editPointButtonDiv.remove();
-    this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
-};
-HVACApplication.prototype.createWallButtonClicked = function() {
-    "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-    this.dragButtonDiv.className = "DragButtonDiv";
-    this.createButtonDiv.className = "CreateButtonDiv selectedButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv";
-
-    this.editPointButtonDiv.remove();
-    this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
-};
-HVACApplication.prototype.editButtonClicked = function() {
-    "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_EDIT;
-    this.dragButtonDiv.className = "DragButtonDiv";
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
-
-    document.body.appendChild(this.editPointButtonDiv);
-    document.body.appendChild(this.editCornerButtonDiv);
-    document.body.appendChild(this.editWallButtonDiv);
 };
 
-HVACApplication.prototype.editPointButtonClicked = function() {
-    "use strict";
-    this.currentEditMode = EDIT_MODE_POINT;
-    this.editPointButtonDiv.className = "EditPointButtonDiv selectedButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
-};
-
-HVACApplication.prototype.editCornerButtonClicked = function() {
-    "use strict";
-    this.currentEditMode = EDIT_MODE_CORNER;
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv selectedButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
-};
-
-HVACApplication.prototype.editWallButtonClicked = function() {
-    "use strict";
-    this.currentEditMode = EDIT_MODE_WALL;
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv selectedButtonDiv";
-};
 
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
