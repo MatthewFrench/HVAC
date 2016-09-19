@@ -2,6 +2,11 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initEditWallModeVariables = function () {
+    "use strict";
+
+};
+
 HVACApplication.prototype.mousePressedEditWallModeLayout = function () {
     "use strict";
 };

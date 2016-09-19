@@ -2,6 +2,12 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initEditPointModeVariables = function () {
+    "use strict";
+    this.currentEditPointSelectedWall = null;
+    this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
+};
+
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     "use strict";
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
