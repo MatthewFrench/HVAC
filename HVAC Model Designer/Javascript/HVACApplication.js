@@ -12,10 +12,7 @@ var HVACApplication = function () {
     this.titleSpan = null;
     this.layoutCanvas = null;
     this.wallList = [];
-    this.currentCreateWall = null;
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-    this.selectedWall = null;
-    this.selectedWallPoint = WALL_POINT_ONE;
     this.shiftPressed = false;
     this.dragButtonDiv = null;
     this.createButtonDiv = null;
@@ -26,13 +23,15 @@ var HVACApplication = function () {
     this.currentMouseY = 0.0;
     this.previousMouseX = 0.0;
     this.previousMouseY = 0.0;
-    this.mouseDown = false;
-    this.currentEditMode = EDIT_MODE_POINT;
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
     this.editWallButtonDiv = null;
-    this.editCornerSelectedPoints = [];
-    this.editCornerSelectedWalls = [];
+    this.mouseDown = false;
+    //Layout mode variables
+    this.currentCreateModeWall = null;
+    this.currentEditMode = EDIT_MODE_POINT;
+    this.currentEditPointSelectedWall = null;
+    this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
 
     this.createUI();
 };

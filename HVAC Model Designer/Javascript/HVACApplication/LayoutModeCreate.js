@@ -6,13 +6,13 @@ HVACApplication.prototype.mousePressedCreateModeLayout = function () {
     "use strict";
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
-    if (this.currentCreateWall == null) {
-        this.currentCreateWall = new WallObject(canvasMouseX, canvasMouseY, canvasMouseX, canvasMouseY);
-        this.wallList.push(this.currentCreateWall);
-        var point = snapPointToWalls(this.currentCreateWall.x1,
-            this.currentCreateWall.y1, this.wallList, [this.currentCreateWall]);
-        this.currentCreateWall.x1 = point.x;
-        this.currentCreateWall.y1 = point.y;
+    if (this.currentCreateModeWall == null) {
+        this.currentCreateModeWall = new WallObject(canvasMouseX, canvasMouseY, canvasMouseX, canvasMouseY);
+        this.wallList.push(this.currentCreateModeWall);
+        var point = snapPointToWalls(this.currentCreateModeWall.x1,
+            this.currentCreateModeWall.y1, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x1 = point.x;
+        this.currentCreateModeWall.y1 = point.y;
     }
 };
 
@@ -24,22 +24,22 @@ HVACApplication.prototype.mouseMovedCreateModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.x2 = canvasMouseX;
-        this.currentCreateWall.y2 = canvasMouseY;
+    if (this.currentCreateModeWall != null) {
+        this.currentCreateModeWall.x2 = canvasMouseX;
+        this.currentCreateModeWall.y2 = canvasMouseY;
 
-        snapWallToDecimalFromPoint1(this.currentCreateWall);
+        snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
-        var point = snapPointToWalls(this.currentCreateWall.x2,
-            this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
-        this.currentCreateWall.x2 = point.x;
-        this.currentCreateWall.y2 = point.y;
+        var point = snapPointToWalls(this.currentCreateModeWall.x2,
+            this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x2 = point.x;
+        this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
-                this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
-            this.currentCreateWall.x2 = line.x2;
-            this.currentCreateWall.y2 = line.y2;
+            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+                this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
+            this.currentCreateModeWall.x2 = line.x2;
+            this.currentCreateModeWall.y2 = line.y2;
         }
     }
 };
@@ -49,30 +49,30 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.x2 = canvasMouseX;
-        this.currentCreateWall.y2 = canvasMouseY;
+    if (this.currentCreateModeWall != null) {
+        this.currentCreateModeWall.x2 = canvasMouseX;
+        this.currentCreateModeWall.y2 = canvasMouseY;
 
-        snapWallToDecimalFromPoint1(this.currentCreateWall);
+        snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
-        var point = snapPointToWalls(this.currentCreateWall.x2,
-            this.currentCreateWall.y2, this.wallList, [this.currentCreateWall]);
-        this.currentCreateWall.x2 = point.x;
-        this.currentCreateWall.y2 = point.y;
+        var point = snapPointToWalls(this.currentCreateModeWall.x2,
+            this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x2 = point.x;
+        this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateWall.x1, this.currentCreateWall.y1,
-                this.currentCreateWall.x2, this.currentCreateWall.y2, 45);
-            this.currentCreateWall.x2 = line.x2;
-            this.currentCreateWall.y2 = line.y2;
+            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+                this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
+            this.currentCreateModeWall.x2 = line.x2;
+            this.currentCreateModeWall.y2 = line.y2;
         }
 
-        if (this.currentCreateWall.x1 == this.currentCreateWall.x2 &&
-            this.currentCreateWall.y1 == this.currentCreateWall.y2) {
-            this.wallList.splice(this.wallList.indexOf(this.currentCreateWall), 1);
+        if (this.currentCreateModeWall.x1 == this.currentCreateModeWall.x2 &&
+            this.currentCreateModeWall.y1 == this.currentCreateModeWall.y2) {
+            this.wallList.splice(this.wallList.indexOf(this.currentCreateModeWall), 1);
         }
 
-        this.currentCreateWall = null;
+        this.currentCreateModeWall = null;
     }
 };
 
@@ -89,12 +89,12 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
 
     var closePointArray = [];
     closePointArray.push(new Point2D(this.currentMouseX, this.currentMouseY));
-    if (this.currentCreateWall != null) {
+    if (this.currentCreateModeWall != null) {
         if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D(this.currentCreateWall.x1, this.currentCreateWall.y1));
+            closePointArray.push(new Point2D(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1));
         }
         if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D(this.currentCreateWall.x2, this.currentCreateWall.y2));
+            closePointArray.push(new Point2D(this.currentCreateModeWall.x2, this.currentCreateModeWall.y2));
         }
     }
 
@@ -109,7 +109,7 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
     }
 
     //Draw create mode starting point
-    if (this.currentCreateWall == null) {
+    if (this.currentCreateModeWall == null) {
         var x = this.currentMouseX - this.dragPositionX;
         var y = this.currentMouseY - this.dragPositionY;
         var point = snapPointToWalls(x, y, this.wallList, []);
@@ -119,8 +119,8 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
         ctx.fill();
     }
 
-    if (this.currentCreateWall != null) {
-        this.currentCreateWall.drawLength(ctx);
+    if (this.currentCreateModeWall != null) {
+        this.currentCreateModeWall.drawLength(ctx);
     }
 
     ctx.restore();
