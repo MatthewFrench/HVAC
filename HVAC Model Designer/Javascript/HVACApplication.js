@@ -29,6 +29,8 @@ var HVACApplication = function () {
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
     this.editWallButtonDiv = null;
+    this.editCornerSelectedPoints = [];
+    this.editCornerSelectedWalls = [];
 
     this.createUI();
 };
@@ -153,6 +155,9 @@ HVACApplication.prototype.layoutDraw = function() {
                     closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
                 }
             }
+        }
+        if (this.currentEditMode == EDIT_MODE_CORNER) {
+
         }
     }
 
