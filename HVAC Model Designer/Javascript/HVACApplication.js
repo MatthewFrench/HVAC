@@ -161,7 +161,7 @@ HVACApplication.prototype.layoutDraw = function() {
         }
     }
 
-    if (this.currentCreateWall != null || this.selectedWall != null) {
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL || this.selectedWall != null) {
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
             wall.drawPerpendicular(ctx, closePointArray);
@@ -171,6 +171,19 @@ HVACApplication.prototype.layoutDraw = function() {
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
+    }
+
+    //Draw create mode starting point
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        if (this.currentCreateWall == null) {
+            var x = this.lastMouseX;
+            var y = this.lastMouseY;
+            var point = snapPointToWalls(x, y, this.wallList, []);
+            ctx.fillStyle = "rgb(150,200,255)";
+            ctx.beginPath();
+            ctx.arc(point.x,point.y,5,0,2*Math.PI);
+            ctx.fill();
+        }
     }
 
     if (this.currentCreateWall != null) {
