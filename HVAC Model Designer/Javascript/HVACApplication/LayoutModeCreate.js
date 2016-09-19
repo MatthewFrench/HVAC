@@ -2,6 +2,11 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initCreateModeVariables = function () {
+    "use strict";
+    this.currentCreateModeWall = null;
+}
+
 HVACApplication.prototype.mousePressedCreateModeLayout = function () {
     "use strict";
     var canvasMouseX = this.currentMouseX - this.dragPositionX;

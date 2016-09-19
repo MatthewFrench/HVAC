@@ -2,6 +2,11 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initDragModeVariables = function () {
+    "use strict";
+
+}
+
 HVACApplication.prototype.mousePressedDragModeLayout = function () {
     "use strict";
 };

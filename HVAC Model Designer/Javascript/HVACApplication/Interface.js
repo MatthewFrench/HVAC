@@ -2,6 +2,19 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initUIVariables = function() {
+    "use strict";
+    this.myBannerDiv = null;
+    this.titleSpan = null;
+    this.layoutCanvas = null;
+    this.dragButtonDiv = null;
+    this.createButtonDiv = null;
+    this.editButtonDiv = null;
+    this.editPointButtonDiv = null;
+    this.editCornerButtonDiv = null;
+    this.editWallButtonDiv = null;
+};
+
 HVACApplication.prototype.createUI = function() {
     this.myBannerDiv = document.createElement("div");
     this.myBannerDiv.className = "RibbonBanner";

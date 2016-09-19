@@ -2,6 +2,12 @@
  * Created by Matt on 9/19/16.
  */
 
+HVACApplication.prototype.initEditCornerModeVariables = function () {
+    "use strict";
+    this.currentEditCornerSelectedPoints = [];
+    this.currentEditCornerSelectedWalls = [];
+};
+
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     "use strict";
 };
