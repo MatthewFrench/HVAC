@@ -12,13 +12,13 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
         var wall = this.wallList[i];
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
             closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
-            this.selectedWallPoint = WALL_POINT_ONE;
-            this.selectedWall = wall;
+            this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
+            this.currentEditPointSelectedWall = wall;
         }
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
             closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
-            this.selectedWallPoint = WALL_POINT_TWO;
-            this.selectedWall = wall;
+            this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
+            this.currentEditPointSelectedWall = wall;
         }
     }
 };
@@ -33,44 +33,44 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
 
-    if (this.selectedWall != null) {
-        if (this.selectedWallPoint == WALL_POINT_ONE) {
-            this.selectedWall.x1 = canvasMouseX;
-            this.selectedWall.y1 = canvasMouseY;
+    if (this.currentEditPointSelectedWall != null) {
+        if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
+            this.currentEditPointSelectedWall.x1 = canvasMouseX;
+            this.currentEditPointSelectedWall.y1 = canvasMouseY;
 
-            snapWallToDecimalFromPoint2(this.selectedWall);
+            snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
 
             //Auto snap
-            var point = snapPointToWalls(this.selectedWall.x1,
-                this.selectedWall.y1, this.wallList, [this.selectedWall]);
-            this.selectedWall.x1 = point.x;
-            this.selectedWall.y1 = point.y;
+            var point = snapPointToWalls(this.currentEditPointSelectedWall.x1,
+                this.currentEditPointSelectedWall.y1, this.wallList, [this.currentEditPointSelectedWall]);
+            this.currentEditPointSelectedWall.x1 = point.x;
+            this.currentEditPointSelectedWall.y1 = point.y;
 
             if (this.shiftPressed) {
-                var line = getLinePoint1SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                    this.selectedWall.x2, this.selectedWall.y2, 45);
-                this.selectedWall.x1 = line.x1;
-                this.selectedWall.y1 = line.y1;
+                var line = getLinePoint1SnappedToNearestIncrement(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
+                    this.currentEditPointSelectedWall.x2, this.currentEditPointSelectedWall.y2, 45);
+                this.currentEditPointSelectedWall.x1 = line.x1;
+                this.currentEditPointSelectedWall.y1 = line.y1;
             }
 
         }
-        if (this.selectedWallPoint == WALL_POINT_TWO) {
-            this.selectedWall.x2 = canvasMouseX;
-            this.selectedWall.y2 = canvasMouseY;
+        if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
+            this.currentEditPointSelectedWall.x2 = canvasMouseX;
+            this.currentEditPointSelectedWall.y2 = canvasMouseY;
 
-            snapWallToDecimalFromPoint1(this.selectedWall);
+            snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
 
             //Auto snap
-            var point = snapPointToWalls(this.selectedWall.x2,
-                this.selectedWall.y2, this.wallList, [this.selectedWall]);
-            this.selectedWall.x2 = point.x;
-            this.selectedWall.y2 = point.y;
+            var point = snapPointToWalls(this.currentEditPointSelectedWall.x2,
+                this.currentEditPointSelectedWall.y2, this.wallList, [this.currentEditPointSelectedWall]);
+            this.currentEditPointSelectedWall.x2 = point.x;
+            this.currentEditPointSelectedWall.y2 = point.y;
 
             if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestIncrement(this.selectedWall.x1, this.selectedWall.y1,
-                    this.selectedWall.x2, this.selectedWall.y2, 45);
-                this.selectedWall.x2 = line.x2;
-                this.selectedWall.y2 = line.y2;
+                var line = getLinePoint2SnappedToNearestIncrement(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
+                    this.currentEditPointSelectedWall.x2, this.currentEditPointSelectedWall.y2, 45);
+                this.currentEditPointSelectedWall.x2 = line.x2;
+                this.currentEditPointSelectedWall.y2 = line.y2;
             }
 
         }
@@ -85,7 +85,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
 HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
     "use strict";
     if (this.currentEditMode == EDIT_MODE_POINT) {
-        this.selectedWall = null;
+        this.currentEditPointSelectedWall = null;
     }
 };
 
@@ -103,16 +103,16 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
 
     var closePointArray = [];
     closePointArray.push(new Point2D(this.currentMouseX, this.currentMouseY));
-    if (this.selectedWall != null) {
-        if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D(this.selectedWall.x1, this.selectedWall.y1));
+    if (this.currentEditPointSelectedWall != null) {
+        if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
+            closePointArray.push(new Point2D(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1));
         }
-        if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D(this.selectedWall.x2, this.selectedWall.y2));
+        if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
+            closePointArray.push(new Point2D(this.currentEditPointSelectedWall.x2, this.currentEditPointSelectedWall.y2));
         }
     }
 
-    if (this.selectedWall != null) {
+    if (this.currentEditPointSelectedWall != null) {
         for (var i = 0; i < this.wallList.length; i++) {
             var wall = this.wallList[i];
             wall.drawPerpendicular(ctx, closePointArray);
@@ -124,8 +124,8 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
         wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
     }
 
-    if (this.selectedWall != null) {
-        this.selectedWall.drawLength(ctx);
+    if (this.currentEditPointSelectedWall != null) {
+        this.currentEditPointSelectedWall.drawLength(ctx);
     }
 
     ctx.restore();
