@@ -3,7 +3,7 @@
  */
 
 var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT_WALL = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
-    LAYOUT_MODE_DELETE = 4;
+    LAYOUT_MODE_DELETE_WALL = 4;
 var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 
 //Constructor
@@ -25,6 +25,7 @@ var HVACApplication = function () {
     this.lastMouseX = 0.0;
     this.lastMouseY = 0.0;
     this.mouseDown = false;
+    this.highlightedWall = null;
 
     this.createUI();
 };
@@ -151,6 +152,10 @@ HVACApplication.prototype.layoutDraw = function() {
         this.selectedWall.drawLength(ctx);
     }
 
+    if (this.highlightedWall != null) {
+        this.highlightedWall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL);
+    }
+
     ctx.restore();
 }
 HVACApplication.prototype.windowResized = function() {
@@ -243,6 +248,12 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT_WALL) {
         this.selectedWall = null;
     }
+    if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        if (this.highlightedWall != null) {
+            this.wallList.splice(this.wallList.indexOf(this.highlightedWall), 1);
+            this.highlightedWall = null;
+        }
+    }
 }
 
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
@@ -253,7 +264,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     var movedY = this.lastMouseY - mouseY;
     this.lastMouseX = mouseX;
     this.lastMouseY = mouseY;
-
+    this.highlightedWall = null;
 
     var canvasMouseX = mouseX - this.dragPositionX;
     var canvasMouseY = mouseY - this.dragPositionY;
@@ -334,6 +345,16 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
             }
         }
     }
+    if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, this.lastMouseX, this.lastMouseY);
+            var dist = Math.hypot(point.x - this.lastMouseX, point.y - this.lastMouseY);
+            if (dist < 15) {
+                this.highlightedWall = wall;
+            }
+        }
+    }
 }
 
 HVACApplication.prototype.viewWallButtonClicked = function() {
@@ -374,7 +395,7 @@ HVACApplication.prototype.editWallButtonClicked = function() {
 };
 HVACApplication.prototype.deleteWallButtonClicked = function() {
     "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_DELETE;
+    this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
     this.viewButtonDiv.className = "ViewButtonDiv";
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
