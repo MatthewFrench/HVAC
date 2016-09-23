@@ -17,12 +17,6 @@ body {
     background-image:       linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
     height:100%;
     background-size:50px 50px;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-
 }
 .WebGLCanvas {
     position: absolute;
@@ -79,6 +73,24 @@ body {
     width: 150px;
     left: calc(75% - 75px);
 }
+.ViewButtonDiv {
+    position: absolute;
+    top: 150px;
+    width: 200px;
+    left: calc(50% - 400px - 100px);
+    background: rgba(25, 25, 25, 0.4);
+    height: 35px;
+    border: black 1px solid;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    font-family: Helvetica;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .DragButtonDiv {
     position: absolute;
     top: 150px;
@@ -133,56 +145,17 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-.EditPointButtonDiv {
+.DeleteButtonDiv {
     position: absolute;
-    top: 186px;
-    width: 100px;
-    left: calc(50% + 50px - 100px + 100px);
+    top: 150px;
+    width: 200px;
+    left: calc(50% + 200px + 100px);
     background: rgba(25, 25, 25, 0.4);
-    height: 25px;
-    line-height: 27px;
+    height: 35px;
     border: black 1px solid;
     color: white;
     text-align: center;
-    font-size: 20px;
-    font-family: Helvetica;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.EditCornerButtonDiv {
-    position: absolute;
-    top: 186px;
-    width: 100px;
-    left: calc(50% + 50px + 100px);
-    background: rgba(25, 25, 25, 0.4);
-    height: 25px;
-    line-height: 27px;
-    border: black 1px solid;
-    color: white;
-    text-align: center;
-    font-size: 20px;
-    font-family: Helvetica;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.EditWallButtonDiv {
-    position: absolute;
-    top: 186px;
-    width: 100px;
-    line-height: 27px;
-    left: calc(50% + 50px + 100px + 100px);
-    background: rgba(25, 25, 25, 0.4);
-    height: 25px;
-    border: black 1px solid;
-    color: white;
-    text-align: center;
-    font-size: 20px;
+    font-size: 30px;
     font-family: Helvetica;
     cursor: pointer;
     -webkit-user-select: none;
