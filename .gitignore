@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 .idea/workspace.xml
 
 .idea/vcs.xml
@@ -6,3 +7,6 @@
 .idea/HVAC.iml
 
 .idea/modules.xml
+=======
+HVAC Model Designer/.idea/workspace.xml
+>>>>>>> master
