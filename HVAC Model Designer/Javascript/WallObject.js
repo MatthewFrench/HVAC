@@ -95,12 +95,6 @@ WallObject.prototype.drawLength = function(context) {
     var centerX = (this.x1 - this.x2) / 2.0 + this.x2;
     var centerY = (this.y1 - this.y2) / 2.0 + this.y2;
 
-    if (this.y1 < this.y2) {
-        centerY = this.y1 - 50.0;
-    } else {
-        centerY = this.y2 - 50.0;
-    }
-
 
 
     context.textAlign = "center";
