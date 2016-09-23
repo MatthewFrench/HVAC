@@ -1,17 +1,17 @@
 /**
- * Created by Matt on 9/19/16.
+ * Created by Matt on 9/23/2016.
  */
 
-HVACApplication.prototype.initDragModeVariables = function () {
+HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
 
 }
 
-HVACApplication.prototype.mousePressedDragModeLayout = function () {
+HVACApplication.prototype.mousePressedViewModeLayout = function () {
     "use strict";
 };
 
-HVACApplication.prototype.mouseMovedDragModeLayout = function () {
+HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
 
     var movedX = this.previousMouseX - this.currentMouseX;
@@ -24,16 +24,15 @@ HVACApplication.prototype.mouseMovedDragModeLayout = function () {
 
 };
 
-HVACApplication.prototype.mouseReleasedDragModeLayout = function () {
+HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
     "use strict";
 
 
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
-
 };
 
-HVACApplication.prototype.drawDragModeLayout = function () {
+HVACApplication.prototype.drawViewModeLayout = function () {
     "use strict";
     var ctx = this.layoutCanvas.getContext("2d");
     var canvasWidth = this.layoutCanvas.width;

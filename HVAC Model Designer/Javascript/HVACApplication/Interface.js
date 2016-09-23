@@ -41,6 +41,15 @@ HVACApplication.prototype.createUI = function() {
 
 
 
+    this.viewButtonDiv = document.createElement("div");
+    this.viewButtonDiv.className = "ViewButtonDiv";
+    this.viewButtonDiv.innerText = "View";
+    this.viewButtonDiv.onclick = function(event) {
+        "use strict";
+        self.viewWallButtonClicked();
+    }
+    document.body.appendChild(this.viewButtonDiv);
+
     this.dragButtonDiv = document.createElement("div");
     this.dragButtonDiv.className = "DragButtonDiv";
     this.dragButtonDiv.innerText = "Drag";
@@ -91,11 +100,34 @@ HVACApplication.prototype.createUI = function() {
         self.editWallButtonClicked();
     }
 
+    this.deleteButtonDiv = document.createElement("div");
+    this.deleteButtonDiv.className = "DeleteButtonDiv";
+    this.deleteButtonDiv.innerText = "Delete";
+    this.deleteButtonDiv.onclick = function(event) {
+        "use strict";
+        self.deleteWallButtonClicked();
+    }
+    document.body.appendChild(this.deleteButtonDiv);
+
 
     this.resizeCanvas();
 
     this.createWallButtonClicked();
     this.editPointButtonClicked();
+};
+
+HVACApplication.prototype.viewWallButtonClicked = function() {
+    "use strict";
+    this.currentLayoutMode = LAYOUT_MODE_VIEW;
+    this.viewButtonDiv.className = "ViewButtonDiv selectedButtonDiv";
+    this.dragButtonDiv.className = "DragButtonDiv";
+    this.createButtonDiv.className = "CreateButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.deleteButtonDiv.className = "DeleteButtonDiv";
+
+    this.editPointButtonDiv.remove();
+    this.editCornerButtonDiv.remove();
+    this.editWallButtonDiv.remove();
 };
 
 HVACApplication.prototype.dragButtonClicked = function() {
@@ -104,6 +136,8 @@ HVACApplication.prototype.dragButtonClicked = function() {
     this.dragButtonDiv.className = "DragButtonDiv selectedButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.deleteButtonDiv.className = "DeleteButtonDiv";
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
@@ -115,6 +149,8 @@ HVACApplication.prototype.createWallButtonClicked = function() {
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv selectedButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.deleteButtonDiv.className = "DeleteButtonDiv";
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
@@ -126,6 +162,8 @@ HVACApplication.prototype.editButtonClicked = function() {
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.deleteButtonDiv.className = "DeleteButtonDiv";
 
     document.body.appendChild(this.editPointButtonDiv);
     document.body.appendChild(this.editCornerButtonDiv);
@@ -154,4 +192,17 @@ HVACApplication.prototype.editWallButtonClicked = function() {
     this.editPointButtonDiv.className = "EditPointButtonDiv";
     this.editCornerButtonDiv.className = "EditCornerButtonDiv";
     this.editWallButtonDiv.className = "EditWallButtonDiv selectedButtonDiv";
+};
+HVACApplication.prototype.deleteWallButtonClicked = function() {
+    "use strict";
+    this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
+    this.viewButtonDiv.className = "ViewButtonDiv";
+    this.dragButtonDiv.className = "DragButtonDiv";
+    this.createButtonDiv.className = "CreateButtonDiv";
+    this.editButtonDiv.className = "EditButtonDiv";
+    this.deleteButtonDiv.className = "DeleteButtonDiv selectedButtonDiv";
+
+    this.editPointButtonDiv.remove();
+    this.editCornerButtonDiv.remove();
+    this.editWallButtonDiv.remove();
 };
