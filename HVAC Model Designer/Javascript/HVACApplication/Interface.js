@@ -133,9 +133,9 @@ HVACApplication.prototype.viewWallButtonClicked = function() {
 HVACApplication.prototype.dragButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
+    this.viewButtonDiv.className = "ViewButtonDiv";
     this.dragButtonDiv.className = "DragButtonDiv selectedButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
@@ -146,9 +146,9 @@ HVACApplication.prototype.dragButtonClicked = function() {
 HVACApplication.prototype.createWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
+    this.viewButtonDiv.className = "ViewButtonDiv";
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv selectedButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv";
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
@@ -159,10 +159,10 @@ HVACApplication.prototype.createWallButtonClicked = function() {
 HVACApplication.prototype.editButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT;
+    this.viewButtonDiv.className = "ViewButtonDiv";
     this.dragButtonDiv.className = "DragButtonDiv";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
     document.body.appendChild(this.editPointButtonDiv);

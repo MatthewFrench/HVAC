@@ -28,8 +28,6 @@ HVACApplication.prototype.mouseMovedDeleteModeLayout = function () {
             this.highlightedDeleteWall = wall;
         }
     }
-
-
 };
 
 HVACApplication.prototype.mouseReleasedDeleteModeLayout = function () {
