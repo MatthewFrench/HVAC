@@ -27,13 +27,13 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
 HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
     "use strict";
 
-
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 };
 
 HVACApplication.prototype.drawViewModeLayout = function () {
     "use strict";
+
     var ctx = this.layoutCanvas.getContext("2d");
     var canvasWidth = this.layoutCanvas.width;
     var canvasHeight = this.layoutCanvas.height;

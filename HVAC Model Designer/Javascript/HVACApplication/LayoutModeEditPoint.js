@@ -6,6 +6,7 @@ HVACApplication.prototype.initEditPointModeVariables = function () {
     "use strict";
     this.currentEditPointSelectedWall = null;
     this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
+    this.highlightedPoint = null;
 };
 
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
@@ -38,6 +39,15 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
+    this.highlightedPoint = null;
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
+        var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+        var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+        if (dist < 15) {
+            this.highlightedPoint = wall;
+        }
+    }
 
     if (this.currentEditPointSelectedWall != null) {
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
@@ -127,7 +137,12 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
+        wall.draw(ctx, false);
+    }
+
+    if (this.highlightedPoint != null) {
+        this.highlightedPoint.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT
+            && this.currentEditMode == EDIT_MODE_POINT);
     }
 
     if (this.currentEditPointSelectedWall != null) {

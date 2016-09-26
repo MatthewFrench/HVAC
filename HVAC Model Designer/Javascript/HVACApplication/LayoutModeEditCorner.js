@@ -6,6 +6,7 @@ HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
     this.currentEditCornerSelectedPoints = [];
     this.currentEditCornerSelectedWalls = [];
+    this.highlightedCorner = null;
 };
 
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
@@ -35,6 +36,21 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     "use strict";
 
+    var movedX = this.previousMouseX - this.currentMouseX;
+    var movedY = this.previousMouseY - this.currentMouseY;
+
+    var canvasMouseX = this.currentMouseX - this.dragPositionX;
+    var canvasMouseY = this.currentMouseY - this.dragPositionY;
+
+    this.highlightedCorner = null;
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
+        var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+        var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+        if (dist < 15) {
+            this.highlightedCorner = wall;
+        }
+    }
 };
 
 HVACApplication.prototype.mouseReleasedEditCornerModeLayout = function () {
@@ -55,7 +71,12 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT);
+        wall.draw(ctx, false);
+    }
+
+    if (this.highlightedCorner != null) {
+        this.highlightedCorner.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT
+            && this.currentEditMode == EDIT_MODE_CORNER);
     }
 
     ctx.restore();
