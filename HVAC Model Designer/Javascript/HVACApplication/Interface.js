@@ -39,8 +39,7 @@ HVACApplication.prototype.createUI = function() {
         self.layoutCanvasMouseReleased(event);
     };
 
-
-
+    //Create view mode button
     this.viewButtonDiv = document.createElement("div");
     this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.innerText = "View";
@@ -50,6 +49,7 @@ HVACApplication.prototype.createUI = function() {
     }
     document.body.appendChild(this.viewButtonDiv);
 
+    //Create drag mode button
     this.dragButtonDiv = document.createElement("div");
     this.dragButtonDiv.className = "DragButtonDiv";
     this.dragButtonDiv.innerText = "Drag";
@@ -59,6 +59,7 @@ HVACApplication.prototype.createUI = function() {
     };
     document.body.appendChild(this.dragButtonDiv);
 
+    //Create create mode button
     this.createButtonDiv = document.createElement("div");
     this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.innerText = "Create";
@@ -100,6 +101,7 @@ HVACApplication.prototype.createUI = function() {
         self.editWallButtonClicked();
     }
 
+    //Create delete mode button
     this.deleteButtonDiv = document.createElement("div");
     this.deleteButtonDiv.className = "DeleteButtonDiv";
     this.deleteButtonDiv.innerText = "Delete";
@@ -116,6 +118,7 @@ HVACApplication.prototype.createUI = function() {
     this.editPointButtonClicked();
 };
 
+//Highlights View button and deselects other buttons.
 HVACApplication.prototype.viewWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
@@ -130,6 +133,7 @@ HVACApplication.prototype.viewWallButtonClicked = function() {
     this.editWallButtonDiv.remove();
 };
 
+//Highlights Drag button and deselects other buttons.
 HVACApplication.prototype.dragButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
@@ -143,6 +147,8 @@ HVACApplication.prototype.dragButtonClicked = function() {
     this.editCornerButtonDiv.remove();
     this.editWallButtonDiv.remove();
 };
+
+//Highlights Create button and deselects other buttons.
 HVACApplication.prototype.createWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -156,6 +162,8 @@ HVACApplication.prototype.createWallButtonClicked = function() {
     this.editCornerButtonDiv.remove();
     this.editWallButtonDiv.remove();
 };
+
+//Highlights Edit button and deselects other buttons.
 HVACApplication.prototype.editButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT;
@@ -165,11 +173,13 @@ HVACApplication.prototype.editButtonClicked = function() {
     this.editButtonDiv.className = "EditButtonDiv selectedButtonDiv";
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
+    //Adds the sub-edit buttons
     document.body.appendChild(this.editPointButtonDiv);
     document.body.appendChild(this.editCornerButtonDiv);
     document.body.appendChild(this.editWallButtonDiv);
 };
 
+//Highlights Point button underneath Edit button.
 HVACApplication.prototype.editPointButtonClicked = function() {
     "use strict";
     this.currentEditMode = EDIT_MODE_POINT;
@@ -178,6 +188,7 @@ HVACApplication.prototype.editPointButtonClicked = function() {
     this.editWallButtonDiv.className = "EditWallButtonDiv";
 };
 
+//Highlights Corner button underneath Edit button.
 HVACApplication.prototype.editCornerButtonClicked = function() {
     "use strict";
     this.currentEditMode = EDIT_MODE_CORNER;
@@ -186,6 +197,7 @@ HVACApplication.prototype.editCornerButtonClicked = function() {
     this.editWallButtonDiv.className = "EditWallButtonDiv";
 };
 
+//Highlights Wall button underneath Edit button.
 HVACApplication.prototype.editWallButtonClicked = function() {
     "use strict";
     this.currentEditMode = EDIT_MODE_WALL;
@@ -193,6 +205,8 @@ HVACApplication.prototype.editWallButtonClicked = function() {
     this.editCornerButtonDiv.className = "EditCornerButtonDiv";
     this.editWallButtonDiv.className = "EditWallButtonDiv selectedButtonDiv";
 };
+
+//Highlights Delete button and deselects other buttons.
 HVACApplication.prototype.deleteWallButtonClicked = function() {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;

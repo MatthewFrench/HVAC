@@ -2,15 +2,18 @@
  * Created by Matt on 9/19/16.
  */
 
+//Initializes high-level variables.
 HVACApplication.prototype.initDragModeVariables = function () {
     "use strict";
 
 }
 
+//Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedDragModeLayout = function () {
     "use strict";
 };
 
+//Action taken for when the mouse is moving.
 HVACApplication.prototype.mouseMovedDragModeLayout = function () {
     "use strict";
 
@@ -24,6 +27,7 @@ HVACApplication.prototype.mouseMovedDragModeLayout = function () {
 
 };
 
+//Action taken for when the mouse is released.
 HVACApplication.prototype.mouseReleasedDragModeLayout = function () {
     "use strict";
 
@@ -33,6 +37,7 @@ HVACApplication.prototype.mouseReleasedDragModeLayout = function () {
 
 };
 
+//Redraws the display on the canvas.
 HVACApplication.prototype.drawDragModeLayout = function () {
     "use strict";
     var ctx = this.layoutCanvas.getContext("2d");

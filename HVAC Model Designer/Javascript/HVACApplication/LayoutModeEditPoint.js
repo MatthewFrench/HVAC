@@ -2,6 +2,7 @@
  * Created by Matt on 9/19/16.
  */
 
+//Initializes high-level variables.
 HVACApplication.prototype.initEditPointModeVariables = function () {
     "use strict";
     this.currentEditPointSelectedWall = null;
@@ -9,6 +10,7 @@ HVACApplication.prototype.initEditPointModeVariables = function () {
     this.highlightedPoint = null;
 };
 
+//Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     "use strict";
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
@@ -30,6 +32,7 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     }
 };
 
+//Action taken for when the mouse is moving.
 HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     "use strict";
 
@@ -40,16 +43,19 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     this.highlightedPoint = null;
+    var closest = 15;
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
         var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
-        if (dist < 15) {
+        if (dist < closest) {
+            closest = dist;
             this.highlightedPoint = wall;
         }
     }
 
     if (this.currentEditPointSelectedWall != null) {
+        this.highlightedPoint = this.currentEditPointSelectedWall;
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
             this.currentEditPointSelectedWall.x1 = canvasMouseX;
             this.currentEditPointSelectedWall.y1 = canvasMouseY;
@@ -98,6 +104,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     }
 };
 
+//Action taken for when the mouse is released.
 HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
     "use strict";
     if (this.currentEditMode == EDIT_MODE_POINT) {
@@ -105,6 +112,7 @@ HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
     }
 };
 
+//Redraws the display on the canvas.
 HVACApplication.prototype.drawEditPointModeLayout = function () {
     "use strict";
 
