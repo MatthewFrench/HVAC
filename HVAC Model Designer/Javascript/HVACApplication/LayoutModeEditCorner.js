@@ -2,12 +2,58 @@
  * Created by Matt on 9/19/16.
  */
 
+var WallPointEnum = {
+    POINT1: 1,
+    POINT2: 2
+};
+var CornerPoint = function (wall, wallPoint) {
+    this.wall = wall;
+    this.wallPoint = wallPoint;
+};
+CornerPoint.prototype.getX = function() {
+    "use strict";
+    if (this.wallPoint == WallPointEnum.POINT1) {
+        return this.wall.x1;
+    }
+    if (this.wallPoint == WallPointEnum.POINT2) {
+        return this.wall.x2;
+    }
+    return null;
+};
+CornerPoint.prototype.getY = function() {
+    "use strict";
+    if (this.wallPoint == WallPointEnum.POINT1) {
+        return this.wall.y1;
+    }
+    if (this.wallPoint == WallPointEnum.POINT2) {
+        return this.wall.y2;
+    }
+    return null;
+};
+CornerPoint.prototype.setX = function(x) {
+    "use strict";
+    if (this.wallPoint == WallPointEnum.POINT1) {
+        this.wall.x1 = x;
+    }
+    if (this.wallPoint == WallPointEnum.POINT2) {
+        this.wall.x2 = x;
+    }
+};
+CornerPoint.prototype.setY = function(y) {
+    "use strict";
+    if (this.wallPoint == WallPointEnum.POINT1) {
+        this.wall.y1 = y;
+    }
+    if (this.wallPoint == WallPointEnum.POINT2) {
+        this.wall.y2 = y;
+    }
+};
+
 //Initializes high-level variables.
 HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
-    this.currentEditCornerSelectedPoints = [];
-    this.currentEditCornerSelectedWalls = [];
-    this.highlightedCorner = null;
+    this.currentEditCornerSelectedCornerPoints = [];
+    //this.highlightedCorner = null;
 };
 
 //Action taken for when the mouse is pressed down.
@@ -17,20 +63,17 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
-    this.currentEditCornerSelectedPoints = [];
-    this.currentEditCornerSelectedWalls = [];
+    this.currentEditCornerSelectedCornerPoints = [];
     var searchArea = 15;
 
-    //Need to keep track of points of walls
-
+    //Select all points at location
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, searchArea)) {
-            //this.currentEditPointSelectedWall = wall;
+            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT1));
         }
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, searchArea)) {
-            //this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
-            //this.currentEditPointSelectedWall = wall;
+            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT2));
         }
     }
 };
@@ -45,6 +88,7 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
+    /*
     this.highlightedCorner = null;
     var closest = 15;
     for (var i = 0; i < this.wallList.length; i++) {
@@ -55,19 +99,19 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
             closest = dist;
             this.highlightedCorner = wall;
         }
-    }
+    }*/
 
-    if (this.currentEditCornerSelectedWalls != null) {
-        //TO DO: this.highlightedCorner = this.currentEditCornerSelectedWalls;
-
-        //TO DO: Need to implement editing corner
+    for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
+        var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
+        cornerPoint.setX(cornerPoint.getX() - movedX);
+        cornerPoint.setY(cornerPoint.getY() - movedY);
     }
 };
 
 //Action taken for when the mouse is released.
 HVACApplication.prototype.mouseReleasedEditCornerModeLayout = function () {
     "use strict";
-
+    this.currentEditCornerSelectedCornerPoints = [];
 };
 
 //Redraws the display on the canvas.
@@ -84,7 +128,7 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, wall == this.highlightedCorner);
+        wall.draw(ctx, false/*wall == this.highlightedCorner*/);
     }
 
     ctx.restore();
