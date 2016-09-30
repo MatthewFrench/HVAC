@@ -84,12 +84,7 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, false);
-    }
-
-    if (this.highlightedCorner != null) {
-        this.highlightedCorner.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT
-            && this.currentEditMode == EDIT_MODE_CORNER);
+        wall.draw(ctx, wall == this.highlightedCorner);
     }
 
     ctx.restore();

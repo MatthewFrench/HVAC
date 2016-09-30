@@ -17,17 +17,48 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     var closest = 25;
+    var wallCloseness = closest;
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, closest)) {
-            closest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
-            this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
-            this.currentEditPointSelectedWall = wall;
+            var newClosest = Math.hypot(canvasMouseX - wall.x1, canvasMouseY - wall.y1);
+            if (Math.round(closest) == Math.round(newClosest)) {
+                var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+                var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+                if (dist < wallCloseness) {
+                    wallCloseness = dist;
+                    closest = newClosest;
+                    this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
+                    this.currentEditPointSelectedWall = wall;
+                }
+            } else if (newClosest < closest) {
+                var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+                var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+                wallCloseness = dist;
+                closest = newClosest;
+                this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
+                this.currentEditPointSelectedWall = wall;
+            }
         }
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, closest)) {
-            closest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
-            this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
-            this.currentEditPointSelectedWall = wall;
+            var newClosest = Math.hypot(canvasMouseX - wall.x2, canvasMouseY - wall.y2);
+            if (Math.round(closest) == Math.round(newClosest)) {
+                var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+                var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+                if (dist < wallCloseness) {
+                    wallCloseness = dist;
+                    closest = newClosest;
+                    this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
+                    this.currentEditPointSelectedWall = wall;
+                }
+            } else if (newClosest < closest) {
+                var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
+                var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+                wallCloseness = dist;
+                closest = newClosest;
+                this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
+                this.currentEditPointSelectedWall = wall;
+            }
         }
     }
 };
@@ -48,7 +79,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
         var wall = this.wallList[i];
         var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
         var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
-        if (dist < closest) {
+        if (Math.round(dist) < Math.round(closest)) {
             closest = dist;
             this.highlightedPoint = wall;
         }
@@ -145,12 +176,7 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, false);
-    }
-
-    if (this.highlightedPoint != null) {
-        this.highlightedPoint.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT
-            && this.currentEditMode == EDIT_MODE_POINT);
+        wall.draw(ctx, wall == this.highlightedPoint);
     }
 
     if (this.currentEditPointSelectedWall != null) {
