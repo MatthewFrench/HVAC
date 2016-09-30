@@ -59,12 +59,7 @@ HVACApplication.prototype.drawEditWallModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, false);
-    }
-
-    if (this.highlightedWall != null) {
-        this.highlightedWall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_EDIT
-            && this.currentEditMode == EDIT_MODE_WALL);
+        wall.draw(ctx, wall == this.highlightedWall);
     }
 
     ctx.restore();

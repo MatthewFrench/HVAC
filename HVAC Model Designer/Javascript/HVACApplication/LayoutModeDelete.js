@@ -62,11 +62,7 @@ HVACApplication.prototype.drawDeleteModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, false);
-    }
-
-    if (this.highlightedDeleteWall != null) {
-        this.highlightedDeleteWall.draw(ctx, this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL);
+        wall.draw(ctx, wall == this.highlightedDeleteWall);
     }
 
     ctx.restore();
