@@ -6,11 +6,13 @@ var PIXELS_IN_FOOT = 20.0;
 var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
 var SNAP_TO_AMOUNT_PIXELS = 8;
 
+//Determines if the coordinate point falls within the area of the circle.
 function pointInCircle( x,  y,  cx,  cy,  radius) {
     var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
     return distancesquared <= radius * radius;
 }
 
+//Returns the nearest point on a line from a specific coordinate point.
 function nearestPointOnLine( ax,  ay,  bx,  by,  px,  py) {
     var clampToSegment = true;
 
@@ -32,6 +34,7 @@ function nearestPointOnLine( ax,  ay,  bx,  by,  px,  py) {
     return new Point2D(ax + abx * t, ay + aby * t);
 }
 
+//Returns the angle of a line.
 function getAngleOfLineBetweenPoints(x1, y1, x2, y2)
 {
     var xDiff = x2 - x1;
@@ -39,6 +42,7 @@ function getAngleOfLineBetweenPoints(x1, y1, x2, y2)
     return Math.atan2(yDiff, xDiff);
 }
 
+//Makes endpoint 1 become perpendicular.
 function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
     "use strict";
 
@@ -55,6 +59,7 @@ function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
+//Makes endpoint 2 become perpendicular.
 function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     "use strict";
 
@@ -71,6 +76,7 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
+//Creates a longer line for when increasing the line length.
 function getLongerLine(x1, y1, x2, y2) {
     "use strict";
     var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
@@ -89,6 +95,7 @@ function getLongerLine(x1, y1, x2, y2) {
     return new Line2D(newX1, newY1, newX2, newY2);
 }
 
+//Converts calculated pixel values of first point into closest 1/10 of an inch.
 function snapWallToDecimalFromPoint1(snapWall) {
     "use strict";
 
@@ -108,6 +115,7 @@ function snapWallToDecimalFromPoint1(snapWall) {
     snapWall.y2 = newY;
 }
 
+//Converts calculated pixel values of second point into closest 1/10 of an inch.
 function snapWallToDecimalFromPoint2(snapWall) {
     "use strict";
 
@@ -127,6 +135,7 @@ function snapWallToDecimalFromPoint2(snapWall) {
     snapWall.y1 = newY;
 }
 
+//Gets the first point to snap closest to.
 function getLinePoint1SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     "use strict";
     increment = increment * Math.PI / 180;
@@ -140,6 +149,7 @@ function getLinePoint1SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     return new Line2D(newX, newY, x2, y2);
 }
 
+//Gets the second point to snap closest to.
 function getLinePoint2SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     "use strict";
     increment = increment * Math.PI / 180;
@@ -153,6 +163,7 @@ function getLinePoint2SnappedToNearestIncrement(x1, y1, x2, y2, increment) {
     return new Line2D(x1, y1, newX, newY);
 }
 
+//Returns the list of intersecting points on a line.
 function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
                                   point2X1, point2Y1, point2X2, point2Y2)
 {
@@ -173,6 +184,7 @@ function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
     return null; // No collision
 }
 
+//Returns the list of intersecting points on a wall.
 function getWallIntersectionPoints(wallList, excludeWallList) {
     "use strict";
     var pointArray = [];
@@ -196,6 +208,7 @@ function getWallIntersectionPoints(wallList, excludeWallList) {
     return pointArray;
 }
 
+//Gets the list for perpendicular intersecting points.
 function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
     "use strict";
 
@@ -230,6 +243,7 @@ function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
     return pointArray;
 }
 
+//Process for snapping a point to other walls.
 function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     var snappedToEnd = false;
     var closest = SNAP_TO_AMOUNT_PIXELS;
@@ -317,6 +331,7 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     return new Point2D(pointX, pointY);
 };
 
+//Creating a point object.
 var Point2D = function (x, y) {
     "use strict";
 
@@ -324,6 +339,7 @@ var Point2D = function (x, y) {
     this.y = y;
 };
 
+//Creating a line object.
 var Line2D = function(x1, y1, x2, y2) {
     "use strict";
     this.x1 = x1;
