@@ -18,6 +18,7 @@ function main() {
         "use strict";
         myApp.onKeyup(event);
     }
+    window.onunload = windowExit;
 }
 
 function animationFrameTimer() {
@@ -30,4 +31,8 @@ function animationFrameTimer() {
 function windowResized() {
     "use strict";
     myApp.windowResized();
+}
+
+function windowExit(e) {
+    myApp.saveData();
 }
