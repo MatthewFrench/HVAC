@@ -31,7 +31,22 @@ var HVACApplication = function () {
 
     this.initUIVariables();
     this.createUI();
+    this.loadData();
 };
+
+HVACApplication.prototype.loadData = function() {
+    "use strict";
+
+    var loadedWalls = window.localStorage.getItem("wallList");
+    console.log(loadedWalls);
+    if (loadedWalls != null) {
+        this.wallList = loadedWalls;
+    }
+}
+
+HVACApplication.prototype.saveData = function() {
+    window.localStorage.setItem("wallList", this.wallList);
+}
 
 HVACApplication.prototype.logic = function() {
     "use strict";
