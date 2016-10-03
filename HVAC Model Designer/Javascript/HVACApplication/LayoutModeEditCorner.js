@@ -53,6 +53,7 @@ CornerPoint.prototype.setY = function(y) {
 HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
+    this.highlightedCorners = [];
     //this.highlightedCorner = null;
 };
 
@@ -88,18 +89,20 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     var canvasMouseX = this.currentMouseX - this.dragPositionX;
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
-    /*
-    this.highlightedCorner = null;
+
+    //this.highlightedCorner = null;
+    this.highlightedCorners = [];
     var closest = 15;
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
         var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
         if (dist < closest) {
-            closest = dist;
-            this.highlightedCorner = wall;
+            //closest = dist;
+            //this.highlightedCorner = wall;
+            this.highlightedCorners.push(wall);
         }
-    }*/
+    }
 
     for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
         var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
@@ -128,7 +131,18 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
 
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
-        wall.draw(ctx, false/*wall == this.highlightedCorner*/);
+
+        var highlight = false;
+        if (this.currentEditCornerSelectedCornerPoints.length == 0) {
+            highlight = this.highlightedCorners.indexOf(wall) != -1;
+       } else {
+           for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
+               var corner = this.currentEditCornerSelectedCornerPoints[j];
+               if (corner.wall == wall) highlight = true;
+           }
+        }
+
+        wall.draw(ctx, highlight);
     }
 
     ctx.restore();
