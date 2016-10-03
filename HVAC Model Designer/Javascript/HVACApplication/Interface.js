@@ -13,12 +13,22 @@ HVACApplication.prototype.initUIVariables = function() {
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
     this.editWallButtonDiv = null;
+    this.locationDataDiv = null;
 };
 
 HVACApplication.prototype.createUI = function() {
     this.myBannerDiv = document.createElement("div");
     this.myBannerDiv.className = "RibbonBanner";
     document.body.appendChild(this.myBannerDiv);
+
+    this.locationDataButton = document.createElement('button');
+    this.locationDataButton.className = "LocationDataButton";
+    this.locationDataButton.innerText = "Input Location Data";
+    this.locationDataButton.onclick = function () {
+        var newPopover = new LocationDataPopover();
+        newPopover.show();
+    };
+    this.myBannerDiv.appendChild(this.locationDataButton);
 
     this.titleSpan = document.createElement("span");
     this.titleSpan.className = "TopTitle";
