@@ -49,6 +49,16 @@ CornerPoint.prototype.setY = function(y) {
     }
 };
 
+//Wall connections object
+var WallConnection = function(cornerPoint, connectedWall) {
+    "use strict";
+
+    this.cornerPoint = cornerPoint;
+    this.connectedWall = connectedWall;
+    var lengthOfWall = Math.hypot(connectedWall.x2 - connectedWall.x1, connectedWall.y2 - connectedWall.y1);
+    this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.x1, cornerPoint.getY() - connectedWall.y1) / lengthOfWall;
+}
+
 //Initializes high-level variables.
 HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
@@ -118,6 +128,14 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
             this.highlightedCorners.push(wall);
         }
     }
+
+    //Get wall connections list
+    //Set point
+    //Fix connections without moving that point
+
+    //Wall connections list
+    var wallConnectionsList = [];
+    
 
     for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
         var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
