@@ -36,7 +36,7 @@ HVACApplication.prototype.mouseMovedCreateModeLayout = function () {
         this.currentCreateModeWall.x2 = canvasMouseX;
         this.currentCreateModeWall.y2 = canvasMouseY;
 
-        snapWallToDecimalFromPoint1(this.currentCreateModeWall);
+        //snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
         var point = snapPointToWalls(this.currentCreateModeWall.x2,
             this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
@@ -44,7 +44,7 @@ HVACApplication.prototype.mouseMovedCreateModeLayout = function () {
         this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
                 this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
             this.currentCreateModeWall.x2 = line.x2;
             this.currentCreateModeWall.y2 = line.y2;
@@ -62,7 +62,7 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
         this.currentCreateModeWall.x2 = canvasMouseX;
         this.currentCreateModeWall.y2 = canvasMouseY;
 
-        snapWallToDecimalFromPoint1(this.currentCreateModeWall);
+        //snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
         var point = snapPointToWalls(this.currentCreateModeWall.x2,
             this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
@@ -70,7 +70,7 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
         this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestIncrement(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
                 this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
             this.currentCreateModeWall.x2 = line.x2;
             this.currentCreateModeWall.y2 = line.y2;

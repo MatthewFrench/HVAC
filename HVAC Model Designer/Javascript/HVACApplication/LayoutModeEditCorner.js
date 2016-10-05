@@ -54,7 +54,6 @@ HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
     this.highlightedCorners = [];
-    //this.highlightedCorner = null;
 };
 
 //Action taken for when the mouse is pressed down.
@@ -66,15 +65,32 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 
     this.currentEditCornerSelectedCornerPoints = [];
     var searchArea = 15;
+    var closestCornerPoint = null;
 
-    //Select all points at location
+    //Select closest points at location
     for (var i = 0; i < this.wallList.length; i++) {
         var wall = this.wallList[i];
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, searchArea)) {
-            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT1));
+            searchArea = Math.hypot(wall.x1 - canvasMouseX, wall.y1 - canvasMouseY);
+            closestCornerPoint = new CornerPoint(wall, WallPointEnum.POINT1);
         }
         if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, searchArea)) {
-            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT2));
+            searchArea = Math.hypot(wall.x2 - canvasMouseX, wall.y2 - canvasMouseY);
+            closestCornerPoint = new CornerPoint(wall, WallPointEnum.POINT2);
+        }
+    }
+    //Search for points near pixel of closest point
+    if (closestCornerPoint != null) {
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            var dist = Math.hypot(wall.x1 - closestCornerPoint.getX(), wall.y1 - closestCornerPoint.getY());
+            if (dist <= 1) {
+                this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT1));
+            }
+            dist = Math.hypot(wall.x2 - closestCornerPoint.getX(), wall.y2 - closestCornerPoint.getY());
+            if (dist <= 1) {
+                this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT2));
+            }
         }
     }
 };
@@ -90,7 +106,6 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
 
-    //this.highlightedCorner = null;
     this.highlightedCorners = [];
     var closest = 15;
     for (var i = 0; i < this.wallList.length; i++) {
