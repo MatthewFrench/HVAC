@@ -1,9 +1,85 @@
+.BackgroundCover{
+    background-color: rgba(50,50,50,0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 
 .LocationDataDiv {
     position: absolute;
     width: 50%;
-    height: 50%;
-    top: 0px;
+    height: 75%;
+    top: 10%;
+    left: 25%;
+    background-color: grey;
+    outline: black solid thin;
+}
+
+.SaveDataButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    bottom: 1%;
+    left: 35.5%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.LocationTitle {
+    position: absolute;
+    color: black;
+    font-size: 40px;
+    text-align: center;
     left: 0px;
-    background-color: slategrey;
+    width: 100%;
+    top: 5px;
+    font-weight: 700;
+}
+
+.State{
+    position: absolute;
+    color: black;
+    font-size: 20px;
+    text-align: center;
+    left: 0px;
+    width: 100%;
+    top: 20%;
+    font-weight: 600;
+}
+
+.StateDropDown{
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 26%;
+    left: 35.5%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.City{
+    position: absolute;
+    color: black;
+    font-size: 20px;
+    text-align: center;
+    left: 0px;
+    width: 100%;
+    top: 45%;
+    font-weight: 600;
+}
+
+.CityDropDown {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 50%;
+    left: 35.5%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
 }
