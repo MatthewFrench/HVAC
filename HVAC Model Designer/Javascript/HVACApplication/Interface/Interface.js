@@ -14,6 +14,7 @@ HVACApplication.prototype.initUIVariables = function() {
     this.editCornerButtonDiv = null;
     this.editWallButtonDiv = null;
     this.locationDataDiv = null;
+    this.dialogBoxDiv = null;
 };
 
 HVACApplication.prototype.createUI = function() {
@@ -21,7 +22,7 @@ HVACApplication.prototype.createUI = function() {
     this.myBannerDiv.className = "RibbonBanner";
     document.body.appendChild(this.myBannerDiv);
 
-    this.locationDataButton = document.createElement('button');
+    this.locationDataButton = document.createElement("button");
     this.locationDataButton.className = "LocationDataButton";
     this.locationDataButton.innerText = "Input Location Data";
     this.locationDataButton.onclick = function () {
@@ -29,6 +30,15 @@ HVACApplication.prototype.createUI = function() {
         newPopover.show();
     };
     this.myBannerDiv.appendChild(this.locationDataButton);
+
+    this.dialogBoxButton = document.createElement("button");
+    this.dialogBoxButton.className = "DialogBoxButton";
+    this.dialogBoxButton.innerText = "New Design";
+    this.dialogBoxButton.onclick = function () {
+        var newDialogBox = new DialogBox();
+        newDialogBox.show();
+    }
+    this.myBannerDiv.appendChild(this.dialogBoxButton);
 
     this.titleSpan = document.createElement("span");
     this.titleSpan.className = "TopTitle";

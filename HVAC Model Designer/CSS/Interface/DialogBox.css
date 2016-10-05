@@ -1,0 +1,10 @@
+
+.DialogBoxDiv {
+    position: absolute;
+    width: 50%;
+    height: 75%;
+    top: 10%;
+    left: 25%;
+    background-color: grey;
+    outline: black solid thin;
+}
