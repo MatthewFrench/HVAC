@@ -62,11 +62,11 @@ WallObject.prototype.drawPerpendicular = function(context, nearPointArray) {
     var centerX = (this.x1 - this.x2) / 2.0 + this.x2;
     var centerY = (this.y1 - this.y2) / 2.0 + this.y2;
     var length = Math.hypot(this.x1 - this.x2, this.y1 - this.y2);
-    var grd=context.createRadialGradient(centerX,centerY,length/2.0,centerX,centerY,length + GUIDE_LINE_LENGTH/2.0);
-    grd.addColorStop(0,"rgba(0, 0, 0, 1.0)");
-    grd.addColorStop(1,"rgba(0, 0, 0, 0.05)");
+    //var grd=context.createRadialGradient(centerX,centerY,length/2.0,centerX,centerY,length + GUIDE_LINE_LENGTH/2.0);
+    //grd.addColorStop(0,"rgba(0, 0, 0, 1.0)");
+    //grd.addColorStop(1,"rgba(0, 0, 0, 0.05)");
 
-    context.strokeStyle = grd;
+    context.strokeStyle = "black";//grd;
     context.beginPath();
     if (line1Near) {
         context.moveTo(line.x1, line.y1);

@@ -91,7 +91,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
             this.currentEditPointSelectedWall.x1 = canvasMouseX;
             this.currentEditPointSelectedWall.y1 = canvasMouseY;
 
-            snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
+            //snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
 
             //Auto snap
             var point = snapPointToWalls(this.currentEditPointSelectedWall.x1,
@@ -100,7 +100,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
             this.currentEditPointSelectedWall.y1 = point.y;
 
             if (this.shiftPressed) {
-                var line = getLinePoint1SnappedToNearestIncrement(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
+                var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
                     this.currentEditPointSelectedWall.x2, this.currentEditPointSelectedWall.y2, 45);
                 this.currentEditPointSelectedWall.x1 = line.x1;
                 this.currentEditPointSelectedWall.y1 = line.y1;
@@ -111,7 +111,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
             this.currentEditPointSelectedWall.x2 = canvasMouseX;
             this.currentEditPointSelectedWall.y2 = canvasMouseY;
 
-            snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
+            //snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
 
             //Auto snap
             var point = snapPointToWalls(this.currentEditPointSelectedWall.x2,
@@ -120,7 +120,7 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
             this.currentEditPointSelectedWall.y2 = point.y;
 
             if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestIncrement(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
+                var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.x1, this.currentEditPointSelectedWall.y1,
                     this.currentEditPointSelectedWall.x2, this.currentEditPointSelectedWall.y2, 45);
                 this.currentEditPointSelectedWall.x2 = line.x2;
                 this.currentEditPointSelectedWall.y2 = line.y2;
