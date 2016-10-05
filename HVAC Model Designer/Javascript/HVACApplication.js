@@ -37,15 +37,42 @@ var HVACApplication = function () {
 HVACApplication.prototype.loadData = function() {
     "use strict";
 
-    var loadedWalls = window.localStorage.getItem("wallList");
-    console.log(loadedWalls);
-    if (loadedWalls != null) {
-        this.wallList = loadedWalls;
+    var hvacData = JSON.parse(window.localStorage.getItem("HVACData"));
+    if (hvacData != null) {
+        if (hvacData["Version"] == 1) {
+            var wallDataArray = hvacData["Walls"];
+            for (var i = 0; i < wallDataArray.length; i++) {
+                var wallData = wallDataArray[i];
+                this.wallList.push(new WallObject(wallData["x1"],wallData["y1"],wallData["x2"],wallData["y2"]));
+            }
+        }
     }
-}
+};
 
 HVACApplication.prototype.saveData = function() {
-    window.localStorage.setItem("wallList", this.wallList);
+    //Format
+    //  Hashmap
+    //      "Version" => number
+    //      "Walls" => array
+    //          [Hashmap]
+    //              "x1" => number
+    //              "y1" => number
+    //              "x2" => number
+    //              "y2" => number
+
+    var hvacData = {};
+    hvacData["Version"] = 1;
+    hvacData["Walls"] = [];
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
+        hvacData["Walls"].push({});
+        hvacData["Walls"][i]["x1"] = wall.x1;
+        hvacData["Walls"][i]["y1"] = wall.y1;
+        hvacData["Walls"][i]["x2"] = wall.x2;
+        hvacData["Walls"][i]["y2"] = wall.y2;
+    }
+
+    window.localStorage.setItem("HVACData", JSON.stringify(hvacData));
 }
 
 HVACApplication.prototype.logic = function() {
