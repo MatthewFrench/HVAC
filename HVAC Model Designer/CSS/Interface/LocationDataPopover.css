@@ -51,10 +51,10 @@
 
 .StateDropDown{
     position: absolute;
-    width: 200px;
+    width: 250px;
     height: 50px;
     top: 26%;
-    left: 35.5%;
+    left: 32.5%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;
@@ -70,6 +70,7 @@
     width: 100%;
     top: 45%;
     font-weight: 600;
+    opacity: 0;
 }
 
 .CityDropDown {
@@ -82,4 +83,5 @@
     font-size: 20px;
     text-align: center;
     outline: black solid thin;
+    opacity: 0;
 }
