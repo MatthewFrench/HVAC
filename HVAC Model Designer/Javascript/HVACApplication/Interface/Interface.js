@@ -35,7 +35,7 @@ HVACApplication.prototype.createUI = function() {
     this.dialogBoxButton.className = "DialogBoxButton";
     this.dialogBoxButton.innerText = "New Design";
     this.dialogBoxButton.onclick = function () {
-        var newDialogBox = new DialogBox();
+        var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function(){}, function(){});
         newDialogBox.show();
     }
     this.myBannerDiv.appendChild(this.dialogBoxButton);
