@@ -1,10 +1,38 @@
 
-.DialogBoxDiv {
+.DialogBox_Div {
     position: absolute;
-    width: 50%;
-    height: 75%;
-    top: 10%;
-    left: 25%;
-    background-color: grey;
-    outline: black solid thin;
+    width: 300px;
+    height: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 150px);
+    border: black solid thin;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d6e9f8+0,b5d6f3+72,bddbf3+73,aacaee+100 */
+    background: #d6e9f8; /* Old browsers */
+    background: -moz-linear-gradient(top, #d6e9f8 0%, #b5d6f3 72%, #bddbf3 73%, #aacaee 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    border-radius: 15px;
+}
+
+.DialogBox_Label {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+}
+
+.DialogBox_YesButton {
+    position: absolute;
+    bottom: 3px;
+    right: calc(50% + 10px);
+}
+
+.DialogBox_CancelButton {
+    position: absolute;
+    bottom: 3px;
+    left: calc(50% + 10px);
 }

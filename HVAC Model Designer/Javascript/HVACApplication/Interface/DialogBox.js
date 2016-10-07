@@ -8,14 +8,15 @@ function DialogBox() {
     this.dialogBoxDiv = null;
 
     this.dialogBoxDiv = document.createElement("div");
-    this.dialogBoxDiv.className = "DialogBoxDiv";
+    this.dialogBoxDiv.className = "DialogBox_Div";
 
     this.dialogLabel = document.createElement("label");
-    this.dialogLabel.className = "DialogLabel";
+    this.dialogLabel.className = "DialogBox_Label";
     this.dialogLabel.innerText = "Are you sure you want to start from scratch?";
+    this.dialogBoxDiv.appendChild(this.dialogLabel);
 
     this.yesButton = document.createElement("button");
-    this.yesButton.className = "YesButton";
+    this.yesButton.className = "DialogBox_YesButton";
     this.yesButton.innerText = "Yes";
     var self = this;
     this.yesButton.onclick = function () {
@@ -24,7 +25,7 @@ function DialogBox() {
     this.dialogBoxDiv.appendChild(this.yesButton);
 
     this.cancelButton = document.createElement("button");
-    this.cancelButton.className = "CancelButton";
+    this.cancelButton.className = "DialogBox_CancelButton";
     this.cancelButton.innerText = "Cancel";
     var selfish = this;
     this.cancelButton.onclick = function () {
