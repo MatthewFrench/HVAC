@@ -19,6 +19,14 @@ function main() {
         myApp.onKeyup(event);
     }
     window.onunload = windowExit;
+
+    setTimeout(autoSave, 10.0 * 1000.0);
+}
+
+function autoSave() {
+    "use strict";
+    myApp.saveData();
+    setTimeout(autoSave, 10.0 * 1000.0);
 }
 
 function animationFrameTimer() {
