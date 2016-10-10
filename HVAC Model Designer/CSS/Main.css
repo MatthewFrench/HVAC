@@ -91,7 +91,7 @@ body {
     font-weight: 700;
     outline: black solid thin;
 }
-.TopAndBottomButton {
+.TopAndBottomDataButton {
     position: absolute;
     bottom: 30px;
     width: 200px;

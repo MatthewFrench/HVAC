@@ -47,7 +47,7 @@ HVACApplication.prototype.createUI = function() {
         var newPopover = new TopAndBottomDataPopover();
         newPopover.show();
     };
-    this.myBannerDiv.appendChild(this.locationDataButton);
+    this.myBannerDiv.appendChild(this.TopAndBottomDataButton);
 
     this.titleSpan = document.createElement("span");
     this.titleSpan.className = "TopTitle";
