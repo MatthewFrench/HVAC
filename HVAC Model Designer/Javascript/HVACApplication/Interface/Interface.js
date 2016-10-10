@@ -22,6 +22,15 @@ HVACApplication.prototype.createUI = function() {
     this.myBannerDiv.className = "RibbonBanner";
     document.body.appendChild(this.myBannerDiv);
 
+    this.dialogBoxButton = document.createElement("button");
+    this.dialogBoxButton.className = "DialogBoxButton";
+    this.dialogBoxButton.innerText = "New Design";
+    this.dialogBoxButton.onclick = function () {
+        var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function(){}, function(){});
+        newDialogBox.show();
+    }
+    this.myBannerDiv.appendChild(this.dialogBoxButton);
+
     this.locationDataButton = document.createElement("button");
     this.locationDataButton.className = "LocationDataButton";
     this.locationDataButton.innerText = "Input Location Data";
@@ -31,14 +40,14 @@ HVACApplication.prototype.createUI = function() {
     };
     this.myBannerDiv.appendChild(this.locationDataButton);
 
-    this.dialogBoxButton = document.createElement("button");
-    this.dialogBoxButton.className = "DialogBoxButton";
-    this.dialogBoxButton.innerText = "New Design";
-    this.dialogBoxButton.onclick = function () {
-        var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function(){}, function(){});
-        newDialogBox.show();
-    }
-    this.myBannerDiv.appendChild(this.dialogBoxButton);
+    this.TopAndBottomDataButton = document.createElement("button");
+    this.TopAndBottomDataButton.className = "TopAndBottomDataButton";
+    this.TopAndBottomDataButton.innerText = "Input Attic and Basement Data";
+    this.TopAndBottomDataButton.onclick = function () {
+        var newPopover = new TopAndBottomDataPopover();
+        newPopover.show();
+    };
+    this.myBannerDiv.appendChild(this.locationDataButton);
 
     this.titleSpan = document.createElement("span");
     this.titleSpan.className = "TopTitle";

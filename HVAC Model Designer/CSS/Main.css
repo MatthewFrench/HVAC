@@ -67,7 +67,7 @@ body {
     top: 150px;
     left: 0px;
 }
-.LocationDataButton {
+.DialogBoxButton {
     position: absolute;
     bottom: 30px;
     width: 200px;
@@ -79,7 +79,7 @@ body {
     font-weight: 700;
     outline: black solid thin;
 }
-.DialogBoxButton {
+.LocationDataButton {
     position: absolute;
     bottom: 30px;
     width: 200px;
@@ -89,6 +89,19 @@ body {
     text-align: center;
     font-size: 18px;
     font-weight: 700;
+    outline: black solid thin;
+}
+.TopAndBottomButton {
+    position: absolute;
+    bottom: 30px;
+    width: 200px;
+    left: calc(50% - 400px + 300px);
+    height: 50px;
+    background: rgba(25, 25, 25, 0.4);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    outline: black solid thin;
 }
 .CreateWallButton {
     position: absolute;
