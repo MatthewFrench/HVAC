@@ -58,6 +58,12 @@ var WallConnection = function(cornerPoint, connectedWall) {
     var lengthOfWall = Math.hypot(connectedWall.x2 - connectedWall.x1, connectedWall.y2 - connectedWall.y1);
     this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.x1, cornerPoint.getY() - connectedWall.y1) / lengthOfWall;
 }
+WallConnection.prototype.reattach = function() {
+    var newX = (this.connectedWall.x2 - this.connectedWall.x1) * this.percentageOnWallLine + this.connectedWall.x1;
+    var newY = (this.connectedWall.y2 - this.connectedWall.y1) * this.percentageOnWallLine + this.connectedWall.y1;
+    this.cornerPoint.setX(newX);
+    this.cornerPoint.setY(newY);
+};
 
 //Initializes high-level variables.
 HVACApplication.prototype.initEditCornerModeVariables = function () {
@@ -198,6 +204,8 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     //var wallConnectionsList = [];
 
     
+if (this.mouseDown) {
+
 
     for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
         var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
@@ -205,7 +213,14 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
         cornerPoint.setY(cornerPoint.getY() - movedY);
     }
 
-
+    //Re-align walls
+    for (var i = 0; i < this.wallConnections.length; i++) {
+        var wallConnection = this.wallConnections[i];
+        if (this.currentEditCornerSelectedCornerPoints.indexOf(wallConnection.cornerPoint) == -1) {
+            wallConnection.reattach();
+        }
+    }
+}
 };
 
 //Action taken for when the mouse is released.
@@ -238,11 +253,13 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
                if (corner.wall == wall) highlight = true;
            }
         }
+/*
         for (var wallConnection in this.wallConnections) {
             if (this.wallConnections[wallConnection].cornerPoint.wall == wall) {
                 highlight = true;
             }
         }
+*/
 
         wall.draw(ctx, highlight);
     }
