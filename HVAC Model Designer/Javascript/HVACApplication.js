@@ -25,7 +25,6 @@ var HVACApplication = function () {
     this.initDragModeVariables();
     this.initEditCornerModeVariables();
     this.initEditPointModeVariables();
-    this.initEditWallModeVariables();
     this.initViewModeVariables();
     this.initDeleteModeVariables();
 

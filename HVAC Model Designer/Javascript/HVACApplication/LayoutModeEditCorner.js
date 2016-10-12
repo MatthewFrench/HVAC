@@ -170,6 +170,46 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             }
         }
     }
+
+    //Add any walls that the selected points may be connected to
+    for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
+        var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
+        var wall = cornerPoint.wall;
+
+        for (var k = 0; k < this.wallList.length; k++) {
+            var checkWall = this.wallList[k];
+            if (checkWall != wall) {
+                var containsWall = false;
+                for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
+                    var checkCorner = this.currentEditCornerSelectedCornerPoints[j];
+                    if (checkCorner.wall == checkWall) containsWall = true;
+
+                }
+                if (containsWall) continue;
+
+                var pointOnLine = nearestPointOnLine(checkWall.x1, checkWall.y1, checkWall.x2, checkWall.y2, cornerPoint.getX(), cornerPoint.getY());
+                if (Math.hypot(cornerPoint.getX() - pointOnLine.x, cornerPoint.getY() - pointOnLine.y) <= 1.0) {
+                    //Check if points are added, if not add them to corner points
+                    var wallCorner1 = new CornerPoint(checkWall, WallPointEnum.POINT1);
+                    var wallCorner2 = new CornerPoint(checkWall, WallPointEnum.POINT2);
+                    var addWallCorner1 = true;
+                    var addWallCorner2 = true;
+                    for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
+                        var checkCorner = this.currentEditCornerSelectedCornerPoints[j];
+                        if (checkCorner.wall == wallCorner1.wall && checkCorner.wallPoint == wallCorner1.wallPoint) addWallCorner1 = false;
+                        if (checkCorner.wall == wallCorner2.wall && checkCorner.wallPoint == wallCorner2.wallPoint) addWallCorner2 = false;
+                    }
+                    if (addWallCorner1) this.currentEditCornerSelectedCornerPoints.push(wallCorner1);
+                    if (addWallCorner2) this.currentEditCornerSelectedCornerPoints.push(wallCorner2);
+                }
+
+            }
+        }
+
+
+    }
+
+    console.log("Closest corner points: " + this.currentEditCornerSelectedCornerPoints.length);
 };
 
 //Action taken for when the mouse is moving.

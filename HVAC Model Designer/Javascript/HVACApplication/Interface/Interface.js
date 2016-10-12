@@ -12,7 +12,6 @@ HVACApplication.prototype.initUIVariables = function() {
     this.editButtonDiv = null;
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
-    this.editWallButtonDiv = null;
     this.locationDataDiv = null;
     this.dialogBoxDiv = null;
 };
@@ -28,7 +27,7 @@ HVACApplication.prototype.createUI = function() {
     this.dialogBoxButton.onclick = function () {
         var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function(){}, function(){});
         newDialogBox.show();
-    }
+    };
     this.myBannerDiv.appendChild(this.dialogBoxButton);
 
     this.locationDataButton = document.createElement("button");
@@ -75,7 +74,7 @@ HVACApplication.prototype.createUI = function() {
     this.viewButtonDiv.onclick = function(event) {
         "use strict";
         self.viewWallButtonClicked();
-    }
+    };
     document.body.appendChild(this.viewButtonDiv);
 
     //Create drag mode button
@@ -104,7 +103,7 @@ HVACApplication.prototype.createUI = function() {
     this.editButtonDiv.onclick = function(event) {
         "use strict";
         self.editButtonClicked();
-    }
+    };
     document.body.appendChild(this.editButtonDiv);
 
     //Create edit mode buttons
@@ -114,21 +113,14 @@ HVACApplication.prototype.createUI = function() {
     this.editPointButtonDiv.onclick = function(event) {
         "use strict";
         self.editPointButtonClicked();
-    }
+    };
     this.editCornerButtonDiv = document.createElement("div");
     this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editCornerButtonDiv.innerText = "Corner";
+    this.editCornerButtonDiv.innerText = "Corner & Wall";
     this.editCornerButtonDiv.onclick = function(event) {
         "use strict";
         self.editCornerButtonClicked();
-    }
-    this.editWallButtonDiv = document.createElement("div");
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
-    this.editWallButtonDiv.innerText = "Wall";
-    this.editWallButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editWallButtonClicked();
-    }
+    };
 
     //Create delete mode button
     this.deleteButtonDiv = document.createElement("div");
@@ -137,7 +129,7 @@ HVACApplication.prototype.createUI = function() {
     this.deleteButtonDiv.onclick = function(event) {
         "use strict";
         self.deleteWallButtonClicked();
-    }
+    };
     document.body.appendChild(this.deleteButtonDiv);
 
 
@@ -159,7 +151,6 @@ HVACApplication.prototype.viewWallButtonClicked = function() {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
 };
 
 //Highlights Drag button and deselects other buttons.
@@ -174,7 +165,6 @@ HVACApplication.prototype.dragButtonClicked = function() {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
 };
 
 //Highlights Create button and deselects other buttons.
@@ -189,7 +179,6 @@ HVACApplication.prototype.createWallButtonClicked = function() {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
 };
 
 //Highlights Edit button and deselects other buttons.
@@ -205,7 +194,6 @@ HVACApplication.prototype.editButtonClicked = function() {
     //Adds the sub-edit buttons
     document.body.appendChild(this.editPointButtonDiv);
     document.body.appendChild(this.editCornerButtonDiv);
-    document.body.appendChild(this.editWallButtonDiv);
 };
 
 //Highlights Point button underneath Edit button.
@@ -214,7 +202,6 @@ HVACApplication.prototype.editPointButtonClicked = function() {
     this.currentEditMode = EDIT_MODE_POINT;
     this.editPointButtonDiv.className = "EditPointButtonDiv selectedButtonDiv";
     this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
 };
 
 //Highlights Corner button underneath Edit button.
@@ -223,16 +210,6 @@ HVACApplication.prototype.editCornerButtonClicked = function() {
     this.currentEditMode = EDIT_MODE_CORNER;
     this.editPointButtonDiv.className = "EditPointButtonDiv";
     this.editCornerButtonDiv.className = "EditCornerButtonDiv selectedButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv";
-};
-
-//Highlights Wall button underneath Edit button.
-HVACApplication.prototype.editWallButtonClicked = function() {
-    "use strict";
-    this.currentEditMode = EDIT_MODE_WALL;
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editWallButtonDiv.className = "EditWallButtonDiv selectedButtonDiv";
 };
 
 //Highlights Delete button and deselects other buttons.
@@ -247,5 +224,4 @@ HVACApplication.prototype.deleteWallButtonClicked = function() {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.editWallButtonDiv.remove();
 };
