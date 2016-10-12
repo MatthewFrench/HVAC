@@ -20,20 +20,131 @@
     width: 200px;
     height: 50px;
     bottom: 1%;
-    left: 42%;
+    left: 39%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;
     outline: black solid thin;
 }
 
-.TopAndBottomTitle {
+.AtticTitle {
     position: absolute;
     color: black;
-    font-size: 40px;
+    font-size: 30px;
+    left: 14%;
+    width: 225px;
     text-align: center;
-    left: 0px;
-    width: 100%;
-    top: 5px;
     font-weight: 700;
+    outline: black solid thin;
+}
+
+.StudSpacingElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 16%;
+    width: 200px;
+    top: 13%;
+    font-weight: 600;
+}
+
+.StudSpacingButton {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    top: 17%;
+    left: 15%;
+    font-size: 20px;
+    outline: black solid thin;
+}
+
+.StudHeightElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 17%;
+    width: 200px;
+    top: 27%;
+    font-weight: 600;
+}
+
+.StudHeightButton {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    top: 31%;
+    left: 15%;
+    font-size: 20px;
+    outline: black solid thin;
+}
+
+.StudWidthElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 17%;
+    width: 200px;
+    top: 41%;
+    font-weight: 600;
+}
+
+.StudWidthButton {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    top: 45%;
+    left: 15%;
+    font-size: 20px;
+    outline: black solid thin;
+}
+
+.AtticInsulationElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 17%;
+    width: 200px;
+    top: 55%;
+    font-weight: 600;
+}
+
+.AtticInsulationButton {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    top: 59%;
+    left: 15%;
+    font-size: 20px;
+    outline: black solid thin;
+}
+
+.AtticInsulationDepthElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 15.5%;
+    width: 200px;
+    top: 69%;
+    font-weight: 600;
+}
+
+.AtticInsulationDepthButton {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    top: 73%;
+    left: 15%;
+    font-size: 20px;
+    outline: black solid thin;
+}
+
+.BasementTitle {
+    position: absolute;
+    color: black;
+    font-size: 30px;
+    text-align: center;
+    left: 60%;
+    width: 290px;
+    font-weight: 700;
+    outline: black solid thin;
 }
