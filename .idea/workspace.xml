@@ -2,11 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="471bbcc0-cd51-46d8-a1b2-5c08680b0a41" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/Libraries/glUtils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/Libraries/sylvester.js" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementCeilingPopover.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementFloorPopover.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWallPopover.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWindowPopover.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementCeilingPopover.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementFloorPopover.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWallPopover.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWindowPopover.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/index.html" afterPath="$PROJECT_DIR$/HVAC Model Designer/index.html" />
     </list>
     <ignored path="HVAC.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,23 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TopAndBottomDataPopover.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/HVAC Model Designer/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="70" column="76" selection-start-line="70" selection-start-column="76" selection-end-line="70" selection-end-column="76" />
-              <folding>
-                <element signature="n#!!doc;n#TopAndBottomDataPopover#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TopAndBottomDataPopover.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+            <state relative-caret-position="442">
+              <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -79,12 +76,23 @@
         <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface.js" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/LocationDataPopover.css" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/LocationDataPopover.js" />
-        <option value="$PROJECT_DIR$/HVAC Model Designer/index.html" />
-        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Main.css" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/DialogBox.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/BasementCeilingPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/BasementCeilingPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js" />
         <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementCeilingPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWindowPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWallPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementFloorPopover.js" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWallPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementFloorPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWindowPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css" />
+        <option value="$PROJECT_DIR$/HVAC Model Designer/index.html" />
       </list>
     </option>
   </component>
@@ -126,6 +134,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -274,6 +283,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Javascript" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVACApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Interface" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AtticBasementData" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC Model Designer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="CSS" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -300,9 +339,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HVAC Model Designer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Interface" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AtticBasementData" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -316,6 +380,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\masse\Documents\GitHub\HVAC\HVAC Model Designer\CSS\Interface\AtticBasementData" />
+      <recent name="C:\Users\masse\Documents\GitHub\HVAC\HVAC Model Designer\Javascript\HVACApplication\Interface\AtticBasementData" />
       <recent name="C:\Users\masse\Documents\GitHub\HVAC\HVAC Model Designer\Javascript\HVACApplication\Interface" />
     </key>
   </component>
@@ -444,11 +510,12 @@
       <workItem from="1476110416350" duration="3102000" />
       <workItem from="1476130602742" duration="148000" />
       <workItem from="1476283841015" duration="4715000" />
+      <workItem from="1476456522024" duration="3521000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29209000" />
+    <option name="totallyTimeSpent" value="32730000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -496,76 +563,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditCorner.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDrag.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/LayoutModeView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="31" column="63" selection-start-line="31" selection-start-column="63" selection-end-line="31" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="48" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/AdvancedMath.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="32" column="28" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/LayoutModeCreate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-278">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="32" column="16" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Locations.js" />
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Python_Scripts/Generating_Location_Database.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -754,33 +751,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="92" column="1" selection-start-line="92" selection-start-column="1" selection-end-line="92" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="32" column="16" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2822">
-          <caret line="166" column="17" selection-start-line="166" selection-start-column="17" selection-end-line="166" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -795,8 +769,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/LocationDataPopover.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="35" selection-end-column="56" />
+        <state relative-caret-position="51">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="32" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
           </folding>
@@ -805,16 +779,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/LocationDataPopover.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="48" selection-end-column="21" />
+        <state relative-caret-position="119">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="40" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="92" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="70" column="76" selection-start-line="70" selection-start-column="76" selection-end-line="70" selection-end-column="76" />
+        <state relative-caret-position="492">
+          <caret line="117" column="60" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
           <folding>
             <element signature="n#!!doc;n#TopAndBottomDataPopover#0" expanded="false" />
           </folding>
@@ -823,8 +813,104 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+        <state relative-caret-position="748">
+          <caret line="167" column="11" selection-start-line="167" selection-start-column="11" selection-end-line="167" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementFloorPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
+          <folding>
+            <element signature="n#!!doc;n#BasementFloorPopover#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWallPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc;n#BasementWallPopover#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementWindowPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          <folding>
+            <element signature="n#!!doc;n#BasementWindowPopover#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="2" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+          <folding>
+            <element signature="n#!!doc;n#BasementDoorPopover#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementCeilingPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementCeilingPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="1" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWallPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementFloorPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementWindowPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
           <folding />
         </state>
       </provider>
