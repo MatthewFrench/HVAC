@@ -148,3 +148,63 @@
     font-weight: 700;
     outline: black solid thin;
 }
+
+.BasementCeilingButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 15%;
+    right: 20%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.BasementFloorButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 30%;
+    right: 20%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.BasementWallButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 45%;
+    right: 20%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.BasementWindowButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 60%;
+    right: 20%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.BasementDoorButton {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 75%;
+    right: 20%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}

@@ -76,8 +76,52 @@ function TopAndBottomDataPopover() {
     this.titleSpan.className = "BasementTitle";
     this.titleSpan.innerText = "Input Basement Data";
     this.TopAndBottomDataDiv.appendChild(this.titleSpan);
-}
 
+    this.BasementCeilingButton = document.createElement("button");
+    this.BasementCeilingButton.className = "BasementCeilingButton";
+    this.BasementCeilingButton.innerText = "Input Basement Ceiling Data";
+    this.BasementCeilingButton.onclick = function () {
+        var newPopover = new BasementCeilingPopover();
+        newPopover.show();
+    };
+    this.TopAndBottomDataDiv.appendChild(this.BasementCeilingButton);
+
+    this.BasementFloorButton = document.createElement("button");
+    this.BasementFloorButton.className = "BasementFloorButton";
+    this.BasementFloorButton.innerText = "Input Basement Floor Data";
+    this.BasementFloorButton.onclick = function () {
+        var newPopover = new BasementFloorPopover();
+        newPopover.show();
+    };
+    this.TopAndBottomDataDiv.appendChild(this.BasementFloorButton);
+
+    this.BasementWallButton = document.createElement("button");
+    this.BasementWallButton.className = "BasementWallButton";
+    this.BasementWallButton.innerText = "Input Basement Wall Data";
+    this.BasementWallButton.onclick = function () {
+        var newPopover = new BasementWallPopover();
+        newPopover.show();
+    };
+    this.TopAndBottomDataDiv.appendChild(this.BasementWallButton);
+
+    this.BasementWindowButton = document.createElement("button");
+    this.BasementWindowButton.className = "BasementWindowButton";
+    this.BasementWindowButton.innerText = "Input Basement Window Data";
+    this.BasementWindowButton.onclick = function () {
+        var newPopover = new BasementWindowPopover();
+        newPopover.show();
+    };
+    this.TopAndBottomDataDiv.appendChild(this.BasementWindowButton);
+
+    this.BasementDoorButton = document.createElement("button");
+    this.BasementDoorButton.className = "BasementDoorButton";
+    this.BasementDoorButton.innerText = "Input Basement Door Data";
+    this.BasementDoorButton.onclick = function () {
+        var newPopover = new BasementDoorPopover();
+        newPopover.show();
+    };
+    this.TopAndBottomDataDiv.appendChild(this.BasementDoorButton);
+}
 TopAndBottomDataPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.TopAndBottomDataDiv);
