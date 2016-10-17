@@ -10,58 +10,37 @@ function LocationDataPopover() {
     this.locationDataDiv = null;
     this.saveDataButton = null;
     this.titleSpan = null;
-    this.backgroundDiv = document.createElement("div");
-    this.backgroundDiv.className = "BackgroundCover";
+    this.backgroundDiv = CreateElement({type: 'div', class: 'BackgroundCover'});
 
-    this.locationDataDiv = document.createElement("div");
-    this.locationDataDiv.className = "LocationDataDiv";
+    this.locationDataDiv = CreateElement({type: 'div', class: 'LocationDataDiv', elements: [
+        this.saveDataButton = CreateElement({type: 'button', class: 'SaveDataButton', text: 'Save Location Data'}),
+        this.titleSpan = CreateElement({type: 'span', class: 'LocationTitle', text: 'Input Location Data'}),
+        this.firstElement = CreateElement({type: 'state', class: 'State', text: 'Select your State'}),
+        this.firstButton = CreateElement({type: 'select', id: 'State', class: 'StateDropDown', text: 'Select a State from Dropdown'}),
+        this.secondElement = CreateElement({type: 'city', class: 'City', text: 'Select the City closest to yours'}),
+        this.secondButton = CreateElement({type: 'select', id: 'City', class: 'CityDropDown', text: 'Select a City from Dropdown'})
+    ]});
 
-    this.saveDataButton = document.createElement('button');
-    this.saveDataButton.className = "SaveDataButton";
-    this.saveDataButton.innerText = "Save Location Data";
     var self = this;
     this.saveDataButton.onclick = function () {
         self.hide();
     };
-    this.locationDataDiv.appendChild(this.saveDataButton);
-
-    this.titleSpan = document.createElement("span");
-    this.titleSpan.className = "LocationTitle";
-    this.titleSpan.innerText = "Input Location Data";
-    this.locationDataDiv.appendChild(this.titleSpan);
-
-    this.firstElement = document.createElement("state");
-    this.firstElement.className = "State";
-    this.firstElement.innerText = "Select your State";
-    this.locationDataDiv.appendChild(this.firstElement);
 
     this.optionArray = [];
     this.textArray = [];
-    this.firstButton = document.createElement("select");
-    this.firstButton.setAttribute("id", "State");
-    this.firstButton.className = "StateDropDown";
-    this.firstButton.innerText = "Select a State from Dropdown";
+
     for (var state in stateData)
     {
-        var option = document.createElement("option");
-        option.setAttribute("value", state);
-        var text = document.createTextNode(state);
-        option.appendChild(text);
-        this.firstButton.appendChild(option);
+        var text;
+        var option = CreateElement({type: 'option', value: state, elements:[
+            text = document.createTextNode(state)
+        ], appendTo: this.firstButton});
         this.optionArray.push(option);
         this.textArray.push(text);
     }
-    this.locationDataDiv.appendChild(this.firstButton);
+
     this.firstButton.selectedIndex = -1;
 
-    this.secondElement = document.createElement("city");
-    this.secondElement.className = "City";
-    this.secondElement.innerText = "Select the City closest to yours";
-    this.locationDataDiv.appendChild(this.secondElement);
-    this.secondButton = document.createElement("select");
-    this.secondButton.setAttribute("id", "City");
-    this.secondButton.className = "CityDropDown";
-    this.secondButton.innerText = "Select a City from Dropdown";
     var self = this;
     var optionArray2 = [];
     var textArray2 = [];
@@ -75,12 +54,10 @@ function LocationDataPopover() {
         var cityArray = stateData[state]["cities"];
         for (var city in cityArray)
         {
-
-            var option2 = document.createElement("option");
-            option2.setAttribute("value", cityArray[city]);
-            var text2 = document.createTextNode(cityArray[city]);
-            option2.appendChild(text2);
-            self.secondButton.appendChild(option2);
+            var text2;
+            var option2 = CreateElement({type: 'option', value: cityArray[city], elements: [
+                text2 = document.createTextNode(cityArray[city])
+            ], appendTo: self.secondButton});
             optionArray2.push(option2);
             textArray2.push(text2);
         }
