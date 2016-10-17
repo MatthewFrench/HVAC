@@ -5,16 +5,12 @@
 function DialogBox(question, yesCallback, noCallback) {
     "use strict";
     //Constructor
-    this.dialogBoxBlock = document.createElement('div');
-    this.dialogBoxBlock.className = 'DialogBox_Block';
+    this.dialogBoxBlock = CreateElement({type: 'div', class: 'DialogBox_Block'});
 
-    this.dialogBoxDiv = document.createElement("div");
-    this.dialogBoxDiv.className = "DialogBox_Div";
-
-    this.dialogLabel = document.createElement("label");
-    this.dialogLabel.className = "DialogBox_Label";
-    this.dialogLabel.innerText = question;
-    this.dialogBoxDiv.appendChild(this.dialogLabel);
+    this.dialogBoxDiv = CreateElement({type: 'div', class: 'DialogBox_Div', elements: [
+        this.dialogLabel = CreateElement({type: 'label', class: 'DialogBox_Label', text: 'question'}),
+        this.yesButton = CreateElement({type: 'button', class: 'DialogBox_YesButton', text: 'Yes'})
+    ]});
 
     this.yesButton = document.createElement("button");
     this.yesButton.className = "DialogBox_YesButton";
