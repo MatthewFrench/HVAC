@@ -2,7 +2,7 @@
  * Created by Matt on 9/19/16.
  */
 
-HVACApplication.prototype.initUIVariables = function() {
+HVACApplication.prototype.initUIVariables = function () {
     "use strict";
     this.myBannerDiv = null;
     this.titleSpan = null;
@@ -16,122 +16,80 @@ HVACApplication.prototype.initUIVariables = function() {
     this.dialogBoxDiv = null;
 };
 
-HVACApplication.prototype.createUI = function() {
-    this.myBannerDiv = document.createElement("div");
-    this.myBannerDiv.className = "RibbonBanner";
-    document.body.appendChild(this.myBannerDiv);
-
-    this.dialogBoxButton = document.createElement("button");
-    this.dialogBoxButton.className = "DialogBoxButton";
-    this.dialogBoxButton.innerText = "New Design";
-    this.dialogBoxButton.onclick = function () {
-        var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function(){}, function(){});
-        newDialogBox.show();
-    };
-    this.myBannerDiv.appendChild(this.dialogBoxButton);
-
-    this.locationDataButton = document.createElement("button");
-    this.locationDataButton.className = "LocationDataButton";
-    this.locationDataButton.innerText = "Input Location Data";
-    this.locationDataButton.onclick = function () {
-        var newPopover = new LocationDataPopover();
-        newPopover.show();
-    };
-    this.myBannerDiv.appendChild(this.locationDataButton);
-
-    this.TopAndBottomDataButton = document.createElement("button");
-    this.TopAndBottomDataButton.className = "TopAndBottomDataButton";
-    this.TopAndBottomDataButton.innerText = "Input Attic and Basement Data";
-    this.TopAndBottomDataButton.onclick = function () {
-        var newPopover = new TopAndBottomDataPopover();
-        newPopover.show();
-    };
-    this.myBannerDiv.appendChild(this.TopAndBottomDataButton);
-
-    this.titleSpan = document.createElement("span");
-    this.titleSpan.className = "TopTitle";
-    this.titleSpan.innerText = "HVAC Model Designer";
-    document.body.appendChild(this.titleSpan);
-
-    this.layoutCanvas = document.createElement("canvas");
-    this.layoutCanvas.className = "LayoutCanvas";
-    document.body.appendChild(this.layoutCanvas);
-    var self = this;
-    document.body.onmousemove = function(event){
-        self.layoutCanvasMouseMoved(event);
-    };
-    this.layoutCanvas.onmousedown = function(event){
-        self.layoutCanvasMousePressed(event);
-    };
-    this.layoutCanvas.onmouseup = function(event){
-        self.layoutCanvasMouseReleased(event);
-    };
+HVACApplication.prototype.createUI = function () {
+    this.myBannerDiv = CreateElement({
+        type: 'div', class: 'RibbonBanner', appendTo: document.body, elements: [
+            this.dialogBoxButton = CreateElement({
+                type: 'button', class: 'DialogBoxButton', text: 'New Design',
+                onClick: CreateFunction(this, function () {
+                    var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function () {
+                    }, function () {});
+                    newDialogBox.show();
+                })
+            }),
+            this.locationDataButton = CreateElement({
+                type: 'button', class: 'LocationDataButton', text: 'Input Location Data',
+                onClick: CreateFunction(this, function () {
+                    var newPopover = new LocationDataPopover();
+                    newPopover.show();
+                })
+            }),
+            this.TopAndBottomDataButton = CreateElement({
+                type: 'button', class: 'TopAndBottomDataButton', text: 'Input Attic and Basement Data',
+                onClick: CreateFunction(this, function () {
+                    var newPopover = new TopAndBottomDataPopover();
+                    newPopover.show();
+                })
+            })
+        ]
+    });
+    this.titleSpan = CreateElement({type: 'span', class: 'TopTitle', text: 'HVAC Model Designer', appendTo: document.body});
+    this.layoutCanvas = CreateElement({
+        type: 'canvas', class: 'LayoutCanvas', appendTo: document.body,
+        onMouseDown: CreateFunction(this, this.layoutCanvasMouseReleased),
+        onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
+    });
 
     //Create view mode button
-    this.viewButtonDiv = document.createElement("div");
-    this.viewButtonDiv.className = "ViewButtonDiv";
-    this.viewButtonDiv.innerText = "View";
-    this.viewButtonDiv.onclick = function(event) {
-        "use strict";
-        self.viewWallButtonClicked();
-    };
-    document.body.appendChild(this.viewButtonDiv);
+    this.viewButtonDiv = CreateElement({
+        type: 'div', class: 'ViewButtonDiv', text: 'View', appendTo: document.body,
+        onClick: CreateFunction(this, this.viewWallButtonClicked)
+    });
 
     //Create drag mode button
-    this.dragButtonDiv = document.createElement("div");
-    this.dragButtonDiv.className = "DragButtonDiv";
-    this.dragButtonDiv.innerText = "Drag";
-    this.dragButtonDiv.onclick = function(event) {
-        "use strict";
-        self.dragButtonClicked();
-    };
-    document.body.appendChild(this.dragButtonDiv);
+    this.dragButtonDiv = CreateElement({
+        type: 'div', class: 'DragButtonDiv', text: 'Drag', appendTo: document.body,
+        onClick: CreateFunction(this, this.dragButtonClicked)
+    });
 
     //Create create mode button
-    this.createButtonDiv = document.createElement("div");
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.createButtonDiv.innerText = "Create";
-    this.createButtonDiv.onclick = function(event) {
-        "use strict";
-        self.createWallButtonClicked();
-    };
-    document.body.appendChild(this.createButtonDiv);
+    this.createButtonDiv = CreateElement({
+        type: 'div', class: 'CreateButtonDiv', text: 'Create', appendTo: document.body,
+        onClick: CreateFunction(this, this.createWallButtonClicked)
+    });
 
-    this.editButtonDiv = document.createElement("div");
-    this.editButtonDiv.className = "EditButtonDiv";
-    this.editButtonDiv.innerText = "Edit";
-    this.editButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editButtonClicked();
-    };
-    document.body.appendChild(this.editButtonDiv);
+    this.editButtonDiv = CreateElement({
+        type: 'div', class: 'EditButtonDiv', text: 'Edit', appendTo: document.body,
+        onClick: CreateFunction(this, this.editButtonClicked)
+    });
 
     //Create edit mode buttons
-    this.editPointButtonDiv = document.createElement("div");
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editPointButtonDiv.innerText = "Point";
-    this.editPointButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editPointButtonClicked();
-    };
-    this.editCornerButtonDiv = document.createElement("div");
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.editCornerButtonDiv.innerText = "Corner & Wall";
-    this.editCornerButtonDiv.onclick = function(event) {
-        "use strict";
-        self.editCornerButtonClicked();
-    };
+    this.editPointButtonDiv = CreateElement({
+        type: 'div', class: 'EditPointButtonDiv', text: 'Point',
+        onClick: CreateFunction(this, this.editPointButtonClicked)
+    });
+    this.editCornerButtonDiv = CreateElement({
+        type: 'div', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
+        onClick: CreateFunction(this, this.editCornerButtonClicked)
+    });
 
     //Create delete mode button
-    this.deleteButtonDiv = document.createElement("div");
-    this.deleteButtonDiv.className = "DeleteButtonDiv";
-    this.deleteButtonDiv.innerText = "Delete";
-    this.deleteButtonDiv.onclick = function(event) {
-        "use strict";
-        self.deleteWallButtonClicked();
-    };
-    document.body.appendChild(this.deleteButtonDiv);
+    this.deleteButtonDiv = CreateElement({
+        type: 'div', class: 'DeleteButtonDiv', text: 'Delete', appendTo: document.body,
+        onClick: CreateFunction(this, this.deleteWallButtonClicked)
+    });
 
+    document.body.onmousemove = CreateFunction(this, this.layoutCanvasMouseMoved);
 
     this.resizeCanvas();
 
@@ -140,7 +98,7 @@ HVACApplication.prototype.createUI = function() {
 };
 
 //Highlights View button and deselects other buttons.
-HVACApplication.prototype.viewWallButtonClicked = function() {
+HVACApplication.prototype.viewWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewButtonDiv.className = "ViewButtonDiv selectedButtonDiv";
@@ -154,7 +112,7 @@ HVACApplication.prototype.viewWallButtonClicked = function() {
 };
 
 //Highlights Drag button and deselects other buttons.
-HVACApplication.prototype.dragButtonClicked = function() {
+HVACApplication.prototype.dragButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
     this.viewButtonDiv.className = "ViewButtonDiv";
@@ -168,7 +126,7 @@ HVACApplication.prototype.dragButtonClicked = function() {
 };
 
 //Highlights Create button and deselects other buttons.
-HVACApplication.prototype.createWallButtonClicked = function() {
+HVACApplication.prototype.createWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.viewButtonDiv.className = "ViewButtonDiv";
@@ -182,7 +140,7 @@ HVACApplication.prototype.createWallButtonClicked = function() {
 };
 
 //Highlights Edit button and deselects other buttons.
-HVACApplication.prototype.editButtonClicked = function() {
+HVACApplication.prototype.editButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT;
     this.viewButtonDiv.className = "ViewButtonDiv";
@@ -197,7 +155,7 @@ HVACApplication.prototype.editButtonClicked = function() {
 };
 
 //Highlights Point button underneath Edit button.
-HVACApplication.prototype.editPointButtonClicked = function() {
+HVACApplication.prototype.editPointButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_POINT;
     this.editPointButtonDiv.className = "EditPointButtonDiv selectedButtonDiv";
@@ -205,7 +163,7 @@ HVACApplication.prototype.editPointButtonClicked = function() {
 };
 
 //Highlights Corner button underneath Edit button.
-HVACApplication.prototype.editCornerButtonClicked = function() {
+HVACApplication.prototype.editCornerButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_CORNER;
     this.editPointButtonDiv.className = "EditPointButtonDiv";
@@ -213,7 +171,7 @@ HVACApplication.prototype.editCornerButtonClicked = function() {
 };
 
 //Highlights Delete button and deselects other buttons.
-HVACApplication.prototype.deleteWallButtonClicked = function() {
+HVACApplication.prototype.deleteWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
     this.viewButtonDiv.className = "ViewButtonDiv";
