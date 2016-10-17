@@ -27,6 +27,10 @@ function CreateElement(options) {
         if (options.hasOwnProperty('src')) element.src = options['src'];
         if (options.hasOwnProperty('id')) element.id = options['id'];
         if (options.hasOwnProperty('value')) element.value = options['value'];
+        if (options.hasOwnProperty('onClick')) element.onClick = options['onClick'];
+        if (options.hasOwnProperty('onMouseMove')) element.onmousemove = options['onMouseMove'];
+        if (options.hasOwnProperty('onMouseDown')) element.onmousedown = options['onMouseDown'];
+        if (options.hasOwnProperty('onMouseUp')) element.onmouseup = options['onMouseUp'];
         if (options.hasOwnProperty('elements')) {
             var elements = options['elements'];
             for (var i = 0; i < elements.length; i++) {
@@ -37,4 +41,10 @@ function CreateElement(options) {
     }
 
     return element;
+}
+
+function CreateFunction(owner, func) {
+    return function() {
+        func.apply(owner, arguments);
+    }
 }
