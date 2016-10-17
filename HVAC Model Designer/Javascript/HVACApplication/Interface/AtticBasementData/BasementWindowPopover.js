@@ -2,12 +2,9 @@
  * Created by masse on 10/14/2016.
  */
 function BasementWindowPopover() {
-    this.backgroundDiv = document.createElement("div");
-    this.backgroundDiv.className = "BasementWindowBGCover";
+    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWindowBGCover'});
 
-    this.BasementWindowDiv = document.createElement("div");
-    this.BasementWindowDiv.className = "BasementWindowDiv";
-
+    this.BasementWindowDiv = CreateElement({type: 'div', class: 'BasementWindowDiv'});
 
 }
 
