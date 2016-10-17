@@ -8,7 +8,7 @@ function DialogBox(question, yesCallback, noCallback) {
     this.dialogBoxBlock = CreateElement({type: 'div', class: 'DialogBox_Block'});
 
     this.dialogBoxDiv = CreateElement({type: 'div', class: 'DialogBox_Div', elements: [
-        this.dialogLabel = CreateElement({type: 'label', class: 'DialogBox_Label', text: 'question'}),
+        this.dialogLabel = CreateElement({type: 'label', class: 'DialogBox_Label', text: question}),
         this.yesButton = CreateElement({type: 'button', class: 'DialogBox_YesButton', text: 'Yes',
             onClick: CreateFunction(this, function () {
                 this.hide();

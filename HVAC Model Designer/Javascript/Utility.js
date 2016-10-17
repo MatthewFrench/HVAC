@@ -27,7 +27,7 @@ function CreateElement(options) {
         if (options.hasOwnProperty('src')) element.src = options['src'];
         if (options.hasOwnProperty('id')) element.id = options['id'];
         if (options.hasOwnProperty('value')) element.value = options['value'];
-        if (options.hasOwnProperty('onClick')) element.onClick = options['onClick'];
+        if (options.hasOwnProperty('onClick')) element.onclick = options['onClick'];
         if (options.hasOwnProperty('onMouseMove')) element.onmousemove = options['onMouseMove'];
         if (options.hasOwnProperty('onMouseDown')) element.onmousedown = options['onMouseDown'];
         if (options.hasOwnProperty('onMouseUp')) element.onmouseup = options['onMouseUp'];
