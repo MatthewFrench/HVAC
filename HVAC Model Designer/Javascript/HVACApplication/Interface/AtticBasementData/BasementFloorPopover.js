@@ -2,13 +2,9 @@
  * Created by masse on 10/14/2016.
  */
 function BasementFloorPopover() {
-    this.backgroundDiv = document.createElement("div");
-    this.backgroundDiv.className = "BasementFloorBGCover";
+    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementFloorBGCover'});
 
-    this.BasementFloorDiv = document.createElement("div");
-    this.BasementFloorDiv.className = "BasementFloorDiv";
-
-
+    this.BasementFloorDiv = CreateElement({type: 'div', class: 'BasementFloorDiv'});
 }
 
 BasementFloorPopover.prototype.show = function() {

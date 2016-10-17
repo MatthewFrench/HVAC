@@ -2,13 +2,9 @@
  * Created by masse on 10/14/2016.
  */
 function BasementWallPopover() {
-    this.backgroundDiv = document.createElement("div");
-    this.backgroundDiv.className = "BasementWallBGCover";
+    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWallBGCover'});
 
-    this.BasementWallDiv = document.createElement("div");
-    this.BasementWallDiv.className = "BasementWallDiv";
-
-
+    this.BasementWallDiv = CreateElement({type: 'div', class: 'BasementWallDiv'});
 }
 
 BasementWallPopover.prototype.show = function() {
