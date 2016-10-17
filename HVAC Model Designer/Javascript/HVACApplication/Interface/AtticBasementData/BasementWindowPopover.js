@@ -3,9 +3,7 @@
  */
 function BasementWindowPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWindowBGCover'});
-
     this.BasementWindowDiv = CreateElement({type: 'div', class: 'BasementWindowDiv'});
-
 }
 
 BasementWindowPopover.prototype.show = function() {

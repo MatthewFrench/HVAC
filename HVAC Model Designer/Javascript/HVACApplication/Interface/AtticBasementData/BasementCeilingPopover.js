@@ -2,13 +2,8 @@
  * Created by masse on 10/14/2016.
  */
 function BasementCeilingPopover() {
-    this.backgroundDiv = document.createElement("div");
-    this.backgroundDiv.className = "BasementCeilingBGCover";
-
-    this.BasementCeilingDiv = document.createElement("div");
-    this.BasementCeilingDiv.className = "BasementCeilingDiv";
-
-
+    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementCeilingBGCover'});
+    this.BasementCeilingDiv = CreateElement({type: 'div', class: 'BasementCeilingDiv'});
 }
 
 BasementCeilingPopover.prototype.show = function() {

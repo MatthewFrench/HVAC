@@ -3,7 +3,6 @@
  */
 function BasementWallPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWallBGCover'});
-
     this.BasementWallDiv = CreateElement({type: 'div', class: 'BasementWallDiv'});
 }
 
