@@ -9,28 +9,17 @@ function DialogBox(question, yesCallback, noCallback) {
 
     this.dialogBoxDiv = CreateElement({type: 'div', class: 'DialogBox_Div', elements: [
         this.dialogLabel = CreateElement({type: 'label', class: 'DialogBox_Label', text: 'question'}),
-        this.yesButton = CreateElement({type: 'button', class: 'DialogBox_YesButton', text: 'Yes'})
+        this.yesButton = CreateElement({type: 'button', class: 'DialogBox_YesButton', text: 'Yes',
+            onClick: CreateFunction(this, function () {
+                this.hide();
+                yesCallback();
+            })}),
+        this.cancelButton = CreateElement({type: 'button', class: 'DialogBox_CancelButton', text: 'Cancel',
+            onClick: CreateFunction(this, function () {
+                selfish.hide();
+                noCallback();
+            })})
     ]});
-
-    this.yesButton = document.createElement("button");
-    this.yesButton.className = "DialogBox_YesButton";
-    this.yesButton.innerText = "Yes";
-    var self = this;
-    this.yesButton.onclick = function () {
-        self.hide();
-        yesCallback();
-    };
-    this.dialogBoxDiv.appendChild(this.yesButton);
-
-    this.cancelButton = document.createElement("button");
-    this.cancelButton.className = "DialogBox_CancelButton";
-    this.cancelButton.innerText = "Cancel";
-    var selfish = this;
-    this.cancelButton.onclick = function () {
-        selfish.hide();
-        noCallback();
-    };
-    this.dialogBoxDiv.appendChild(this.cancelButton);
 }
 
 DialogBox.prototype.show = function() {
