@@ -26,6 +26,7 @@ function CreateElement(options) {
         if (options.hasOwnProperty('appendTo')) options['appendTo'].appendChild(element);
         if (options.hasOwnProperty('src')) element.src = options['src'];
         if (options.hasOwnProperty('id')) element.id = options['id'];
+        if (options.hasOwnProperty('value')) element.value = options['value'];
         if (options.hasOwnProperty('elements')) {
             var elements = options['elements'];
             for (var i = 0; i < elements.length; i++) {
