@@ -16,7 +16,7 @@ function DialogBox(question, yesCallback, noCallback) {
             })}),
         this.cancelButton = CreateElement({type: 'button', class: 'DialogBox_CancelButton', text: 'Cancel',
             onClick: CreateFunction(this, function () {
-                selfish.hide();
+                this.hide();
                 noCallback();
             })})
     ]});
