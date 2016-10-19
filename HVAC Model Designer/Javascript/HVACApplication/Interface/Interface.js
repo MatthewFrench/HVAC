@@ -46,7 +46,7 @@ HVACApplication.prototype.createUI = function () {
     this.titleSpan = CreateElement({type: 'span', class: 'TopTitle', text: 'HVAC Model Designer', appendTo: document.body});
     this.layoutCanvas = CreateElement({
         type: 'canvas', class: 'LayoutCanvas', appendTo: document.body,
-        onMouseDown: CreateFunction(this, this.layoutCanvasMouseReleased),
+        onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
 
