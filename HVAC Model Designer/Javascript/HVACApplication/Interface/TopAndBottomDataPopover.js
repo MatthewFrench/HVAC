@@ -41,14 +41,14 @@ function TopAndBottomDataPopover() {
                 var newPopover = new BasementFloorPopover();
                 newPopover.show();
             })}),
-        this.BasementWindowButton = CreateElement({type: 'button', class: 'BasementWallButton',
-            text: 'Input Basement Wall Data',
+        this.BasementWindowButton = CreateElement({type: 'button', class: 'BasementWindowButton',
+            text: 'Input Basement Window Data',
             onClick: CreateFunction(this, function () {
                 var newPopover = new BasementWindowPopover();
                 newPopover.show();
             })}),
         this.BasementWallButton = CreateElement({type: 'button', class: 'BasementWallButton',
-            text: 'Input Basement Window Data',
+            text: 'Input Basement Wall Data',
             onClick: CreateFunction(this, function () {
                 var newPopover = new BasementWallPopover();
                 newPopover.show();

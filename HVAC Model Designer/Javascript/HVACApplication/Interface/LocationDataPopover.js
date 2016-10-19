@@ -31,12 +31,12 @@ function LocationDataPopover() {
 
     for (var state in stateData)
     {
-        var text;
-        var option = CreateElement({type: 'option', value: state, elements:[
-            text = document.createTextNode(state)
-        ], appendTo: this.firstButton});
-        this.optionArray.push(option);
-        this.textArray.push(text);
+            var text;
+            var option = CreateElement({type: 'option', value: state, elements:[
+                text = document.createTextNode(state)
+            ], appendTo: this.firstButton});
+            this.optionArray.push(option);
+            this.textArray.push(text);
     }
 
     this.firstButton.selectedIndex = -1;
