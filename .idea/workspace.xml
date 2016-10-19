@@ -5,8 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css" afterPath="$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/LocationDataPopover.js" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/LocationDataPopover.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js" afterPath="$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js" />
     </list>
     <ignored path="HVAC.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,12 +27,12 @@
     <favorites_list name="HVAC" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="BasementDoorPopover.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="92" column="38" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+            <state relative-caret-position="373">
+              <caret line="520" column="92" selection-start-line="520" selection-start-column="92" selection-end-line="520" selection-end-column="92" />
               <folding />
             </state>
           </provider>
@@ -43,8 +41,8 @@
       <file leaf-file-name="BasementDoorPopover.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="103" column="11" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
+            <state relative-caret-position="104">
+              <caret line="124" column="13" selection-start-line="124" selection-start-column="13" selection-end-line="124" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -135,7 +133,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -368,6 +365,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -514,18 +512,19 @@
       <workItem from="1476456522024" duration="3762000" />
       <workItem from="1476491034121" duration="205000" />
       <workItem from="1476749491191" duration="597000" />
-      <workItem from="1476839053201" duration="11178000" />
+      <workItem from="1476839053201" duration="11634000" />
+      <workItem from="1476888025584" duration="4643000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44951000" />
+    <option name="totallyTimeSpent" value="50050000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1954612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -533,7 +532,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24740484" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24605678" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -854,22 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="107" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/LocationDataPopover.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
@@ -878,18 +861,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/TopAndBottomDataPopover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1751">
+          <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/TopAndBottomDataPopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="93" selection-start-line="13" selection-start-column="93" selection-end-line="13" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/CSS/Interface/AtticBasementData/BasementDoorPopover.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="103" column="11" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
+        <state relative-caret-position="104">
+          <caret line="124" column="13" selection-start-line="124" selection-start-column="13" selection-end-line="124" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/HVAC Model Designer/Javascript/HVACApplication/Interface/AtticBasementData/BasementDoorPopover.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="92" column="38" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+        <state relative-caret-position="373">
+          <caret line="520" column="92" selection-start-line="520" selection-start-column="92" selection-end-line="520" selection-end-column="92" />
           <folding />
         </state>
       </provider>

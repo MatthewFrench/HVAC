@@ -43,7 +43,7 @@
     font-size: 18px;
     left: 35%;
     width: 200px;
-    top: 42%;
+    top: 60%;
     font-weight: 600;
     opacity: 0;
 }
@@ -52,7 +52,7 @@
     position: absolute;
     width: 100px;
     height: 50px;
-    top: 47%;
+    top: 65%;
     left: 40%;
     font-weight: 700;
     font-size: 20px;
@@ -91,7 +91,7 @@
     font-size: 18px;
     left: 31%;
     width: 200px;
-    top: 61%;
+    top: 42%;
     font-weight: 600;
     opacity: 0;
 }
@@ -100,7 +100,7 @@
     position: absolute;
     width: 500px;
     height: 50px;
-    top: 66%;
+    top: 47%;
     left: 5%;
     font-weight: 700;
     font-size: 20px;
@@ -113,21 +113,35 @@
     position: absolute;
     color: black;
     font-size: 18px;
-    left: 25%;
+    left: 5%;
     width: 300px;
     top: 79%;
     font-weight: 600;
+    opacity: 0;
 }
 
 .BasementDoorUValueBox {
     position: absolute;
-    width: 100px;
-    height: 50px;
+    width: 60px;
+    height: 25px;
     top: 84%;
-    left: 40%;
+    left: 20%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;
     outline: black solid thin;
     background-color: white;
+    opacity: 0;
+}
+
+.SaveBasementDoorDataButton{
+    position: absolute;
+    width: 180px;
+    height: 50px;
+    top: 84%;
+    left: 60%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
 }
