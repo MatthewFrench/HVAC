@@ -6,6 +6,17 @@ var PIXELS_IN_FOOT = 20.0;
 var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
 var SNAP_TO_AMOUNT_PIXELS = 8;
 
+function wallSlicer(walls) {
+    //Slice any walls that are intersecting
+    for (var w1 = 0; w1 < walls.length; w++) {
+        var wall1 = walls[w1];
+        for (var w2 = 0; w2 < walls.length; w2++) {
+            var wall2 = walls[w2];
+            
+        }
+    }
+}
+
 //Determines if the coordinate point falls within the area of the circle.
 function pointInCircle( x,  y,  cx,  cy,  radius) {
     var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
