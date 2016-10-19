@@ -1,6 +1,7 @@
-
-HVAC Model Designer/.idea/workspace.xml
-.idea/HVAC.iml
-.idea/vcs.xml
-
-HVAC Model Designer/.idea/workspace.xml
+HVAC.iml
+vcs.xml
+workspace.xml
+compiler.xml
+profiles_settings.xml
+misc.xml
+.idea/

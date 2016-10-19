@@ -5,7 +5,7 @@
 var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
     LAYOUT_MODE_DELETE_WALL = 4;
 var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
-var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1, EDIT_MODE_WALL = 2;
+var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
 //Constructor
 var HVACApplication = function () {
@@ -101,9 +101,6 @@ HVACApplication.prototype.layoutDraw = function() {
         if (this.currentEditMode == EDIT_MODE_CORNER) {
             this.drawEditCornerModeLayout();
         }
-        if (this.currentEditMode == EDIT_MODE_WALL) {
-            this.drawEditWallModeLayout();
-        }
     }
 };
 HVACApplication.prototype.windowResized = function() {
@@ -140,9 +137,6 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
         if (this.currentEditMode == EDIT_MODE_CORNER) {
             this.mousePressedEditCornerModeLayout();
         }
-        if (this.currentEditMode == EDIT_MODE_WALL) {
-            this.mousePressedEditWallModeLayout();
-        }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
         this.mousePressedViewModeLayout();
@@ -173,9 +167,6 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
         }
         if (this.currentEditMode == EDIT_MODE_CORNER) {
             this.mouseMovedEditCornerModeLayout();
-        }
-        if (this.currentEditMode == EDIT_MODE_WALL) {
-            this.mouseMovedEditWallModeLayout();
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
@@ -209,9 +200,6 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
         }
         if (this.currentEditMode == EDIT_MODE_CORNER) {
             this.mouseReleasedEditCornerModeLayout();
-        }
-        if (this.currentEditMode == EDIT_MODE_WALL) {
-            this.mouseReleasedEditWallModeLayout();
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
