@@ -205,11 +205,7 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 
             }
         }
-
-
     }
-
-    console.log("Closest corner points: " + this.currentEditCornerSelectedCornerPoints.length);
 };
 
 //Action taken for when the mouse is moving.

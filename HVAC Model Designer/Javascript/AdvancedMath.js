@@ -12,7 +12,18 @@ function wallSlicer(walls) {
         var wall1 = walls[w1];
         for (var w2 = 0; w2 < walls.length; w2++) {
             var wall2 = walls[w2];
-            
+
+            //Get Intersection point
+
+            //Determine what new lines we have to make from the intersection point
+
+            //If new lines were made, add new lines and remove the old lines
+
+            //Reset for loop?
+            /*
+             function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
+             point2X1, point2Y1, point2X2, point2Y2)
+             */
         }
     }
 }
