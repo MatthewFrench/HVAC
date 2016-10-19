@@ -22,8 +22,9 @@ HVACApplication.prototype.createUI = function () {
             this.dialogBoxButton = CreateElement({
                 type: 'button', class: 'DialogBoxButton', text: 'New Design',
                 onClick: CreateFunction(this, function () {
-                    var newDialogBox = new DialogBox("Are you sure you want to start from scratch?", function () {
-                    }, function () {});
+                    var newDialogBox = new DialogBox('Are you sure you want to start from scratch?',
+                        CreateFunction(this, function () { this.wallList = [];
+                            }), CreateFunction(this, function () {}));
                     newDialogBox.show();
                 })
             }),
