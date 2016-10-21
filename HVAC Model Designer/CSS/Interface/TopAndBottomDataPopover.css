@@ -138,6 +138,46 @@
     outline: black solid thin;
 }
 
+.TotalAtticUValueElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 41.5%;
+    width: 200px;
+    top: 30%;
+    font-weight: 600;
+}
+
+.TotalAtticUValueText{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 43%;
+    width: 100px;
+    top: 35%;
+    font-weight: 600;
+}
+
+.TotalBasementUValueElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 40%;
+    width: 200px;
+    top: 60%;
+    font-weight: 600;
+}
+
+.TotalBasementUValueText{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 43%;
+    width: 100px;
+    top: 65%;
+    font-weight: 600;
+}
+
 .BasementTitle {
     position: absolute;
     color: black;

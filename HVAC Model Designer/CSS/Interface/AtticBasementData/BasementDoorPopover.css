@@ -136,10 +136,22 @@
 
 .SaveBasementDoorDataButton{
     position: absolute;
-    width: 180px;
-    height: 50px;
+    width: 90px;
+    height: 30px;
     top: 84%;
     left: 60%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.BasementCancelButton{
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    top: 84%;
+    left: 80%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;

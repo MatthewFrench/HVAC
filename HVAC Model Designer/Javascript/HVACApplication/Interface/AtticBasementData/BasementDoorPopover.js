@@ -16,7 +16,8 @@ function BasementDoorPopover() {
         this.BasementDoorDescriptionButton = CreateElement({type: 'select', id: 'BasementDoorDescription', class: 'BasementDoorDescriptionButton'}),
         this.BasementDoorUValueElement = CreateElement({type: 'BasementDoorUValue', class: 'BasementDoorUValueElement', text: 'The U Value of your Basement Door'}),
         this.BasementDoorUValueBox = CreateElement({type: 'BasementDoorUValue', id: 'BasementDoorUValue', class: 'BasementDoorUValueBox'}),
-        this.SaveBasementDoorDataButton = CreateElement({type: 'button', class: 'SaveBasementDoorDataButton', text: 'Save Basement Door Data', onClick: CreateFunction(this, this.hide)})
+        this.SaveBasementDoorDataButton = CreateElement({type: 'button', class: 'SaveBasementDoorDataButton', text: 'Save', onClick: CreateFunction(this, this.hide)}),
+        this.BasementCancelButton = CreateElement({type: 'button', class: 'BasementCancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
     ]});
 
     var basement_door_text;

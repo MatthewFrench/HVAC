@@ -28,6 +28,10 @@ function TopAndBottomDataPopover() {
             class: 'AtticInsulationDepthElement', text: 'Depth of Attic Insulation'}),
         this.AtticInsulationDepthButton = CreateElement({type: 'select', id: 'AtticDepthInsulation',
             class: 'AtticInsulationDepthButton'}),
+        this.TotalAtticUValueElement = CreateElement({type: 'TotalAtticUValue', class: 'TotalAtticUValueElement', text: 'Total Attic U Value'}),
+        this.TotalAtticUValueText = CreateElement({type: 'input', id: 'TotalAtticUValue', class: 'TotalAtticUValueText'}),
+        this.TotalBasementUValueElement = CreateElement({type: 'TotalBasementUValue', class: 'TotalBasementUValueElement', text: 'Total Basement U Value'}),
+        this.TotalBasementUValueText = CreateElement({type: 'input', id: 'TotalBasementUValue', class: 'TotalBasementUValueText'}),
         this.titleSpan = CreateElement({type: 'span', class: 'BasementTitle', text: 'Input Basement Data'}),
         this.BasementCeilingButton = CreateElement({type: 'button', class: 'BasementCeilingButton',
             text: 'Input Basement Ceiling Data',
@@ -60,6 +64,18 @@ function TopAndBottomDataPopover() {
                 newPopover.show();
             })})
     ]});
+
+    var attic_stud_spacing_text;
+    var attic_stud_spacing_option = CreateElement({type: 'option', value: '12', elements:[attic_stud_spacing_text = document.createTextNode("12''")], appendTo: this.StudSpacingButton});
+    var attic_stud_spacing_text2;
+    var attic_stud_spacing_option2 = CreateElement({type: 'option', value: '16', elements:[attic_stud_spacing_text2 = document.createTextNode("16''")], appendTo: this.StudSpacingButton});
+    var attic_stud_spacing_text3;
+    var attic_stud_spacing_option3 = CreateElement({type: 'option', value: '19.2', elements:[attic_stud_spacing_text3 = document.createTextNode("19.2''")], appendTo: this.StudSpacingButton});
+    var attic_stud_spacing_text4;
+    var attic_stud_spacing_option4 = CreateElement({type: 'option', value: '24', elements:[attic_stud_spacing_text4 = document.createTextNode("24''")], appendTo: this.StudSpacingButton});
+    this.StudSpacingButton.selectedIndex = -1;
+
+
 }
 TopAndBottomDataPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
