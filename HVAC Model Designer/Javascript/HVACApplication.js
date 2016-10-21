@@ -214,14 +214,14 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
-    if (!!event.shiftKey) {
+    if (event.shiftKey) {
         this.shiftPressed = true;
     }
 };
 HVACApplication.prototype.onKeyup = function(event) {
     "use strict";
     //var key = event.which;
-    if (!!!event.shiftKey) {
+    if (!event.shiftKey) {
         this.shiftPressed = false;
     }
 };
