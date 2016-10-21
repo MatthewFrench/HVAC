@@ -206,6 +206,25 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             }
         }
     }
+
+    //If no points or corners were selected, grab a wall
+    if (this.currentEditCornerSelectedCornerPoints.length == 0) {
+        var closestWall = null;
+        var closest = 15.0;
+        for (var i = 0; i < this.wallList.length; i++) {
+            var wall = this.wallList[i];
+            var point = nearestPointOnLine( wall.x1,  wall.y1, wall.x2, wall.y2,  canvasMouseX,  canvasMouseY);
+            var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+            if (dist <= closest) {
+                closestWall = wall;
+                closest = dist;
+            }
+        }
+        if (closestWall != null) {
+            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(closestWall, WallPointEnum.POINT1));
+            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(closestWall, WallPointEnum.POINT2));
+        }
+    }
 };
 
 //Action taken for when the mouse is moving.
@@ -240,23 +259,29 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     //var wallConnectionsList = [];
 
     
-if (this.mouseDown) {
+    if (this.mouseDown) {
 
 
-    for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
-        var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
-        cornerPoint.setX(cornerPoint.getX() - movedX);
-        cornerPoint.setY(cornerPoint.getY() - movedY);
-    }
+        for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
+            var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
+            cornerPoint.setX(cornerPoint.getX() - movedX);
+            cornerPoint.setY(cornerPoint.getY() - movedY);
+        }
 
-    //Re-align walls
-    for (var i = 0; i < this.wallConnections.length; i++) {
-        var wallConnection = this.wallConnections[i];
-        if (this.currentEditCornerSelectedCornerPoints.indexOf(wallConnection.cornerPoint) == -1) {
-            wallConnection.reattach();
+        //Re-align walls
+        for (var i = 0; i < this.wallConnections.length; i++) {
+            var wallConnection = this.wallConnections[i];
+            var containsWall = false;
+            for (var cornerPoint in this.currentEditCornerSelectedCornerPoints) {
+                if (wallConnection.cornerPoint.wall == cornerPoint.wall) containsWall = false;
+                //if (cornerPoint.wall == wallConnection.cornerPoint.wall) containsWall = true;
+                //if (cornerPoint.wall == wallConnection.connectedWall) containsWall = true;
+            }
+            if (!containsWall) {
+                wallConnection.reattach();
+            }
         }
     }
-}
 };
 
 //Action taken for when the mouse is released.
