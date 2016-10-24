@@ -53,3 +53,9 @@ Point2D.prototype.setY = function(y) {
     "use strict";
     this.y = y;
 };
+
+Point2D.prototype.isInCircle = function(cx,  cy,  radius) {
+    "use strict";
+    var distancesquared = (this.x - cx) * (this.x - cx) + (this.y - cy) * (this.y - cy);
+    return distancesquared <= radius * radius;
+}

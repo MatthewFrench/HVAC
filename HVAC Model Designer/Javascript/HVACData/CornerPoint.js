@@ -4,11 +4,18 @@
 
 function CornerPoint(options) {
     "use strict";
+    this.point = new Point2D();
+    if ("x" in options) {
+        this.setX( options["x"] );
+    }
+    if ("y" in options) {
+        this.setY( options["y"] );
+    }
     if ("wall" in options) {
         this.wall = options["wall"];
     }
     if ("point" in options) {
-        this.point = options["point"];
+        this.point = this.setPoint(options['point']);
     }
 }
 CornerPoint.prototype.getWall = function() {
@@ -18,7 +25,7 @@ CornerPoint.prototype.getWall = function() {
 
 CornerPoint.prototype.getPoint = function() {
     "use strict";
-    return this.point;
+    return new Point2D({point: this.point});
 };
 
 CornerPoint.prototype.setPoint = function(point) {
@@ -44,4 +51,9 @@ CornerPoint.prototype.setX = function(x) {
 CornerPoint.prototype.setY = function(y) {
     "use strict";
     this.point.setY(y);
+};
+
+CornerPoint.prototype.getHashmap = function() {
+    "use strict";
+    return {x: this.x, y: this.y};
 };
