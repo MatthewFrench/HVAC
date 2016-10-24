@@ -89,3 +89,94 @@ Line2D.prototype.set = function(options) {
         this.point1.set({x: copyLine.getPoint2().getX(), y: copyLine.getPoint2().getY()});
     }
 };
+
+Line2D.prototype.getAngleOfLineBetweenPoints = function()
+{
+    var xDiff = this.point2.getX() - this.point1.getX();
+    var yDiff = this.point2.getY() - this.point1.getY();
+    return Math.atan2(yDiff, xDiff);
+};
+
+Line2D.prototype.getNearestPointFromPoint = function( px,  py) {
+    var clampToSegment = true;
+
+    var apx = px - this.point1.getX();
+    var apy = py - this.point1.getY();
+    var abx = this.point2.getX() - this.point1.getX();
+    var aby = this.point2.getY() - this.point1.getY();
+
+    var ab2 = abx * abx + aby * aby;
+    var ap_ab = apx * abx + apy * aby;
+    var t = ap_ab / ab2;
+    if (clampToSegment) {
+        if (t < 0) {
+            t = 0;
+        } else if (t > 1) {
+            t = 1;
+        }
+    }
+    return new Point2D(this.point1.getX() + abx * t, this.point1.getY() + aby * t);
+};
+
+Line2D.prototype.getPerpendicularLineFromPoint1 = function() {
+    "use strict";
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
+
+    var lineLength = GUIDE_LINE_LENGTH / 2.0;
+
+    var newX1 = x1 + lineLength * Math.cos(nearestAngle);
+    var newY1 = y1 + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = x1 - lineLength * Math.cos(nearestAngle);
+    var newY2 = y1 - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+};
+
+Line2D.prototype.getPerpendicularInfiniteLinePoint2 = function() {
+    "use strict";
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2) + 90.0 * Math.PI / 180.0;
+
+    var lineLength = GUIDE_LINE_LENGTH / 2.0;
+
+    var newX1 = x2 + lineLength * Math.cos(nearestAngle);
+    var newY1 = y2 + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = x2 - lineLength * Math.cos(nearestAngle);
+    var newY2 = y2 - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+};
+
+Line2D.prototype.getLongerLine = function() {
+    "use strict";
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+
+    var nearestAngle = getAngleOfLineBetweenPoints(x1, y1, x2, y2);
+
+    var lineLength = Math.hypot(x1 - x2, y1 - y2) / 2.0 + (GUIDE_LINE_LENGTH)/2.0;
+
+    var centerX = (x1 - x2) / 2 + x2;
+    var centerY = (y1 - y2) / 2 + y2;
+
+    var newX1 = centerX + lineLength * Math.cos(nearestAngle);
+    var newY1 = centerY + lineLength * Math.sin(nearestAngle);
+
+    var newX2 = centerX - lineLength * Math.cos(nearestAngle);
+    var newY2 = centerY - lineLength * Math.sin(nearestAngle);
+
+    return new Line2D(newX1, newY1, newX2, newY2);
+};

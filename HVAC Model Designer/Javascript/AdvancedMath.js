@@ -53,7 +53,7 @@ function nearestPointOnLine( ax,  ay,  bx,  by,  px,  py) {
             t = 1;
         }
     }
-    return new Point2D(ax + abx * t, ay + aby * t);
+    return new Point2D({x:ax + abx * t, y: ay + aby * t});
 }
 
 //Returns the angle of a line.
@@ -78,7 +78,7 @@ function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
     var newX2 = x1 - lineLength * Math.cos(nearestAngle);
     var newY2 = y1 - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
 
 //Makes endpoint 2 become perpendicular.
@@ -95,7 +95,7 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
     var newX2 = x2 - lineLength * Math.cos(nearestAngle);
     var newY2 = y2 - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
 
 //Creates a longer line for when increasing the line length.
@@ -114,7 +114,7 @@ function getLongerLine(x1, y1, x2, y2) {
     var newX2 = centerX - lineLength * Math.cos(nearestAngle);
     var newY2 = centerY - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
 
 //Snap point to the closest 1/10th of an inch
@@ -177,7 +177,7 @@ function getLinePoint1SnappedToNearestRotation(x1, y1, x2, y2, increment) {
     var newX = x2 + lineLength * Math.cos(nearestAngle);
     var newY = y2 + lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX, newY, x2, y2);
+    return new Line2D({x1: newX, y1: newY, x2: x2, y2: y2});
 }
 
 //Gets the second point to snap closest to.
@@ -191,7 +191,7 @@ function getLinePoint2SnappedToNearestRotation(x1, y1, x2, y2, increment) {
     var newX = x1 + lineLength * Math.cos(nearestAngle);
     var newY = y1 + lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(x1, y1, newX, newY);
+    return new Line2D({x1:x1, y1: y1, x2: newX, y2: newY});
 }
 
 //Returns the list of intersecting points on a line.
@@ -209,7 +209,7 @@ function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
     if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
     {
         // Collision detected
-        return new Point2D(point1X1 + (t * s1_x), point1Y1 + (t * s1_y));
+        return new Point2D({x: point1X1 + (t * s1_x), y: point1Y1 + (t * s1_y)});
     }
 
     return null; // No collision
@@ -368,22 +368,5 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
         pointX = snapToX;
         pointY = snapToY;
     }
-    return new Point2D(pointX, pointY);
-};
-
-//Creating a point object.
-var Point2D = function (x, y) {
-    "use strict";
-
-    this.x = x;
-    this.y = y;
-};
-
-//Creating a line object.
-var Line2D = function(x1, y1, x2, y2) {
-    "use strict";
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
+    return new Point2D({x: pointX, y: pointY});
 };

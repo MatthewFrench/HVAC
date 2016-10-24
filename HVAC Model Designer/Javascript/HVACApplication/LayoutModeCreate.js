@@ -98,13 +98,13 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
     var closePointArray = [];
-    closePointArray.push(new Point2D(this.currentMouseX, this.currentMouseY));
+    closePointArray.push(new Point2D({x: this.currentMouseX, y: this.currentMouseY}));
     if (this.currentCreateModeWall != null) {
         if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1));
+            closePointArray.push(new Point2D({x:this.currentCreateModeWall.x1, y:this.currentCreateModeWall.y1}));
         }
         if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D(this.currentCreateModeWall.x2, this.currentCreateModeWall.y2));
+            closePointArray.push(new Point2D({x:this.currentCreateModeWall.x2, y:this.currentCreateModeWall.y2}));
         }
     }
 
