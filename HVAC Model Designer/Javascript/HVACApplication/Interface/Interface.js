@@ -35,10 +35,10 @@ HVACApplication.prototype.createUI = function () {
                     newPopover.show();
                 })
             }),
-            this.TopAndBottomDataButton = CreateElement({
-                type: 'button', class: 'TopAndBottomDataButton', text: 'Input Attic and Basement Data',
-                onClick: CreateFunction(this, function () {
-                    var newPopover = new TopAndBottomDataPopover();
+            this.AjButton = CreateElement({
+                type: 'button', class: 'AjButton', text: 'AJs Button',
+                onClick: CreateFunction(this, function(){
+                    var newPopover = new DoorPopover();
                     newPopover.show();
                 })
             })

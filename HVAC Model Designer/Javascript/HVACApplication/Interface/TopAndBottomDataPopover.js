@@ -33,30 +33,6 @@ function TopAndBottomDataPopover() {
         this.TotalBasementUValueElement = CreateElement({type: 'TotalBasementUValue', class: 'TotalBasementUValueElement', text: 'Total Basement U Value'}),
         this.TotalBasementUValueText = CreateElement({type: 'input', id: 'TotalBasementUValue', class: 'TotalBasementUValueText'}),
         this.titleSpan = CreateElement({type: 'span', class: 'BasementTitle', text: 'Input Basement Data'}),
-        this.BasementCeilingButton = CreateElement({type: 'button', class: 'BasementCeilingButton',
-            text: 'Input Basement Ceiling Data',
-            onClick: CreateFunction(this, function() {
-                var newPopover = new BasementCeilingPopover();
-                newPopover.show();
-            })}),
-        this.BasementFloorButton = CreateElement({type: 'button', class: 'BasementFloorButton',
-            text: 'Input Basement Floor Data',
-            onClick: CreateFunction(this, function () {
-                var newPopover = new BasementFloorPopover();
-                newPopover.show();
-            })}),
-        this.BasementWindowButton = CreateElement({type: 'button', class: 'BasementWindowButton',
-            text: 'Input Basement Window Data',
-            onClick: CreateFunction(this, function () {
-                var newPopover = new BasementWindowPopover();
-                newPopover.show();
-            })}),
-        this.BasementWallButton = CreateElement({type: 'button', class: 'BasementWallButton',
-            text: 'Input Basement Wall Data',
-            onClick: CreateFunction(this, function () {
-                var newPopover = new BasementWallPopover();
-                newPopover.show();
-            })}),
         this.BasementDoorButton = CreateElement({type: 'button', class: 'BasementDoorButton',
             text: 'Input Basement Door Data',
             onClick: CreateFunction(this, function () {
