@@ -31,7 +31,7 @@ HVACApplication.prototype.createUI = function () {
             this.locationDataButton = CreateElement({
                 type: 'button', class: 'LocationDataButton', text: 'Input Location Data',
                 onClick: CreateFunction(this, function () {
-                    var newPopover = new LocationDataPopover();
+                    var newPopover = new LocationPopover();
                     newPopover.show();
                 })
             }),

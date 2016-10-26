@@ -16,8 +16,8 @@ function DoorPopover() {
         this.DoorDescriptionButton = CreateElement({type: 'select', id: 'DoorDescription', class: 'DoorDescriptionButton'}),
         this.DoorUValueElement = CreateElement({type: 'DoorUValue', class: 'DoorUValueElement', text: 'The U Value of your  Door'}),
         this.DoorUValueBox = CreateElement({type: 'DoorUValue', id: 'DoorUValue', class: 'DoorUValueBox'}),
-        this.SaveDoorDataButton = CreateElement({type: 'button', class: 'SaveDoorDataButton', text: 'Save', onClick: CreateFunction(this, this.hide)}),
-        this.CancelButton = CreateElement({type: 'button', class: 'CancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
+        this.DoorSaveButton = CreateElement({type: 'button', class: 'DoorSaveButton', text: 'Save', onClick: CreateFunction(this, this.hide)}),
+        this.DoorCancelButton = CreateElement({type: 'button', class: 'DoorCancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
     ]});
 
     var Doortext;
