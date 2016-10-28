@@ -4,6 +4,7 @@
 
 function Point2D(options) {
     "use strict";
+    if (options == undefined || options == null) options = [];
     if ("x" in options) {
         this.x = options["x"];
     } else {
@@ -41,7 +42,7 @@ Point2D.prototype.getX = function() {
 
 Point2D.prototype.getY = function() {
     "use strict";
-    return this.y
+    return this.y;
 };
 
 Point2D.prototype.setX = function(x) {

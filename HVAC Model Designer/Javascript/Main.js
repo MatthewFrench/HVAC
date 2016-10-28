@@ -20,7 +20,7 @@ function main() {
     }
     window.onunload = windowExit;
 
-    setTimeout(autoSave, 10.0 * 1000.0);
+    setTimeout(autoSave, 40.0 * 1000.0);
 }
 
 function autoSave() {

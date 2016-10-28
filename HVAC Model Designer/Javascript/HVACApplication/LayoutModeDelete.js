@@ -17,17 +17,11 @@ HVACApplication.prototype.mousePressedDeleteModeLayout = function () {
 HVACApplication.prototype.mouseMovedDeleteModeLayout = function () {
     "use strict";
 
-    var movedX = this.previousMouseX - this.currentMouseX;
-    var movedY = this.previousMouseY - this.currentMouseY;
-
-    var canvasMouseX = this.currentMouseX - this.dragPositionX;
-    var canvasMouseY = this.currentMouseY - this.dragPositionY;
-
     this.highlightedDeleteWall = null;
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
-        var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
+        var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
         if (dist < 15) {
             this.highlightedDeleteWall = wall;
         }
@@ -38,12 +32,8 @@ HVACApplication.prototype.mouseMovedDeleteModeLayout = function () {
 HVACApplication.prototype.mouseReleasedDeleteModeLayout = function () {
     "use strict";
 
-
-    var canvasMouseX = this.currentMouseX - this.dragPositionX;
-    var canvasMouseY = this.currentMouseY - this.dragPositionY;
-
     if (this.highlightedDeleteWall != null) {
-        this.wallList.splice(this.wallList.indexOf(this.highlightedDeleteWall), 1);
+        this.getCurrentFloorPlan().removeWall(this.highlightedDeleteWall);
         this.highlightedDeleteWall = null;
     }
 };
@@ -60,8 +50,8 @@ HVACApplication.prototype.drawDeleteModeLayout = function () {
     ctx.save();
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
         wall.draw(ctx, wall == this.highlightedDeleteWall);
     }
 

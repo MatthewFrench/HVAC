@@ -4,6 +4,7 @@
 
 function FloorPlan(options) {
     "use strict";
+    if (options == undefined || options == null) options = [];
     this.wallList = [];
     this.buildingPlan = options['building'];
     this.buildingPlan.addFloor(this);
@@ -24,10 +25,19 @@ FloorPlan.prototype.addWall = function(wall) {
     this.wallList.push(wall);
 };
 
+FloorPlan.prototype.removeWall = function(wall) {
+    this.wallList.splice(this.wallList.indexOf(wall), 1);
+};
+
+FloorPlan.prototype.clearWalls = function() {
+    this.wallList = [];
+};
+
 FloorPlan.prototype.getHashmap = function() {
     "use strict";
     var wallMaps = [];
-    for (var wall in this.wallList) {
+        for (var i in this.wallList) {
+            var wall = this.wallList[i];
         wallMaps.push(wall.getHashmap());
     }
     return {walls: wallMaps};

@@ -23,7 +23,7 @@ HVACApplication.prototype.createUI = function () {
                 type: 'button', class: 'DialogBoxButton', text: 'New Design',
                 onClick: CreateFunction(this, function () {
                     var newDialogBox = new DialogBox('Are you sure you want to start from scratch?',
-                        CreateFunction(this, function () { this.wallList = [];
+                        CreateFunction(this, function () { this.getCurrentFloorPlan().clearWalls();
                             }), CreateFunction(this, function () {}));
                     newDialogBox.show();
                 })
@@ -31,7 +31,7 @@ HVACApplication.prototype.createUI = function () {
             this.locationDataButton = CreateElement({
                 type: 'button', class: 'LocationDataButton', text: 'Input Location Data',
                 onClick: CreateFunction(this, function () {
-                    var newPopover = new LocationDataPopover();
+                    var newPopover = new LocationPopover();
                     newPopover.show();
                 })
             }),

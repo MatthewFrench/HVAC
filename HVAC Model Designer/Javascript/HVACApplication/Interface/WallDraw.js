@@ -1,56 +1,70 @@
 /**
  * Created by Matt on 9/9/16.
  */
-var WallObject = function (x1, y1, x2, y2) {
-    "use strict";
 
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
-}
+/*
+ function Wall(options) {
+     "use strict";
+     this.cornerPoint1 = new CornerPoint({point: options['point1'], wall: this});
+     this.cornerPoint2 = new CornerPoint({point: options['point2'], wall: this});
+     this.floorPlan = options['floor'];
+     this.floorPlan.addWall(this);
+ }
 
-WallObject.prototype.draw = function(context, showHandles) {
+ Wall.prototype.getCornerPoint1() - CornerPoint
+ Wall.prototype.getCornerPoint2() - CornerPoint
+ Wall.prototype.getFloorPlan() - FloorPlan
+ Wall.prototype.getLine() - Line2D
+ Wall.prototype.setLine(Line2D)
+ */
+
+Wall.prototype.draw = function(context, showHandles) {
     context.strokeStyle = "white";
 
     context.lineWidth = 5;
     context.beginPath();
     context.lineCap = "round";
-    context.moveTo(this.x1, this.y1);
-    context.lineTo(this.x2, this.y2);
+    var line = this.getLine();
+    context.moveTo(line.getPoint1X(), line.getPoint1Y());
+    context.lineTo(line.getPoint2X(), line.getPoint2Y());
     context.stroke();
 
     if (showHandles) {
-        drawHandle(context, this.x1, this.y1);
-        drawHandle(context, this.x2, this.y2);
+        drawHandle(context, line.getPoint1X(), line.getPoint1Y());
+        drawHandle(context, line.getPoint2X(), line.getPoint2Y());
     }
-}
+};
 
-WallObject.prototype.drawPerpendicular = function(context, nearPointArray) {
+Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
+
+    var x1 = this.getLine().getPoint1X();
+    var y1 = this.getLine().getPoint1Y();
+    var x2 = this.getLine().getPoint2X();
+    var y2 = this.getLine().getPoint2Y();
 
     var line1Near = false;
     var line2Near = false;
     var line3Near = false;
 
-    var line = getPerpendicularInfiniteLinePoint1(this.x1, this.y1, this.x2, this.y2);
-    var line2 = getPerpendicularInfiniteLinePoint2(this.x1, this.y1, this.x2, this.y2);
-    var line3 = getLongerLine(this.x1, this.y1, this.x2, this.y2);
+    var line = getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2);
+    var line2 = getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2);
+    var line3 = getLongerLine(x1, y1, x2, y2);
 
     var nearPixels = 25.0;
     for (var i = 0; i < nearPointArray.length; i++) {
         var point = nearPointArray[i];
 
-        var nearPoint1 = nearestPointOnLine( line.x1,  line.y1,  line.x2,  line.y2,  point.x,  point.y);
-        var nearPoint2 = nearestPointOnLine( line2.x1,  line2.y1,  line2.x2,  line2.y2,  point.x,  point.y);
-        var nearPoint3 = nearestPointOnLine( line3.x1,  line3.y1,  line3.x2,  line3.y2,  point.x,  point.y);
+        var nearPoint1 = nearestPointOnLine( line.getPoint1X(),  line.getPoint1Y(),  line.getPoint2X(),  line.getPoint2Y(),  point.getX(),  point.getY());
+        var nearPoint2 = nearestPointOnLine( line2.getPoint1X(),  line2.getPoint1Y(),  line2.getPoint2X(),  line2.getPoint2Y(),  point.getX(),  point.getY());
+        var nearPoint3 = nearestPointOnLine( line3.getPoint1X(),  line3.getPoint1Y(),  line3.getPoint2X(),  line3.getPoint2Y(),  point.getX(),  point.getY());
 
-        if (Math.hypot(nearPoint1.x - point.x, nearPoint1.y - point.y) <= nearPixels) {
+        if (Math.hypot(nearPoint1.getX() - point.getX(), nearPoint1.getY() - point.getY()) <= nearPixels) {
             line1Near = true;
         }
-        if (Math.hypot(nearPoint2.x - point.x, nearPoint2.y - point.y) <= nearPixels) {
+        if (Math.hypot(nearPoint2.getX() - point.getX(), nearPoint2.getY() - point.getY()) <= nearPixels) {
             line2Near = true;
         }
-        if (Math.hypot(nearPoint3.x - point.x, nearPoint3.y - point.y) <= nearPixels) {
+        if (Math.hypot(nearPoint3.getX() - point.getX(), nearPoint3.getY() - point.getY()) <= nearPixels) {
             line3Near = true;
         }
     }
@@ -59,9 +73,9 @@ WallObject.prototype.drawPerpendicular = function(context, nearPointArray) {
     context.lineWidth = 2;
     context.lineCap = "round";
 
-    var centerX = (this.x1 - this.x2) / 2.0 + this.x2;
-    var centerY = (this.y1 - this.y2) / 2.0 + this.y2;
-    var length = Math.hypot(this.x1 - this.x2, this.y1 - this.y2);
+    var centerX = (x1 - x2) / 2.0 + x2;
+    var centerY = (y1 - y2) / 2.0 + y2;
+    var length = Math.hypot(x1 - x2, y1 - y2);
     //var grd=context.createRadialGradient(centerX,centerY,length/2.0,centerX,centerY,length + GUIDE_LINE_LENGTH/2.0);
     //grd.addColorStop(0,"rgba(0, 0, 0, 1.0)");
     //grd.addColorStop(1,"rgba(0, 0, 0, 0.05)");
@@ -69,36 +83,41 @@ WallObject.prototype.drawPerpendicular = function(context, nearPointArray) {
     context.strokeStyle = "black";//grd;
     context.beginPath();
     if (line1Near) {
-        context.moveTo(line.x1, line.y1);
-        context.lineTo(line.x2, line.y2);
+        context.moveTo(line.getPoint1X(), line.getPoint1Y());
+        context.lineTo(line.getPoint2X(), line.getPoint2Y());
     }
     if (line2Near) {
-        context.moveTo(line2.x1, line2.y1);
-        context.lineTo(line2.x2, line2.y2);
+        context.moveTo(line2.getPoint1X(), line2.getPoint1Y());
+        context.lineTo(line2.getPoint2X(), line2.getPoint2Y());
     }
     if (line3Near) {
-        context.moveTo(line3.x1, line3.y1);
-        context.lineTo(line3.x2, line3.y2);
+        context.moveTo(line3.getPoint1X(), line3.getPoint1Y());
+        context.lineTo(line3.getPoint2X(), line3.getPoint2Y());
     }
     context.stroke();
     context.globalAlpha = 1.0;
 };
 
-WallObject.prototype.drawLength = function(context) {
+Wall.prototype.drawLength = function(context) {
     "use strict";
     //Go down to 5 decimal places
 
-    var lengthInFeet = Math.hypot(this.x1 - this.x2, this.y1 - this.y2) / PIXELS_IN_FOOT;
+    var x1 = this.getLine().getPoint1X();
+    var y1 = this.getLine().getPoint1Y();
+    var x2 = this.getLine().getPoint2X();
+    var y2 = this.getLine().getPoint2Y();
+
+    var lengthInFeet = Math.hypot(x1 - x2, y1 - y2) / PIXELS_IN_FOOT;
     var feet = Math.floor(lengthInFeet);
     var inches = ((lengthInFeet - feet) * 12).toFixed(1);
     //var inches = ((lengthInFeet - feet) * 12);
-    var centerX = (this.x1 - this.x2) / 2.0 + this.x2;
-    var centerY = (this.y1 - this.y2) / 2.0 + this.y2;
+    var centerX = (x1 - x2) / 2.0 + x2;
+    var centerY = (y1 - y2) / 2.0 + y2;
 
-    if (this.y1 < this.y2) {
-        centerY = this.y1 - 50.0;
+    if (y1 < y2) {
+        centerY = y1 - 50.0;
     } else {
-        centerY = this.y2 - 50.0;
+        centerY = y2 - 50.0;
     }
 
 
@@ -115,7 +134,7 @@ WallObject.prototype.drawLength = function(context) {
     context.fillStyle = "white";
     context.textBaseline = "middle";
     context.fillText(feet+" ft " + inches + " in", centerX, centerY);
-}
+};
 
 function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
     "use strict";
