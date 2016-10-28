@@ -8,112 +8,24 @@ var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function wallSlicer(walls) {
     //Slice any walls that are intersecting
-    var slicedWall = false;
-    for (var w1 = 0; w1 < walls.length; w1++) {
+    for (var w1 = 0; w1 < walls.length; w++) {
         var wall1 = walls[w1];
-        for (var w2 = w1 + 1; w2 < walls.length; w2++) {
+        for (var w2 = 0; w2 < walls.length; w2++) {
             var wall2 = walls[w2];
 
             //Get Intersection point
-            var wall1Line = wall1.getLine();
-            var wall2Line = wall2.getLine();
-
-            var intersectionPoint = getLineIntersectionPoint(wall1Line.getPoint1X(), wall1Line.getPoint1Y(), wall1Line.getPoint2X(), wall1Line.getPoint2Y(),
-                wall2Line.getPoint1X(), wall2Line.getPoint1Y(), wall2Line.getPoint2X(), wall2Line.getPoint2Y());
 
             //Determine what new lines we have to make from the intersection point
-            if (intersectionPoint != null) {
-                //The intersection point can only be at most on one wall end.
-                var wall1Point1Intersects = false;
-                var wall1Point2Intersects = false;
-                var wall2Point1Intersects = false;
-                var wall2Point2Intersects = false;
 
-                wall1Point1Intersects = Math.hypot(wall1Line.getPoint1X() - intersectionPoint.getX(), wall1Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
-                wall1Point2Intersects = Math.hypot(wall1Line.getPoint2X() - intersectionPoint.getX(), wall1Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
-                wall2Point1Intersects = Math.hypot(wall2Line.getPoint1X() - intersectionPoint.getX(), wall2Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
-                wall2Point2Intersects = Math.hypot(wall2Line.getPoint2X() - intersectionPoint.getX(), wall2Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
+            //If new lines were made, add new lines and remove the old lines
 
-                //Ignore if both ends of the wall are at the intersect point
-                if (wall1Point1Intersects && wall1Point2Intersects) continue;
-                if (wall2Point1Intersects && wall2Point2Intersects) continue;
-
-                //Ignore if the intersect point is at a corner of both walls
-                if (wall1Point1Intersects && wall2Point1Intersects) continue;
-                if (wall1Point1Intersects && wall2Point2Intersects) continue;
-                if (wall1Point2Intersects && wall2Point1Intersects) continue;
-                if (wall1Point2Intersects && wall2Point2Intersects) continue;
-
-                var numberOfIntersects = 0;
-                if (wall1Point1Intersects) numberOfIntersects++;
-                if (wall1Point2Intersects) numberOfIntersects++;
-                if (wall2Point1Intersects) numberOfIntersects++;
-                if (wall2Point2Intersects) numberOfIntersects++;
-
-                //Handle no intersects or one corner intersecting
-                if (numberOfIntersects == 0) {
-                    //Gonna delete both walls and create 4 new walls
-                    new Wall({
-                        point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
-
-                    new Wall({
-                        point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
-
-                    new Wall({
-                        point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
-
-                    new Wall({
-                        point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
-
-                    this.getCurrentFloorPlan().removeWall(wall1);
-                    this.getCurrentFloorPlan().removeWall(wall2);
-
-                    slicedWall = true;
-                    break;
-                } else if (numberOfIntersects == 1) {
-                    //Gonna delete 1 wall and create 2 new walls
-                    if (wall1Point1Intersects || wall1Point2Intersects) {
-                        new Wall({
-                            point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-
-                        new Wall({
-                            point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-                        this.getCurrentFloorPlan().removeWall(wall2);
-
-                    } else if (wall2Point1Intersects || wall2Point2Intersects) {
-                        new Wall({
-                            point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-
-                        new Wall({
-                            point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-                        this.getCurrentFloorPlan().removeWall(wall1);
-
-                    }
-
-                    slicedWall = true;
-                    break;
-                }
-            }
+            //Reset for loop?
+            /*
+             function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
+             point2X1, point2Y1, point2X2, point2Y2)
+             */
         }
-        if (slicedWall) break;
     }
-    if (slicedWall) wallSlicer.call(this, walls);
 }
 
 //Determines if the coordinate point falls within the area of the circle.
@@ -217,20 +129,20 @@ function snapPointToInchGrid(snapWall) {
 function snapWallToDecimalFromPoint1(snapWall) {
     "use strict";
 
-    var lengthInFeet = Math.hypot(snapWall.getPoint1X() - snapWall.getPoint2X(), snapWall.getPoint1Y() - snapWall.getPoint2Y()) / PIXELS_IN_FOOT;
+    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
     var feet = Math.floor(lengthInFeet);
     var inches = (lengthInFeet - feet) * 12;
 
     inches = Math.round(inches * 10) / 10.0;
 
     var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
-    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.getPoint1X(), snapWall.getPoint1Y(), snapWall.getPoint2X(), snapWall.getPoint2Y());
+    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
 
-    var newX = snapWall.getPoint1X() + lineLength * Math.cos(nearestAngle);
-    var newY = snapWall.getPoint1Y() + lineLength * Math.sin(nearestAngle);
+    var newX = snapWall.x1 + lineLength * Math.cos(nearestAngle);
+    var newY = snapWall.y1 + lineLength * Math.sin(nearestAngle);
 
-    snapWall.getPoint2X() = newX;
-    snapWall.getPoint2Y() = newY;
+    snapWall.x2 = newX;
+    snapWall.y2 = newY;
 }*/
 
 //Converts calculated pixel values of second point into closest 1/10 of an inch.
@@ -238,20 +150,20 @@ function snapWallToDecimalFromPoint1(snapWall) {
 function snapWallToDecimalFromPoint2(snapWall) {
     "use strict";
 
-    var lengthInFeet = Math.hypot(snapWall.getPoint1X() - snapWall.getPoint2X(), snapWall.getPoint1Y() - snapWall.getPoint2Y()) / PIXELS_IN_FOOT;
+    var lengthInFeet = Math.hypot(snapWall.x1 - snapWall.x2, snapWall.y1 - snapWall.y2) / PIXELS_IN_FOOT;
     var feet = Math.floor(lengthInFeet);
     var inches = (lengthInFeet - feet) * 12;
 
     inches = Math.round(inches * 10) / 10.0;
 
     var lineLength = (feet + inches / 12.0) * PIXELS_IN_FOOT;
-    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.getPoint1X(), snapWall.getPoint1Y(), snapWall.getPoint2X(), snapWall.getPoint2Y());
+    var nearestAngle = getAngleOfLineBetweenPoints(snapWall.x1, snapWall.y1, snapWall.x2, snapWall.y2);
 
-    var newX = snapWall.getPoint2X() - lineLength * Math.cos(nearestAngle);
-    var newY = snapWall.getPoint2Y() - lineLength * Math.sin(nearestAngle);
+    var newX = snapWall.x2 - lineLength * Math.cos(nearestAngle);
+    var newY = snapWall.y2 - lineLength * Math.sin(nearestAngle);
 
-    snapWall.getPoint1X() = newX;
-    snapWall.getPoint1Y() = newY;
+    snapWall.x1 = newX;
+    snapWall.y1 = newY;
 }*/
 
 //Gets the first point to snap closest to.
@@ -316,8 +228,8 @@ function getWallIntersectionPoints(wallList, excludeWallList) {
             if (excludeWallList.includes(wall2) || wall2 == wall1) continue;
 
             //Get intersection point and add it to point array
-            var point = getLineIntersectionPoint(wall1.getPoint1X(), wall1.getPoint1Y(), wall1.getPoint2X(), wall1.getPoint2Y(),
-                wall2.getPoint1X(), wall2.getPoint1Y(), wall2.getPoint2X(), wall2.getPoint2Y());
+            var point = getLineIntersectionPoint(wall1.x1, wall1.y1, wall1.x2, wall1.y2,
+                wall2.x1, wall2.y1, wall2.x2, wall2.y2);
             if (point != null) {
                 pointArray.push(point);
             }
@@ -336,9 +248,9 @@ function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
         var wall1 = wallList[i];
         if (excludeWallList.includes(wall1)) continue;
         //Add perpendicular lines
-        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint1(wall1.getPoint1X(), wall1.getPoint1Y(), wall1.getPoint2X(), wall1.getPoint2Y()));
-        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint2(wall1.getPoint1X(), wall1.getPoint1Y(), wall1.getPoint2X(), wall1.getPoint2Y()));
-        perpendicularLineArray.push(getLongerLine(wall1.getPoint1X(), wall1.getPoint1Y(), wall1.getPoint2X(), wall1.getPoint2Y()));
+        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint1(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
+        perpendicularLineArray.push(getPerpendicularInfiniteLinePoint2(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
+        perpendicularLineArray.push(getLongerLine(wall1.x1, wall1.y1, wall1.x2, wall1.y2));
     }
 
 
@@ -351,8 +263,8 @@ function getWallPerpendicularIntersectionPoints(wallList, excludeWallList) {
             if (line == line2) continue;
 
             //Get intersection point and add it to point array
-            var point = getLineIntersectionPoint(line.getPoint1X(), line.getPoint1Y(), line.getPoint2X(), line.getPoint2Y(),
-                line2.getPoint1X(), line2.getPoint1Y(), line2.getPoint2X(), line2.getPoint2Y());
+            var point = getLineIntersectionPoint(line.x1, line.y1, line.x2, line.y2,
+                line2.x1, line2.y1, line2.x2, line2.y2);
             if (point != null) {
                 pointArray.push(point);
             }
@@ -374,11 +286,11 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     var points = getWallIntersectionPoints(wallList, excludeWallList);
     for (var i = 0; i < points.length; i++) {
         var point = points[i];
-        if (Math.hypot(pointX - point.getX(), pointY - point.getY()) < wallIntersectionClosest) {
-            snapToX = point.getX();
-            snapToY = point.getY();
+        if (Math.hypot(pointX - point.x, pointY - point.y) < wallIntersectionClosest) {
+            snapToX = point.x;
+            snapToY = point.y;
             snappedToEnd = true;
-            wallIntersectionClosest = Math.hypot(pointX - point.getX(), pointY - point.getY());
+            wallIntersectionClosest = Math.hypot(pointX - point.x, pointY - point.y);
         }
     }
     var wallPerpendicularClosest = wallIntersectionClosest;
@@ -386,11 +298,11 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     var points = getWallPerpendicularIntersectionPoints(wallList, excludeWallList);
     for (var i = 0; i < points.length; i++) {
         var point = points[i];
-        if (Math.hypot(pointX - point.getX(), pointY - point.getY()) < wallPerpendicularClosest) {
-            snapToX = point.getX();
-            snapToY = point.getY();
+        if (Math.hypot(pointX - point.x, pointY - point.y) < wallPerpendicularClosest) {
+            snapToX = point.x;
+            snapToY = point.y;
             snappedToEnd = true;
-            closest = Math.hypot(pointX - point.getX(), pointY - point.getY());
+            closest = Math.hypot(pointX - point.x, pointY - point.y);
         }
     }
 
@@ -399,17 +311,17 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
     for (var i = 0; i < wallList.length; i++) {
         var wall = wallList[i];
         if (excludeWallList.includes(wall)) continue;
-        if (Math.hypot(pointX - wall.getPoint1X(), pointY - wall.getPoint1Y()) <= closest) {
-            snapToX = wall.getPoint1X();
-            snapToY = wall.getPoint1Y();
+        if (Math.hypot(pointX - wall.x1, pointY - wall.y1) <= closest) {
+            snapToX = wall.x1;
+            snapToY = wall.y1;
             snappedToEnd = true;
-            closest = Math.hypot(pointX - wall.getPoint1X(), pointY - wall.getPoint1Y());
+            closest = Math.hypot(pointX - wall.x1, pointY - wall.y1);
         }
-        if (Math.hypot(pointX - wall.getPoint2X(), pointY - wall.getPoint2Y()) <= closest) {
-            snapToX = wall.getPoint2X();
-            snapToY = wall.getPoint2Y();
+        if (Math.hypot(pointX - wall.x2, pointY - wall.y2) <= closest) {
+            snapToX = wall.x2;
+            snapToY = wall.y2;
             snappedToEnd = true;
-            closest = Math.hypot(pointX - wall.getPoint2X(), pointY - wall.getPoint2Y());
+            closest = Math.hypot(pointX - wall.x2, pointY - wall.y2);
         }
     }
 
@@ -420,33 +332,33 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
         for (var i = 0; i < wallList.length; i++) {
             var wall = wallList[i];
             if (excludeWallList.includes(wall)) continue;
-            var snapPoint = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), pointX, pointY);
+            var snapPoint = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, pointX, pointY);
             //Snap to any point on the wall
-            if (Math.hypot(snapPoint.getX() - pointX, snapPoint.getY() - pointY) < closest) {
-                closest = Math.hypot(snapPoint.getX() - pointX, snapPoint.getY() - pointY);
-                snapWallX = snapPoint.getX();
-                snapWallY = snapPoint.getY();
+            if (Math.hypot(snapPoint.x - pointX, snapPoint.y - pointY) < closest) {
+                closest = Math.hypot(snapPoint.x - pointX, snapPoint.y - pointY);
+                snapWallX = snapPoint.x;
+                snapWallY = snapPoint.y;
             } else {
                 //Snap to wall guide lines
 
-                var pLine = getPerpendicularInfiniteLinePoint1(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y());
-                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y());
-                var pLine3 = getLongerLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y());
-                var snapPoint1 = nearestPointOnLine(pLine.getPoint1X(), pLine.getPoint1Y(), pLine.getPoint2X(), pLine.getPoint2Y(), pointX, pointY);
-                var snapPoint2 = nearestPointOnLine(pLine2.getPoint1X(), pLine2.getPoint1Y(), pLine2.getPoint2X(), pLine2.getPoint2Y(), pointX, pointY);
-                var snapPoint3 = nearestPointOnLine(pLine3.getPoint1X(), pLine3.getPoint1Y(), pLine3.getPoint2X(), pLine3.getPoint2Y(), pointX, pointY);
-                if (Math.hypot(snapPoint1.getX() - pointX, snapPoint1.getY() - pointY) < closest) {
-                    snapWallX = snapPoint1.getX();
-                    snapWallY = snapPoint1.getY();
-                    closest = Math.hypot(snapPoint1.getX() - pointX, snapPoint1.getY() - pointY);
-                } else if (Math.hypot(snapPoint2.getX() - pointX, snapPoint2.getY() - pointY) < closest) {
-                    snapWallX = snapPoint2.getX();
-                    snapWallY = snapPoint2.getY();
-                    closest = Math.hypot(snapPoint2.getX() - pointX, snapPoint2.getY() - pointY);
-                } else if (Math.hypot(snapPoint3.getX() - pointX, snapPoint3.getY() - pointY) < closest) {
-                    snapWallX = snapPoint3.getX();
-                    snapWallY = snapPoint3.getY();
-                    closest = Math.hypot(snapPoint3.getX() - pointX, snapPoint3.getY() - pointY);
+                var pLine = getPerpendicularInfiniteLinePoint1(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine2 = getPerpendicularInfiniteLinePoint2(wall.x1, wall.y1, wall.x2, wall.y2);
+                var pLine3 = getLongerLine(wall.x1, wall.y1, wall.x2, wall.y2);
+                var snapPoint1 = nearestPointOnLine(pLine.x1, pLine.y1, pLine.x2, pLine.y2, pointX, pointY);
+                var snapPoint2 = nearestPointOnLine(pLine2.x1, pLine2.y1, pLine2.x2, pLine2.y2, pointX, pointY);
+                var snapPoint3 = nearestPointOnLine(pLine3.x1, pLine3.y1, pLine3.x2, pLine3.y2, pointX, pointY);
+                if (Math.hypot(snapPoint1.x - pointX, snapPoint1.y - pointY) < closest) {
+                    snapWallX = snapPoint1.x;
+                    snapWallY = snapPoint1.y;
+                    closest = Math.hypot(snapPoint1.x - pointX, snapPoint1.y - pointY);
+                } else if (Math.hypot(snapPoint2.x - pointX, snapPoint2.y - pointY) < closest) {
+                    snapWallX = snapPoint2.x;
+                    snapWallY = snapPoint2.y;
+                    closest = Math.hypot(snapPoint2.x - pointX, snapPoint2.y - pointY);
+                } else if (Math.hypot(snapPoint3.x - pointX, snapPoint3.y - pointY) < closest) {
+                    snapWallX = snapPoint3.x;
+                    snapWallY = snapPoint3.y;
+                    closest = Math.hypot(snapPoint3.x - pointX, snapPoint3.y - pointY);
                 }
             }
         }

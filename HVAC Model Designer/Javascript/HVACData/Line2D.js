@@ -4,7 +4,6 @@
 
 function Line2D(options) {
     "use strict";
-    if (options == undefined || options == null) options = [];
     if ("x1" in options) {
         var x1 = options["x1"];
         var y1 = options["y1"];
@@ -26,35 +25,35 @@ function Line2D(options) {
     }
 }
 
-Line2D.prototype.getPoint1X = function() {
+Line2D.prototype.getX1 = function() {
     "use strict";
     return this.point1.getX();
 };
-Line2D.prototype.getPoint2X = function() {
+Line2D.prototype.getX2 = function() {
     "use strict";
     return this.point2.getX();
 };
-Line2D.prototype.getPoint1Y = function() {
+Line2D.prototype.getY1 = function() {
     "use strict";
     return this.point1.getY();
 };
-Line2D.prototype.getPoint2Y = function() {
+Line2D.prototype.getY2 = function() {
     "use strict";
     return this.point2.getY();
 };
-Line2D.prototype.setPoint1X = function(x) {
+Line2D.prototype.setX1 = function(x) {
     "use strict";
     return this.point1.setX(x);
 };
-Line2D.prototype.setPoint2X = function(x) {
+Line2D.prototype.setX2 = function(x) {
     "use strict";
     return this.point2.setX(x);
 };
-Line2D.prototype.setPoint1Y = function(y) {
+Line2D.prototype.setY1 = function(y) {
     "use strict";
     return this.point1.setY(y);
 };
-Line2D.prototype.setPoint2Y = function(y) {
+Line2D.prototype.setY2 = function(y) {
     "use strict";
     return this.point2.setY(y);
 };

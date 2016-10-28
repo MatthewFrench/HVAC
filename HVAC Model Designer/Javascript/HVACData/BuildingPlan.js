@@ -4,7 +4,6 @@
 
 function BuildingPlan(options) {
     "use strict";
-    if (options == undefined || options == null) options = [];
     this.floorList = [];
     this.hvacData = options['hvacData'];
     this.hvacData.addBuilding(this);
@@ -23,8 +22,7 @@ BuildingPlan.prototype.getFloorList = function() {
 BuildingPlan.prototype.getHashmap = function() {
     "use strict";
     var floorMaps = [];
-        for (var i in this.floorList) {
-            var floor = this.floorList[i];
+    for (var floor in this.floorList) {
         floorMaps.push(floor.getHashmap());
     }
     return {floors: floorMaps};

@@ -11,40 +11,43 @@ HVACApplication.prototype.initCreateModeVariables = function () {
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedCreateModeLayout = function () {
     "use strict";
+    var canvasMouseX = this.currentMouseX - this.dragPositionX;
+    var canvasMouseY = this.currentMouseY - this.dragPositionY;
     if (this.currentCreateModeWall == null) {
-        this.currentCreateModeWall = new Wall({
-            point1: new CornerPoint({x: this.canvasMouseX, y:this.canvasMouseY}),
-            point2: new CornerPoint({x: this.canvasMouseX, y:this.canvasMouseY}),
-            floor: this.getCurrentFloorPlan()});
-        var point = snapPointToWalls(this.currentCreateModeWall.getPoint1X(),
-            this.currentCreateModeWall.getPoint1Y(), this.getCurrentWallList(), [this.currentCreateModeWall]);
-        this.currentCreateModeWall.getCornerPoint1().setX(point.getX());
-        this.currentCreateModeWall.getCornerPoint1().setY(point.getY());
-        this.currentCreateModeWall.getCornerPoint2().setX(point.getX());
-        this.currentCreateModeWall.getCornerPoint2().setY(point.getY());
+        this.currentCreateModeWall = new WallObject(canvasMouseX, canvasMouseY, canvasMouseX, canvasMouseY);
+        this.wallList.push(this.currentCreateModeWall);
+        var point = snapPointToWalls(this.currentCreateModeWall.x1,
+            this.currentCreateModeWall.y1, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x1 = point.x;
+        this.currentCreateModeWall.y1 = point.y;
     }
 };
 
 //Action taken for when the mouse is moving.
 HVACApplication.prototype.mouseMovedCreateModeLayout = function () {
     "use strict";
+    var movedX = this.previousMouseX - this.currentMouseX;
+    var movedY = this.previousMouseY - this.currentMouseY;
+
+    var canvasMouseX = this.currentMouseX - this.dragPositionX;
+    var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     if (this.currentCreateModeWall != null) {
-        this.currentCreateModeWall.setPoint2X(this.canvasMouseX);
-        this.currentCreateModeWall.setPoint2Y(this.canvasMouseY);
+        this.currentCreateModeWall.x2 = canvasMouseX;
+        this.currentCreateModeWall.y2 = canvasMouseY;
 
         //snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
-        var point = snapPointToWalls(this.currentCreateModeWall.getPoint2X(),
-            this.currentCreateModeWall.getPoint2Y(), this.getCurrentWallList(), [this.currentCreateModeWall]);
-        this.currentCreateModeWall.setPoint2X( point.getX() );
-        this.currentCreateModeWall.setPoint2Y( point.getY() );
+        var point = snapPointToWalls(this.currentCreateModeWall.x2,
+            this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x2 = point.x;
+        this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.getPoint1X(), this.currentCreateModeWall.getPoint1Y(),
-                this.currentCreateModeWall.getPoint2X(), this.currentCreateModeWall.getPoint2Y(), 45);
-            this.currentCreateModeWall.setPoint2X( line.getPoint2X() );
-            this.currentCreateModeWall.setPoint2Y( line.getPoint2Y() );
+            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+                this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
+            this.currentCreateModeWall.x2 = line.x2;
+            this.currentCreateModeWall.y2 = line.y2;
         }
     }
 };
@@ -52,33 +55,33 @@ HVACApplication.prototype.mouseMovedCreateModeLayout = function () {
 //Action taken for when the mouse is released.
 HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
     "use strict";
+    var canvasMouseX = this.currentMouseX - this.dragPositionX;
+    var canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     if (this.currentCreateModeWall != null) {
-        this.currentCreateModeWall.setPoint2X( this.canvasMouseX );
-        this.currentCreateModeWall.setPoint2Y( this.canvasMouseY );
+        this.currentCreateModeWall.x2 = canvasMouseX;
+        this.currentCreateModeWall.y2 = canvasMouseY;
 
         //snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
-        var point = snapPointToWalls(this.currentCreateModeWall.getPoint2X(),
-            this.currentCreateModeWall.getPoint2Y(), this.getCurrentWallList(), [this.currentCreateModeWall]);
-        this.currentCreateModeWall.setPoint2X( point.getX() );
-        this.currentCreateModeWall.setPoint2Y( point.getY() );
+        var point = snapPointToWalls(this.currentCreateModeWall.x2,
+            this.currentCreateModeWall.y2, this.wallList, [this.currentCreateModeWall]);
+        this.currentCreateModeWall.x2 = point.x;
+        this.currentCreateModeWall.y2 = point.y;
 
         if (this.shiftPressed) {
-            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.getPoint1X(), this.currentCreateModeWall.getPoint1Y(),
-                this.currentCreateModeWall.getPoint2X(), this.currentCreateModeWall.getPoint2Y(), 45);
-            this.currentCreateModeWall.setPoint2X( line.getPoint2X() );
-            this.currentCreateModeWall.setPoint2Y( line.getPoint2Y() );
+            var line = getLinePoint2SnappedToNearestRotation(this.currentCreateModeWall.x1, this.currentCreateModeWall.y1,
+                this.currentCreateModeWall.x2, this.currentCreateModeWall.y2, 45);
+            this.currentCreateModeWall.x2 = line.x2;
+            this.currentCreateModeWall.y2 = line.y2;
         }
 
-        if (this.currentCreateModeWall.getPoint1X() == this.currentCreateModeWall.getPoint2X() &&
-            this.currentCreateModeWall.getPoint1Y() == this.currentCreateModeWall.getPoint2Y()) {
-            this.getCurrentWallList().splice(this.getCurrentWallList().indexOf(this.currentCreateModeWall), 1);
+        if (this.currentCreateModeWall.x1 == this.currentCreateModeWall.x2 &&
+            this.currentCreateModeWall.y1 == this.currentCreateModeWall.y2) {
+            this.wallList.splice(this.wallList.indexOf(this.currentCreateModeWall), 1);
         }
 
         this.currentCreateModeWall = null;
-
-        wallSlicer.call(this, this.getCurrentWallList());
     }
 };
 
@@ -95,32 +98,34 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
     var closePointArray = [];
-    closePointArray.push(new Point2D({x: this.canvasMouseX, y: this.canvasMouseY}));
+    closePointArray.push(new Point2D({x: this.currentMouseX, y: this.currentMouseY}));
     if (this.currentCreateModeWall != null) {
         if (this.selectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push( this.currentCreateModeWall.getCornerPoint1().getPoint() );
+            closePointArray.push(new Point2D({x:this.currentCreateModeWall.x1, y:this.currentCreateModeWall.y1}));
         }
         if (this.selectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(this.currentCreateModeWall.getCornerPoint2().getPoint());
+            closePointArray.push(new Point2D({x:this.currentCreateModeWall.x2, y:this.currentCreateModeWall.y2}));
         }
     }
 
-    for (var i = 0; i < this.getCurrentWallList().length; i++) {
-        var wall = this.getCurrentWallList()[i];
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
         wall.drawPerpendicular(ctx, closePointArray);
     }
 
-    for (var i = 0; i < this.getCurrentWallList().length; i++) {
-        var wall = this.getCurrentWallList()[i];
+    for (var i = 0; i < this.wallList.length; i++) {
+        var wall = this.wallList[i];
         wall.draw(ctx, false);
     }
 
     //Draw create mode starting point
     if (this.currentCreateModeWall == null) {
-        var point = snapPointToWalls(this.canvasMouseX, this.canvasMouseY, this.getCurrentWallList(), []);
+        var x = this.currentMouseX - this.dragPositionX;
+        var y = this.currentMouseY - this.dragPositionY;
+        var point = snapPointToWalls(x, y, this.wallList, []);
         ctx.fillStyle = "rgb(150,200,255)";
         ctx.beginPath();
-        ctx.arc(point.getX(), point.getY(), 5, 0, 2 * Math.PI);
+        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
         ctx.fill();
     }
 

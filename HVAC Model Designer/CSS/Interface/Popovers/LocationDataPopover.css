@@ -15,24 +15,12 @@
     outline: black solid thin;
 }
 
-.LocationSaveButton{
+.SaveDataButton {
     position: absolute;
-    width: 90px;
-    height: 30px;
-    top: 84%;
-    left: 10%;
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    outline: black solid thin;
-}
-
-.LocationCancelButton{
-    position: absolute;
-    width: 90px;
-    height: 30px;
-    top: 84%;
-    left: 80%;
+    width: 200px;
+    height: 50px;
+    bottom: 1%;
+    left: 35.5%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;
