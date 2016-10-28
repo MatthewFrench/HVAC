@@ -110,8 +110,6 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-
-    this.showViewModeLayout();
 };
 
 //Highlights Drag button and deselects other buttons.
@@ -126,8 +124,6 @@ HVACApplication.prototype.dragButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-
-    this.showDragModeLayout();
 };
 
 //Highlights Create button and deselects other buttons.
@@ -142,8 +138,6 @@ HVACApplication.prototype.createWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-
-    this.showCreateModeLayout();
 };
 
 //Highlights Edit button and deselects other buttons.
@@ -159,12 +153,6 @@ HVACApplication.prototype.editButtonClicked = function () {
     //Adds the sub-edit buttons
     document.body.appendChild(this.editPointButtonDiv);
     document.body.appendChild(this.editCornerButtonDiv);
-
-    if (this.currentEditMode == EDIT_MODE_POINT) {
-        this.showEditPointModeLayout();
-    } else if (this.currentEditMode == EDIT_MODE_CORNER) {
-        this.showEditCornerModeLayout();
-    }
 };
 
 //Highlights Point button underneath Edit button.
@@ -173,7 +161,6 @@ HVACApplication.prototype.editPointButtonClicked = function () {
     this.currentEditMode = EDIT_MODE_POINT;
     this.editPointButtonDiv.className = "EditPointButtonDiv selectedButtonDiv";
     this.editCornerButtonDiv.className = "EditCornerButtonDiv";
-    this.showEditPointModeLayout();
 };
 
 //Highlights Corner button underneath Edit button.
@@ -182,7 +169,6 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
     this.currentEditMode = EDIT_MODE_CORNER;
     this.editPointButtonDiv.className = "EditPointButtonDiv";
     this.editCornerButtonDiv.className = "EditCornerButtonDiv selectedButtonDiv";
-    this.showEditCornerModeLayout();
 };
 
 //Highlights Delete button and deselects other buttons.
@@ -197,6 +183,4 @@ HVACApplication.prototype.deleteWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-
-    this.showDeleteModeLayout();
 };
