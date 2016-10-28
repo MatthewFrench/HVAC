@@ -25,9 +25,13 @@ FloorPlan.prototype.addWall = function(wall) {
     this.wallList.push(wall);
 };
 
+FloorPlan.prototype.removeWall = function(wall) {
+    this.wallList.splice(this.wallList.indexOf(wall), 1);
+};
+
 FloorPlan.prototype.clearWalls = function() {
     this.wallList = [];
-}
+};
 
 FloorPlan.prototype.getHashmap = function() {
     "use strict";

@@ -77,6 +77,8 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
         }
 
         this.currentCreateModeWall = null;
+
+        wallSlicer.call(this, this.getCurrentWallList());
     }
 };
 

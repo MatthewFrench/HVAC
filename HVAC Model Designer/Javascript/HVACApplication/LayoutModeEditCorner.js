@@ -245,6 +245,8 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
 HVACApplication.prototype.mouseReleasedEditCornerModeLayout = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
+
+    wallSlicer.call(this, this.getCurrentWallList());
 };
 
 //Redraws the display on the canvas.

@@ -33,7 +33,7 @@ HVACApplication.prototype.mouseReleasedDeleteModeLayout = function () {
     "use strict";
 
     if (this.highlightedDeleteWall != null) {
-        this.getCurrentWallList().splice(this.getCurrentWallList().indexOf(this.highlightedDeleteWall), 1);
+        this.getCurrentFloorPlan().removeWall(this.highlightedDeleteWall);
         this.highlightedDeleteWall = null;
     }
 };

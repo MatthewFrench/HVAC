@@ -133,6 +133,8 @@ HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
     if (this.currentEditMode == EDIT_MODE_POINT) {
         this.currentEditPointSelectedWall = null;
     }
+
+    wallSlicer.call(this, this.getCurrentWallList());
 };
 
 //Redraws the display on the canvas.

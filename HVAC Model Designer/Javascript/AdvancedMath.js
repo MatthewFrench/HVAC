@@ -8,24 +8,112 @@ var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function wallSlicer(walls) {
     //Slice any walls that are intersecting
-    for (var w1 = 0; w1 < walls.length; w++) {
+    var slicedWall = false;
+    for (var w1 = 0; w1 < walls.length; w1++) {
         var wall1 = walls[w1];
-        for (var w2 = 0; w2 < walls.length; w2++) {
+        for (var w2 = w1 + 1; w2 < walls.length; w2++) {
             var wall2 = walls[w2];
 
             //Get Intersection point
+            var wall1Line = wall1.getLine();
+            var wall2Line = wall2.getLine();
+
+            var intersectionPoint = getLineIntersectionPoint(wall1Line.getPoint1X(), wall1Line.getPoint1Y(), wall1Line.getPoint2X(), wall1Line.getPoint2Y(),
+                wall2Line.getPoint1X(), wall2Line.getPoint1Y(), wall2Line.getPoint2X(), wall2Line.getPoint2Y());
 
             //Determine what new lines we have to make from the intersection point
+            if (intersectionPoint != null) {
+                //The intersection point can only be at most on one wall end.
+                var wall1Point1Intersects = false;
+                var wall1Point2Intersects = false;
+                var wall2Point1Intersects = false;
+                var wall2Point2Intersects = false;
 
-            //If new lines were made, add new lines and remove the old lines
+                wall1Point1Intersects = Math.hypot(wall1Line.getPoint1X() - intersectionPoint.getX(), wall1Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
+                wall1Point2Intersects = Math.hypot(wall1Line.getPoint2X() - intersectionPoint.getX(), wall1Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
+                wall2Point1Intersects = Math.hypot(wall2Line.getPoint1X() - intersectionPoint.getX(), wall2Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
+                wall2Point2Intersects = Math.hypot(wall2Line.getPoint2X() - intersectionPoint.getX(), wall2Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
 
-            //Reset for loop?
-            /*
-             function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
-             point2X1, point2Y1, point2X2, point2Y2)
-             */
+                //Ignore if both ends of the wall are at the intersect point
+                if (wall1Point1Intersects && wall1Point2Intersects) continue;
+                if (wall2Point1Intersects && wall2Point2Intersects) continue;
+
+                //Ignore if the intersect point is at a corner of both walls
+                if (wall1Point1Intersects && wall2Point1Intersects) continue;
+                if (wall1Point1Intersects && wall2Point2Intersects) continue;
+                if (wall1Point2Intersects && wall2Point1Intersects) continue;
+                if (wall1Point2Intersects && wall2Point2Intersects) continue;
+
+                var numberOfIntersects = 0;
+                if (wall1Point1Intersects) numberOfIntersects++;
+                if (wall1Point2Intersects) numberOfIntersects++;
+                if (wall2Point1Intersects) numberOfIntersects++;
+                if (wall2Point2Intersects) numberOfIntersects++;
+
+                //Handle no intersects or one corner intersecting
+                if (numberOfIntersects == 0) {
+                    //Gonna delete both walls and create 4 new walls
+                    new Wall({
+                        point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
+                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                        floor: this.getCurrentFloorPlan()});
+
+                    new Wall({
+                        point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
+                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                        floor: this.getCurrentFloorPlan()});
+
+                    new Wall({
+                        point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
+                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                        floor: this.getCurrentFloorPlan()});
+
+                    new Wall({
+                        point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
+                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                        floor: this.getCurrentFloorPlan()});
+
+                    this.getCurrentFloorPlan().removeWall(wall1);
+                    this.getCurrentFloorPlan().removeWall(wall2);
+
+                    slicedWall = true;
+                    break;
+                } else if (numberOfIntersects == 1) {
+                    //Gonna delete 1 wall and create 2 new walls
+                    if (wall1Point1Intersects || wall1Point2Intersects) {
+                        new Wall({
+                            point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
+                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                            floor: this.getCurrentFloorPlan()});
+
+                        new Wall({
+                            point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
+                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                            floor: this.getCurrentFloorPlan()});
+                        this.getCurrentFloorPlan().removeWall(wall2);
+
+                    } else if (wall2Point1Intersects || wall2Point2Intersects) {
+                        new Wall({
+                            point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
+                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                            floor: this.getCurrentFloorPlan()});
+
+                        new Wall({
+                            point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
+                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                            floor: this.getCurrentFloorPlan()});
+                        this.getCurrentFloorPlan().removeWall(wall1);
+
+                    }
+
+                    slicedWall = true;
+                    break;
+                }
+            }
         }
+        if (slicedWall) break;
     }
+    if (slicedWall) wallSlicer.call(this, walls);
 }
 
 //Determines if the coordinate point falls within the area of the circle.
