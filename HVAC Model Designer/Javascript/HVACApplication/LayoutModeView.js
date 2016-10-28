@@ -6,7 +6,11 @@
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
 
-}
+};
+
+HVACApplication.prototype.showViewModeLayout = function () {
+
+};
 
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedViewModeLayout = function () {

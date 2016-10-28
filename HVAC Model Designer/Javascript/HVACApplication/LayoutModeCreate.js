@@ -6,7 +6,11 @@
 HVACApplication.prototype.initCreateModeVariables = function () {
     "use strict";
     this.currentCreateModeWall = null;
-}
+};
+
+HVACApplication.prototype.showCreateModeLayout = function () {
+
+};
 
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedCreateModeLayout = function () {

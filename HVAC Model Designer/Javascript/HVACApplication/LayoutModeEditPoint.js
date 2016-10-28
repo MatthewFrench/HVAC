@@ -10,6 +10,10 @@ HVACApplication.prototype.initEditPointModeVariables = function () {
     this.highlightedPoint = null;
 };
 
+HVACApplication.prototype.showEditPointModeLayout = function () {
+
+};
+
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     "use strict";
