@@ -134,7 +134,7 @@
     opacity: 0;
 }
 
-.SaveDoorDataButton{
+.DoorSaveButton{
     position: absolute;
     width: 90px;
     height: 30px;
@@ -146,7 +146,7 @@
     outline: black solid thin;
 }
 
-.CancelButton{
+.DoorCancelButton{
     position: absolute;
     width: 90px;
     height: 30px;
