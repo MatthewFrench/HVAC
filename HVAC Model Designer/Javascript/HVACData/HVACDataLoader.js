@@ -93,6 +93,6 @@ HVACDataLoader.getHVACData = function() {
         var newHVACData = new HVACData();
         var building = new BuildingPlan({hvacData: newHVACData});
         var floor = new FloorPlan({building: building});
-        return new newHVACData;
+        return newHVACData;
     }
 };
