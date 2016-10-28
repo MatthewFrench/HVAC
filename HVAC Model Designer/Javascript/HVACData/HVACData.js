@@ -31,7 +31,8 @@ HVACData.prototype.setVersion = function(version) {
 HVACData.prototype.getHashmap = function() {
     "use strict";
     var buildingMaps = [];
-    for (var building in this.buildingList) {
+    for (var i in this.buildingList) {
+        var building = this.buildingList[i];
         buildingMaps.push(building.getHashmap());
     }
     return {version: this.version, buildings: buildingMaps};

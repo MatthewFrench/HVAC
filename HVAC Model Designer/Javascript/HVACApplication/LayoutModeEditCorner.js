@@ -2,65 +2,18 @@
  * Created by Matt on 9/19/16.
  */
 
-var WallPointEnum = {
-    POINT1: 1,
-    POINT2: 2
-};
-var CornerPoint = function (wall, wallPoint) {
-    this.wall = wall;
-    this.wallPoint = wallPoint;
-};
-CornerPoint.prototype.getX = function() {
-    "use strict";
-    if (this.wallPoint == WallPointEnum.POINT1) {
-        return this.wall.x1;
-    }
-    if (this.wallPoint == WallPointEnum.POINT2) {
-        return this.wall.x2;
-    }
-    return null;
-};
-CornerPoint.prototype.getY = function() {
-    "use strict";
-    if (this.wallPoint == WallPointEnum.POINT1) {
-        return this.wall.y1;
-    }
-    if (this.wallPoint == WallPointEnum.POINT2) {
-        return this.wall.y2;
-    }
-    return null;
-};
-CornerPoint.prototype.setX = function(x) {
-    "use strict";
-    if (this.wallPoint == WallPointEnum.POINT1) {
-        this.wall.x1 = x;
-    }
-    if (this.wallPoint == WallPointEnum.POINT2) {
-        this.wall.x2 = x;
-    }
-};
-CornerPoint.prototype.setY = function(y) {
-    "use strict";
-    if (this.wallPoint == WallPointEnum.POINT1) {
-        this.wall.y1 = y;
-    }
-    if (this.wallPoint == WallPointEnum.POINT2) {
-        this.wall.y2 = y;
-    }
-};
-
 //Wall connections object
 var WallConnection = function(cornerPoint, connectedWall) {
     "use strict";
 
     this.cornerPoint = cornerPoint;
     this.connectedWall = connectedWall;
-    var lengthOfWall = Math.hypot(connectedWall.x2 - connectedWall.x1, connectedWall.y2 - connectedWall.y1);
-    this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.x1, cornerPoint.getY() - connectedWall.y1) / lengthOfWall;
-}
+    var lengthOfWall = Math.hypot(connectedWall.getPoint2X() - connectedWall.getPoint1X(), connectedWall.getPoint2Y() - connectedWall.getPoint1Y());
+    this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.getPoint1X(), cornerPoint.getY() - connectedWall.getPoint1Y()) / lengthOfWall;
+};
 WallConnection.prototype.reattach = function() {
-    var newX = (this.connectedWall.x2 - this.connectedWall.x1) * this.percentageOnWallLine + this.connectedWall.x1;
-    var newY = (this.connectedWall.y2 - this.connectedWall.y1) * this.percentageOnWallLine + this.connectedWall.y1;
+    var newX = (this.connectedWall.getPoint2X() - this.connectedWall.getPoint1X()) * this.percentageOnWallLine + this.connectedWall.getPoint1X();
+    var newY = (this.connectedWall.getPoint2Y() - this.connectedWall.getPoint1Y()) * this.percentageOnWallLine + this.connectedWall.getPoint1Y();
     this.cornerPoint.setX(newX);
     this.cornerPoint.setY(newY);
 };
@@ -76,32 +29,33 @@ HVACApplication.prototype.initEditCornerModeVariables = function () {
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     "use strict";
     //Select all points near the mouse and track all walls of those points
-    var canvasMouseX = this.currentMouseX - this.dragPositionX;
-    var canvasMouseY = this.currentMouseY - this.dragPositionY;
+
+    console.log("Mouse pressed");
 
     this.currentEditCornerSelectedCornerPoints = [];
     var searchArea = 15;
     var closestCornerPoint = null;
 
     //Select closest points at location
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        if (pointInCircle(canvasMouseX, canvasMouseY, wall.x1, wall.y1, searchArea)) {
-            searchArea = Math.hypot(wall.x1 - canvasMouseX, wall.y1 - canvasMouseY);
-            closestCornerPoint = new CornerPoint(wall, WallPointEnum.POINT1);
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
+        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), searchArea)) {
+            searchArea = Math.hypot(wall.getPoint1X() - this.canvasMouseX, wall.getPoint1Y() - this.canvasMouseY);
+            closestCornerPoint = wall.getCornerPoint1();
         }
-        if (pointInCircle(canvasMouseX, canvasMouseY, wall.x2, wall.y2, searchArea)) {
-            searchArea = Math.hypot(wall.x2 - canvasMouseX, wall.y2 - canvasMouseY);
-            closestCornerPoint = new CornerPoint(wall, WallPointEnum.POINT2);
+        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), searchArea)) {
+            searchArea = Math.hypot(wall.getPoint2X() - this.canvasMouseX, wall.getPoint2Y() - this.canvasMouseY);
+            closestCornerPoint = wall.getCornerPoint2();
         }
     }
 
     //Store all wall connections
     this.wallConnections = [];
-    for (var i = 0; i < this.wallList.length; i++) {
-        var firstWall = this.wallList[i];
-        for (var j = i+1; j < this.wallList.length; j++) {
-            var secondWall = this.wallList[j];
+    console.log("Wall connection: " + this.wallConnections);
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var firstWall = this.getCurrentWallList()[i];
+        for (var j = i+1; j < this.getCurrentWallList().length; j++) {
+            var secondWall = this.getCurrentWallList()[j];
             if (firstWall == secondWall) continue;
 
             //If second wall is connected to first wall but not on an end point, add it
@@ -116,15 +70,15 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             var firstWallPoint1Connection = null;
             var firstWallPoint2Connection = null;
 
-            var firstWallPoint1 = new CornerPoint(firstWall, WallPointEnum.POINT1);
-            var firstWallPoint2 = new CornerPoint(firstWall, WallPointEnum.POINT2);
-            var secondWallPoint1 = new CornerPoint(secondWall, WallPointEnum.POINT1);
-            var secondWallPoint2 = new CornerPoint(secondWall, WallPointEnum.POINT2);
+            var firstWallPoint1 = firstWall.getCornerPoint1();
+            var firstWallPoint2 = firstWall.getCornerPoint2();
+            var secondWallPoint1 = secondWall.getCornerPoint1();
+            var secondWallPoint2 = secondWall.getCornerPoint2();
 
             var checkConnection = function(checkWallPoint, targetWallPoint1, targetWallPoint2) {
                 var pointOnLine = nearestPointOnLine(targetWallPoint1.getX(), targetWallPoint1.getY(),
                     targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(), checkWallPoint.getY());
-                var distBetweenConnection = Math.hypot(pointOnLine.x - checkWallPoint.getX(), pointOnLine.y - checkWallPoint.getY());
+                var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(), pointOnLine.getY() - checkWallPoint.getY());
                 if (distBetweenConnection <= 1.0) { //If within 1 pixel, be connected to wall
                     //Check if an end point
                     if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(), checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
@@ -132,7 +86,7 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
                         //End point do nothing
                     } else {
                         //Not an end point, add
-                        var connection = new WallConnection(checkWallPoint, targetWallPoint1.wall);
+                        var connection = new WallConnection(checkWallPoint, targetWallPoint1.getWall());
                         return connection;
                     }
                 }
@@ -156,48 +110,56 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
         }
     }
 
+
+    console.log("Wall connection length: " + this.wallConnections.length);
+
+
+    console.log("closestCornerPoint: " + closestCornerPoint);
+
     //Search for points near pixel of closest point
     if (closestCornerPoint != null) {
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            var dist = Math.hypot(wall.x1 - closestCornerPoint.getX(), wall.y1 - closestCornerPoint.getY());
+        for (var i = 0; i < this.getCurrentWallList().length; i++) {
+            var wall = this.getCurrentWallList()[i];
+            var dist = Math.hypot(wall.getPoint1X() - closestCornerPoint.getX(), wall.getPoint1Y() - closestCornerPoint.getY());
             if (dist <= 1) {
-                this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT1));
+                this.currentEditCornerSelectedCornerPoints.push(wall.getCornerPoint1());
             }
-            dist = Math.hypot(wall.x2 - closestCornerPoint.getX(), wall.y2 - closestCornerPoint.getY());
+            dist = Math.hypot(wall.getPoint2X() - closestCornerPoint.getX(), wall.getPoint2Y() - closestCornerPoint.getY());
             if (dist <= 1) {
-                this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(wall, WallPointEnum.POINT2));
+                this.currentEditCornerSelectedCornerPoints.push(wall.getCornerPoint2());
             }
         }
     }
+    console.log("this.currentEditCornerSelectedCornerPoints 0: " + this.currentEditCornerSelectedCornerPoints.length);
 
     //Add any walls that the selected points may be connected to
-    for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
-        var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
-        var wall = cornerPoint.wall;
+    var currentEditCornerSelectedCornerPointsClone = this.currentEditCornerSelectedCornerPoints.slice(0);
+    for (var i = 0; i < currentEditCornerSelectedCornerPointsClone.length; i++) {
+        var cornerPoint = currentEditCornerSelectedCornerPointsClone[i];
+        var wall = cornerPoint.getWall();
 
-        for (var k = 0; k < this.wallList.length; k++) {
-            var checkWall = this.wallList[k];
+        for (var k = 0; k < this.getCurrentWallList().length; k++) {
+            var checkWall = this.getCurrentWallList()[k];
             if (checkWall != wall) {
                 var containsWall = false;
-                for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
-                    var checkCorner = this.currentEditCornerSelectedCornerPoints[j];
-                    if (checkCorner.wall == checkWall) containsWall = true;
+                for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
+                    var checkCorner = currentEditCornerSelectedCornerPointsClone[j];
+                    if (checkCorner.getWall() == checkWall) containsWall = true;
 
                 }
                 if (containsWall) continue;
 
-                var pointOnLine = nearestPointOnLine(checkWall.x1, checkWall.y1, checkWall.x2, checkWall.y2, cornerPoint.getX(), cornerPoint.getY());
-                if (Math.hypot(cornerPoint.getX() - pointOnLine.x, cornerPoint.getY() - pointOnLine.y) <= 1.0) {
+                var pointOnLine = nearestPointOnLine(checkWall.getPoint1X(), checkWall.getPoint1Y(), checkWall.getPoint2X(), checkWall.getPoint2Y(), cornerPoint.getX(), cornerPoint.getY());
+                if (Math.hypot(cornerPoint.getX() - pointOnLine.getX(), cornerPoint.getY() - pointOnLine.getY()) <= 1.0) {
                     //Check if points are added, if not add them to corner points
-                    var wallCorner1 = new CornerPoint(checkWall, WallPointEnum.POINT1);
-                    var wallCorner2 = new CornerPoint(checkWall, WallPointEnum.POINT2);
+                    var wallCorner1 = checkWall.getCornerPoint1();
+                    var wallCorner2 = checkWall.getCornerPoint2();
                     var addWallCorner1 = true;
                     var addWallCorner2 = true;
-                    for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
-                        var checkCorner = this.currentEditCornerSelectedCornerPoints[j];
-                        if (checkCorner.wall == wallCorner1.wall && checkCorner.wallPoint == wallCorner1.wallPoint) addWallCorner1 = false;
-                        if (checkCorner.wall == wallCorner2.wall && checkCorner.wallPoint == wallCorner2.wallPoint) addWallCorner2 = false;
+                    for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
+                        var checkCorner = currentEditCornerSelectedCornerPointsClones[j];
+                        if (checkCorner.getWall() == wallCorner1.getWall() && checkCorner.getPointType() == wallCorner1.getPointType()) addWallCorner1 = false;
+                        if (checkCorner.getWall() == wallCorner2.getWall() && checkCorner.getPointType() == wallCorner2.getPointType()) addWallCorner2 = false;
                     }
                     if (addWallCorner1) this.currentEditCornerSelectedCornerPoints.push(wallCorner1);
                     if (addWallCorner2) this.currentEditCornerSelectedCornerPoints.push(wallCorner2);
@@ -206,23 +168,23 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             }
         }
     }
-
+console.log("this.currentEditCornerSelectedCornerPoints: " + this.currentEditCornerSelectedCornerPoints.length);
     //If no points or corners were selected, grab a wall
     if (this.currentEditCornerSelectedCornerPoints.length == 0) {
         var closestWall = null;
         var closest = 15.0;
-        for (var i = 0; i < this.wallList.length; i++) {
-            var wall = this.wallList[i];
-            var point = nearestPointOnLine( wall.x1,  wall.y1, wall.x2, wall.y2,  canvasMouseX,  canvasMouseY);
-            var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+        for (var i = 0; i < this.getCurrentWallList().length; i++) {
+            var wall = this.getCurrentWallList()[i];
+            var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),  this.canvasMouseX,  this.canvasMouseY);
+            var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
             if (dist <= closest) {
                 closestWall = wall;
                 closest = dist;
             }
         }
         if (closestWall != null) {
-            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(closestWall, WallPointEnum.POINT1));
-            this.currentEditCornerSelectedCornerPoints.push(new CornerPoint(closestWall, WallPointEnum.POINT2));
+            this.currentEditCornerSelectedCornerPoints.push(closestWall.getCornerPoint1());
+            this.currentEditCornerSelectedCornerPoints.push(closestWall.getCornerPoint2());
         }
     }
 };
@@ -231,19 +193,13 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     "use strict";
 
-    var movedX = this.previousMouseX - this.currentMouseX;
-    var movedY = this.previousMouseY - this.currentMouseY;
-
-    var canvasMouseX = this.currentMouseX - this.dragPositionX;
-    var canvasMouseY = this.currentMouseY - this.dragPositionY;
-
 
     this.highlightedCorners = [];
     var closest = 15;
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        var point = nearestPointOnLine(wall.x1, wall.y1, wall.x2, wall.y2, canvasMouseX, canvasMouseY);
-        var dist = Math.hypot(point.x - canvasMouseX, point.y - canvasMouseY);
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
+        var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
         if (dist < closest) {
             //closest = dist;
             //this.highlightedCorner = wall;
@@ -264,18 +220,19 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
 
         for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
             var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
-            cornerPoint.setX(cornerPoint.getX() - movedX);
-            cornerPoint.setY(cornerPoint.getY() - movedY);
+            cornerPoint.setX(cornerPoint.getX() - this.mouseMovedX);
+            cornerPoint.setY(cornerPoint.getY() - this.mouseMovedY);
         }
-
+        console.log("Mouse move wall connections: " + this.wallConnections.length);
         //Re-align walls
         for (var i = 0; i < this.wallConnections.length; i++) {
             var wallConnection = this.wallConnections[i];
             var containsWall = false;
-            for (var cornerPoint in this.currentEditCornerSelectedCornerPoints) {
-                if (wallConnection.cornerPoint.wall == cornerPoint.wall) containsWall = false;
-                //if (cornerPoint.wall == wallConnection.cornerPoint.wall) containsWall = true;
-                //if (cornerPoint.wall == wallConnection.connectedWall) containsWall = true;
+            for (var j in this.currentEditCornerSelectedCornerPoints) {
+                var cornerPoint = this.currentEditCornerSelectedCornerPoints[j];
+                if (wallConnection.cornerPoint.getWall() == cornerPoint.getWall()) containsWall = false;
+                //if (cornerPoint.getWall() == wallConnection.cornerPoint.getWall()) containsWall = true;
+                //if (cornerPoint.getWall() == wallConnection.connectedWall) containsWall = true;
             }
             if (!containsWall) {
                 wallConnection.reattach();
@@ -302,8 +259,8 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
     ctx.save();
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
 
         var highlight = false;
         if (this.currentEditCornerSelectedCornerPoints.length == 0) {
@@ -311,12 +268,12 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
        } else {
            for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
                var corner = this.currentEditCornerSelectedCornerPoints[j];
-               if (corner.wall == wall) highlight = true;
+               if (corner.getWall() == wall) highlight = true;
            }
         }
 /*
         for (var wallConnection in this.wallConnections) {
-            if (this.wallConnections[wallConnection].cornerPoint.wall == wall) {
+            if (this.wallConnections[wallConnection].cornerPoint.getWall() == wall) {
                 highlight = true;
             }
         }

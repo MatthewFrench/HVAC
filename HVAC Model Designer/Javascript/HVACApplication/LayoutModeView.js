@@ -17,12 +17,9 @@ HVACApplication.prototype.mousePressedViewModeLayout = function () {
 HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
 
-    var movedX = this.previousMouseX - this.currentMouseX;
-    var movedY = this.previousMouseY - this.currentMouseY;
-
     if (this.mouseDown) {
-        this.dragPositionX -= movedX;
-        this.dragPositionY -= movedY;
+        this.dragPositionX -= this.mouseMovedX;
+        this.dragPositionY -= this.mouseMovedY;
     }
 
 };
@@ -30,9 +27,6 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
 //Action taken for when the mouse is released.
 HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
     "use strict";
-
-    var canvasMouseX = this.currentMouseX - this.dragPositionX;
-    var canvasMouseY = this.currentMouseY - this.dragPositionY;
 };
 
 //Redraws the display on the canvas.
@@ -48,8 +42,8 @@ HVACApplication.prototype.drawViewModeLayout = function () {
     ctx.save();
     ctx.translate(this.dragPositionX, this.dragPositionY);
 
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
+    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+        var wall = this.getCurrentWallList()[i];
         wall.draw(ctx, false);
     }
 
