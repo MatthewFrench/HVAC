@@ -17,6 +17,7 @@ var HVACApplication = function () {
     this.currentMouseY = 0.0;
     this.previousMouseX = 0.0;
     this.previousMouseY = 0.0;
+    this.angle = 0;
     this.mouseDown = false;
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.currentEditMode = EDIT_MODE_POINT;
