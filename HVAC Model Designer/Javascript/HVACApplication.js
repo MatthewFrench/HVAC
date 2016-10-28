@@ -9,7 +9,7 @@ var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
 //Constructor
 var HVACApplication = function () {
-    this.wallList = [];
+    this.hvacData = null;
     this.shiftPressed = false;
     this.dragPositionX = 0.0;
     this.dragPositionY = 0.0;
@@ -17,6 +17,8 @@ var HVACApplication = function () {
     this.currentMouseY = 0.0;
     this.previousMouseX = 0.0;
     this.previousMouseY = 0.0;
+    this.mouseMovedX = 0.0;
+    this.mouseMovedY = 0.0;
     this.mouseDown = false;
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.currentEditMode = EDIT_MODE_POINT;
@@ -35,44 +37,21 @@ var HVACApplication = function () {
 
 HVACApplication.prototype.loadData = function() {
     "use strict";
-
-    var hvacData = JSON.parse(window.localStorage.getItem("HVACData"));
-    if (hvacData != null) {
-        if (hvacData["Version"] == 1) {
-            var wallDataArray = hvacData["Walls"];
-            for (var i = 0; i < wallDataArray.length; i++) {
-                var wallData = wallDataArray[i];
-                this.wallList.push(new WallObject(wallData["x1"],wallData["y1"],wallData["x2"],wallData["y2"]));
-            }
-        }
-    }
+    this.hvacData = HVACDataLoader.getHVACData();
 };
 
 HVACApplication.prototype.saveData = function() {
-    //Format
-    //  Hashmap
-    //      "Version" => number
-    //      "Walls" => array
-    //          [Hashmap]
-    //              "x1" => number
-    //              "y1" => number
-    //              "x2" => number
-    //              "y2" => number
+    console.log("Saving: " + JSON.stringify(this.hvacData.getHashmap()));
+    window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
+};
 
-    var hvacData = {};
-    hvacData["Version"] = 1;
-    hvacData["Walls"] = [];
-    for (var i = 0; i < this.wallList.length; i++) {
-        var wall = this.wallList[i];
-        hvacData["Walls"].push({});
-        hvacData["Walls"][i]["x1"] = wall.x1;
-        hvacData["Walls"][i]["y1"] = wall.y1;
-        hvacData["Walls"][i]["x2"] = wall.x2;
-        hvacData["Walls"][i]["y2"] = wall.y2;
-    }
+HVACApplication.prototype.getCurrentWallList = function() {
+    return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
+};
 
-    window.localStorage.setItem("HVACData", JSON.stringify(hvacData));
-}
+HVACApplication.prototype.getCurrentFloorPlan = function() {
+    return this.hvacData.getBuildingList()[0].getFloorList()[0];
+};
 
 HVACApplication.prototype.logic = function() {
     "use strict";
@@ -124,24 +103,36 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
 
+    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
+    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
+
+    console.log("Mouse pressed");
+
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        console.log("Mouse pressed create wall");
         this.mousePressedCreateModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        console.log("Mouse pressed drag");
         this.mousePressedDragModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        console.log("Mouse pressed edit");
         if (this.currentEditMode == EDIT_MODE_POINT) {
+            console.log("Mouse pressed edit point");
             this.mousePressedEditPointModeLayout();
         }
         if (this.currentEditMode == EDIT_MODE_CORNER) {
+            console.log("Mouse pressed edit corner");
             this.mousePressedEditCornerModeLayout();
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
+        console.log("Mouse pressed view");
         this.mousePressedViewModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        console.log("Mouse pressed delete");
         this.mousePressedDeleteModeLayout();
     }
 };
@@ -154,6 +145,12 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     this.currentMouseX = mouseX;
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
+
+    this.mouseMovedX = this.previousMouseX - this.currentMouseX;
+    this.mouseMovedY = this.previousMouseY - this.currentMouseY;
+
+    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
+    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseMovedCreateModeLayout();
@@ -187,6 +184,9 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     this.currentMouseX = mouseX;
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
+
+    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
+    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseReleasedCreateModeLayout();

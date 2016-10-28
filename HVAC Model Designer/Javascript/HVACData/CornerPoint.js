@@ -2,22 +2,51 @@
  * Created by personal on 10/21/16.
  */
 
+var CornerPointTypeEnum = {
+    POINTANY: 0,
+    POINT1: 1,
+    POINT2: 2
+};
+
 function CornerPoint(options) {
     "use strict";
+    if (options == undefined || options == null) options = [];
     this.point = new Point2D();
     if ("x" in options) {
-        this.setX( options["x"] );
+        if (options['x'] == null || options['x'] == undefined) {
+            this.setX(0);
+        } else {
+            this.setX( options["x"] );
+        }
     }
     if ("y" in options) {
-        this.setY( options["y"] );
+        if (options['y'] == null || options['y'] == undefined) {
+            this.setY(0);
+        } else {
+            this.setY( options["y"] );
+        }
     }
     if ("wall" in options) {
         this.wall = options["wall"];
     }
     if ("point" in options) {
-        this.point = this.setPoint(options['point']);
+        if (options['point'] == null || options['point'] == undefined) {
+            this.setX(0);
+            this.setY(0);
+        } else {
+            this.setPoint(options['point']);
+        }
+    }
+    this.pointType = CornerPointTypeEnum.POINTANY;
+    if ("pointType" in options) {
+        this.pointType = options['pointType'];
     }
 }
+
+CornerPoint.prototype.getPointType = function() {
+    return this.pointType;
+};
+
 CornerPoint.prototype.getWall = function() {
     "use strict";
     return this.wall;
@@ -55,5 +84,5 @@ CornerPoint.prototype.setY = function(y) {
 
 CornerPoint.prototype.getHashmap = function() {
     "use strict";
-    return {x: this.x, y: this.y};
+    return {x: this.point.getX(), y: this.point.getY()};
 };
