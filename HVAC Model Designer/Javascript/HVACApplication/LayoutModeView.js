@@ -18,8 +18,14 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
 
     if (this.mouseDown) {
-        this.dragPositionX -= this.mouseMovedX;
-        this.dragPositionY -= this.mouseMovedY;
+        if (this.mouseMovedX < 0 && this.mouseMovedY < 0)
+        {
+            this.angle = incrementAngle(this.angle);
+        }
+        else if (this.mouseMovedX >= 0 && this.mouseMovedY >= 0)
+        {
+            this.angle = decrementAngle(this.angle);
+        }
     }
 
 };
@@ -40,7 +46,11 @@ HVACApplication.prototype.drawViewModeLayout = function () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    ctx.translate(canvasWidth/2, canvasHeight/2);
+
+    ctx.rotate(convertToRadians(this.angle));
+
+    ctx.translate(-canvasWidth/2, -canvasHeight/2);
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];

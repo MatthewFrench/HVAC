@@ -11,6 +11,7 @@ var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 var HVACApplication = function () {
     this.hvacData = null;
     this.shiftPressed = false;
+    this.angle = 0;
     this.dragPositionX = 0.0;
     this.dragPositionY = 0.0;
     this.currentMouseX = 0.0;

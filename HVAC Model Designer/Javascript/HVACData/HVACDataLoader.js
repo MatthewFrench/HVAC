@@ -12,7 +12,7 @@ HVACDataLoader.getHVACData = function() {
     console.log("Saved HVAC Data: " + window.localStorage.getItem("HVACData"));
     var hvacDataMap = JSON.parse(window.localStorage.getItem("HVACData"));
     if (hvacDataMap != null) {
-        if ("Version" in hvacDataMap) vacDataMap["version"] = vacDataMap["Version"];
+        if ("Version" in hvacDataMap) hvacDataMap["version"] = hvacDataMap["Version"];
         console.log("Version: " + hvacDataMap["version"]);
 
         switch (hvacDataMap["version"]) {
