@@ -6,7 +6,9 @@ var PIXELS_IN_FOOT = 20.0;
 var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
 var SNAP_TO_AMOUNT_PIXELS = 8;
 
-function wallSlicer(walls) {
+function wallSlicer(walls, highlightWalls) {
+    console.log("Running wall slicer, number of walls: " + walls.length);
+    highlightWalls.length = 0;
     //Slice any walls that are intersecting
     var slicedWall = false;
     for (var w1 = 0; w1 < walls.length; w1++) {
@@ -29,10 +31,10 @@ function wallSlicer(walls) {
                 var wall2Point1Intersects = false;
                 var wall2Point2Intersects = false;
 
-                wall1Point1Intersects = Math.hypot(wall1Line.getPoint1X() - intersectionPoint.getX(), wall1Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
-                wall1Point2Intersects = Math.hypot(wall1Line.getPoint2X() - intersectionPoint.getX(), wall1Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
-                wall2Point1Intersects = Math.hypot(wall2Line.getPoint1X() - intersectionPoint.getX(), wall2Line.getPoint1Y() - intersectionPoint.getY()) <= 0.5;
-                wall2Point2Intersects = Math.hypot(wall2Line.getPoint2X() - intersectionPoint.getX(), wall2Line.getPoint2Y() - intersectionPoint.getY()) <= 0.5;
+                wall1Point1Intersects = Math.hypot(wall1Line.getPoint1X() - intersectionPoint.getX(), wall1Line.getPoint1Y() - intersectionPoint.getY()) <= 1.0;
+                wall1Point2Intersects = Math.hypot(wall1Line.getPoint2X() - intersectionPoint.getX(), wall1Line.getPoint2Y() - intersectionPoint.getY()) <= 1.0;
+                wall2Point1Intersects = Math.hypot(wall2Line.getPoint1X() - intersectionPoint.getX(), wall2Line.getPoint1Y() - intersectionPoint.getY()) <= 1.0;
+                wall2Point2Intersects = Math.hypot(wall2Line.getPoint2X() - intersectionPoint.getX(), wall2Line.getPoint2Y() - intersectionPoint.getY()) <= 1.0;
 
                 //Ignore if both ends of the wall are at the intersect point
                 if (wall1Point1Intersects && wall1Point2Intersects) continue;
@@ -52,6 +54,9 @@ function wallSlicer(walls) {
 
                 //Handle no intersects or one corner intersecting
                 if (numberOfIntersects == 0) {
+                    highlightWalls.push(wall1);
+                    highlightWalls.push(wall2);
+                    console.log("0 intersects points so creating 4 walls");
                     //Gonna delete both walls and create 4 new walls
                     new Wall({
                         point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
@@ -81,6 +86,11 @@ function wallSlicer(walls) {
                 } else if (numberOfIntersects == 1) {
                     //Gonna delete 1 wall and create 2 new walls
                     if (wall1Point1Intersects || wall1Point2Intersects) {
+
+                        highlightWalls.push(wall1);
+                        highlightWalls.push(wall2);
+
+                        console.log("Creating 2 walls to replace wall 2");
                         new Wall({
                             point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
                             point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
@@ -93,6 +103,11 @@ function wallSlicer(walls) {
                         this.getCurrentFloorPlan().removeWall(wall2);
 
                     } else if (wall2Point1Intersects || wall2Point2Intersects) {
+
+                        highlightWalls.push(wall1);
+                        highlightWalls.push(wall2);
+
+                        console.log("Creating 2 walls to replace wall 1");
                         new Wall({
                             point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
                             point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
@@ -113,7 +128,10 @@ function wallSlicer(walls) {
         }
         if (slicedWall) break;
     }
-    if (slicedWall) wallSlicer.call(this, walls);
+    if (slicedWall) {
+        Animation
+        wallSlicer.call(this, walls);
+    }
 }
 
 //Determines if the coordinate point falls within the area of the circle.

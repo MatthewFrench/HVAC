@@ -6,6 +6,8 @@
 HVACApplication.prototype.initCreateModeVariables = function () {
     "use strict";
     this.currentCreateModeWall = null;
+
+    this.highlightWalls = [];
 };
 
 HVACApplication.prototype.showCreateModeLayout = function () {
@@ -82,7 +84,7 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
 
         this.currentCreateModeWall = null;
 
-        wallSlicer.call(this, this.getCurrentWallList());
+        wallSlicer.call(this, this.getCurrentWallList(), this.highlightWalls);
     }
 };
 
@@ -116,7 +118,7 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        wall.draw(ctx, false);
+        wall.draw(ctx, this.highlightWalls.indexOf(wall) != -1);
     }
 
     //Draw create mode starting point
