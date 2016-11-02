@@ -4,10 +4,14 @@
 window.onload = main;
 
 var myApp;
+
+var lastFPSTime = 0;
+var chosenFPS = 60.0;
+var chosenFPSMilliseconds = 1000.0/chosenFPS;
+
 function main() {
     myApp = new HVACApplication();
 
-    animationFrameTimer();
     document.body.onresize = windowResized;
 
     document.body.onkeydown = function(event) {
@@ -21,6 +25,8 @@ function main() {
     window.onunload = windowExit;
 
     setTimeout(autoSave, 40.0 * 1000.0);
+
+    window.requestAnimationFrame(requestFrameLoop);
 }
 
 function autoSave() {
@@ -29,11 +35,20 @@ function autoSave() {
     setTimeout(autoSave, 10.0 * 1000.0);
 }
 
-function animationFrameTimer() {
-    "use strict";
-    window.requestAnimationFrame(animationFrameTimer);
-
+function mainLogicTimer(speed) {
+    AnimationTimer.ProcessTimers(speed);
     myApp.logic();
+}
+function requestFrameLoop(time) {
+    var delta = time - lastFPSTime;
+    var speed = delta / chosenFPSMilliseconds;
+    //while (speed > 1.9) {
+    //    speed -= 1.0;
+    //    mainLogicTimer(1.0);
+    //}
+    mainLogicTimer(speed);
+    lastFPSTime = time;
+    window.requestAnimationFrame(requestFrameLoop);
 }
 
 function windowResized() {

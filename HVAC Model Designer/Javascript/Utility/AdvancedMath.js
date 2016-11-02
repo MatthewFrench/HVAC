@@ -8,14 +8,14 @@ var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function wallSlicer(walls, highlightWalls) {
     console.log("Running wall slicer, number of walls: " + walls.length);
-    highlightWalls.length = 0;
+    highlightWalls.splice(0, highlightWalls.length);
     //Slice any walls that are intersecting
     var slicedWall = false;
     for (var w1 = 0; w1 < walls.length; w1++) {
         var wall1 = walls[w1];
-        for (var w2 = w1 + 1; w2 < walls.length; w2++) {
+        for (var w2 = 0; w2 < walls.length; w2++) {
             var wall2 = walls[w2];
-
+            if (wall1 == wall2) continue;
             //Get Intersection point
             var wall1Line = wall1.getLine();
             var wall2Line = wall2.getLine();
@@ -54,84 +54,164 @@ function wallSlicer(walls, highlightWalls) {
 
                 //Handle no intersects or one corner intersecting
                 if (numberOfIntersects == 0) {
-                    highlightWalls.push(wall1);
-                    highlightWalls.push(wall2);
                     console.log("0 intersects points so creating 4 walls");
-                    //Gonna delete both walls and create 4 new walls
-                    new Wall({
-                        point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
 
-                    new Wall({
-                        point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
+                    AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
 
-                    new Wall({
-                        point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
+                        this.getCurrentFloorPlan().removeWall(wall1);
 
-                    new Wall({
-                        point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
-                        point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                        floor: this.getCurrentFloorPlan()});
+                        AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+                        this.getCurrentFloorPlan().removeWall(wall2);
 
-                    this.getCurrentFloorPlan().removeWall(wall1);
-                    this.getCurrentFloorPlan().removeWall(wall2);
+                        AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+                            //Gonna delete both walls and create 4 new walls
+                            var newWall1 = new Wall({
+                                point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
+                                point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                floor: this.getCurrentFloorPlan()});
+
+                            highlightWalls.push(newWall1);
+
+
+                            AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+                            var newWall2 = new Wall({
+                                point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
+                                point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                floor: this.getCurrentFloorPlan()});
+
+                            highlightWalls.push(newWall2);
+
+
+                                AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+                            var newWall3 = new Wall({
+                                point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
+                                point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                floor: this.getCurrentFloorPlan()});
+                            highlightWalls.push(newWall3);
+
+                                    AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+                            var newWall4 = new Wall({
+                                point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
+                                point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                floor: this.getCurrentFloorPlan()});
+
+                            highlightWalls.push(newWall4);
+
+
+                            AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+                                wallSlicer.call(this, walls, highlightWalls);
+                            });
+                                    });
+                                });
+                            });
+                        });
+                        });
+                    });
+
+
 
                     slicedWall = true;
                     break;
-                } else if (numberOfIntersects == 1) {
+                }/* else if (numberOfIntersects == 1) {
                     //Gonna delete 1 wall and create 2 new walls
                     if (wall1Point1Intersects || wall1Point2Intersects) {
 
-                        highlightWalls.push(wall1);
-                        highlightWalls.push(wall2);
-
                         console.log("Creating 2 walls to replace wall 2");
-                        new Wall({
-                            point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
 
-                        new Wall({
-                            point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-                        this.getCurrentFloorPlan().removeWall(wall2);
+
+                        AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+
+                            this.getCurrentFloorPlan().removeWall(wall2);
+
+                            AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+
+                                var newWall1 = new Wall({
+                                    point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
+                                    point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                    floor: this.getCurrentFloorPlan()});
+                                highlightWalls.push(newWall1);
+
+
+                                AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+                                var newWall2 = new Wall({
+                                    point1: new CornerPoint({x: wall2Line.getPoint2X(), y: wall2Line.getPoint2Y()}),
+                                    point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                    floor: this.getCurrentFloorPlan()});
+
+
+                                highlightWalls.push(newWall2);
+
+
+                                AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+                                    wallSlicer.call(this, walls, highlightWalls);
+                                });
+                                });
+                            });
+                        });
 
                     } else if (wall2Point1Intersects || wall2Point2Intersects) {
 
-                        highlightWalls.push(wall1);
-                        highlightWalls.push(wall2);
-
                         console.log("Creating 2 walls to replace wall 1");
-                        new Wall({
-                            point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
 
-                        new Wall({
-                            point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
-                            point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()});
-                        this.getCurrentFloorPlan().removeWall(wall1);
+
+
+                        AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+
+                            this.getCurrentFloorPlan().removeWall(wall1);
+
+                            AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+
+
+                                var newWall1 = new Wall({
+                                    point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
+                                    point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                    floor: this.getCurrentFloorPlan()});
+                                highlightWalls.push(newWall1);
+
+                                AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+
+                                var newWall2 = new Wall({
+                                    point1: new CornerPoint({x: wall1Line.getPoint2X(), y: wall1Line.getPoint2Y()}),
+                                    point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
+                                    floor: this.getCurrentFloorPlan()});
+
+
+
+                                highlightWalls.push(newWall2);
+
+
+                                AnimationTimer.StartTimer(this, 1.0, function(){}, function(){
+                                    wallSlicer.call(this, walls, highlightWalls);
+                                });
+                            });
+                            });
+                        });
+
+
 
                     }
 
                     slicedWall = true;
                     break;
-                }
+                }*/
             }
         }
         if (slicedWall) break;
     }
+    /*
     if (slicedWall) {
-        Animation
-        wallSlicer.call(this, walls);
-    }
+        AnimationTimer.StartTimer(this, 0.5, function(){}, function(){
+            wallSlicer.call(this, walls, highlightWalls);
+        });
+    }*/
 }
 
 //Determines if the coordinate point falls within the area of the circle.
