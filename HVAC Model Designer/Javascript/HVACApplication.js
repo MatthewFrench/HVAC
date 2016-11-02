@@ -107,33 +107,24 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     this.canvasMouseX = this.currentMouseX - this.dragPositionX;
     this.canvasMouseY = this.currentMouseY - this.dragPositionY;
 
-    console.log("Mouse pressed");
-
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-        console.log("Mouse pressed create wall");
         this.mousePressedCreateModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-        console.log("Mouse pressed drag");
         this.mousePressedDragModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-        console.log("Mouse pressed edit");
         if (this.currentEditMode == EDIT_MODE_POINT) {
-            console.log("Mouse pressed edit point");
             this.mousePressedEditPointModeLayout();
         }
         if (this.currentEditMode == EDIT_MODE_CORNER) {
-            console.log("Mouse pressed edit corner");
             this.mousePressedEditCornerModeLayout();
         }
     }
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
-        console.log("Mouse pressed view");
         this.mousePressedViewModeLayout();
     }
     if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
-        console.log("Mouse pressed delete");
         this.mousePressedDeleteModeLayout();
     }
 };

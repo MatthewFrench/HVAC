@@ -6,7 +6,11 @@
 HVACApplication.prototype.initDeleteModeVariables = function () {
     "use strict";
     this.highlightedDeleteWall = null;
-}
+};
+
+HVACApplication.prototype.showDeleteModeLayout = function () {
+    "use strict";
+};
 
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedDeleteModeLayout = function () {

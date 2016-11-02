@@ -25,6 +25,10 @@ HVACApplication.prototype.initEditCornerModeVariables = function () {
     this.highlightedCorners = [];
 };
 
+HVACApplication.prototype.showEditCornerModeLayout = function () {
+    "use strict";
+};
+
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     "use strict";

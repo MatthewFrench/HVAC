@@ -7,6 +7,10 @@ HVACApplication.prototype.initDragModeVariables = function () {
     "use strict";
 };
 
+HVACApplication.prototype.showDragModeLayout = function () {
+    "use strict";
+};
+
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedDragModeLayout = function () {
     "use strict";
