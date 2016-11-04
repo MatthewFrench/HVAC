@@ -7,7 +7,7 @@ HVACApplication.prototype.initCreateModeVariables = function () {
     "use strict";
     this.currentCreateModeWall = null;
 
-    this.highlightWalls = [];
+    this.intersectHighlightPoints = [];
 };
 
 HVACApplication.prototype.showCreateModeLayout = function () {
@@ -84,7 +84,7 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
 
         this.currentCreateModeWall = null;
 
-        wallSlicer.call(this, this.getCurrentWallList(), this.highlightWalls);
+        wallSlicer.call(this, this.getCurrentWallList(), this.intersectHighlightPoints);
     }
 };
 
@@ -118,7 +118,7 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        wall.draw(ctx, this.highlightWalls.indexOf(wall) != -1);
+        wall.draw(ctx, false);
     }
 
     //Draw create mode starting point
@@ -132,6 +132,13 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
 
     if (this.currentCreateModeWall != null) {
         this.currentCreateModeWall.drawLength(ctx);
+    }
+
+    for (var i in this.intersectHighlightPoints) {
+        var intersectPoint = this.intersectHighlightPoints[i];
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 4.0;
+        ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
     }
 
     ctx.restore();

@@ -55,12 +55,15 @@ AnimationTimer.StartTimerDelayed = function(self, animationDelay, animationRunTi
     AnimationTimer.TimerList.push(delayTimer);
 };
 AnimationTimer.ProcessTimers = function(speed) {
+    var completedOne = false;
     for (var i = 0; i < AnimationTimer.TimerList.length; i++) {
         var animationTimer = AnimationTimer.TimerList[i];
         animationTimer.process(speed);
         if (animationTimer.isFinished()) {
             AnimationTimer.TimerList.splice(i, 1);
             i--;
+            completedOne = true;
         }
     }
+    if (completedOne) AnimationTimer.ProcessTimers(0.0);
 };
