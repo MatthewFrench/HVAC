@@ -1,0 +1,40 @@
+.GlassDoorBGCover{
+    background-color: rgba(50,50,50,0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.GlassDoorDiv {
+    position: absolute;
+    width: 40%;
+    height: 75%;
+    top: 10%;
+    left: 25%;
+    background-color: grey;
+    outline: black solid thin;
+}
+
+.GlassDoorSaveButton{
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    top: 84%;
+    left: 60%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.GlassDoorCancelButton{
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    top: 84%;
+    left: 80%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
