@@ -21,6 +21,7 @@ var HVACApplication = function () {
     this.mouseMovedX = 0.0;
     this.mouseMovedY = 0.0;
     this.mouseDown = false;
+    this.intersectHighlightPoints = [];
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.currentEditMode = EDIT_MODE_POINT;
 
@@ -82,6 +83,19 @@ HVACApplication.prototype.layoutDraw = function() {
             this.drawEditCornerModeLayout();
         }
     }
+
+
+    //Draw slice intersection points
+    var ctx = this.layoutCanvas.getContext("2d");
+    ctx.save();
+    ctx.translate(this.dragPositionX, this.dragPositionY);
+    for (var i in this.intersectHighlightPoints) {
+        var intersectPoint = this.intersectHighlightPoints[i];
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 4.0;
+        ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
+    }
+    ctx.restore();
 };
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();

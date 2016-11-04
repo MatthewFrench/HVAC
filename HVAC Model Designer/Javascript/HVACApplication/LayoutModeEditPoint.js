@@ -138,7 +138,7 @@ HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
         this.currentEditPointSelectedWall = null;
     }
 
-    wallSlicer.call(this, this.getCurrentWallList());
+    wallSlicer.call(this, this.getCurrentWallList(), this.intersectHighlightPoints);
 };
 
 //Redraws the display on the canvas.

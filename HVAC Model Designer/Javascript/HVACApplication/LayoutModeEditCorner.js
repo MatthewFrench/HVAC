@@ -250,7 +250,7 @@ HVACApplication.prototype.mouseReleasedEditCornerModeLayout = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
 
-    wallSlicer.call(this, this.getCurrentWallList());
+    wallSlicer.call(this, this.getCurrentWallList(), this.intersectHighlightPoints);
 };
 
 //Redraws the display on the canvas.

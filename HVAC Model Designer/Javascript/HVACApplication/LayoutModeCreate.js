@@ -6,8 +6,6 @@
 HVACApplication.prototype.initCreateModeVariables = function () {
     "use strict";
     this.currentCreateModeWall = null;
-
-    this.intersectHighlightPoints = [];
 };
 
 HVACApplication.prototype.showCreateModeLayout = function () {
@@ -132,13 +130,6 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
 
     if (this.currentCreateModeWall != null) {
         this.currentCreateModeWall.drawLength(ctx);
-    }
-
-    for (var i in this.intersectHighlightPoints) {
-        var intersectPoint = this.intersectHighlightPoints[i];
-        ctx.strokeStyle = "blue";
-        ctx.lineWidth = 4.0;
-        ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
     }
 
     ctx.restore();
