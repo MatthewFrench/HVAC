@@ -103,6 +103,16 @@ body {
     font-weight: 700;
     outline: black solid thin;
 }
+.BuildingDropDown {
+    position: absolute;
+    top: 30px;
+    width: 100px;
+    height: 50px;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
 .CreateWallButton {
     position: absolute;
     bottom: 5px;

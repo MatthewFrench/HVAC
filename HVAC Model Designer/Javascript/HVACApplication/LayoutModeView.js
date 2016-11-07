@@ -5,7 +5,6 @@
 //Initializes high-level variables.
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
-
 };
 
 HVACApplication.prototype.showViewModeLayout = function () {

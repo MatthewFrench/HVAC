@@ -41,7 +41,9 @@ HVACApplication.prototype.createUI = function () {
                     var newPopover = new DoorPopover();
                     newPopover.show();
                 })
-            })
+            }),
+            this.buildingDropDown = CreateElement({
+                type: 'select', class: 'BuildingDropDown', text: 'Select project'})
         ]
     });
     this.titleSpan = CreateElement({type: 'span', class: 'TopTitle', text: 'HVAC Model Designer', appendTo: document.body});
@@ -101,6 +103,7 @@ HVACApplication.prototype.createUI = function () {
 //Highlights View button and deselects other buttons.
 HVACApplication.prototype.viewWallButtonClicked = function () {
     "use strict";
+    this.angle = 0;
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewButtonDiv.className = "ViewButtonDiv selectedButtonDiv";
     this.dragButtonDiv.className = "DragButtonDiv";
