@@ -45,6 +45,15 @@ function CreateElement(options) {
 
 function CreateFunction(owner, func) {
     return function() {
-        func.apply(owner, arguments);
+        return func.apply(owner, arguments);
     }
 }
+/*
+ (function(index) {
+ console.log('iterator: ' + index);
+ })(i);
+
+function runBlock(func, arguments) {
+    return func.apply(this, arguments);
+}
+    */

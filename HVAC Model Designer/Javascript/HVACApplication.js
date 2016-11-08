@@ -24,6 +24,8 @@ var HVACApplication = function () {
     this.intersectHighlightPoints = [];
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.currentEditMode = EDIT_MODE_POINT;
+    this.selectedFloor = null;
+    this.selectedBuilding = null;
 
     this.initCreateModeVariables();
     this.initDragModeVariables();
@@ -34,12 +36,15 @@ var HVACApplication = function () {
 
     this.initUIVariables();
     this.createUI();
+
     this.loadData();
 };
 
 HVACApplication.prototype.loadData = function() {
     "use strict";
     this.hvacData = HVACDataLoader.getHVACData();
+    this.selectBuilding(this.hvacData.getBuildingList()[0]);
+    this.floorPicker.loadFloors();
 };
 
 HVACApplication.prototype.saveData = function() {
@@ -47,12 +52,30 @@ HVACApplication.prototype.saveData = function() {
     window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
 };
 
+HVACApplication.prototype.selectBuilding = function(building) {
+    this.selectedBuilding = building;
+    this.selectFloor(building.getFloorList()[0]);
+    console.log("Selected building: " + this.selectedBuilding);
+    console.log("Selected floor: " + this.selectedFloor);
+};
+
+HVACApplication.prototype.selectFloor = function(floor) {
+    this.selectedFloor = floor;
+};
+
 HVACApplication.prototype.getCurrentWallList = function() {
-    return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
+    //return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
+    return this.selectedFloor.getWallList();
 };
 
 HVACApplication.prototype.getCurrentFloorPlan = function() {
-    return this.hvacData.getBuildingList()[0].getFloorList()[0];
+    //return this.hvacData.getBuildingList()[0].getFloorList()[0];
+    return this.selectedFloor;
+};
+
+HVACApplication.prototype.getCurrentBuilding = function() {
+    //return this.hvacData.getBuildingList()[0];
+    return this.selectedBuilding;
 };
 
 HVACApplication.prototype.logic = function() {

@@ -14,6 +14,8 @@ HVACApplication.prototype.initUIVariables = function () {
     this.editCornerButtonDiv = null;
     this.locationDataDiv = null;
     this.dialogBoxDiv = null;
+
+    this.floorPicker = null;
 };
 
 HVACApplication.prototype.createUI = function () {
@@ -91,6 +93,9 @@ HVACApplication.prototype.createUI = function () {
         type: 'div', class: 'DeleteButtonDiv', text: 'Delete', appendTo: document.body,
         onClick: CreateFunction(this, this.deleteWallButtonClicked)
     });
+
+    this.floorPicker = new FloorPicker(this);
+    document.body.appendChild(this.floorPicker.getDiv());
 
     document.body.onmousemove = CreateFunction(this, this.layoutCanvasMouseMoved);
 

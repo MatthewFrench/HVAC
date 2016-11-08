@@ -18,7 +18,11 @@ BuildingPlan.prototype.addFloor = function(floor) {
 BuildingPlan.prototype.getFloorList = function() {
     "use strict";
     return this.floorList;
-}
+};
+
+BuildingPlan.prototype.removeFloor = function(floor) {
+    this.floorList.splice(this.floorList.indexOf(floor), 1);
+};
 
 BuildingPlan.prototype.getHashmap = function() {
     "use strict";

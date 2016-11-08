@@ -1,0 +1,53 @@
+.FloorPicker_Main_Div {
+    width: 125px;
+    height: 300px;
+    border: black 1px solid;
+    border-radius:10px;
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    left: 10px;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.FloorPicker_Title {
+    width: 100%;
+    text-align: center;
+}
+
+.FloorPicker_Floor_Container {
+    flex: 1;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-top: solid 1px black;
+    overflow-y: scroll;
+}
+
+.FloorPicker_Floor_Row {
+    border-bottom: 1px solid black;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.FloorPicker_Floor_Row.selected {
+    background-color: #9ad5ff;
+}
+
+.FloorPicker_Bottom_Bar {
+    width: 100%;
+}
+
+.FloorPicker_Add_Button {
+    float: left;
+}
+
+.FloorPicker_Remove_Button {
+    float: right;
+}
