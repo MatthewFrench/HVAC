@@ -178,7 +178,6 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    overflow: scroll;
 }
 .EditButtonDiv {
     position: absolute;
