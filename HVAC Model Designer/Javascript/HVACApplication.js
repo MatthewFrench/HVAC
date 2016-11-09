@@ -11,9 +11,6 @@ var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 var HVACApplication = function () {
     this.hvacData = null;
     this.shiftPressed = false;
-    this.angle = 0;
-    this.dragPositionX = 0.0;
-    this.dragPositionY = 0.0;
     this.currentMouseX = 0.0;
     this.currentMouseY = 0.0;
     this.previousMouseX = 0.0;
@@ -26,6 +23,9 @@ var HVACApplication = function () {
     this.currentEditMode = EDIT_MODE_POINT;
     this.selectedFloor = null;
     this.selectedBuilding = null;
+    this.viewAngle = 0.0;
+    this.viewPositionX = 0.0;
+    this.viewPositionY = 0.0;
 
     this.initCreateModeVariables();
     this.initDragModeVariables();
@@ -112,7 +112,7 @@ HVACApplication.prototype.layoutDraw = function() {
     //Draw slice intersection points
     var ctx = this.layoutCanvas.getContext("2d");
     ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    ctx.translate(this.viewPositionX, this.viewPositionY);
     for (var i in this.intersectHighlightPoints) {
         var intersectPoint = this.intersectHighlightPoints[i];
         ctx.strokeStyle = "blue";
@@ -143,8 +143,8 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
-    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
+    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
+    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mousePressedCreateModeLayout();
@@ -180,8 +180,8 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     this.mouseMovedX = this.previousMouseX - this.currentMouseX;
     this.mouseMovedY = this.previousMouseY - this.currentMouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
-    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
+    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
+    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseMovedCreateModeLayout();
@@ -216,8 +216,8 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.dragPositionX;
-    this.canvasMouseY = this.currentMouseY - this.dragPositionY;
+    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
+    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseReleasedCreateModeLayout();
