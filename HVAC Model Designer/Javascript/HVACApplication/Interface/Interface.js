@@ -43,6 +43,12 @@ HVACApplication.prototype.createUI = function () {
                     var newPopover = new DoorPopover();
                     newPopover.show();
                 })
+            }),
+            this.RestoreButton = CreateElement({
+                type: 'button', class: 'RestoreButton', text: 'Restore Design',
+                onClick: CreateFunction(this, function () {
+                    this.viewAngle = 0;
+                })
             })
         ]
     });

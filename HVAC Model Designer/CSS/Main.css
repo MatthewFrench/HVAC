@@ -67,6 +67,18 @@ body {
     top: 150px;
     left: 0px;
 }
+.RestoreButton {
+    position: absolute;
+    bottom: 30px;
+    width: 200px;
+    left: calc(50% - 400px + 500px);
+    height: 50px;
+    background: rgba(25, 25, 25, 0.4);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    outline: black solid thin;
+}
 .DialogBoxButton {
     position: absolute;
     bottom: 30px;
