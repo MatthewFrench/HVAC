@@ -1,10 +1,10 @@
-.DialogBox_Block{
+.StartOverPopover_Block{
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
-.DialogBox_Div {
+.StartOverPopover_Div {
     position: absolute;
     width: 300px;
     height: 100px;
@@ -21,7 +21,7 @@
     border-radius: 15px;
 }
 
-.DialogBox_Label {
+.StartOverPopover_Label {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
@@ -30,13 +30,13 @@
     text-align: center;
 }
 
-.DialogBox_YesButton {
+.StartOverPopover_YesButton {
     position: absolute;
     bottom: 3px;
     right: calc(50% + 10px);
 }
 
-.DialogBox_CancelButton {
+.StartOverPopover_CancelButton {
     position: absolute;
     bottom: 3px;
     left: calc(50% + 10px);
