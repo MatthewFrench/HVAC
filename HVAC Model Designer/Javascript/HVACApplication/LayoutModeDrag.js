@@ -42,19 +42,12 @@ HVACApplication.prototype.mouseReleasedDragModeLayout = function () {
 //Redraws the display on the canvas.
 HVACApplication.prototype.drawDragModeLayout = function () {
     "use strict";
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    var ctx = this.beginDraw();
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
         wall.draw(ctx, false);
     }
 
-    ctx.restore();
+    this.endDraw(ctx);
 };

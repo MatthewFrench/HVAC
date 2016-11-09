@@ -84,6 +84,30 @@ HVACApplication.prototype.logic = function() {
     this.layoutDraw();
 };
 
+//Begin and End draw are duplicate drawing code for all layout modes
+HVACApplication.prototype.beginDraw = function() {
+    var ctx = this.layoutCanvas.getContext("2d");
+    var canvasWidth = this.layoutCanvas.width;
+    var canvasHeight = this.layoutCanvas.height;
+
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.save();
+    //ctx.translate(this.viewPositionX, this.viewPositionY);
+
+    ctx.translate(canvasWidth/2, canvasHeight/2);
+
+    ctx.rotate(convertToRadians(this.viewAngle));
+
+    ctx.translate(-canvasWidth/2, -canvasHeight/2);
+
+    return ctx;
+};
+
+HVACApplication.prototype.endDraw = function(ctx) {
+    ctx.restore();
+};
+
 HVACApplication.prototype.layoutDraw = function() {
     "use strict";
 

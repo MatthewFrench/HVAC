@@ -89,14 +89,7 @@ HVACApplication.prototype.mouseReleasedCreateModeLayout = function () {
 //Redraws the display on the canvas.
 HVACApplication.prototype.drawCreateModeLayout = function () {
     "use strict";
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    var ctx = this.beginDraw();
 
     var closePointArray = [];
     closePointArray.push(new Point2D({x: this.canvasMouseX, y: this.canvasMouseY}));
@@ -132,5 +125,5 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
         this.currentCreateModeWall.drawLength(ctx);
     }
 
-    ctx.restore();
+    this.endDraw(ctx);
 };
