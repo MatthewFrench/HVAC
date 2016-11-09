@@ -22,11 +22,11 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     var wallCloseness = closest;
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), closest)) {
-            var newClosest = Math.hypot(this.canvasMouseX - wall.getPoint1X(), this.canvasMouseY - wall.getPoint1Y());
+        if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), closest)) {
+            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(), this.rotatedCanvasMouseY - wall.getPoint1Y());
             if (Math.round(closest) == Math.round(newClosest)) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-                var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < wallCloseness) {
                     wallCloseness = dist;
                     closest = newClosest;
@@ -34,19 +34,19 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
                     this.currentEditPointSelectedWall = wall;
                 }
             } else if (newClosest < closest) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-                var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 wallCloseness = dist;
                 closest = newClosest;
                 this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
                 this.currentEditPointSelectedWall = wall;
             }
         }
-        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), closest)) {
-            var newClosest = Math.hypot(this.canvasMouseX - wall.getPoint2X(), this.canvasMouseY - wall.getPoint2Y());
+        if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), closest)) {
+            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(), this.rotatedCanvasMouseY - wall.getPoint2Y());
             if (Math.round(closest) == Math.round(newClosest)) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-                var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < wallCloseness) {
                     wallCloseness = dist;
                     closest = newClosest;
@@ -54,8 +54,8 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
                     this.currentEditPointSelectedWall = wall;
                 }
             } else if (newClosest < closest) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-                var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 wallCloseness = dist;
                 closest = newClosest;
                 this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
@@ -73,8 +73,8 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     var closest = 15;
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-        var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
         if (Math.round(dist) < Math.round(closest)) {
             closest = dist;
             this.highlightedPoint = wall;
@@ -84,8 +84,8 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     if (this.currentEditPointSelectedWall != null) {
         this.highlightedPoint = this.currentEditPointSelectedWall;
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
-            this.currentEditPointSelectedWall.setPoint1X( this.canvasMouseX );
-            this.currentEditPointSelectedWall.setPoint1Y( this.canvasMouseY );
+            this.currentEditPointSelectedWall.setPoint1X( this.rotatedCanvasMouseX );
+            this.currentEditPointSelectedWall.setPoint1Y( this.rotatedCanvasMouseY );
 
             //snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
 
@@ -104,8 +104,8 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
 
         }
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
-            this.currentEditPointSelectedWall.setPoint2X( this.canvasMouseX );
-            this.currentEditPointSelectedWall.setPoint2Y( this.canvasMouseY );
+            this.currentEditPointSelectedWall.setPoint2X( this.rotatedCanvasMouseX );
+            this.currentEditPointSelectedWall.setPoint2Y( this.rotatedCanvasMouseY );
 
             //snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
 
@@ -125,8 +125,8 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
         }
     } else {
         if (this.mouseDown) {
-            this.dragPositionX -= this.mouseMovedX;
-            this.dragPositionY -= this.mouseMovedY;
+            this.dragPositionX -= this.rotatedCanvasMouseMovedX;
+            this.dragPositionY -= this.rotatedCanvasMouseMovedY;
         }
     }
 };

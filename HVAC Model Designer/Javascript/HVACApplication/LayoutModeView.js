@@ -31,7 +31,7 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
         var canvasWidth = this.layoutCanvas.width;
         var canvasHeight = this.layoutCanvas.height;
         var newMouseAngle = Math.atan2(this.canvasMouseX - canvasWidth/2, this.canvasMouseY - canvasHeight/2);
-        this.viewAngle -= (newMouseAngle - this.mouseAngle) * 180 / Math.PI;;
+        this.viewAngle -= (newMouseAngle - this.mouseAngle);// * 180 / Math.PI;;
         this.mouseAngle = newMouseAngle;
     }
 

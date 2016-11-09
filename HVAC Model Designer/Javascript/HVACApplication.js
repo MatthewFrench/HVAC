@@ -17,6 +17,12 @@ var HVACApplication = function () {
     this.previousMouseY = 0.0;
     this.mouseMovedX = 0.0;
     this.mouseMovedY = 0.0;
+    this.canvasMouseX = 0.0;
+    this.canvasMouseY = 0.0;
+    this.rotatedCanvasMouseX = 0.0;
+    this.rotatedCanvasMouseY = 0.0;
+    this.rotatedCanvasMouseMovedX = 0.0;
+    this.rotatedCanvasMouseMovedY = 0.0;
     this.mouseDown = false;
     this.intersectHighlightPoints = [];
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -97,7 +103,7 @@ HVACApplication.prototype.beginDraw = function() {
 
     ctx.translate(canvasWidth/2, canvasHeight/2);
 
-    ctx.rotate(convertToRadians(this.viewAngle));
+    ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
 
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
 
@@ -156,6 +162,21 @@ HVACApplication.prototype.resizeCanvas = function() {
     this.layoutCanvas.height = window.innerHeight - 150;
 };
 
+HVACApplication.prototype.setRotatedCanvasMouse = function() {
+    var canvasWidth = this.layoutCanvas.width;
+    var canvasHeight = this.layoutCanvas.height;
+    this.rotatedCanvasMouseX = this.canvasMouseX;
+    this.rotatedCanvasMouseY = this.canvasMouseY;
+    this.rotatedCanvasMouseX -= canvasWidth/2;
+    this.rotatedCanvasMouseY -= canvasHeight/2;
+    var oldX = this.rotatedCanvasMouseX;
+    var oldY = this.rotatedCanvasMouseY;
+    this.rotatedCanvasMouseX = oldX * Math.cos(-this.viewAngle) - oldY * Math.sin(-this.viewAngle);
+    this.rotatedCanvasMouseY = oldY * Math.cos(-this.viewAngle) + oldX * Math.sin(-this.viewAngle);
+    this.rotatedCanvasMouseX += canvasWidth/2;
+    this.rotatedCanvasMouseY += canvasHeight/2;
+};
+
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
     var mouseX = event.offsetX;
@@ -169,6 +190,8 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
 
     this.canvasMouseX = this.currentMouseX - this.viewPositionX;
     this.canvasMouseY = this.currentMouseY - this.viewPositionY;
+
+    this.setRotatedCanvasMouse();
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mousePressedCreateModeLayout();
@@ -207,6 +230,14 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     this.canvasMouseX = this.currentMouseX - this.viewPositionX;
     this.canvasMouseY = this.currentMouseY - this.viewPositionY;
 
+
+
+    var oldRotatedX = this.rotatedCanvasMouseX;
+    var oldRotatedY = this.rotatedCanvasMouseY;
+    this.setRotatedCanvasMouse();
+    this.rotatedCanvasMouseMovedX = oldRotatedX - this.rotatedCanvasMouseX;
+    this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
+
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseMovedCreateModeLayout();
     }
@@ -242,6 +273,8 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
 
     this.canvasMouseX = this.currentMouseX - this.viewPositionX;
     this.canvasMouseY = this.currentMouseY - this.viewPositionY;
+
+    this.setRotatedCanvasMouse();
 
     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.mouseReleasedCreateModeLayout();

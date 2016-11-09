@@ -43,12 +43,12 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     //Select closest points at location
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), searchArea)) {
-            searchArea = Math.hypot(wall.getPoint1X() - this.canvasMouseX, wall.getPoint1Y() - this.canvasMouseY);
+        if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), searchArea)) {
+            searchArea = Math.hypot(wall.getPoint1X() - this.rotatedCanvasMouseX, wall.getPoint1Y() - this.rotatedCanvasMouseY);
             closestCornerPoint = wall.getCornerPoint1();
         }
-        if (pointInCircle(this.canvasMouseX, this.canvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), searchArea)) {
-            searchArea = Math.hypot(wall.getPoint2X() - this.canvasMouseX, wall.getPoint2Y() - this.canvasMouseY);
+        if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), searchArea)) {
+            searchArea = Math.hypot(wall.getPoint2X() - this.rotatedCanvasMouseX, wall.getPoint2Y() - this.rotatedCanvasMouseY);
             closestCornerPoint = wall.getCornerPoint2();
         }
     }
@@ -179,8 +179,8 @@ console.log("this.currentEditCornerSelectedCornerPoints: " + this.currentEditCor
         var closest = 15.0;
         for (var i = 0; i < this.getCurrentWallList().length; i++) {
             var wall = this.getCurrentWallList()[i];
-            var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),  this.canvasMouseX,  this.canvasMouseY);
-            var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+            var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),  this.rotatedCanvasMouseX,  this.rotatedCanvasMouseY);
+            var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
             if (dist <= closest) {
                 closestWall = wall;
                 closest = dist;
@@ -202,8 +202,8 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     var closest = 15;
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.canvasMouseX, this.canvasMouseY);
-        var dist = Math.hypot(point.getX() - this.canvasMouseX, point.getY() - this.canvasMouseY);
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
         if (dist < closest) {
             //closest = dist;
             //this.highlightedCorner = wall;
@@ -224,8 +224,8 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
 
         for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
             var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
-            cornerPoint.setX(cornerPoint.getX() - this.mouseMovedX);
-            cornerPoint.setY(cornerPoint.getY() - this.mouseMovedY);
+            cornerPoint.setX(cornerPoint.getX() - this.rotatedCanvasMouseMovedX);
+            cornerPoint.setY(cornerPoint.getY() - this.rotatedCanvasMouseMovedY);
         }
         console.log("Mouse move wall connections: " + this.wallConnections.length);
         //Re-align walls
