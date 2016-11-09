@@ -67,7 +67,6 @@ body {
     top: 150px;
     left: 0px;
 }
-<<<<<<< HEAD
 .BuildingDropDown {
     position: absolute;
     top: 30px;
@@ -79,7 +78,6 @@ body {
     outline: black solid thin;
 }
 
-=======
 .DialogBoxButton {
     position: absolute;
     bottom: 30px;
@@ -128,7 +126,6 @@ body {
     width: 150px;
     left: calc(75% - 75px);
 }
->>>>>>> origin/master
 .DragButtonDiv {
     position: absolute;
     width: 100px;
@@ -252,20 +249,24 @@ body {
     position: absolute;
     width: 100px;
     left: 45%;
+    top: 0%;
     height: 30px;
     background: rgba(25, 25, 25, 0.4);
     text-align: center;
     font-size: 12px;
+    font-weight: 100;
     outline: black solid thin;
 }
 .AJsButton {
     position: absolute;
     width: 100px;
+    top: 0%;
     left: 52.5%;
     height: 30px;
     background: rgba(25, 25, 25, 0.4);
     text-align: center;
     font-size: 14px;
+    font-weight: 100;
     outline: black solid thin;
 }
 .selectedButtonDiv {
