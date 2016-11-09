@@ -542,21 +542,3 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
 function convertToRadians(degree) {
     return degree * (Math.PI / 180);
 }
-
-//Increments angle of rotating object
-function incrementAngle(angle) {
-    angle += 2;
-    if (angle > 360) {
-        angle = angle - 360;
-    }
-    return angle;
-}
-
-//Decrements angle of rotating object
-function decrementAngle(angle) {
-    angle -= 2;
-    if (angle < 0) {
-        angle = angle + 360;
-    }
-    return angle;
-}
