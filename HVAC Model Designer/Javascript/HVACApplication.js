@@ -83,6 +83,7 @@ HVACApplication.prototype.logic = function() {
 
     this.layoutDraw();
 };
+
 HVACApplication.prototype.layoutDraw = function() {
     "use strict";
 
@@ -120,15 +121,16 @@ HVACApplication.prototype.layoutDraw = function() {
     }
     ctx.restore();
 };
+
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
 };
+
 HVACApplication.prototype.resizeCanvas = function() {
     "use strict";
     this.layoutCanvas.width = window.innerWidth;
     this.layoutCanvas.height = window.innerHeight - 150;
 };
-
 
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
@@ -239,7 +241,6 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     }
 };
 
-
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
@@ -247,6 +248,7 @@ HVACApplication.prototype.onKeydown = function(event) {
         this.shiftPressed = true;
     }
 };
+
 HVACApplication.prototype.onKeyup = function(event) {
     "use strict";
     //var key = event.which;

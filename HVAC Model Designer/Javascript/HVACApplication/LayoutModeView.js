@@ -21,11 +21,11 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
 
     if (this.mouseDown) {
-        if (this.mouseMovedX < 0 && this.mouseMovedY < 0)
+        if (this.mouseMovedX < 0)
         {
             this.angle = incrementAngle(this.angle);
         }
-        else if (this.mouseMovedX >= 0 && this.mouseMovedY >= 0)
+        else if (this.mouseMovedX >= 0)
         {
             this.angle = decrementAngle(this.angle);
         }
