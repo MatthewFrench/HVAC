@@ -14,21 +14,25 @@ HVACApplication.prototype.showViewModeLayout = function () {
 //Action taken for when the mouse is pressed down.
 HVACApplication.prototype.mousePressedViewModeLayout = function () {
     "use strict";
+    var canvasWidth = this.layoutCanvas.width;
+    var canvasHeight = this.layoutCanvas.height;
+    this.mouseAngle = Math.atan2(this.canvasMouseX - canvasWidth/2, this.canvasMouseY - canvasHeight/2);
 };
 
 //Action taken for when the mouse is moving.
 HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
 
+    //{ 1, 1 } =
+    //{ 1, -1 } =
+
+
     if (this.mouseDown) {
-        if (this.mouseMovedX < 0)
-        {
-            this.angle = incrementAngle(this.angle);
-        }
-        else if (this.mouseMovedX >= 0)
-        {
-            this.angle = decrementAngle(this.angle);
-        }
+        var canvasWidth = this.layoutCanvas.width;
+        var canvasHeight = this.layoutCanvas.height;
+        var newMouseAngle = Math.atan2(this.canvasMouseX - canvasWidth/2, this.canvasMouseY - canvasHeight/2);
+        this.viewAngle -= (newMouseAngle - this.mouseAngle) * 180 / Math.PI;;
+        this.mouseAngle = newMouseAngle;
     }
 
 };
@@ -42,23 +46,12 @@ HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
 HVACApplication.prototype.drawViewModeLayout = function () {
     "use strict";
 
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(canvasWidth/2, canvasHeight/2);
-
-    ctx.rotate(convertToRadians(this.angle));
-
-    ctx.translate(-canvasWidth/2, -canvasHeight/2);
+    var ctx = this.beginDraw();
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
         wall.draw(ctx, false);
     }
 
-    ctx.restore();
-}
+    this.endDraw(ctx);
+};

@@ -45,19 +45,12 @@ HVACApplication.prototype.mouseReleasedDeleteModeLayout = function () {
 //Redraws the display on the canvas.
 HVACApplication.prototype.drawDeleteModeLayout = function () {
     "use strict";
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    var ctx = this.beginDraw();
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
         wall.draw(ctx, wall == this.highlightedDeleteWall);
     }
 
-    ctx.restore();
-}
+    this.endDraw(ctx);
+};

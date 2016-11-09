@@ -145,14 +145,7 @@ HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
 HVACApplication.prototype.drawEditPointModeLayout = function () {
     "use strict";
 
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    ctx.save();
-    ctx.translate(this.dragPositionX, this.dragPositionY);
+    var ctx = this.beginDraw();
 
     var closePointArray = [];
     closePointArray.push(new Point2D({x:this.currentMouseX, y:this.currentMouseY}));
@@ -181,5 +174,5 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
         this.currentEditPointSelectedWall.drawLength(ctx);
     }
 
-    ctx.restore();
-}
+    this.endDraw(ctx);
+};
