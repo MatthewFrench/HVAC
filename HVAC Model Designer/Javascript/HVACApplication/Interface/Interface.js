@@ -21,13 +21,13 @@ HVACApplication.prototype.initUIVariables = function () {
 HVACApplication.prototype.createUI = function () {
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: document.body, elements: [
-            this.dialogBoxButton = CreateElement({
-                type: 'button', class: 'DialogBoxButton', text: 'New Design',
+            this.StartOverButton = CreateElement({
+                type: 'button', class: 'StartOverButton', text: 'Start Over',
                 onClick: CreateFunction(this, function () {
-                    var newDialogBox = new DialogBox('Are you sure you want to start from scratch?',
+                    var newPopover = new StartOverPopover('Are you sure you want to start from scratch?',
                         CreateFunction(this, function () { this.getCurrentFloorPlan().clearWalls();
                             }), CreateFunction(this, function () {}));
-                    newDialogBox.show();
+                    newPopover.show();
                 })
             }),
             this.locationDataButton = CreateElement({
@@ -61,40 +61,40 @@ HVACApplication.prototype.createUI = function () {
 
     //Create view mode button
     this.viewButtonDiv = CreateElement({
-        type: 'div', class: 'ViewButtonDiv', text: 'View', appendTo: document.body,
+        type: 'button', class: 'ViewButtonDiv', text: 'View', appendTo: document.body,
         onClick: CreateFunction(this, this.viewWallButtonClicked)
     });
 
     //Create drag mode button
     this.dragButtonDiv = CreateElement({
-        type: 'div', class: 'DragButtonDiv', text: 'Drag', appendTo: document.body,
+        type: 'button', class: 'DragButtonDiv', text: 'Drag', appendTo: document.body,
         onClick: CreateFunction(this, this.dragButtonClicked)
     });
 
     //Create create mode button
     this.createButtonDiv = CreateElement({
-        type: 'div', class: 'CreateButtonDiv', text: 'Create', appendTo: document.body,
+        type: 'button', class: 'CreateButtonDiv', text: 'Create', appendTo: document.body,
         onClick: CreateFunction(this, this.createWallButtonClicked)
     });
 
     this.editButtonDiv = CreateElement({
-        type: 'div', class: 'EditButtonDiv', text: 'Edit', appendTo: document.body,
+        type: 'button', class: 'EditButtonDiv', text: 'Edit', appendTo: document.body,
         onClick: CreateFunction(this, this.editButtonClicked)
     });
 
     //Create edit mode buttons
     this.editPointButtonDiv = CreateElement({
-        type: 'div', class: 'EditPointButtonDiv', text: 'Point',
+        type: 'button', class: 'EditPointButtonDiv', text: 'Point',
         onClick: CreateFunction(this, this.editPointButtonClicked)
     });
     this.editCornerButtonDiv = CreateElement({
-        type: 'div', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
+        type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
         onClick: CreateFunction(this, this.editCornerButtonClicked)
     });
 
     //Create delete mode button
     this.deleteButtonDiv = CreateElement({
-        type: 'div', class: 'DeleteButtonDiv', text: 'Delete', appendTo: document.body,
+        type: 'button', class: 'DeleteButtonDiv', text: 'Delete', appendTo: document.body,
         onClick: CreateFunction(this, this.deleteWallButtonClicked)
     });
 

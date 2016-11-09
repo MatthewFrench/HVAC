@@ -24,10 +24,10 @@ HVACApplication.prototype.mouseMovedDragModeLayout = function () {
 
         for (var i = 0; i < this.getCurrentWallList().length; i++) {
             var wall = this.getCurrentWallList()[i];
-            wall.setPoint1X(wall.getPoint1X() - this.mouseMovedX);
-            wall.setPoint2X(wall.getPoint2X() - this.mouseMovedX);
-            wall.setPoint1Y(wall.getPoint1Y() - this.mouseMovedY);
-            wall.setPoint2Y(wall.getPoint2Y() - this.mouseMovedY);
+            wall.setPoint1X(wall.getPoint1X() - this.rotatedCanvasMouseMovedX);
+            wall.setPoint2X(wall.getPoint2X() - this.rotatedCanvasMouseMovedX);
+            wall.setPoint1Y(wall.getPoint1Y() - this.rotatedCanvasMouseMovedY);
+            wall.setPoint2Y(wall.getPoint2Y() - this.rotatedCanvasMouseMovedY);
         }
 
     }
