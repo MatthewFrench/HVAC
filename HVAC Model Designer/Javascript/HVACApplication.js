@@ -140,9 +140,14 @@ HVACApplication.prototype.layoutDraw = function() {
 
 
     //Draw slice intersection points
+
     var ctx = this.layoutCanvas.getContext("2d");
+    var canvasWidth = this.layoutCanvas.width;
+    var canvasHeight = this.layoutCanvas.height;
     ctx.save();
-    ctx.translate(this.viewPositionX, this.viewPositionY);
+    ctx.translate(canvasWidth/2, canvasHeight/2);
+    ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
+    ctx.translate(-canvasWidth/2, -canvasHeight/2);
     for (var i in this.intersectHighlightPoints) {
         var intersectPoint = this.intersectHighlightPoints[i];
         ctx.strokeStyle = "blue";
