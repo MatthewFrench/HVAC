@@ -54,9 +54,6 @@ body {
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c9d7e0+0,9db6c6+100 */
     background: #c9d7e0; /* Old browsers */
-    background: -moz-linear-gradient(top, #c9d7e0 0%, #9db6c6 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #c9d7e0 0%,#9db6c6 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #c9d7e0 0%,#9db6c6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 .LayoutCanvas {
     position: absolute;
@@ -80,15 +77,10 @@ body {
     top: 25%;
     width: 100px;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    border: #c9d7e0;
 }
 .CreateButtonDiv {
     position: absolute;
@@ -96,15 +88,10 @@ body {
     top: 25%;
     left: 7.5%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    border: #c9d7e0;
 }
 .ViewButtonDiv {
     position: absolute;
@@ -112,15 +99,10 @@ body {
     top: 25%;
     left: 15%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    border: #c9d7e0;
 }
 .EditButtonDiv {
     position: absolute;
@@ -128,16 +110,10 @@ body {
     top: 25%;
     left: 22.5%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
-    font-family: Helvetica;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    border: #c9d7e0;
 }
 .EditPointButtonDiv {
     position: absolute;
@@ -145,10 +121,11 @@ body {
     bottom: 0%;
     left: 19%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 12px;
-    outline: black solid thin;
+    border: #c9d7e0;
+    opacity: 0;
 }
 .EditCornerButtonDiv {
     position: absolute;
@@ -156,10 +133,11 @@ body {
     bottom: 0%;
     left: 26.5%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #9c8cf2;
     text-align: center;
     font-size: 12px;
-    outline: black solid thin;
+    border: #9c8cf2;
+    opacity: 0;
 }
 .DeleteButtonDiv {
     position: absolute;
@@ -167,15 +145,10 @@ body {
     top: 25%;
     left: 30%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    border: #c9d7e0;
 }
 .StartOverButton {
     position: absolute;
@@ -183,10 +156,10 @@ body {
     top: 25%;
     left: 37.5%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: black solid thin;
+    border: #c9d7e0;
 }
 .LocationDataButton {
     position: absolute;
@@ -194,11 +167,10 @@ body {
     top: 25%;
     left: 45%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 12px;
-    font-weight: 100;
-    outline: black solid thin;
+    border: #c9d7e0;
 }
 .AJsButton {
     position: absolute;
@@ -206,11 +178,10 @@ body {
     top: 25%;
     left: 52.5%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    font-weight: 100;
-    outline: black solid thin;
+    border: #c9d7e0;
 }
 .RestoreButton {
     position: absolute;
@@ -218,11 +189,10 @@ body {
     top: 25%;
     left: 60%;
     height: 30px;
-    background: rgba(25, 25, 25, 0.4);
+    background: #c9d7e0;
     text-align: center;
     font-size: 12px;
-    font-weight: 100;
-    outline: black solid thin;
+    border: #c9d7e0;
 }
 .selectedButtonDiv {
     background-color: rgba(25, 25, 250, 0.4);
