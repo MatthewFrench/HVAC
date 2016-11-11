@@ -24,8 +24,10 @@ HVACApplication.prototype.createUI = function () {
                 type: 'button', class: 'StartOverButton', text: 'Start Over',
                 onClick: CreateFunction(this, function () {
                     var newPopover = new StartOverPopover('Are you sure you want to start from scratch?',
-                        CreateFunction(this, function () { this.getCurrentFloorPlan().clearWalls();
-                            }), CreateFunction(this, function () {}));
+                        CreateFunction(this, function () {
+                            this.getCurrentFloorPlan().clearWalls();
+                        }), CreateFunction(this, function () {
+                        }));
                     newPopover.show();
                 })
             }),
@@ -84,14 +86,26 @@ HVACApplication.prototype.createUI = function () {
             })
         ]
     });
-    this.titleSpan = CreateElement({type: 'span', class: 'TopTitle', text: 'HVAC Model Designer', appendTo: document.body});
+    this.titleSpan = CreateElement({
+        type: 'span',
+        class: 'TopTitle',
+        text: 'HVAC Model Designer',
+        appendTo: document.body
+    });
     this.layoutCanvas = CreateElement({
         type: 'canvas', class: 'LayoutCanvas', appendTo: document.body,
         onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
 
-
+    this.viewMode2DButtonDiv = CreateElement({
+        type: 'button', class: 'ViewMode2DButtonDiv selectedButtonDiv', text: '2D',
+        onClick: CreateFunction(this, this.viewWall2DButtonClicked)
+    });
+    this.viewMode3DButtonDiv = CreateElement({
+        type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
+        onClick: CreateFunction(this, this.viewWall3DButtonClicked)
+    });
 
     this.floorPicker = new FloorPicker(this);
     document.body.appendChild(this.floorPicker.getDiv());
@@ -114,10 +128,29 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.editButtonDiv.className = "EditButtonDiv";
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
+    this.myBannerDiv.appendChild(this.viewMode2DButtonDiv);
+    this.myBannerDiv.appendChild(this.viewMode3DButtonDiv);
+
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
 
     this.showViewModeLayout();
+};
+HVACApplication.prototype.viewWall2DButtonClicked = function() {
+    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv selectedButtonDiv';
+    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
+
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.layoutViewMode3DRenderer.domElement.remove();
+
+    this.layoutCanvas.style.display = "block";
+};
+HVACApplication.prototype.viewWall3DButtonClicked = function() {
+    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
+    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv selectedButtonDiv';
+
+    this.setLayoutViewModeTo3D();
+    this.layoutCanvas.style.display = "none";
 };
 
 //Highlights Drag button and deselects other buttons.
@@ -132,6 +165,8 @@ HVACApplication.prototype.dragButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
+    this.viewMode2DButtonDiv.remove();
+    this.viewMode3DButtonDiv.remove();
 
     this.showDragModeLayout();
 };
@@ -148,6 +183,8 @@ HVACApplication.prototype.createWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
+    this.viewMode2DButtonDiv.remove();
+    this.viewMode3DButtonDiv.remove();
 
     this.showCreateModeLayout();
 };
@@ -165,6 +202,8 @@ HVACApplication.prototype.editButtonClicked = function () {
     //Adds the sub-edit buttons
     this.myBannerDiv.appendChild(this.editPointButtonDiv);
     this.myBannerDiv.appendChild(this.editCornerButtonDiv);
+    this.viewMode2DButtonDiv.remove();
+    this.viewMode3DButtonDiv.remove();
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {
         this.showEditCornerModeLayout();
@@ -205,6 +244,8 @@ HVACApplication.prototype.deleteWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
+    this.viewMode2DButtonDiv.remove();
+    this.viewMode3DButtonDiv.remove();
 
     this.showDeleteModeLayout();
 };
