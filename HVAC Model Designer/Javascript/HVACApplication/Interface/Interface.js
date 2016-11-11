@@ -13,7 +13,6 @@ HVACApplication.prototype.initUIVariables = function () {
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
     this.locationDataDiv = null;
-    this.dialogBoxDiv = null;
 
     this.floorPicker = null;
 };
@@ -30,7 +29,7 @@ HVACApplication.prototype.createUI = function () {
                     newPopover.show();
                 })
             }),
-            this.locationDataButton = CreateElement({
+            this.LocationDataButton = CreateElement({
                 type: 'button', class: 'LocationDataButton', text: 'Input Location Data',
                 onClick: CreateFunction(this, function () {
                     var newPopover = new LocationPopover();
@@ -49,6 +48,39 @@ HVACApplication.prototype.createUI = function () {
                 onClick: CreateFunction(this, function () {
                     this.viewAngle = 0;
                 })
+            }),
+            //Create view mode button
+            this.viewButtonDiv = CreateElement({
+                type: 'button', class: 'ViewButtonDiv', text: 'View',
+                onClick: CreateFunction(this, this.viewWallButtonClicked)
+            }),
+            //Create drag mode button
+            this.dragButtonDiv = CreateElement({
+                type: 'button', class: 'DragButtonDiv', text: 'Drag',
+                onClick: CreateFunction(this, this.dragButtonClicked)
+            }),
+            //Create create mode button
+            this.createButtonDiv = CreateElement({
+                type: 'button', class: 'CreateButtonDiv', text: 'Create',
+                onClick: CreateFunction(this, this.createWallButtonClicked)
+            }),
+            this.editButtonDiv = CreateElement({
+                type: 'button', class: 'EditButtonDiv', text: 'Edit',
+                onClick: CreateFunction(this, this.editButtonClicked)
+            }),
+            //Create edit mode buttons
+            this.editPointButtonDiv = CreateElement({
+                type: 'button', class: 'EditPointButtonDiv', text: 'Point',
+                onClick: CreateFunction(this, this.editPointButtonClicked)
+            }),
+            this.editCornerButtonDiv = CreateElement({
+                type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
+                onClick: CreateFunction(this, this.editCornerButtonClicked)
+            }),
+            //Create delete mode button
+            this.deleteButtonDiv = CreateElement({
+                type: 'button', class: 'DeleteButtonDiv', text: 'Delete',
+                onClick: CreateFunction(this, this.deleteWallButtonClicked)
             })
         ]
     });
@@ -59,44 +91,7 @@ HVACApplication.prototype.createUI = function () {
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
 
-    //Create view mode button
-    this.viewButtonDiv = CreateElement({
-        type: 'button', class: 'ViewButtonDiv', text: 'View', appendTo: document.body,
-        onClick: CreateFunction(this, this.viewWallButtonClicked)
-    });
 
-    //Create drag mode button
-    this.dragButtonDiv = CreateElement({
-        type: 'button', class: 'DragButtonDiv', text: 'Drag', appendTo: document.body,
-        onClick: CreateFunction(this, this.dragButtonClicked)
-    });
-
-    //Create create mode button
-    this.createButtonDiv = CreateElement({
-        type: 'button', class: 'CreateButtonDiv', text: 'Create', appendTo: document.body,
-        onClick: CreateFunction(this, this.createWallButtonClicked)
-    });
-
-    this.editButtonDiv = CreateElement({
-        type: 'button', class: 'EditButtonDiv', text: 'Edit', appendTo: document.body,
-        onClick: CreateFunction(this, this.editButtonClicked)
-    });
-
-    //Create edit mode buttons
-    this.editPointButtonDiv = CreateElement({
-        type: 'button', class: 'EditPointButtonDiv', text: 'Point',
-        onClick: CreateFunction(this, this.editPointButtonClicked)
-    });
-    this.editCornerButtonDiv = CreateElement({
-        type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
-        onClick: CreateFunction(this, this.editCornerButtonClicked)
-    });
-
-    //Create delete mode button
-    this.deleteButtonDiv = CreateElement({
-        type: 'button', class: 'DeleteButtonDiv', text: 'Delete', appendTo: document.body,
-        onClick: CreateFunction(this, this.deleteWallButtonClicked)
-    });
 
     this.floorPicker = new FloorPicker(this);
     document.body.appendChild(this.floorPicker.getDiv());
@@ -168,8 +163,8 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.deleteButtonDiv.className = "DeleteButtonDiv";
 
     //Adds the sub-edit buttons
-    document.body.appendChild(this.editPointButtonDiv);
-    document.body.appendChild(this.editCornerButtonDiv);
+    this.myBannerDiv.appendChild(this.editPointButtonDiv);
+    this.myBannerDiv.appendChild(this.editCornerButtonDiv);
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {
         this.showEditCornerModeLayout();
