@@ -104,6 +104,38 @@ body {
     font-size: 14px;
     border: #c9d7e0;
 }
+.ViewMode2DButtonDiv {
+    position: absolute;
+    width: 100px;
+    top: calc(25% + 35px);
+    left: 15%;
+    height: 30px;
+    background: rgba(25, 25, 25, 0.4);
+    text-align: center;
+    font-size: 14px;
+    outline: black solid thin;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.ViewMode3DButtonDiv {
+    position: absolute;
+    width: 100px;
+    top: calc(25% + 35px + 35px);
+    left: 15%;
+    height: 30px;
+    background: rgba(25, 25, 25, 0.4);
+    text-align: center;
+    font-size: 14px;
+    outline: black solid thin;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .EditButtonDiv {
     position: absolute;
     width: 100px;

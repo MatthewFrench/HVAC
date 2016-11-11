@@ -2,9 +2,15 @@
  * Created by Matt on 9/23/2016.
  */
 
+var ViewModeType = {
+    Mode2D: 0,
+    Mode3D: 1
+};
+
 //Initializes high-level variables.
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
+    this.currentViewModeLayout = ViewModeType.Mode2D;
 };
 
 HVACApplication.prototype.showViewModeLayout = function () {
@@ -46,12 +52,18 @@ HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
 HVACApplication.prototype.drawViewModeLayout = function () {
     "use strict";
 
-    var ctx = this.beginDraw();
+    if (this.currentViewModeLayout == ViewModeType.Mode2D) {
 
-    for (var i = 0; i < this.getCurrentWallList().length; i++) {
-        var wall = this.getCurrentWallList()[i];
-        wall.draw(ctx, false);
+        var ctx = this.beginDraw();
+
+        for (var i = 0; i < this.getCurrentWallList().length; i++) {
+            var wall = this.getCurrentWallList()[i];
+            wall.draw(ctx, false);
+        }
+
+        this.endDraw(ctx);
+    } else if (this.currentViewModeLayout = ViewModeType.Mode3D) {
+        this.drawViewModeLayout3D();
     }
 
-    this.endDraw(ctx);
 };

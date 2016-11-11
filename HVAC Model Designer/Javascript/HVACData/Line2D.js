@@ -116,7 +116,7 @@ Line2D.prototype.getNearestPointFromPoint = function( px,  py) {
             t = 1;
         }
     }
-    return new Point2D(this.point1.getX() + abx * t, this.point1.getY() + aby * t);
+    return new Point2D({x: this.point1.getX() + abx * t, y: this.point1.getY() + aby * t});
 };
 
 Line2D.prototype.getPerpendicularLineFromPoint1 = function() {
@@ -136,7 +136,7 @@ Line2D.prototype.getPerpendicularLineFromPoint1 = function() {
     var newX2 = x1 - lineLength * Math.cos(nearestAngle);
     var newY2 = y1 - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 };
 
 Line2D.prototype.getPerpendicularInfiniteLinePoint2 = function() {
@@ -156,7 +156,7 @@ Line2D.prototype.getPerpendicularInfiniteLinePoint2 = function() {
     var newX2 = x2 - lineLength * Math.cos(nearestAngle);
     var newY2 = y2 - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({ x1: newX1, y1:  newY1, x2: newX2, y2: newY2});
 };
 
 Line2D.prototype.getLongerLine = function() {
@@ -179,5 +179,28 @@ Line2D.prototype.getLongerLine = function() {
     var newX2 = centerX - lineLength * Math.cos(nearestAngle);
     var newY2 = centerY - lineLength * Math.sin(nearestAngle);
 
-    return new Line2D(newX1, newY1, newX2, newY2);
+    return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
+};
+Line2D.prototype.getLength = function() {
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+    return Math.hypot(x1 - x2, y1 - y2);
+};
+Line2D.prototype.getCenterPoint = function() {
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+    var centerX = (x1 - x2) / 2 + x2;
+    var centerY = (y1 - y2) / 2 + y2;
+    return new Point2D({x: centerX, y: centerY});
+};
+Line2D.prototype.getRotation = function() {
+    var x1 = this.point1.getX();
+    var y1 = this.point1.getY();
+    var x2 = this.point2.getX();
+    var y2 = this.point2.getY();
+    return Math.atan2(x2 - x1, y2 - y1);
 };
