@@ -12,6 +12,8 @@ HVACApplication.prototype.initUIVariables = function () {
     this.editButtonDiv = null;
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
+    this.viewMode2DButtonDiv = null;
+    this.viewMode3DButtonDiv = null;
     this.locationDataDiv = null;
 
     this.floorPicker = null;
@@ -56,6 +58,14 @@ HVACApplication.prototype.createUI = function () {
                 type: 'button', class: 'ViewButtonDiv', text: 'View',
                 onClick: CreateFunction(this, this.viewWallButtonClicked)
             }),
+            this.viewMode2DButtonDiv = CreateElement({
+                type: 'button', class: 'ViewMode2DButtonDiv', text: '2D',
+                onClick: CreateFunction(this, this.viewWall2DButtonClicked)
+            }),
+            this.viewMode3DButtonDiv = CreateElement({
+                type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
+                onClick: CreateFunction(this, this.viewWall3DButtonClicked)
+            }),
             //Create drag mode button
             this.dragButtonDiv = CreateElement({
                 type: 'button', class: 'DragButtonDiv', text: 'Drag',
@@ -98,15 +108,6 @@ HVACApplication.prototype.createUI = function () {
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
 
-    this.viewMode2DButtonDiv = CreateElement({
-        type: 'button', class: 'ViewMode2DButtonDiv selectedButtonDiv', text: '2D',
-        onClick: CreateFunction(this, this.viewWall2DButtonClicked)
-    });
-    this.viewMode3DButtonDiv = CreateElement({
-        type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
-        onClick: CreateFunction(this, this.viewWall3DButtonClicked)
-    });
-
     this.floorPicker = new FloorPicker(this);
     document.body.appendChild(this.floorPicker.getDiv());
 
@@ -141,7 +142,7 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.showViewModeLayout();
 };
 HVACApplication.prototype.viewWall2DButtonClicked = function() {
-    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv selectedButtonDiv';
+    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
 
     this.currentViewModeLayout = ViewModeType.Mode2D;
@@ -151,7 +152,7 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
 };
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
-    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv selectedButtonDiv';
+    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
 
     this.setLayoutViewModeTo3D();
     this.layoutCanvas.style.display = "none";
@@ -222,7 +223,6 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.myBannerDiv.appendChild(this.editPointButtonDiv);
     this.editPointButtonDiv.style.opacity = "1.0";
     this.myBannerDiv.appendChild(this.editCornerButtonDiv);
-
     this.editCornerButtonDiv.style.opacity = "1.0";
 
     this.viewMode2DButtonDiv.remove();
