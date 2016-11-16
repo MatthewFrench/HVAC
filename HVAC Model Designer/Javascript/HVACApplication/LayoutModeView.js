@@ -19,13 +19,14 @@ var handleScroll = function(evt) {
         ctx.translate(-this.currentMouseX, -this.currentMouseY);
         ctx.restore();
     }
+    evt.preventDefault();
 }
 
 //Initializes high-level variables.
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
-    this.layoutCanvas.addEventListener('mousewheel', handleScroll, false);
+    this.layoutCanvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 };
 
 HVACApplication.prototype.showViewModeLayout = function () {
