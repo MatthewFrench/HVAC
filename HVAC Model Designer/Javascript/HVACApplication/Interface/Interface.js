@@ -81,20 +81,20 @@ HVACApplication.prototype.createUI = function () {
             this.mySecondBannerDiv = CreateElement({
                 type: 'div', class: 'SecondRibbonBanner', elements: [
                     this.viewMode2DButtonDiv = CreateElement({
-                        type: 'button', class: 'ViewMode2DButtonDiv', text: '2D',
+                        type: 'text', class: 'ViewMode2DButtonDiv', text: '2D',
                         onClick: CreateFunction(this, this.viewWall2DButtonClicked)
                     }),
                     this.viewMode3DButtonDiv = CreateElement({
-                        type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
+                        type: 'text', class: 'ViewMode3DButtonDiv', text: '3D',
                         onClick: CreateFunction(this, this.viewWall3DButtonClicked)
                     }),
                     //Create edit mode buttons
                     this.editPointButtonDiv = CreateElement({
-                        type: 'button', class: 'EditPointButtonDiv', text: 'Point',
+                        type: 'text', class: 'EditPointButtonDiv', text: 'Point',
                         onClick: CreateFunction(this, this.editPointButtonClicked)
                     }),
                     this.editCornerButtonDiv = CreateElement({
-                        type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
+                        type: 'text', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
                         onClick: CreateFunction(this, this.editCornerButtonClicked)
                     })
                     ]
