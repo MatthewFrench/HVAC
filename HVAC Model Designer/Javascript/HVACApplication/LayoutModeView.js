@@ -2,15 +2,30 @@
  * Created by Matt on 9/23/2016.
  */
 
+var scaleFactor = 1.1;
+
 var ViewModeType = {
     Mode2D: 0,
     Mode3D: 1
 };
 
+var handleScroll = function(evt) {
+    var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+    if (delta) {
+        var ctx = this.layoutCanvas.getContext("2d");
+        ctx.translate(this.currentMouseX, this.currentMouseY);
+        var factor = Math.pow(scaleFactor, delta);
+        ctx.scale(factor, factor);
+        ctx.translate(-this.currentMouseX, -this.currentMouseY);
+        ctx.restore();
+    }
+}
+
 //Initializes high-level variables.
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.layoutCanvas.addEventListener('mousewheel', handleScroll, false);
 };
 
 HVACApplication.prototype.showViewModeLayout = function () {
@@ -34,7 +49,6 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
 
     //{ 1, 1 } =
     //{ 1, -1 } =
-
 
     if (this.mouseDown) {
         var canvasWidth = this.layoutCanvas.width;
@@ -67,5 +81,4 @@ HVACApplication.prototype.drawViewModeLayout = function () {
     } else if (this.currentViewModeLayout = ViewModeType.Mode3D) {
         this.viewMode3DController.drawLayout();
     }
-
 };
