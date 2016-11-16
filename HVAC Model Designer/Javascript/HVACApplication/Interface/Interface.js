@@ -5,6 +5,7 @@
 HVACApplication.prototype.initUIVariables = function () {
     "use strict";
     this.myBannerDiv = null;
+    this.mySecondBannerDiv = null;
     this.titleSpan = null;
     this.layoutCanvas = null;
     this.dragButtonDiv = null;
@@ -58,14 +59,6 @@ HVACApplication.prototype.createUI = function () {
                 type: 'button', class: 'ViewButtonDiv', text: 'View',
                 onClick: CreateFunction(this, this.viewWallButtonClicked)
             }),
-            this.viewMode2DButtonDiv = CreateElement({
-                type: 'button', class: 'ViewMode2DButtonDiv', text: '2D',
-                onClick: CreateFunction(this, this.viewWall2DButtonClicked)
-            }),
-            this.viewMode3DButtonDiv = CreateElement({
-                type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
-                onClick: CreateFunction(this, this.viewWall3DButtonClicked)
-            }),
             //Create drag mode button
             this.dragButtonDiv = CreateElement({
                 type: 'button', class: 'DragButtonDiv', text: 'Drag',
@@ -80,19 +73,31 @@ HVACApplication.prototype.createUI = function () {
                 type: 'button', class: 'EditButtonDiv', text: 'Edit',
                 onClick: CreateFunction(this, this.editButtonClicked)
             }),
-            //Create edit mode buttons
-            this.editPointButtonDiv = CreateElement({
-                type: 'button', class: 'EditPointButtonDiv', text: 'Point',
-                onClick: CreateFunction(this, this.editPointButtonClicked)
-            }),
-            this.editCornerButtonDiv = CreateElement({
-                type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
-                onClick: CreateFunction(this, this.editCornerButtonClicked)
-            }),
             //Create delete mode button
             this.deleteButtonDiv = CreateElement({
                 type: 'button', class: 'DeleteButtonDiv', text: 'Delete',
                 onClick: CreateFunction(this, this.deleteWallButtonClicked)
+            }),
+            this.mySecondBannerDiv = CreateElement({
+                type: 'div', class: 'SecondRibbonBanner', elements: [
+                    this.viewMode2DButtonDiv = CreateElement({
+                        type: 'button', class: 'ViewMode2DButtonDiv', text: '2D',
+                        onClick: CreateFunction(this, this.viewWall2DButtonClicked)
+                    }),
+                    this.viewMode3DButtonDiv = CreateElement({
+                        type: 'button', class: 'ViewMode3DButtonDiv', text: '3D',
+                        onClick: CreateFunction(this, this.viewWall3DButtonClicked)
+                    }),
+                    //Create edit mode buttons
+                    this.editPointButtonDiv = CreateElement({
+                        type: 'button', class: 'EditPointButtonDiv', text: 'Point',
+                        onClick: CreateFunction(this, this.editPointButtonClicked)
+                    }),
+                    this.editCornerButtonDiv = CreateElement({
+                        type: 'button', class: 'EditCornerButtonDiv', text: 'Corner & Wall',
+                        onClick: CreateFunction(this, this.editCornerButtonClicked)
+                    })
+                    ]
             })
         ]
     });
@@ -134,7 +139,9 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.deleteButtonDiv.style.backgroundColor = "#c9d7e0";
 
     this.myBannerDiv.appendChild(this.viewMode2DButtonDiv);
+    this.viewMode2DButtonDiv.style.opacity = "1.0";
     this.myBannerDiv.appendChild(this.viewMode3DButtonDiv);
+    this.viewMode3DButtonDiv.style.opacity = "1.0";
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
