@@ -83,6 +83,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .CreateButtonDiv {
@@ -95,6 +96,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .ViewButtonDiv {
@@ -107,6 +109,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .ViewMode2DButtonDiv {
@@ -117,6 +120,7 @@ body {
     background: #9c8cf2;
     text-align: center;
     font-size: 12px;
+    cursor: pointer;
     opacity: 0;
 }
 .ViewMode3DButtonDiv {
@@ -127,6 +131,7 @@ body {
     background: #9c8cf2;
     text-align: center;
     font-size: 12px;
+    cursor: pointer;
     opacity: 0;
 }
 .EditButtonDiv {
@@ -139,6 +144,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .EditPointButtonDiv {
@@ -149,6 +155,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 12px;
+    cursor: pointer;
     opacity: 0;
 }
 .EditCornerButtonDiv {
@@ -159,6 +166,7 @@ body {
     background: #9c8cf2;
     text-align: center;
     font-size: 12px;
+    cursor: pointer;
     opacity: 0;
 }
 .DeleteButtonDiv {
@@ -171,6 +179,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .StartOverButton {
@@ -183,6 +192,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .LocationDataButton {
@@ -195,6 +205,7 @@ body {
     text-align: center;
     font-size: 12px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .AJsButton {
@@ -207,6 +218,7 @@ body {
     text-align: center;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .RestoreButton {
@@ -219,6 +231,7 @@ body {
     text-align: center;
     font-size: 12px;
     outline: none;
+    cursor: pointer;
     border: #c9d7e0;
 }
 .selectedButtonDiv {
