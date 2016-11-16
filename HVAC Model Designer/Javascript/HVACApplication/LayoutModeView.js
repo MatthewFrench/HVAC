@@ -15,6 +15,9 @@ HVACApplication.prototype.initViewModeVariables = function () {
 
 HVACApplication.prototype.showViewModeLayout = function () {
     "use strict";
+    if (this.currentViewModeLayout == ViewModeType.Mode3D) {
+        this.viewMode3DController.show();
+    }
 };
 
 //Action taken for when the mouse is pressed down.
@@ -63,7 +66,7 @@ HVACApplication.prototype.drawViewModeLayout = function () {
 
         this.endDraw(ctx);
     } else if (this.currentViewModeLayout = ViewModeType.Mode3D) {
-        this.drawViewModeLayout3D();
+        this.viewMode3DController.draw();
     }
 
 };

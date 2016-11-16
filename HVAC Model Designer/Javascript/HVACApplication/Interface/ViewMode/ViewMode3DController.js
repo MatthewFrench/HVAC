@@ -2,9 +2,27 @@
  * Created by personal on 11/11/16.
  */
 
-HVACApplication.prototype.setLayoutViewModeTo3D = function () {
+function ViewMode3DController(hvacApplication) {
+    this.hvacApplication = hvacApplication;
+
+    //Create div to hold the renderer and also controls on top
+    //this.layout3D
+}
+
+ViewMode3DController.prototype.show = function() {
+    this.create3DEverything();
+};
+ViewMode3DController.prototype.hide = function() {
+    this.layoutViewMode3DRenderer.domElement.remove();
+};
+
+ViewMode3DController.prototype.create3DEverything = function () {
     //this.layoutViewMode3DCamera, this.layoutViewMode3DScene, this.layoutViewMode3DRenderer;
     //this.layoutViewMode3DMesh;
+
+    if (this.layoutViewMode3DRenderer != null) {
+        this.layoutViewMode3DRenderer.domElement.remove();
+    }
 
     this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     this.layoutViewMode3DCamera.position.z = 400;
@@ -14,13 +32,13 @@ HVACApplication.prototype.setLayoutViewModeTo3D = function () {
     //var texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
 
 
-    for (var i = 0; i < this.getCurrentWallList().length; i++) {
+    for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
 
         (function (i) {
-            AnimationTimer.StartTimerDelayed(this, i * 1.0, 0.0, function () {
+            AnimationTimer.StartTimerDelayed(this, i * 0.5, 0.0, function () {
             }, function () {
 
-                var wall = this.getCurrentWallList()[i];
+                var wall = this.hvacApplication.getCurrentWallList()[i];
 
                 var lengthOfWall = wall.getLine().getLength();
                 var wallCenter = wall.getLine().getCenterPoint();
@@ -39,13 +57,13 @@ HVACApplication.prototype.setLayoutViewModeTo3D = function () {
                 this.layoutViewMode3DScene.add(newMesh);
 
 
-                var canvasWidth = this.layoutCanvas.width;
-                var canvasHeight = this.layoutCanvas.height;
+                var canvasWidth = this.hvacApplication.layoutCanvas.width;
+                var canvasHeight = this.hvacApplication.layoutCanvas.height;
 
                 var locationX = (-canvasWidth/2+wallCenter.x) / 10.0;
                 var locationY = -(-canvasHeight/2+wallCenter.y) / 10.0;
                 var rotation = wall.getLine().getRotation();
-                AnimationTimer.StartTimer(this, 1.5, function (speed, percent) {
+                AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
                     var x = locationX * percent;
                     var y = locationY * percent;
 
@@ -70,14 +88,14 @@ HVACApplication.prototype.setLayoutViewModeTo3D = function () {
 
     document.body.appendChild(this.layoutViewMode3DRenderer.domElement);
 
-    window.addEventListener('resize', CreateFunction(this, this.resizeViewModeLayout3D), false);
+    window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
 
-    this.resizeViewModeLayout3D();
+    this.resizeView();
 
-    this.currentViewModeLayout = ViewModeType.Mode3D;
+    this.hvacApplication.currentViewModeLayout = ViewModeType.Mode3D;
 };
 
-HVACApplication.prototype.drawViewModeLayout3D = function () {
+ViewMode3DController.prototype.drawLayout = function () {
     //requestAnimationFrame( animate );
     //this.layoutViewMode3DMesh.rotation.x += 0.005;
     //this.layoutViewMode3DMesh.rotation.y += 0.01;
@@ -94,7 +112,7 @@ HVACApplication.prototype.drawViewModeLayout3D = function () {
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };
 
-HVACApplication.prototype.resizeViewModeLayout3D = function () {
+ViewMode3DController.prototype.resizeView = function () {
     this.layoutViewMode3DCamera.aspect = window.innerWidth / window.innerHeight;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
     this.layoutViewMode3DRenderer.setSize(window.innerWidth, window.innerHeight);

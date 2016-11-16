@@ -153,7 +153,7 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
 
     this.currentViewModeLayout = ViewModeType.Mode2D;
-    this.layoutViewMode3DRenderer.domElement.remove();
+    this.viewMode3DController.hide();
 
     this.layoutCanvas.style.display = "block";
 };
@@ -161,7 +161,8 @@ HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
 
-    this.setLayoutViewModeTo3D();
+    this.currentViewModeLayout = ViewModeType.Mode3D;
+    this.viewMode3DController.show();
     this.layoutCanvas.style.display = "none";
 };
 

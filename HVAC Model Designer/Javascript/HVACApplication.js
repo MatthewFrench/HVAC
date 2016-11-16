@@ -33,6 +33,8 @@ var HVACApplication = function () {
     this.viewPositionX = 0.0;
     this.viewPositionY = 0.0;
 
+    this.viewMode3DController = new ViewMode3DController(this);
+
     this.initCreateModeVariables();
     this.initDragModeVariables();
     this.initEditCornerModeVariables();
