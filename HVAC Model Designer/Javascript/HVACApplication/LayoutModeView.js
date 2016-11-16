@@ -66,7 +66,7 @@ HVACApplication.prototype.drawViewModeLayout = function () {
 
         this.endDraw(ctx);
     } else if (this.currentViewModeLayout = ViewModeType.Mode3D) {
-        this.viewMode3DController.draw();
+        this.viewMode3DController.drawLayout();
     }
 
 };
