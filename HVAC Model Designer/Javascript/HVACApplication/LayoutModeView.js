@@ -43,7 +43,6 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
         this.viewAngle -= (newMouseAngle - this.mouseAngle);// * 180 / Math.PI;;
         this.mouseAngle = newMouseAngle;
     }
-
 };
 
 //Action taken for when the mouse is released.

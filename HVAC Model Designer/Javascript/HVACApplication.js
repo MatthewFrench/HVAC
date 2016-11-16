@@ -35,15 +35,15 @@ var HVACApplication = function () {
 
     this.viewMode3DController = new ViewMode3DController(this);
 
+    this.initUIVariables();
+    this.createUI();
+
     this.initCreateModeVariables();
     this.initDragModeVariables();
     this.initEditCornerModeVariables();
     this.initEditPointModeVariables();
     this.initViewModeVariables();
     this.initDeleteModeVariables();
-
-    this.initUIVariables();
-    this.createUI();
 
     this.loadData();
 };
