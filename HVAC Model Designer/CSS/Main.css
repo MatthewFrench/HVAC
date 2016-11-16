@@ -50,9 +50,10 @@ body {
 
 .SecondRibbonBanner{
     position: absolute;
-    top: 51px;
+    top: 50px;
     width: 100%;
     height: 32px;
+    outline: none;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c9d7e0+0,9db6c6+100 */
     background: #9c8cf2; /* Old browsers */
@@ -81,6 +82,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .CreateButtonDiv {
@@ -92,6 +94,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .ViewButtonDiv {
@@ -103,6 +106,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .ViewMode2DButtonDiv {
@@ -134,6 +138,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .EditPointButtonDiv {
@@ -165,6 +170,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .StartOverButton {
@@ -176,6 +182,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .LocationDataButton {
@@ -187,6 +194,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 12px;
+    outline: none;
     border: #c9d7e0;
 }
 .AJsButton {
@@ -198,6 +206,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
+    outline: none;
     border: #c9d7e0;
 }
 .RestoreButton {
@@ -209,6 +218,7 @@ body {
     background: #c9d7e0;
     text-align: center;
     font-size: 12px;
+    outline: none;
     border: #c9d7e0;
 }
 .selectedButtonDiv {
