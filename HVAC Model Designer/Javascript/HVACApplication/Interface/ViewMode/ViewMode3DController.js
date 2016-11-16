@@ -16,9 +16,21 @@ ViewMode3DController.prototype.hide = function() {
     this.layoutViewMode3DRenderer.domElement.remove();
 };
 
+ViewMode3DController.prototype.handle3DScroll = function(evt) {
+    var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+    if (delta) {
+        var scaleFactor = 1.1;
+        var factor = Math.pow(scaleFactor, delta);
+        this.z += delta;
+        this.layoutViewMode3DCamera.position.setZ(this.z);
+    }
+    evt.preventDefault();
+};
+
 ViewMode3DController.prototype.create3DEverything = function () {
     //this.layoutViewMode3DCamera, this.layoutViewMode3DScene, this.layoutViewMode3DRenderer;
     //this.layoutViewMode3DMesh;
+    this.z = 400;
 
     if (this.layoutViewMode3DRenderer != null) {
         this.layoutViewMode3DRenderer.domElement.remove();
@@ -89,6 +101,9 @@ ViewMode3DController.prototype.create3DEverything = function () {
     document.body.appendChild(this.layoutViewMode3DRenderer.domElement);
 
     window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
+
+
+    this.layoutViewMode3DRenderer.domElement.addEventListener('mousewheel', CreateFunction(this, this.handle3DScroll), false);
 
     this.resizeView();
 
