@@ -10,16 +10,18 @@ var ViewModeType = {
 };
 
 var handleScroll = function(evt) {
-    var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
-    if (delta) {
-        var ctx = this.layoutCanvas.getContext("2d");
-        ctx.translate(this.currentMouseX, this.currentMouseY);
-        var factor = Math.pow(scaleFactor, delta);
-        ctx.scale(factor, factor);
-        ctx.translate(-this.currentMouseX, -this.currentMouseY);
-        ctx.restore();
+    if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
+        var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
+        if (delta) {
+            var ctx = this.layoutCanvas.getContext("2d");
+            ctx.translate(this.currentMouseX, this.currentMouseY);
+            var factor = Math.pow(scaleFactor, delta);
+            ctx.scale(factor, factor);
+            ctx.translate(-this.currentMouseX, -this.currentMouseY);
+            ctx.restore();
+        }
+        evt.preventDefault();
     }
-    evt.preventDefault();
 }
 
 //Initializes high-level variables.
