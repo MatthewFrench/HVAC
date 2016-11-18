@@ -76,23 +76,10 @@ body {
     text-align: center;
     outline: black solid thin;
 }
-.DragButtonDiv {
-    position: absolute;
-    top: 20px;
-    width: 100px;
-    height: 30px;
-    background: #c9d7e0;
-    text-align: center;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-    border: #c9d7e0;
-}
 .CreateButtonDiv {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 7.5%;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
@@ -105,7 +92,7 @@ body {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 15%;
+    left: 100px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
@@ -114,25 +101,47 @@ body {
     cursor: pointer;
     border: #c9d7e0;
 }
-.ViewMode2DButtonDiv {
+.DragButtonDiv {
     position: absolute;
-    width: 100px;
+    width: 60px;
     top: 60px;
-    left: 11.5%;
+    left: 40px;
     background: #9c8cf2;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+}
+.ViewMode2DButtonDiv {
+    position: absolute;
+    width: 60px;
+    top: 60px;
+    left: 100px;
+    background: #9c8cf2;
+    text-align: center;
+    font-size: 14px;
     cursor: pointer;
     opacity: 0;
 }
 .ViewMode3DButtonDiv {
     position: absolute;
-    width: 100px;
+    width: 60px;
     top: 60px;
-    left: 19%;
+    left: 160px;
     background: #9c8cf2;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+}
+.RestoreButton {
+    position: absolute;
+    width: 60px;
+    top: 60px;
+    left: 220px;
+    background: #9c8cf2;
+    text-align: center;
+    font-size: 14px;
     cursor: pointer;
     opacity: 0;
 }
@@ -140,7 +149,7 @@ body {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 22.5%;
+    left: 200px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
@@ -151,31 +160,31 @@ body {
 }
 .EditPointButtonDiv {
     position: absolute;
-    width: 100px;
+    width: 60px;
     top: 60px;
-    left: 19%;
+    left: 190px;
     background: #c9d7e0;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     opacity: 0;
 }
 .EditCornerButtonDiv {
     position: absolute;
-    width: 100px;
+    width: 60px;
     top: 60px;
-    left: 26.5%;
+    left: 250px;
     background: #9c8cf2;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     opacity: 0;
 }
-.DeleteButtonDiv {
+.deleteMenuDiv {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 30%;
+    left: 300px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
@@ -184,28 +193,37 @@ body {
     cursor: pointer;
     border: #c9d7e0;
 }
-.StartOverButton {
+.DeleteButtonDiv {
     position: absolute;
-    width: 100px;
-    top: 20px;
-    left: 37.5%;
-    height: 30px;
-    background: #c9d7e0;
+    width: 60px;
+    top: 60px;
+    left: 290px;
+    background: #9c8cf2;
     text-align: center;
     font-size: 14px;
-    outline: none;
     cursor: pointer;
-    border: #c9d7e0;
+    opacity: 0;
+}
+.StartOverButton {
+    position: absolute;
+    width: 60px;
+    top: 60px;
+    left: 350px;
+    background: #9c8cf2;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
 }
 .LocationDataButton {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 45%;
+    left: 1100px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     outline: none;
     cursor: pointer;
     border: #c9d7e0;
@@ -214,24 +232,11 @@ body {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 52.5%;
+    left: 1200px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
     font-size: 14px;
-    outline: none;
-    cursor: pointer;
-    border: #c9d7e0;
-}
-.RestoreButton {
-    position: absolute;
-    width: 100px;
-    top: 20px;
-    left: 60%;
-    height: 30px;
-    background: #c9d7e0;
-    text-align: center;
-    font-size: 12px;
     outline: none;
     cursor: pointer;
     border: #c9d7e0;
