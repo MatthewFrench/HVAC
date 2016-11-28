@@ -107,7 +107,16 @@ HVACApplication.prototype.beginDraw = function() {
 
     ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
 
+
+    //var ctx = this.layoutCanvas.getContext("2d");
+    //ctx.translate(this.currentMouseX, this.currentMouseY);
+    ctx.scale(this.viewScale, this.viewScale);
+    //ctx.translate(-this.currentMouseX, -this.currentMouseY);
+    //ctx.restore();
+
+
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
+
 
     return ctx;
 };
@@ -149,6 +158,7 @@ HVACApplication.prototype.layoutDraw = function() {
     ctx.save();
     ctx.translate(canvasWidth/2, canvasHeight/2);
     ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
+    ctx.scale(this.viewScale, this.viewScale); //convertToRadians(this.viewAngle)
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
     for (var i in this.intersectHighlightPoints) {
         var intersectPoint = this.intersectHighlightPoints[i];
@@ -180,6 +190,8 @@ HVACApplication.prototype.setRotatedCanvasMouse = function() {
     var oldY = this.rotatedCanvasMouseY;
     this.rotatedCanvasMouseX = oldX * Math.cos(-this.viewAngle) - oldY * Math.sin(-this.viewAngle);
     this.rotatedCanvasMouseY = oldY * Math.cos(-this.viewAngle) + oldX * Math.sin(-this.viewAngle);
+    this.rotatedCanvasMouseX = this.rotatedCanvasMouseX / this.viewScale;
+    this.rotatedCanvasMouseY = this.rotatedCanvasMouseY / this.viewScale;
     this.rotatedCanvasMouseX += canvasWidth/2;
     this.rotatedCanvasMouseY += canvasHeight/2;
 };

@@ -65,8 +65,8 @@ body {
 .LayoutCanvas {
     position: absolute;
     width: 100%;
-    height: calc(100% - 150px);
-    top: 150px;
+    height: calc(100% - 82px);
+    top: 82px;
 }
 .BuildingDropDown {
     position: absolute;

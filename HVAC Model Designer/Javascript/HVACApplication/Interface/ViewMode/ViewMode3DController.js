@@ -8,6 +8,7 @@ function ViewMode3DController(hvacApplication) {
 
     //Create div to hold the renderer and also controls on top
     //this.layout3D
+    this.layoutViewMode3DRenderer = null;
 }
 
 /*This function allows us to show the 3D View Mode*/
@@ -17,7 +18,8 @@ ViewMode3DController.prototype.show = function() {
 
 /*This function allows us to hide the 3D View Mode*/
 ViewMode3DController.prototype.hide = function() {
-    this.layoutViewMode3DRenderer.domElement.remove();
+    if (this.layoutViewMode3DRenderer != null) this.layoutViewMode3DRenderer.domElement.remove();
+    this.layoutViewMode3DRenderer = null;
 };
 
 /*This function allows us to handle scrolling in 3D View Mode*/
@@ -136,6 +138,7 @@ ViewMode3DController.prototype.drawLayout = function () {
 
 /*This function allows us to resize the 3D View Mode*/
 ViewMode3DController.prototype.resizeView = function () {
+    if (this.layoutViewMode3DRenderer == null) return;
     this.layoutViewMode3DCamera.aspect = window.innerWidth / window.innerHeight;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
     this.layoutViewMode3DRenderer.setSize(window.innerWidth, window.innerHeight);
