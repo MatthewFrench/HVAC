@@ -2,17 +2,18 @@
  * Created by Matt on 9/19/16.
  */
 
-//Initializes high-level variables.
+//Makes the current Create Mode equal to null.
 HVACApplication.prototype.initCreateModeVariables = function () {
     "use strict";
     this.currentCreateModeWall = null;
 };
 
+//This function shows the Create Mode Layout
 HVACApplication.prototype.showCreateModeLayout = function () {
     "use strict";
 };
 
-//Action taken for when the mouse is pressed down.
+//Action taken for when the mouse is clicked
 HVACApplication.prototype.mousePressedCreateModeLayout = function () {
     "use strict";
     if (this.currentCreateModeWall == null) {

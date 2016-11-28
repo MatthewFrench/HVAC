@@ -2,7 +2,7 @@
  * Created by Matt on 9/19/16.
  */
 
-//Initializes high-level variables.
+//Creates and initializes the Point variables
 HVACApplication.prototype.initEditPointModeVariables = function () {
     "use strict";
     this.currentEditPointSelectedWall = null;
@@ -10,6 +10,7 @@ HVACApplication.prototype.initEditPointModeVariables = function () {
     this.highlightedPoint = null;
 };
 
+//Shows the Edit Point Layout Mode
 HVACApplication.prototype.showEditPointModeLayout = function () {
     "use strict";
 };

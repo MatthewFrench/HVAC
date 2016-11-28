@@ -2,7 +2,7 @@
  * Created by Matt on 9/19/16.
  */
 
-//Wall connections object
+//Creates and initializes the variables for Wall Connecting
 var WallConnection = function(cornerPoint, connectedWall) {
     "use strict";
 
@@ -11,6 +11,8 @@ var WallConnection = function(cornerPoint, connectedWall) {
     var lengthOfWall = Math.hypot(connectedWall.getPoint2X() - connectedWall.getPoint1X(), connectedWall.getPoint2Y() - connectedWall.getPoint1Y());
     this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.getPoint1X(), cornerPoint.getY() - connectedWall.getPoint1Y()) / lengthOfWall;
 };
+
+//This function reattaches two walls that were previously split
 WallConnection.prototype.reattach = function() {
     var newX = (this.connectedWall.getPoint2X() - this.connectedWall.getPoint1X()) * this.percentageOnWallLine + this.connectedWall.getPoint1X();
     var newY = (this.connectedWall.getPoint2Y() - this.connectedWall.getPoint1Y()) * this.percentageOnWallLine + this.connectedWall.getPoint1Y();
@@ -18,13 +20,14 @@ WallConnection.prototype.reattach = function() {
     this.cornerPoint.setY(newY);
 };
 
-//Initializes high-level variables.
+//Creates and initializes the corner mode variable
 HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
     this.highlightedCorners = [];
 };
 
+//Shows the Corner Mode Layout
 HVACApplication.prototype.showEditCornerModeLayout = function () {
     "use strict";
 };
@@ -114,12 +117,6 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
         }
     }
 
-
-    console.log("Wall connection length: " + this.wallConnections.length);
-
-
-    console.log("closestCornerPoint: " + closestCornerPoint);
-
     //Search for points near pixel of closest point
     if (closestCornerPoint != null) {
         for (var i = 0; i < this.getCurrentWallList().length; i++) {
@@ -134,7 +131,6 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             }
         }
     }
-    console.log("this.currentEditCornerSelectedCornerPoints 0: " + this.currentEditCornerSelectedCornerPoints.length);
 
     //Add any walls that the selected points may be connected to
     var currentEditCornerSelectedCornerPointsClone = this.currentEditCornerSelectedCornerPoints.slice(0);
@@ -172,7 +168,7 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
             }
         }
     }
-console.log("this.currentEditCornerSelectedCornerPoints: " + this.currentEditCornerSelectedCornerPoints.length);
+
     //If no points or corners were selected, grab a wall
     if (this.currentEditCornerSelectedCornerPoints.length == 0) {
         var closestWall = null;
@@ -210,14 +206,6 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
             this.highlightedCorners.push(wall);
         }
     }
-
-    //Get wall connections list
-    //Set point
-    //Fix connections without moving that point
-
-    //Wall connections list
-    //var wallConnectionsList = [];
-
     
     if (this.mouseDown) {
 

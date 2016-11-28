@@ -9,6 +9,7 @@ var ViewModeType = {
     Mode3D: 1
 };
 
+//Allows the handling of Scrolling in View Mode
 var handleScroll = function(evt) {
         var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
         if (delta) {
@@ -18,13 +19,14 @@ var handleScroll = function(evt) {
         evt.preventDefault();
 };
 
-//Initializes high-level variables.
+//Creates and initializes the View Mode variables
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.layoutCanvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 };
 
+//Shows the View Mode Layout
 HVACApplication.prototype.showViewModeLayout = function () {
     "use strict";
     if (this.currentViewModeLayout == ViewModeType.Mode3D) {

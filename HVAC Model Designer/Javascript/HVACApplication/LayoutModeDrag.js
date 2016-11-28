@@ -2,11 +2,12 @@
  * Created by Matt on 9/19/16.
  */
 
-//Initializes high-level variables.
+//Creates and initializes the Drag variable
 HVACApplication.prototype.initDragModeVariables = function () {
     "use strict";
 };
 
+//Shows the Drag Mode Layout
 HVACApplication.prototype.showDragModeLayout = function () {
     "use strict";
 };

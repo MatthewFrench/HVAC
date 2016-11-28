@@ -2,12 +2,13 @@
  * Created by Matt on 9/23/2016.
  */
 
-//Initializes high-level variables.
+//Creates and initializes the Delete variable
 HVACApplication.prototype.initDeleteModeVariables = function () {
     "use strict";
     this.highlightedDeleteWall = null;
 };
 
+//This function shows the Delete Mode Layout
 HVACApplication.prototype.showDeleteModeLayout = function () {
     "use strict";
 };

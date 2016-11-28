@@ -145,13 +145,13 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
 
-    this.myBannerDiv.appendChild(this.viewMode2DButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.viewMode2DButtonDiv);
     this.viewMode2DButtonDiv.style.opacity = "1.0";
-    this.myBannerDiv.appendChild(this.viewMode3DButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.viewMode3DButtonDiv);
     this.viewMode3DButtonDiv.style.opacity = "1.0";
-    this.myBannerDiv.appendChild(this.dragButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.dragButtonDiv);
     this.dragButtonDiv.style.opacity = "1.0";
-    this.myBannerDiv.appendChild(this.RestoreButton);
+    this.mySecondBannerDiv.appendChild(this.RestoreButton);
     this.RestoreButton.style.opacity = "1.0";
 
     this.editPointButtonDiv.remove();
@@ -174,6 +174,7 @@ HVACApplication.prototype.dragButtonClicked = function () {
     this.editButtonDiv.style.backgroundColor = "#c9d7e0";
     this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
+    this.dragButtonDiv.style.backgroundColor = "#37f10f";
 
     this.showDragModeLayout();
 };
@@ -239,9 +240,9 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
 
     //Adds the sub-edit buttons
-    this.myBannerDiv.appendChild(this.editPointButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.editPointButtonDiv);
     this.editPointButtonDiv.style.opacity = "1.0";
-    this.myBannerDiv.appendChild(this.editCornerButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.editCornerButtonDiv);
     this.editCornerButtonDiv.style.opacity = "1.0";
 
     this.viewMode2DButtonDiv.remove();
@@ -292,9 +293,9 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#9c8cf2";
 
-    this.myBannerDiv.appendChild(this.StartOverButton);
+    this.mySecondBannerDiv.appendChild(this.StartOverButton);
     this.StartOverButton.style.opacity = "1.0";
-    this.myBannerDiv.appendChild(this.deleteButtonDiv);
+    this.mySecondBannerDiv.appendChild(this.deleteButtonDiv);
     this.deleteButtonDiv.style.opacity = "1.0";
 
     this.editPointButtonDiv.remove();
