@@ -2,6 +2,7 @@
  * Created by Matt on 9/19/16.
  */
 
+/*This function creates some of the variables and sets them to Null for use later*/
 HVACApplication.prototype.initUIVariables = function () {
     "use strict";
     this.myBannerDiv = null;
@@ -22,6 +23,7 @@ HVACApplication.prototype.initUIVariables = function () {
     this.floorPicker = null;
 };
 
+/*This function creates the User Interface, including adding buttons/menu*/
 HVACApplication.prototype.createUI = function () {
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: document.body, elements: [
@@ -159,12 +161,13 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
 
     this.showViewModeLayout();
 };
+
 //Highlights Drag button and deselects other buttons.
 HVACApplication.prototype.dragButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
     this.viewButtonDiv.className = "ViewButtonDiv";
-    this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
+    this.viewButtonDiv.style.backgroundColor = "#9c8cf2";
     this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.style.backgroundColor = "#c9d7e0";
     this.editButtonDiv.className = "EditButtonDiv";
@@ -174,7 +177,10 @@ HVACApplication.prototype.dragButtonClicked = function () {
 
     this.showDragModeLayout();
 };
+
+/*This function shows that 2D mode has been selected*/
 HVACApplication.prototype.viewWall2DButtonClicked = function() {
+    this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
 
@@ -183,6 +189,8 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
 
     this.layoutCanvas.style.display = "block";
 };
+
+/*This function shows that 3D mode has been selected*/
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
@@ -271,6 +279,8 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
 
     this.showEditCornerModeLayout();
 };
+
+/*This function shows the Delete button as selected*/
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
     this.viewButtonDiv.className = "ViewButtonDiv";
@@ -296,6 +306,7 @@ HVACApplication.prototype.deleteMenuClicked = function () {
 
     this.showDeleteModeLayout();
 };
+
 //Highlights Delete button and deselects other buttons.
 HVACApplication.prototype.deleteWallButtonClicked = function () {
     "use strict";
