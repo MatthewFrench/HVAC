@@ -157,11 +157,12 @@ HVACApplication.prototype.layoutDraw = function() {
     }
     ctx.restore();
 
-
+/* Debug mouse position showing
         ctx.fillStyle = "red";
         ctx.beginPath();
         ctx.arc(this.canvasMouseX, this.canvasMouseY, 5, 0, 2 * Math.PI);
         ctx.fill();
+        */
 };
 
 HVACApplication.prototype.windowResized = function() {
