@@ -18,6 +18,7 @@
  Wall.prototype.setLine(Line2D)
  */
 
+/*This function draws lines on our Layout*/
 Wall.prototype.draw = function(context, showHandles) {
     context.strokeStyle = "white";
 
@@ -35,6 +36,7 @@ Wall.prototype.draw = function(context, showHandles) {
     }
 };
 
+/*This function draws perpendicular lines on our Layout*/
 Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
 
     var x1 = this.getLine().getPoint1X();
@@ -98,6 +100,7 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
     context.globalAlpha = 1.0;
 };
 
+/*This function shows the length of the line being drawn on our Layout*/
 Wall.prototype.drawLength = function(context) {
     "use strict";
     //Go down to 5 decimal places
@@ -136,6 +139,7 @@ Wall.prototype.drawLength = function(context) {
     context.fillText(feet+" ft " + inches + " in", centerX, centerY);
 };
 
+/*This function would create a rectangle with a border*/
 function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
     "use strict";
 
@@ -153,6 +157,7 @@ function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
     context.stroke();
 }
 
+/*This function creates a rectangle that is completely filled. Currently being used for our Wall Length*/
 function fillRoundedRect(context, x, y, width, height, cornerRadius) {
     "use strict";
 
@@ -170,6 +175,7 @@ function fillRoundedRect(context, x, y, width, height, cornerRadius) {
     context.fill();
 }
 
+/*This function gives stroke width and color*/
 function drawHandle(context, x, y) {
     "use strict";
     context.lineWidth = 2;

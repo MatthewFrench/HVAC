@@ -1,6 +1,8 @@
 /**
  * Created by masse on 11/4/2016.
  */
+
+//This function creates the Skylight Popover
 function SkylightPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'SkylightBGCover'});
     this.SkylightDiv = CreateElement({
@@ -21,10 +23,13 @@ function SkylightPopover() {
     });
 }
 
+//This function shows the Skylight Popover
 SkylightPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.SkylightDiv);
 };
+
+//This function hides the Skylight Popover
 SkylightPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.SkylightDiv.remove();

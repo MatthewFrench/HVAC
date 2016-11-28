@@ -1,6 +1,8 @@
 /**
  * Created by masse on 10/26/2016.
  */
+
+//This function creates the Miscellaneous Popover
 function MiscPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'MiscBGCover'});
     this.MiscDiv = CreateElement({
@@ -21,10 +23,13 @@ function MiscPopover() {
     });
 }
 
+//This function shows the Miscellaneous Popover
 MiscPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.MiscDiv);
 };
+
+//This function hides the Miscellaneous Popover
 MiscPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.MiscDiv.remove();

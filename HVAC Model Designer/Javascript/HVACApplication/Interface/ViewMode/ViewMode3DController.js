@@ -2,6 +2,7 @@
  * Created by personal on 11/11/16.
  */
 
+/*This function creates the 3D View Mode*/
 function ViewMode3DController(hvacApplication) {
     this.hvacApplication = hvacApplication;
 
@@ -9,13 +10,17 @@ function ViewMode3DController(hvacApplication) {
     //this.layout3D
 }
 
+/*This function allows us to show the 3D View Mode*/
 ViewMode3DController.prototype.show = function() {
     this.create3DEverything();
 };
+
+/*This function allows us to hide the 3D View Mode*/
 ViewMode3DController.prototype.hide = function() {
     this.layoutViewMode3DRenderer.domElement.remove();
 };
 
+/*This function allows us to handle scrolling in 3D View Mode*/
 ViewMode3DController.prototype.handle3DScroll = function(evt) {
     var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
     if (delta) {
@@ -27,6 +32,7 @@ ViewMode3DController.prototype.handle3DScroll = function(evt) {
     evt.preventDefault();
 };
 
+/*This function converts everything from 2D to 3D View Mode*/
 ViewMode3DController.prototype.create3DEverything = function () {
     //this.layoutViewMode3DCamera, this.layoutViewMode3DScene, this.layoutViewMode3DRenderer;
     //this.layoutViewMode3DMesh;
@@ -110,6 +116,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     this.hvacApplication.currentViewModeLayout = ViewModeType.Mode3D;
 };
 
+/*This function creates the drawing Layout in 3D View Mode*/
 ViewMode3DController.prototype.drawLayout = function () {
     //requestAnimationFrame( animate );
     //this.layoutViewMode3DMesh.rotation.x += 0.005;
@@ -127,6 +134,7 @@ ViewMode3DController.prototype.drawLayout = function () {
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };
 
+/*This function allows us to resize the 3D View Mode*/
 ViewMode3DController.prototype.resizeView = function () {
     this.layoutViewMode3DCamera.aspect = window.innerWidth / window.innerHeight;
     this.layoutViewMode3DCamera.updateProjectionMatrix();

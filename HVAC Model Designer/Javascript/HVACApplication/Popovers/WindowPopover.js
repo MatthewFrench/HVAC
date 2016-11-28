@@ -1,6 +1,8 @@
 /**
  * Created by masse on 10/26/2016.
  */
+
+//This function creates the Window Popover
 function WindowPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'WindowBGCover'});
     this.WindowDiv = CreateElement({
@@ -21,10 +23,13 @@ function WindowPopover() {
     });
 }
 
+//This function shows the Window Popover
 WindowPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.WindowDiv);
 };
+
+//This function hides the Window Popover
 WindowPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.WindowDiv.remove();

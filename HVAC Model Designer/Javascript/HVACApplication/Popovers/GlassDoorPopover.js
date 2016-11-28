@@ -1,6 +1,8 @@
 /**
  * Created by masse on 11/4/2016.
  */
+
+/*This function creates the Glass Door Popover*/
 function GlassDoorPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'GlassDoorBGCover'});
     this.GlassDoorDiv = CreateElement({
@@ -21,10 +23,13 @@ function GlassDoorPopover() {
     });
 }
 
+/*This function shows the Glass Door Popover*/
 GlassDoorPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.GlassDoorDiv);
 };
+
+/*This function hides the Glassd Door Popover*/
 GlassDoorPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.GlassDoorDiv.remove();

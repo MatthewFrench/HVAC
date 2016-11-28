@@ -1,6 +1,8 @@
 /**
  * Created by masse on 10/14/2016.
  */
+
+//This function creates the Door Popover
 function DoorPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'DoorBGCover'});
     this.DoorDiv = CreateElement({type: 'div', class: 'DoorDiv', elements: [
@@ -29,6 +31,7 @@ function DoorPopover() {
 
     this.DoorTypeButton.selectedIndex = -1;
 
+    //This function reveals the Door Thickness
     this.DoorTypeButton.onchange = function() {
         var sel = document.getElementById('DoorType');
         var first = sel.options[sel.selectedIndex];
@@ -137,7 +140,7 @@ function DoorPopover() {
         self.DoorDescriptionButton.selectedIndex = -1;
     }
 
-
+    //This function reveals the Door Description
     this.DoorThicknessButton.onchange = function() {
         var sel = document.getElementById('DoorType');
         var first = sel.options[sel.selectedIndex];
@@ -212,6 +215,7 @@ function DoorPopover() {
         self.DoorDescriptionButton.selectedIndex = -1;
     }
 
+    //This function reveals Screen Door option
     this.DoorDescriptionButton.onchange = function(){
         self.DoorUValueBox.innerHTML = "";
         self.ScreenDoorButton.innerHTML = "";
@@ -241,6 +245,7 @@ function DoorPopover() {
         self.ScreenDoorButton.selectedIndex = -1;
     }
 
+    //This function sets UValue of Door
     this.ScreenDoorButton.onchange = function(){
         self.DoorUValueBox.innerHTML = "";
         self.DoorUValueBox.style.opacity = "1.0";
@@ -528,10 +533,13 @@ function DoorPopover() {
     }
 }
 
+//This function shows the Door Popover
 DoorPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.DoorDiv);
 };
+
+//This function hides the Door Popover
 DoorPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.DoorDiv.remove();

@@ -1,6 +1,8 @@
 /**
  * Created by masse on 10/26/2016.
  */
+
+//This function creates the Wall Popover
 function WallPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'WallBGCover'});
     this.WallDiv = CreateElement({
@@ -21,10 +23,13 @@ function WallPopover() {
     });
 }
 
+//This function shows the Wall Popover
 WallPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.WallDiv);
 };
+
+//This function hides the Wall Popover
 WallPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.WallDiv.remove();

@@ -1,6 +1,8 @@
 /**
  * Created by masse on 11/4/2016.
  */
+
+/*This function creates the Floor Popover*/
 function FloorPopover() {
     this.backgroundDiv = CreateElement({type: 'div', class: 'FloorBGCover'});
     this.FloorDiv = CreateElement({
@@ -21,10 +23,13 @@ function FloorPopover() {
     });
 }
 
+/*This function shows the Floor Popover*/
 FloorPopover.prototype.show = function() {
     document.body.appendChild(this.backgroundDiv);
     document.body.appendChild(this.FloorDiv);
 };
+
+/*This function hides the Floor Popover*/
 FloorPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.FloorDiv.remove();

@@ -2,6 +2,7 @@
  * Created by Austin03 on 10/5/16.
  */
 
+/*This function creates the Start Over Popover*/
 function StartOverPopover(question, yesCallback, noCallback) {
     "use strict";
     //Constructor
@@ -22,10 +23,13 @@ function StartOverPopover(question, yesCallback, noCallback) {
     ]});
 }
 
+/*This function shows the Start Over Popover*/
 StartOverPopover.prototype.show = function() {
     document.body.appendChild(this.StartOverPopoverBlock);
     document.body.appendChild(this.StartOverPopoverDiv);
 };
+
+/*This function hides the Start Over Popover*/
 StartOverPopover.prototype.hide = function() {
     this.StartOverPopoverBlock.remove();
     this.StartOverPopoverDiv.remove();
