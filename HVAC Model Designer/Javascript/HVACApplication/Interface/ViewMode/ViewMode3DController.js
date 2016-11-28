@@ -9,6 +9,10 @@ function ViewMode3DController(hvacApplication) {
     //Create div to hold the renderer and also controls on top
     //this.layout3D
     this.layoutViewMode3DRenderer = null;
+
+
+    this.defaultZ = 100;
+    this.viewZ = this.defaultZ;
 }
 
 /*This function allows us to show the 3D View Mode*/
@@ -23,29 +27,31 @@ ViewMode3DController.prototype.hide = function() {
 };
 
 /*This function allows us to handle scrolling in 3D View Mode*/
+/*
 ViewMode3DController.prototype.handle3DScroll = function(evt) {
     var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
     if (delta) {
         var scaleFactor = 1.1;
         var factor = Math.pow(scaleFactor, delta);
-        this.z += delta;
-        this.layoutViewMode3DCamera.position.setZ(this.z);
+        this.viewZ += delta;
+        this.layoutViewMode3DCamera.position.setZ(this.viewZ);
     }
     evt.preventDefault();
 };
+*/
 
 /*This function converts everything from 2D to 3D View Mode*/
 ViewMode3DController.prototype.create3DEverything = function () {
     //this.layoutViewMode3DCamera, this.layoutViewMode3DScene, this.layoutViewMode3DRenderer;
     //this.layoutViewMode3DMesh;
-    this.z = 400;
+    this.viewZ = this.defaultZ;
 
     if (this.layoutViewMode3DRenderer != null) {
         this.layoutViewMode3DRenderer.domElement.remove();
     }
 
     this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    this.layoutViewMode3DCamera.position.z = 400;
+    this.layoutViewMode3DCamera.position.z = this.viewZ;
     this.layoutViewMode3DCamera.lookAt(0, 0, 0);
     this.layoutViewMode3DScene = new THREE.Scene();
 
@@ -55,7 +61,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
 
         (function (i) {
-            AnimationTimer.StartTimerDelayed(this, i * 0.5, 0.0, function () {
+            AnimationTimer.StartTimerDelayed(this, i * 0.1, 0.0, function () {
             }, function () {
 
                 var wall = this.hvacApplication.getCurrentWallList()[i];
@@ -102,16 +108,20 @@ ViewMode3DController.prototype.create3DEverything = function () {
     }
 
 
-    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer();
+    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({ alpha: true });
     this.layoutViewMode3DRenderer.setPixelRatio(window.devicePixelRatio);
     this.layoutViewMode3DRenderer.setSize(window.innerWidth, window.innerHeight);
+
+    this.layoutViewMode3DRenderer.domElement.style.position = "absolute";
+    this.layoutViewMode3DRenderer.domElement.style.top = "0";
+    this.layoutViewMode3DRenderer.domElement.style.left = "0";
 
     document.body.appendChild(this.layoutViewMode3DRenderer.domElement);
 
     window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
 
 
-    this.layoutViewMode3DRenderer.domElement.addEventListener('mousewheel', CreateFunction(this, this.handle3DScroll), false);
+    //this.layoutViewMode3DRenderer.domElement.addEventListener('mousewheel', CreateFunction(this, this.handle3DScroll), false);
 
     this.resizeView();
 
@@ -132,6 +142,20 @@ ViewMode3DController.prototype.drawLayout = function () {
      */
     //this.layoutViewMode3DScene.rotation.x += 0.005;
     //this.layoutViewMode3DScene.rotation.y += 0.01;
+
+    var ctx = this.hvacApplication.beginDraw();
+
+    for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
+        var wall = this.hvacApplication.getCurrentWallList()[i];
+        wall.draw(ctx, false);
+    }
+
+    this.hvacApplication.endDraw(ctx);
+
+
+    this.viewZ = this.defaultZ / this.hvacApplication.viewScale;
+
+    this.layoutViewMode3DCamera.position.setZ(this.viewZ);
 
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };

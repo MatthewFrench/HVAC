@@ -198,7 +198,7 @@ HVACApplication.prototype.viewWall3DButtonClicked = function() {
 
     this.currentViewModeLayout = ViewModeType.Mode3D;
     this.viewMode3DController.show();
-    this.layoutCanvas.style.display = "none";
+    //this.layoutCanvas.style.display = "none";
 };
 
 //Highlights Create button and deselects other buttons.
