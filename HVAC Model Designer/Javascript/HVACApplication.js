@@ -30,8 +30,7 @@ var HVACApplication = function () {
     this.selectedFloor = null;
     this.selectedBuilding = null;
     this.viewAngle = 0.0;
-    this.viewPositionX = 0.0;
-    this.viewPositionY = 0.0;
+    this.viewScale = 1.0;
 
     this.viewMode3DController = new ViewMode3DController(this);
 
@@ -63,8 +62,6 @@ HVACApplication.prototype.saveData = function() {
 HVACApplication.prototype.selectBuilding = function(building) {
     this.selectedBuilding = building;
     this.selectFloor(building.getFloorList()[0]);
-    console.log("Selected building: " + this.selectedBuilding);
-    console.log("Selected floor: " + this.selectedFloor);
 };
 
 HVACApplication.prototype.selectFloor = function(floor) {
@@ -101,22 +98,14 @@ HVACApplication.prototype.beginDraw = function() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.save();
-    //ctx.translate(this.viewPositionX, this.viewPositionY);
 
     ctx.translate(canvasWidth/2, canvasHeight/2);
 
     ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
 
-
-    //var ctx = this.layoutCanvas.getContext("2d");
-    //ctx.translate(this.currentMouseX, this.currentMouseY);
     ctx.scale(this.viewScale, this.viewScale);
-    //ctx.translate(-this.currentMouseX, -this.currentMouseY);
-    //ctx.restore();
-
 
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
-
 
     return ctx;
 };
@@ -167,6 +156,12 @@ HVACApplication.prototype.layoutDraw = function() {
         ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
     }
     ctx.restore();
+
+
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(this.canvasMouseX, this.canvasMouseY, 5, 0, 2 * Math.PI);
+        ctx.fill();
 };
 
 HVACApplication.prototype.windowResized = function() {
@@ -175,8 +170,8 @@ HVACApplication.prototype.windowResized = function() {
 
 HVACApplication.prototype.resizeCanvas = function() {
     "use strict";
-    this.layoutCanvas.width = window.innerWidth;
-    this.layoutCanvas.height = window.innerHeight - 150;
+    this.layoutCanvas.width = this.layoutCanvas.clientWidth;
+    this.layoutCanvas.height = this.layoutCanvas.clientHeight;
 };
 
 HVACApplication.prototype.setRotatedCanvasMouse = function() {
@@ -207,8 +202,8 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
-    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
+    this.canvasMouseX = this.currentMouseX;
+    this.canvasMouseY = this.currentMouseY;
 
     this.setRotatedCanvasMouse();
 
@@ -246,8 +241,8 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     this.mouseMovedX = this.previousMouseX - this.currentMouseX;
     this.mouseMovedY = this.previousMouseY - this.currentMouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
-    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
+    this.canvasMouseX = this.currentMouseX;
+    this.canvasMouseY = this.currentMouseY;
 
 
 
@@ -290,8 +285,8 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     this.previousMouseY = this.currentMouseY;
     this.currentMouseY = mouseY;
 
-    this.canvasMouseX = this.currentMouseX - this.viewPositionX;
-    this.canvasMouseY = this.currentMouseY - this.viewPositionY;
+    this.canvasMouseX = this.currentMouseX;
+    this.canvasMouseY = this.currentMouseY;
 
     this.setRotatedCanvasMouse();
 

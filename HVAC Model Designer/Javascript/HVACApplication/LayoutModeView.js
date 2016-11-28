@@ -25,7 +25,6 @@ HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.layoutCanvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
-    this.viewScale = 1.0;
 };
 
 HVACApplication.prototype.showViewModeLayout = function () {
