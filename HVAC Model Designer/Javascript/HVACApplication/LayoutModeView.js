@@ -10,14 +10,12 @@ var ViewModeType = {
 };
 
 var handleScroll = function(evt) {
-    if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
         var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
         if (delta) {
             var factor = Math.pow(scaleFactor, delta);
             this.viewScale = factor * this.viewScale;
         }
         evt.preventDefault();
-    }
 };
 
 //Initializes high-level variables.
