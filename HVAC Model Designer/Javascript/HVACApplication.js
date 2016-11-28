@@ -158,6 +158,7 @@ HVACApplication.prototype.layoutDraw = function() {
     ctx.save();
     ctx.translate(canvasWidth/2, canvasHeight/2);
     ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
+    ctx.scale(this.viewScale, this.viewScale); //convertToRadians(this.viewAngle)
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
     for (var i in this.intersectHighlightPoints) {
         var intersectPoint = this.intersectHighlightPoints[i];
