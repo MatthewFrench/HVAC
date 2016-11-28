@@ -130,6 +130,7 @@ ViewMode3DController.prototype.drawLayout = function () {
 };
 
 ViewMode3DController.prototype.resizeView = function () {
+    if (this.layoutViewMode3DRenderer == null) return;
     this.layoutViewMode3DCamera.aspect = window.innerWidth / window.innerHeight;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
     this.layoutViewMode3DRenderer.setSize(window.innerWidth, window.innerHeight);
