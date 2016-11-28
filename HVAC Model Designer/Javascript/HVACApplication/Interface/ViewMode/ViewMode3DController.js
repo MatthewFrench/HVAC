@@ -7,13 +7,15 @@ function ViewMode3DController(hvacApplication) {
 
     //Create div to hold the renderer and also controls on top
     //this.layout3D
+    this.layoutViewMode3DRenderer = null;
 }
 
 ViewMode3DController.prototype.show = function() {
     this.create3DEverything();
 };
 ViewMode3DController.prototype.hide = function() {
-    this.layoutViewMode3DRenderer.domElement.remove();
+    if (this.layoutViewMode3DRenderer != null) this.layoutViewMode3DRenderer.domElement.remove();
+    this.layoutViewMode3DRenderer = null;
 };
 
 ViewMode3DController.prototype.handle3DScroll = function(evt) {
