@@ -76,6 +76,7 @@ HVACApplication.prototype.createUI = function () {
                         type: 'text', class: 'RestoreButton', text: 'Restore',
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
+                            this.viewScale = 1.0;
                         })
                     }),
                     //Create edit mode buttons
