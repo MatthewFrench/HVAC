@@ -15,6 +15,13 @@ var handleScroll = function(evt) {
         if (delta) {
             var factor = Math.pow(scaleFactor, delta);
             this.viewScale = factor * this.viewScale;
+
+            if (this.viewScale > 2) {
+                this.viewScale = 2;
+            }
+            else if (this.viewScale < 0.25) {
+                this.viewScale = 0.25;
+            }
         }
         evt.preventDefault();
 };
