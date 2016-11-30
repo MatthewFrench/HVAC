@@ -11,43 +11,82 @@ function ViewMode3DController(hvacApplication) {
     this.layoutViewMode3DRenderer = null;
 
 
-    this.defaultZ = 100;
+    this.defaultZ = 2600;
     this.viewZ = this.defaultZ;
     this.plane2D = null;
     this.texture2D = null;
     this.textureCanvas = null;
+    this.canvasWidth = 0;
+    this.canvasHeight = 0;
 
-    this.setupTextureCanvas();
+    this.cameraCenterX = 0;
+    this.cameraCenterY = 0;
 }
 
 ViewMode3DController.prototype.setupTextureCanvas = function() {
     this.textureCanvas = document.createElement('canvas');
+    var lowestX = 0;
+    var highestX = 0;
+    var lowestY = 0;
+    var highestY = 0;
+    for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
+        var wall = this.hvacApplication.getCurrentWallList()[i];
+
+        lowestX = Math.min(lowestX, wall.getPoint1X());
+        highestX = Math.max(highestX, wall.getPoint1X());
+        lowestY = Math.min(lowestY, wall.getPoint1Y());
+        highestY = Math.max(highestY, wall.getPoint1Y());
+
+        lowestX = Math.min(lowestX, wall.getPoint2X());
+        highestX = Math.max(highestX, wall.getPoint2X());
+        lowestY = Math.min(lowestY, wall.getPoint2Y());
+        highestY = Math.max(highestY, wall.getPoint2Y());
+    }
+
+    this.canvasWidth = Math.ceil(highestX - lowestX);
+    this.canvasHeight = Math.ceil(highestY - lowestY);
+
+    this.cameraCenterX = this.canvasWidth / 2.0;
+    this.cameraCenterY = this.canvasHeight / 2.0;
+
+    console.log("Canvas width: " + this.canvasWidth + ", height: " + this.canvasHeight);
+
+    this.textureCanvas.width = this.canvasWidth;
+    this.textureCanvas.height = this.canvasHeight;
 
     this.texture2D = new THREE.Texture(this.textureCanvas);
+
+    /*
+    var repeatX, repeatY;
+    this.texture2D.wrapS = THREE.ClampToEdgeWrapping;
+    this.texture2D.wrapT = THREE.RepeatWrapping;
+    repeatX = clothWidth * textureSetting.h / (clothHeight * textureSetting.w);
+    repeatY = 1;
+    this.texture2D.repeat.set(repeatX, repeatY);
+    this.texture2D.offset.x = (repeatX - 1) / 2 * -1;
+    */
+
     this.texture2D.minFilter = THREE.LinearFilter;
     this.texture2D.needsUpdate = true;
 };
 
 ViewMode3DController.prototype.drawTextureCanvas = function() {
-    //Set width and height by the size of the whole floor
-    var canvasWidth = 1000;
-    var canvasHeight = 1000;
-    this.textureCanvas.width = canvasWidth;
-    this.textureCanvas.height = canvasHeight;
 
     var ctx = this.textureCanvas.getContext("2d");
 
-     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    console.log("Drawing: " + this.canvasWidth + ", " + this.canvasHeight);
+
+     ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
      ctx.save();
 
-     ctx.translate(canvasWidth/2, canvasHeight/2);
+     //ctx.translate(canvasWidth/2, canvasHeight/2);
 
-     ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
+     //ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
 
-     ctx.scale(this.viewScale, this.viewScale);
+     //ctx.scale(this.viewScale, this.viewScale);
 
-     ctx.translate(-canvasWidth/2, -canvasHeight/2);
+     //ctx.translate(-canvasWidth/2, -canvasHeight/2);
 
      //Draw walls
     for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
@@ -62,11 +101,12 @@ ViewMode3DController.prototype.drawTextureCanvas = function() {
 
 /*This function allows us to show the 3D View Mode*/
 ViewMode3DController.prototype.show = function() {
+    this.setupTextureCanvas();
+    this.drawTextureCanvas();
+
     this.create3DEverything();
 
     this.hvacApplication.layoutCanvas.style.display = "none";
-
-    this.drawTextureCanvas();
 };
 
 /*This function allows us to hide the 3D View Mode*/
@@ -105,17 +145,19 @@ ViewMode3DController.prototype.create3DEverything = function () {
 
     var width = window.innerWidth;
     var height = window.innerHeight - 85;
-    this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 1, 1000);
+    this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
     this.layoutViewMode3DCamera.position.z = this.viewZ;
-    this.layoutViewMode3DCamera.lookAt(0, 0, 0);
+    this.layoutViewMode3DCamera.lookAt(this.cameraCenterX, this.cameraCenterY, 0);
     this.layoutViewMode3DScene = new THREE.Scene();
 
     //var texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
 
     var material = new THREE.MeshLambertMaterial({ map : this.texture2D });
+    material.transparent = true;
     var plane = new THREE.Mesh(new THREE.PlaneGeometry(this.textureCanvas.width, this.textureCanvas.height), material);
-    plane.doubleSided = true;
-    plane.position.x = 0;
+    plane.doubleSided = false;
+    plane.position.x = this.textureCanvas.width/2;
+    plane.position.y = -this.textureCanvas.height/2;
     plane.rotation.z = 0;
     this.layoutViewMode3DScene.add(plane);
     this.plane2D = plane;
@@ -135,22 +177,26 @@ ViewMode3DController.prototype.create3DEverything = function () {
 
                 var wallWidth = 5;
                 var wallHeight = 50;
-                var wallLength = lengthOfWall / 10.0;
+                var wallLength = lengthOfWall;
 
                 var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
                 var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true, opacity: 0.5});
-
+                material.transparent = true;
                 var newMesh = new THREE.Mesh(geometry, material);
                 //newMesh.rotation.set(new THREE.Vector3( 0, 0, 0.1));
 
                 this.layoutViewMode3DScene.add(newMesh);
 
 
-                var canvasWidth = this.hvacApplication.layoutCanvas.width;
-                var canvasHeight = this.hvacApplication.layoutCanvas.height;
+                //var canvasWidth = this.hvacApplication.layoutCanvas.width;
+                //var canvasHeight = this.hvacApplication.layoutCanvas.height;
 
-                var locationX = (-canvasWidth/2+wallCenter.x) / 10.0;
-                var locationY = -(-canvasHeight/2+wallCenter.y) / 10.0;
+                //var locationX = (-canvasWidth/2+wallCenter.x) / 10.0;
+                //var locationY = -(-canvasHeight/2+wallCenter.y) / 10.0;
+
+                var locationX = wallCenter.x;
+                var locationY = -wallCenter.y;
+
                 var rotation = wall.getLine().getRotation();
                 AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
                     var x = locationX * percent;
@@ -205,7 +251,7 @@ ViewMode3DController.prototype.drawLayout = function () {
      */
     //this.layoutViewMode3DScene.rotation.x += 0.005;
     //this.layoutViewMode3DScene.rotation.y += 0.01;
-
+/*
     var ctx = this.hvacApplication.beginDraw();
 
     for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
@@ -214,14 +260,15 @@ ViewMode3DController.prototype.drawLayout = function () {
     }
 
     this.hvacApplication.endDraw(ctx);
-
+*/
 
     this.viewZ = this.defaultZ / this.hvacApplication.viewScale;
 
+    console.log("Scale: " + this.viewZ);
     this.layoutViewMode3DCamera.position.setZ(this.viewZ);
 
-    this.drawTextureCanvas();
-    this.texture2D.needsUpdate = true;
+    //this.drawTextureCanvas();
+    //this.texture2D.needsUpdate = true;
 
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };
