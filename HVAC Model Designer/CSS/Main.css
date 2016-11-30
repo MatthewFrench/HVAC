@@ -60,7 +60,7 @@ body {
     outline: none;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c9d7e0+0,9db6c6+100 */
-    background: #9c8cf2; /* Old browsers */
+    background: #8070D6; /* Old browsers */
 }
 .LayoutCanvas {
     position: absolute;
@@ -108,8 +108,9 @@ body {
     width: 60px;
     height: 32px;
     left: 40px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -119,8 +120,9 @@ body {
     width: 60px;
     height: 32px;
     left: 100px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -130,8 +132,9 @@ body {
     width: 60px;
     height: 32px;
     left: 160px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -141,8 +144,9 @@ body {
     width: 60px;
     height: 32px;
     left: 220px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -165,8 +169,9 @@ body {
     width: 60px;
     height: 32px;
     left: 190px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -176,8 +181,9 @@ body {
     width: 60px;
     height: 32px;
     left: 250px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -200,8 +206,9 @@ body {
     width: 60px;
     height: 32px;
     left: 290px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
@@ -211,8 +218,9 @@ body {
     width: 60px;
     height: 32px;
     left: 350px;
-    background: #9c8cf2;
+    background: #8070D6;
     text-align: center;
+    line-height: 32px;
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
