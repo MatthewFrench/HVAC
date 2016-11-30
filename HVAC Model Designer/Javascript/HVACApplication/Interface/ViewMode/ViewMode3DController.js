@@ -11,7 +11,7 @@ function ViewMode3DController(hvacApplication) {
     this.layoutViewMode3DRenderer = null;
 
 
-    this.defaultZ = 2600;
+    //this.defaultZ = 2600;
     this.viewZ = this.defaultZ;
     this.plane2D = null;
     this.texture2D = null;
@@ -46,8 +46,8 @@ ViewMode3DController.prototype.setupTextureCanvas = function() {
     this.canvasWidth = Math.ceil(highestX - lowestX);
     this.canvasHeight = Math.ceil(highestY - lowestY);
 
-    this.cameraCenterX = this.canvasWidth / 2.0;
-    this.cameraCenterY = this.canvasHeight / 2.0;
+    this.cameraCenterX = -this.canvasWidth / 2.0 - window.innerWidth;
+    this.cameraCenterY = this.canvasHeight / 2.0 - window.innerHeight;
 
     console.log("Canvas width: " + this.canvasWidth + ", height: " + this.canvasHeight);
 
@@ -262,7 +262,7 @@ ViewMode3DController.prototype.drawLayout = function () {
     this.hvacApplication.endDraw(ctx);
 */
 
-    this.viewZ = this.defaultZ / this.hvacApplication.viewScale;
+    this.viewZ = (1 / this.hvacApplication.viewScale) / 4 * 2600; //this.defaultZ /
 
     console.log("Scale: " + this.viewZ);
     this.layoutViewMode3DCamera.position.setZ(this.viewZ);
