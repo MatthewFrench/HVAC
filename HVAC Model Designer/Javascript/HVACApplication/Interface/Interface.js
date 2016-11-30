@@ -129,7 +129,6 @@ HVACApplication.prototype.createUI = function () {
 
     this.resizeCanvas();
 
-    this.editPointButtonClicked();
 };
 
 //Highlights View button and deselects other buttons.
@@ -174,7 +173,10 @@ HVACApplication.prototype.dragButtonClicked = function () {
     this.editButtonDiv.style.backgroundColor = "#c9d7e0";
     this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
-    this.dragButtonDiv.style.backgroundColor = "#37f10f";
+    this.dragButtonDiv.style.backgroundColor = "#A696FF";
+    this.viewMode2DButtonDiv.style.backgroundColor = "#9c8cf2";
+    this.viewMode3DButtonDiv.style.backgroundColor = "#9c8cf2";
+    this.StartOverButton.style.backgroundColor = "#9c8cf2";
 
     this.showDragModeLayout();
 };
@@ -184,6 +186,10 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
+    this.dragButtonDiv.style.backgroundColor = "#9c8cf2";
+    this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+    this.viewMode3DButtonDiv.style.backgroundColor = "#9c8cf2";
+    this.StartOverButton.style.backgroundColor = "#9c8cf2";
 
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.viewMode3DController.hide();
@@ -195,6 +201,10 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
+    this.dragButtonDiv.style.backgroundColor = "#a695ff";
+    this.viewMode2DButtonDiv.style.backgroundColor = "#9c8cf2";
+    this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
+    this.StartOverButton.style.backgroundColor = "#9c8cf2";
 
     this.currentViewModeLayout = ViewModeType.Mode3D;
     this.viewMode3DController.show();
@@ -238,6 +248,7 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.editButtonDiv.style.backgroundColor = "#9c8cf2";
     this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
+    this.editPointButtonDiv.style.backgroundColor = "#9c8cf2";
 
     //Adds the sub-edit buttons
     this.mySecondBannerDiv.appendChild(this.editPointButtonDiv);
