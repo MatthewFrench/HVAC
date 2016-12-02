@@ -305,6 +305,7 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
 /*This function shows the Delete button as selected*/
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
+    this.currentLayoutMode = LAYOUT_MODE_DRAG;
     this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
     this.createButtonDiv.className = "CreateButtonDiv";
