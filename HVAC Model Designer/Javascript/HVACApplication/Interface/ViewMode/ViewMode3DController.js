@@ -2,6 +2,11 @@
  * Created by personal on 11/11/16.
  */
 
+var Mode3DTypeEnum = {
+    DRAG: 0,
+    ROTATE: 1
+};
+
 /*This function creates the 3D View Mode*/
 function ViewMode3DController(hvacApplication) {
     this.hvacApplication = hvacApplication;
@@ -18,9 +23,20 @@ function ViewMode3DController(hvacApplication) {
     this.textureCanvas = null;
     this.canvasWidth = 0;
     this.canvasHeight = 0;
+    this.canvasOffsetX = 0;
+    this.canvasOffsetY = 0;
 
     this.cameraCenterX = 0;
     this.cameraCenterY = 0;
+
+    this.cameraLookAtX = 0;
+    this.cameraLookAtY = 0;
+
+    this.mouseX = 0;
+    this.mouseY = 0;
+    this.mouseDown = false;
+
+    this.currentMode = Mode3DTypeEnum.DRAG;
 }
 
 ViewMode3DController.prototype.setupTextureCanvas = function() {
@@ -45,9 +61,12 @@ ViewMode3DController.prototype.setupTextureCanvas = function() {
 
     this.canvasWidth = Math.ceil(highestX - lowestX);
     this.canvasHeight = Math.ceil(highestY - lowestY);
+    this.canvasOffsetX = lowestX;
+    this.canvasOffsetY = lowestY;
+    console.log("Canvas offset X: " + this.canvasOffsetX + ", " + this.canvasOffsetY);
 
-    this.cameraCenterX = -this.canvasWidth / 2.0 - window.innerWidth;
-    this.cameraCenterY = this.canvasHeight / 2.0 - window.innerHeight;
+    this.cameraCenterX = window.innerWidth / 2; //-this.canvasWidth / 2.0 - window.innerWidth;
+    this.cameraCenterY = -window.innerHeight / 2; //this.canvasHeight / 2.0 - window.innerHeight;
 
     console.log("Canvas width: " + this.canvasWidth + ", height: " + this.canvasHeight);
 
@@ -78,9 +97,13 @@ ViewMode3DController.prototype.drawTextureCanvas = function() {
 
      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
+     //ctx.fillStyle = "white";
+     //ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
      ctx.save();
 
-     //ctx.translate(canvasWidth/2, canvasHeight/2);
+    ctx.translate(-this.canvasOffsetX, -this.canvasOffsetY);
+     //ctx.translate(-this.canvasOffsetX, -this.canvasOffsetY);
 
      //ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
 
@@ -117,6 +140,9 @@ ViewMode3DController.prototype.hide = function() {
     this.hvacApplication.layoutCanvas.style.display = "";
 
     this.plane2D = null;
+
+    this.dragButton.remove();
+    this.rotateButton.remove();
 };
 
 /*This function allows us to handle scrolling in 3D View Mode*/
@@ -144,10 +170,17 @@ ViewMode3DController.prototype.create3DEverything = function () {
     }
 
     var width = window.innerWidth;
-    var height = window.innerHeight - 85;
+    var height = window.innerHeight - 82;
     this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
     this.layoutViewMode3DCamera.position.z = this.viewZ;
+    this.layoutViewMode3DCamera.position.x = this.cameraCenterX;
+    this.layoutViewMode3DCamera.position.y = this.cameraCenterY;
     this.layoutViewMode3DCamera.lookAt(this.cameraCenterX, this.cameraCenterY, 0);
+
+
+
+    this.cameraLookAtX = this.cameraCenterX;
+    this.cameraLookAtY = this.cameraCenterY;
     this.layoutViewMode3DScene = new THREE.Scene();
 
     //var texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
@@ -156,8 +189,8 @@ ViewMode3DController.prototype.create3DEverything = function () {
     material.transparent = true;
     var plane = new THREE.Mesh(new THREE.PlaneGeometry(this.textureCanvas.width, this.textureCanvas.height), material);
     plane.doubleSided = false;
-    plane.position.x = this.textureCanvas.width/2;
-    plane.position.y = -this.textureCanvas.height/2;
+    plane.position.x = this.textureCanvas.width/2 + this.canvasOffsetX;
+    plane.position.y = -this.textureCanvas.height/2 - this.canvasOffsetY;
     plane.rotation.z = 0;
     this.layoutViewMode3DScene.add(plane);
     this.plane2D = plane;
@@ -180,19 +213,25 @@ ViewMode3DController.prototype.create3DEverything = function () {
                 var wallLength = lengthOfWall;
 
                 var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
-                var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true, opacity: 0.5});
+
+                var group = new THREE.Object3D();
+
+                material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.5});
                 material.transparent = true;
+
                 var newMesh = new THREE.Mesh(geometry, material);
-                //newMesh.rotation.set(new THREE.Vector3( 0, 0, 0.1));
+                group.add( newMesh );
 
-                this.layoutViewMode3DScene.add(newMesh);
+                //Create outline object
+                var geo = new THREE.EdgesGeometry( geometry ); // or WireframeGeometry( geometry )
 
+                var mat = new THREE.LineBasicMaterial( { color: 0xff0000, linewidth: 2 } );
+                mat.transparent = true;
+                var wireframe = new THREE.LineSegments( geo, mat );
 
-                //var canvasWidth = this.hvacApplication.layoutCanvas.width;
-                //var canvasHeight = this.hvacApplication.layoutCanvas.height;
+                group.add( wireframe );
 
-                //var locationX = (-canvasWidth/2+wallCenter.x) / 10.0;
-                //var locationY = -(-canvasHeight/2+wallCenter.y) / 10.0;
+                this.layoutViewMode3DScene.add(group);
 
                 var locationX = wallCenter.x;
                 var locationY = -wallCenter.y;
@@ -202,11 +241,11 @@ ViewMode3DController.prototype.create3DEverything = function () {
                     var x = locationX * percent;
                     var y = locationY * percent;
 
-                    newMesh.position.set(x, y, 0);
-                    newMesh.rotation.set(0, 0, rotation * percent);
+                    group.position.set(x, y, 0);
+                    group.rotation.set(0, 0, rotation * percent);
                 }, function () {
-                    newMesh.position.set(locationX, locationY, 0);
-                    newMesh.rotation.set(0, 0, rotation);
+                    group.position.set(locationX, locationY, 0);
+                    group.rotation.set(0, 0, rotation);
 
                 });
 
@@ -222,7 +261,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     this.layoutViewMode3DRenderer.setSize(width, height);
 
     this.layoutViewMode3DRenderer.domElement.style.position = "absolute";
-    this.layoutViewMode3DRenderer.domElement.style.top = "85px";
+    this.layoutViewMode3DRenderer.domElement.style.top = "82px";
     this.layoutViewMode3DRenderer.domElement.style.left = "0";
 
     document.body.appendChild(this.layoutViewMode3DRenderer.domElement);
@@ -230,7 +269,68 @@ ViewMode3DController.prototype.create3DEverything = function () {
     window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
 
 
-    //this.layoutViewMode3DRenderer.domElement.addEventListener('mousewheel', CreateFunction(this, this.handle3DScroll), false);
+    this.layoutViewMode3DRenderer.domElement.onmousedown = CreateFunction(this, function(event){
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.mouseDown = true;
+    });
+    this.layoutViewMode3DRenderer.domElement.onmousemove = CreateFunction(this, function(event){
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        var movedX = mouseX - this.mouseX;
+        var movedY = mouseY - this.mouseY;
+
+        movedX /= this.hvacApplication.viewScale;
+        movedY /= this.hvacApplication.viewScale;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
+        if (this.mouseDown) {
+            if (this.currentMode == Mode3DTypeEnum.ROTATE) {
+                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX);
+                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY);
+            } else if (this.currentMode == Mode3DTypeEnum.DRAG) {
+                this.cameraLookAtX -= movedX;
+                this.cameraLookAtY += movedY;
+                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX);
+                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY);
+            }
+        }
+
+    });
+    this.layoutViewMode3DRenderer.domElement.onmouseup = CreateFunction(this, function(event){
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.mouseDown = false;
+    });
+
+
+    /*
+    Create drag/rotate
+     */
+this.dragButton = CreateElement({type:'button', text:'drag', onClick: CreateFunction(this, function(){
+    this.currentMode = Mode3DTypeEnum.DRAG;
+})});
+    this.dragButton.style.position = "absolute";
+    this.dragButton.style.left = "5px";
+    this.dragButton.style.top = "85px";
+    document.body.appendChild(this.dragButton);
+    this.rotateButton = CreateElement({type:'button', text:'rotate', onClick: CreateFunction(this, function(){
+        this.currentMode = Mode3DTypeEnum.ROTATE;
+    })});
+    this.rotateButton.style.position = "absolute";
+    this.rotateButton.style.left = "55px";
+    this.rotateButton.style.top = "85px";
+    document.body.appendChild(this.rotateButton);
+
 
     this.resizeView();
 
@@ -264,11 +364,13 @@ ViewMode3DController.prototype.drawLayout = function () {
 
     this.viewZ = (1 / this.hvacApplication.viewScale) / 4 * 2600; //this.defaultZ /
 
-    console.log("Scale: " + this.viewZ);
+    //console.log("Scale: " + this.viewZ);
     this.layoutViewMode3DCamera.position.setZ(this.viewZ);
 
     //this.drawTextureCanvas();
     //this.texture2D.needsUpdate = true;
+
+    this.layoutViewMode3DCamera.lookAt(new THREE.Vector3( this.cameraLookAtX, this.cameraLookAtY, 0 ));
 
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };
@@ -278,7 +380,7 @@ ViewMode3DController.prototype.resizeView = function () {
     if (this.layoutViewMode3DRenderer == null) return;
 
     var width = window.innerWidth;
-    var height = window.innerHeight - 85;
+    var height = window.innerHeight - 82;
 
     this.layoutViewMode3DCamera.aspect = width / height;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
