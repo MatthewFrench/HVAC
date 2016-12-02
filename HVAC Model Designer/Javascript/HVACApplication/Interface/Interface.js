@@ -93,6 +93,8 @@ HVACApplication.prototype.createUI = function () {
                     this.StartOverButton = CreateElement({
                         type: 'text', class: 'StartOverButton', text: 'Floor',
                         onClick: CreateFunction(this, function () {
+                            this.viewAngle = 0;
+                            this.viewScale = 1.0;
                             this.StartOverButton.style.backgroundColor = "#A696FF";
                             this.deleteButtonDiv.style.backgroundColor = "#8070D6";
                             var newPopover = new StartOverPopover('Are you sure you want to start this floor from scratch?',

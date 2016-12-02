@@ -8,6 +8,7 @@ var CornerPointTypeEnum = {
     POINT2: 2
 };
 
+//This function loads in the previous options (if any) into the points of the Corner, setting X and Y values
 function CornerPoint(options) {
     "use strict";
     if (options == undefined || options == null) options = [];
@@ -43,45 +44,54 @@ function CornerPoint(options) {
     }
 }
 
+//This function gets the point type
 CornerPoint.prototype.getPointType = function() {
     return this.pointType;
 };
 
+//This function gets the wall
 CornerPoint.prototype.getWall = function() {
     "use strict";
     return this.wall;
 };
 
+//This function gets the point on a 2D plane
 CornerPoint.prototype.getPoint = function() {
     "use strict";
     return new Point2D({point: this.point});
 };
 
+//This function sets the point values
 CornerPoint.prototype.setPoint = function(point) {
     "use strict";
     return this.point.set({point: point});
 };
 
+//This function will get the X point value
 CornerPoint.prototype.getX = function() {
     "use strict";
     return this.point.getX();
 };
 
+//This function will get the Y point value
 CornerPoint.prototype.getY = function() {
     "use strict";
     return this.point.getY();
 };
 
+//This function will set the X point value
 CornerPoint.prototype.setX = function(x) {
     "use strict";
     this.point.setX(x);
 };
 
+//This function will set the Y point value
 CornerPoint.prototype.setY = function(y) {
     "use strict";
     this.point.setY(y);
 };
 
+//This function will return a Hashmap of points X and Y
 CornerPoint.prototype.getHashmap = function() {
     "use strict";
     return {x: this.point.getX(), y: this.point.getY()};

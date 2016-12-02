@@ -2,11 +2,13 @@
  * Created by personal on 10/21/16.
  */
 
+//This function is a constructor needed for a static class
 function HVACDataLoader(){
     "use strict";
 
 }
 
+//This functions loads up (and stores) the HVAC Data from the application based on version
 HVACDataLoader.getHVACData = function() {
     "use strict";
     var hvacDataMap = JSON.parse(window.localStorage.getItem("HVACData"));
