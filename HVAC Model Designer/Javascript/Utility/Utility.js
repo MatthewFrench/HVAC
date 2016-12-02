@@ -2,7 +2,7 @@
  * Created by Matt on 10/17/16.
  */
 
-
+//This function is a constructor that details what CreateElement does
 function CreateElement(options) {
     //type : Element type to create
     //class : Class name of element
@@ -43,6 +43,7 @@ function CreateElement(options) {
     return element;
 }
 
+//This function dictates how CreateFunction works
 function CreateFunction(owner, func) {
     return function() {
         return func.apply(owner, arguments);

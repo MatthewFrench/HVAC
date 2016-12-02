@@ -1,5 +1,6 @@
 /**
  * Created by matt on 9/30/16.
+ * This JS file is an animation timer that is used to animate anything that is dynamically moved
  */
 /*
  animationRunTimeSeconds - Length of the animation in seconds.

@@ -1,5 +1,7 @@
 /**
  * Created by Matt on 9/2/16.
+ * This entire JS file finds out what the size of the window is and resizes if needed. It also autosaves the data
+ * into internet browser cache for future usages.
  */
 window.onload = main;
 
