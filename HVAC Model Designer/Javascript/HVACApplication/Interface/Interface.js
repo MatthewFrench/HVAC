@@ -79,6 +79,15 @@ HVACApplication.prototype.createUI = function () {
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
+
+                            this.viewMode3DController.cameraCenterX = window.innerWidth / 2;
+                            this.viewMode3DController.cameraCenterY = -window.innerHeight / 2 + 41;
+                            this.viewMode3DController.cameraLookAtX = this.viewMode3DController.cameraCenterX;
+                            this.viewMode3DController.cameraLookAtY = this.viewMode3DController.cameraCenterY;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.z = this.viewMode3DController.viewZ;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.x = this.viewMode3DController.cameraCenterX;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.y = this.viewMode3DController.cameraCenterY;
+                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
                         })
                     }),
                     //Create edit mode buttons

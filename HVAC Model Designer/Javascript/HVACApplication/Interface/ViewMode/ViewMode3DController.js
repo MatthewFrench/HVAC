@@ -72,6 +72,8 @@ ViewMode3DController.prototype.hide = function () {
 
     this.dragButton.remove();
     this.rotateButton.remove();
+
+    this.hvacApplication.resizeCanvas();
 };
 
 ViewMode3DController.prototype.createRenderer = function() {
@@ -271,7 +273,7 @@ ViewMode3DController.prototype.drawLayout = function () {
      this.hvacApplication.endDraw(ctx);
      */
 
-    this.viewZ = (1 / this.hvacApplication.viewScale) / 4 * 2365; //this.defaultZ
+    this.viewZ = (1 / this.hvacApplication.viewScale) / 4 * 2415; //2363
 
     //console.log("Scale: " + this.viewZ);
     this.layoutViewMode3DCamera.position.setZ(this.viewZ);
