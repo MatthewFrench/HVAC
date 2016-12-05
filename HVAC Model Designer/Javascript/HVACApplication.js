@@ -181,18 +181,10 @@ HVACApplication.prototype.resizeCanvas = function() {
 HVACApplication.prototype.setRotatedCanvasMouse = function() {
     var canvasWidth = this.layoutCanvas.width;
     var canvasHeight = this.layoutCanvas.height;
-    this.rotatedCanvasMouseX = this.canvasMouseX;
-    this.rotatedCanvasMouseY = this.canvasMouseY;
-    this.rotatedCanvasMouseX -= canvasWidth/2;
-    this.rotatedCanvasMouseY -= canvasHeight/2;
-    var oldX = this.rotatedCanvasMouseX;
-    var oldY = this.rotatedCanvasMouseY;
-    this.rotatedCanvasMouseX = oldX * Math.cos(-this.viewAngle) - oldY * Math.sin(-this.viewAngle);
-    this.rotatedCanvasMouseY = oldY * Math.cos(-this.viewAngle) + oldX * Math.sin(-this.viewAngle);
-    this.rotatedCanvasMouseX = this.rotatedCanvasMouseX / this.viewScale;
-    this.rotatedCanvasMouseY = this.rotatedCanvasMouseY / this.viewScale;
-    this.rotatedCanvasMouseX += canvasWidth/2;
-    this.rotatedCanvasMouseY += canvasHeight/2;
+    var p = convertToTransform(new Point2D({x: this.canvasMouseX, y: this.canvasMouseY}),
+        new Point2D({x: canvasWidth/2, y: canvasHeight/2}), this.viewAngle, this.viewScale);
+    this.rotatedCanvasMouseX = p.getX();
+    this.rotatedCanvasMouseY = p.getY();
 };
 
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {

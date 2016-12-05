@@ -542,3 +542,19 @@ function snapPointToWalls(pointX, pointY, wallList, excludeWallList) {
 function convertToRadians(degree) {
     return degree * (Math.PI / 180);
 }
+
+function convertToTransform(point, translatePoint, rotation, scale) {
+    var x = point.getX();
+    var y = point.getY();
+    x -= translatePoint.getX();
+    y -= translatePoint.getY();
+    var oldX = x;
+    var oldY = y;
+    x = oldX * Math.cos(-rotation) - oldY * Math.sin(-rotation);
+    y = oldY * Math.cos(-rotation) + oldX * Math.sin(-rotation);
+    x = x / scale;
+    y = y / scale;
+    x += translatePoint.getX();
+    y += translatePoint.getY();
+    return new Point2D({x: x, y: y});
+}

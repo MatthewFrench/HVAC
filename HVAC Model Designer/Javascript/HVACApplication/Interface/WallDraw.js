@@ -101,14 +101,17 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
 };
 
 /*This function shows the length of the line being drawn on our Layout*/
-Wall.prototype.drawLength = function(context) {
+Wall.prototype.drawLength = function(context, translatePoint, rotation, scale) {
     "use strict";
     //Go down to 5 decimal places
 
-    var x1 = this.getLine().getPoint1X();
-    var y1 = this.getLine().getPoint1Y();
-    var x2 = this.getLine().getPoint2X();
-    var y2 = this.getLine().getPoint2Y();
+    var xy1 = convertToTransform(this.getLine().getPoint1(), translatePoint, -rotation, 1/scale);
+    var xy2 = convertToTransform(this.getLine().getPoint2(), translatePoint, -rotation, 1/scale);
+
+    var x1 = xy1.getX();
+    var y1 = xy1.getY();
+    var x2 = xy2.getX();
+    var y2 = xy2.getY();
 
     var lengthInFeet = Math.hypot(x1 - x2, y1 - y2) / PIXELS_IN_FOOT;
     var feet = Math.floor(lengthInFeet);
@@ -124,6 +127,9 @@ Wall.prototype.drawLength = function(context) {
     }
 
 
+    context.save();
+
+    context.setTransform(1, 0, 0, 1, 0, 0);
 
     context.textAlign = "center";
     context.font = '30px Helvetica';
@@ -137,6 +143,8 @@ Wall.prototype.drawLength = function(context) {
     context.fillStyle = "white";
     context.textBaseline = "middle";
     context.fillText(feet+" ft " + inches + " in", centerX, centerY);
+
+    context.restore();
 };
 
 /*This function would create a rectangle with a border*/

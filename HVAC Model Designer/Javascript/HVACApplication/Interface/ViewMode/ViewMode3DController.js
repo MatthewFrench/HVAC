@@ -256,7 +256,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     }
 
 
-    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({ alpha: true });
+    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.layoutViewMode3DRenderer.setPixelRatio(window.devicePixelRatio);
     this.layoutViewMode3DRenderer.setSize(width, height);
 

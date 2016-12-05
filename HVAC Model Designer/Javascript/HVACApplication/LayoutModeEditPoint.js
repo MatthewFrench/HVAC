@@ -172,7 +172,10 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
     }
 
     if (this.currentEditPointSelectedWall != null) {
-        this.currentEditPointSelectedWall.drawLength(ctx);
+        var canvasWidth = this.layoutCanvas.width;
+        var canvasHeight = this.layoutCanvas.height;
+        this.currentEditPointSelectedWall.drawLength(ctx, new Point2D({x: canvasWidth/2, y: canvasHeight/2}),
+            this.viewAngle, this.viewScale);
     }
 
     this.endDraw(ctx);
