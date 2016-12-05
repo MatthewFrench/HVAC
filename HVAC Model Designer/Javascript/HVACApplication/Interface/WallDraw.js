@@ -36,7 +36,7 @@ Wall.prototype.draw = function(context, showHandles) {
     }
 };
 
-/*This function draws perpendicular lines on our Layout*/
+/*This function draws perpendicular lin es on our Layout*/
 Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
 
     var x1 = this.getLine().getPoint1X();
@@ -82,7 +82,7 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
     //grd.addColorStop(0,"rgba(0, 0, 0, 1.0)");
     //grd.addColorStop(1,"rgba(0, 0, 0, 0.05)");
 
-    context.strokeStyle = "black";//grd;
+    context.strokeStyle = "#08ff08";//grd;
     context.beginPath();
     if (line1Near) {
         context.moveTo(line.getPoint1X(), line.getPoint1Y());

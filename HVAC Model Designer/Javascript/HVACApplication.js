@@ -29,7 +29,6 @@ var HVACApplication = function () {
     this.mouseDown = false;
     this.intersectHighlightPoints = [];
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-    this.currentEditMode = EDIT_MODE_POINT;
     this.selectedFloor = null;
     this.selectedBuilding = null;
     this.viewAngle = 0.0;

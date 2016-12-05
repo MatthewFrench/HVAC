@@ -133,7 +133,17 @@ HVACApplication.prototype.createUI = function () {
 
     this.resizeCanvas();
 
+    if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
+        this.viewButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        this.createButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        this.editButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        this.deleteButtonDiv.style.backgroundColor = "#8070D6";
+    }
 };
+
 
 //Highlights View button and deselects other buttons.
 HVACApplication.prototype.viewWallButtonClicked = function () {
@@ -164,6 +174,14 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.editCornerButtonDiv.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+
+    if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        this.dragButtonDiv.style.backgroundColor = "#A696FF";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode2D) {
+        this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode3D) {
+        this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
+    }
 
     this.showViewModeLayout();
 };
@@ -239,6 +257,8 @@ HVACApplication.prototype.createWallButtonClicked = function () {
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
 
     this.showCreateModeLayout();
 };
@@ -270,11 +290,15 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {
         this.showEditCornerModeLayout();
+        this.editCornerButtonDiv.style.backgroundColor = "#A696FF";
     } else if (this.currentEditMode == EDIT_MODE_POINT) {
         this.showEditPointModeLayout();
+        this.editPointButtonDiv.style.backgroundColor = "#A696FF";
     }
 };
 
@@ -328,6 +352,12 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
+
+    if (currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        this.deleteButtonDiv.style.backgroundColor = "#A696FF";
+    }
 
     this.showDeleteModeLayout();
 };
