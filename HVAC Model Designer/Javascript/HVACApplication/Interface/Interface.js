@@ -290,7 +290,7 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
-    this.currentViewModeLayout = ViewModeType.Mode2D;
+    //this.currentViewModeLayout = ViewModeType.Mode2D;
     this.viewMode3DController.hide();
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {

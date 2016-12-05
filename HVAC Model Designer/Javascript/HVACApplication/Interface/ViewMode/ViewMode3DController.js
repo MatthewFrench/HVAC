@@ -79,6 +79,61 @@ ViewMode3DController.prototype.createRenderer = function() {
     var width = window.innerWidth;
     var height = window.innerHeight - 82;
     this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
+    this.layoutViewMode3DScene = new THREE.Scene();
+
+    this.dragButton = CreateElement({
+        type: 'button', text: 'drag', onClick: CreateFunction(this, function () {
+            this.currentMode = Mode3DTypeEnum.DRAG;
+        })
+    });
+    this.rotateButton = CreateElement({
+        type: 'button', text: 'rotate', onClick: CreateFunction(this, function () {
+            this.currentMode = Mode3DTypeEnum.ROTATE;
+        })
+    });
+
+    this.layoutViewMode3DRenderer.domElement.onmousedown = CreateFunction(this, function (event) {
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.mouseDown = true;
+    });
+    this.layoutViewMode3DRenderer.domElement.onmousemove = CreateFunction(this, function (event) {
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        var movedX = mouseX - this.mouseX;
+        var movedY = mouseY - this.mouseY;
+
+        movedX /= this.hvacApplication.viewScale;
+        movedY /= this.hvacApplication.viewScale;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
+        if (this.mouseDown) {
+            if (this.currentMode == Mode3DTypeEnum.ROTATE) {
+                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX*2);
+                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY*2);
+            } else if (this.currentMode == Mode3DTypeEnum.DRAG) {
+                this.cameraLookAtX -= movedX;
+                this.cameraLookAtY += movedY;
+                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX);
+                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY);
+            }
+        }
+
+    });
+    this.layoutViewMode3DRenderer.domElement.onmouseup = CreateFunction(this, function (event) {
+        var mouseX = event.offsetX;
+        var mouseY = event.offsetY;
+
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.mouseDown = false;
+    });
 };
 
 /*This function converts everything from 2D to 3D View Mode*/
@@ -172,67 +227,14 @@ ViewMode3DController.prototype.create3DEverything = function () {
     window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
 
 
-    this.layoutViewMode3DRenderer.domElement.onmousedown = CreateFunction(this, function (event) {
-        var mouseX = event.offsetX;
-        var mouseY = event.offsetY;
-
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-        this.mouseDown = true;
-    });
-    this.layoutViewMode3DRenderer.domElement.onmousemove = CreateFunction(this, function (event) {
-        var mouseX = event.offsetX;
-        var mouseY = event.offsetY;
-
-        var movedX = mouseX - this.mouseX;
-        var movedY = mouseY - this.mouseY;
-
-        movedX /= this.hvacApplication.viewScale;
-        movedY /= this.hvacApplication.viewScale;
-
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-
-        if (this.mouseDown) {
-            if (this.currentMode == Mode3DTypeEnum.ROTATE) {
-                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX*2);
-                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY*2);
-            } else if (this.currentMode == Mode3DTypeEnum.DRAG) {
-                this.cameraLookAtX -= movedX;
-                this.cameraLookAtY += movedY;
-                this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX);
-                this.layoutViewMode3DCamera.position.setY(this.layoutViewMode3DCamera.position.y + movedY);
-            }
-        }
-
-    });
-    this.layoutViewMode3DRenderer.domElement.onmouseup = CreateFunction(this, function (event) {
-        var mouseX = event.offsetX;
-        var mouseY = event.offsetY;
-
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-        this.mouseDown = false;
-    });
-
-
     /*
      Create drag/rotate
      */
-    this.dragButton = CreateElement({
-        type: 'button', text: 'drag', onClick: CreateFunction(this, function () {
-            this.currentMode = Mode3DTypeEnum.DRAG;
-        })
-    });
     this.dragButton.style.position = "absolute";
     this.dragButton.style.left = "5px";
     this.dragButton.style.top = "85px";
     document.body.appendChild(this.dragButton);
-    this.rotateButton = CreateElement({
-        type: 'button', text: 'rotate', onClick: CreateFunction(this, function () {
-            this.currentMode = Mode3DTypeEnum.ROTATE;
-        })
-    });
+
     this.rotateButton.style.position = "absolute";
     this.rotateButton.style.left = "55px";
     this.rotateButton.style.top = "85px";
