@@ -26,6 +26,8 @@ function ViewMode3DController(hvacApplication) {
     this.mouseDown = false;
 
     this.currentMode = Mode3DTypeEnum.DRAG;
+
+    this.createRenderer();
 }
 
 ViewMode3DController.prototype.addFlatFloor = function () {
@@ -33,7 +35,7 @@ ViewMode3DController.prototype.addFlatFloor = function () {
 
         var wall = this.hvacApplication.getCurrentWallList()[i];
 
-        var lengthOfWall = wall.getLine().getLength();
+        var lengthOfWall = wall.getLine().getLength() + 4;
         var wallCenter = wall.getLine().getCenterPoint();
         var wallRotation = wall.getLine().getRotation();
 
@@ -64,8 +66,7 @@ ViewMode3DController.prototype.show = function () {
 
 /*This function allows us to hide the 3D View Mode*/
 ViewMode3DController.prototype.hide = function () {
-    if (this.layoutViewMode3DRenderer != null) this.layoutViewMode3DRenderer.domElement.remove();
-    this.layoutViewMode3DRenderer = null;
+    this.layoutViewMode3DRenderer.domElement.remove();
 
     this.hvacApplication.layoutCanvas.style.display = "";
 
@@ -73,17 +74,24 @@ ViewMode3DController.prototype.hide = function () {
     this.rotateButton.remove();
 };
 
+ViewMode3DController.prototype.createRenderer = function() {
+    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+    var width = window.innerWidth;
+    var height = window.innerHeight - 82;
+    this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
+};
+
 /*This function converts everything from 2D to 3D View Mode*/
 ViewMode3DController.prototype.create3DEverything = function () {
     this.viewZ = this.defaultZ;
 
-    if (this.layoutViewMode3DRenderer != null) {
-        this.layoutViewMode3DRenderer.domElement.remove();
-    }
-
     var width = window.innerWidth;
     var height = window.innerHeight - 82;
-    this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
+
+    this.layoutViewMode3DCamera.aspect = width / height;
+    this.layoutViewMode3DCamera.updateProjectionMatrix();
+    this.layoutViewMode3DRenderer.setSize(width, height);
+
     this.layoutViewMode3DCamera.position.z = this.viewZ;
     this.layoutViewMode3DCamera.position.x = this.cameraCenterX;
     this.layoutViewMode3DCamera.position.y = this.cameraCenterY;
@@ -152,8 +160,6 @@ ViewMode3DController.prototype.create3DEverything = function () {
         }).call(this, i);
     }
 
-
-    this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     this.layoutViewMode3DRenderer.setPixelRatio(window.devicePixelRatio);
     this.layoutViewMode3DRenderer.setSize(width, height);
 
