@@ -304,33 +304,69 @@ ViewMode3DController.prototype.rotateButtonClicked = function() {
     var oldSetY = this.layoutViewMode3DCamera.up.y;
     var oldSetZ = this.layoutViewMode3DCamera.up.z;
 
-    var oldX = this.layoutViewMode3DCamera.rotation.x;
-    var oldY = this.layoutViewMode3DCamera.rotation.y;
-    var oldZ = this.layoutViewMode3DCamera.rotation.z;
-    this.layoutViewMode3DCamera.up.set( 0, 1, 0 );
-    this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
-    var newX = this.layoutViewMode3DCamera.rotation.x;
-    var newY = this.layoutViewMode3DCamera.rotation.y;
-    var newZ = this.layoutViewMode3DCamera.rotation.z;
-    this.layoutViewMode3DCamera.up.set( oldSetX, oldSetY, oldSetZ );
-    this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+    if (oldSetX != 0 || oldSetY != 1 || oldSetZ != 0) {
 
-    AnimationTimer.StartTimer(this, 0.4, function (speed, percent) {
-        var x = (newX - oldX)  * (percent*percent) + oldX;
-        var y = (newY - oldY)  * (percent*percent) + oldY;
-        var z = (newZ - oldZ)  * (percent*percent) + oldZ;
-        this.layoutViewMode3DCamera.rotation.x = x;
-        this.layoutViewMode3DCamera.rotation.y = y;
-        this.layoutViewMode3DCamera.rotation.z = z;
-    }, function () {
-        this.layoutViewMode3DCamera.up.set( 0, 1, 0 );
+        var oldX = this.layoutViewMode3DCamera.rotation.x;
+        var oldY = this.layoutViewMode3DCamera.rotation.y;
+        var oldZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(0, 1, 0);
         this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
-    });
+        var newX = this.layoutViewMode3DCamera.rotation.x;
+        var newY = this.layoutViewMode3DCamera.rotation.y;
+        var newZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(oldSetX, oldSetY, oldSetZ);
+        this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+
+        AnimationTimer.StartTimer(this, 0.4, function (speed, percent) {
+            var x = (newX - oldX) * (percent * percent) + oldX;
+            var y = (newY - oldY) * (percent * percent) + oldY;
+            var z = (newZ - oldZ) * (percent * percent) + oldZ;
+            this.layoutViewMode3DCamera.rotation.x = x;
+            this.layoutViewMode3DCamera.rotation.y = y;
+            this.layoutViewMode3DCamera.rotation.z = z;
+        }, function () {
+            this.layoutViewMode3DCamera.up.set(0, 1, 0);
+            this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+        });
+    }
 
     this.currentMode = Mode3DTypeEnum.ROTATE;
 };
 
 ViewMode3DController.prototype.dragButtonClicked = function() {
+    //Get rotation, do look at, get new rotation, animate between rotations
+    var oldSetX = this.layoutViewMode3DCamera.up.x;
+    var oldSetY = this.layoutViewMode3DCamera.up.y;
+    var oldSetZ = this.layoutViewMode3DCamera.up.z;
+
+
+    if (oldSetX != 0 || oldSetY != 1 || oldSetZ != 0) {
+
+        var oldX = this.layoutViewMode3DCamera.rotation.x;
+        var oldY = this.layoutViewMode3DCamera.rotation.y;
+        var oldZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(0, 1, 0);
+        this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+        var newX = this.layoutViewMode3DCamera.rotation.x;
+        var newY = this.layoutViewMode3DCamera.rotation.y;
+        var newZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(oldSetX, oldSetY, oldSetZ);
+        this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+
+        AnimationTimer.StartTimer(this, 0.4, function (speed, percent) {
+            var x = (newX - oldX) * (percent * percent) + oldX;
+            var y = (newY - oldY) * (percent * percent) + oldY;
+            var z = (newZ - oldZ) * (percent * percent) + oldZ;
+            this.layoutViewMode3DCamera.rotation.x = x;
+            this.layoutViewMode3DCamera.rotation.y = y;
+            this.layoutViewMode3DCamera.rotation.z = z;
+        }, function () {
+            this.layoutViewMode3DCamera.up.set(0, 1, 0);
+            this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+        });
+
+    }
+
     this.currentMode = Mode3DTypeEnum.DRAG;
 };
 
@@ -342,28 +378,32 @@ ViewMode3DController.prototype.orbitButtonClicked = function () {
     var oldSetY = this.layoutViewMode3DCamera.up.y;
     var oldSetZ = this.layoutViewMode3DCamera.up.z;
 
-    var oldX = this.layoutViewMode3DCamera.rotation.x;
-    var oldY = this.layoutViewMode3DCamera.rotation.y;
-    var oldZ = this.layoutViewMode3DCamera.rotation.z;
-    this.layoutViewMode3DCamera.up.set( 0, 0, 1 );
-    this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
-    var newX = this.layoutViewMode3DCamera.rotation.x;
-    var newY = this.layoutViewMode3DCamera.rotation.y;
-    var newZ = this.layoutViewMode3DCamera.rotation.z;
-    this.layoutViewMode3DCamera.up.set( oldSetX, oldSetY, oldSetZ );
-    this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
 
-    AnimationTimer.StartTimer(this, 0.4, function (speed, percent) {
-        var x = (newX - oldX)  * (percent*percent) + oldX;
-        var y = (newY - oldY)  * (percent*percent) + oldY;
-        var z = (newZ - oldZ)  * (percent*percent) + oldZ;
-        this.layoutViewMode3DCamera.rotation.x = x;
-        this.layoutViewMode3DCamera.rotation.y = y;
-        this.layoutViewMode3DCamera.rotation.z = z;
-    }, function () {
-        this.layoutViewMode3DCamera.up.set( 0, 0, 1 );
+    if (oldSetX != 0 || oldSetY != 0 || oldSetZ != 1) {
+
+        var oldX = this.layoutViewMode3DCamera.rotation.x;
+        var oldY = this.layoutViewMode3DCamera.rotation.y;
+        var oldZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(0, 0, 1);
         this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
-    });
+        var newX = this.layoutViewMode3DCamera.rotation.x;
+        var newY = this.layoutViewMode3DCamera.rotation.y;
+        var newZ = this.layoutViewMode3DCamera.rotation.z;
+        this.layoutViewMode3DCamera.up.set(oldSetX, oldSetY, oldSetZ);
+        this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+
+        AnimationTimer.StartTimer(this, 0.4, function (speed, percent) {
+            var x = (newX - oldX) * (percent * percent) + oldX;
+            var y = (newY - oldY) * (percent * percent) + oldY;
+            var z = (newZ - oldZ) * (percent * percent) + oldZ;
+            this.layoutViewMode3DCamera.rotation.x = x;
+            this.layoutViewMode3DCamera.rotation.y = y;
+            this.layoutViewMode3DCamera.rotation.z = z;
+        }, function () {
+            this.layoutViewMode3DCamera.up.set(0, 0, 1);
+            this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+        });
+    }
 
 };
 
