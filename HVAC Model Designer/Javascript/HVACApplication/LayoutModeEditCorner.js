@@ -246,6 +246,34 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
     "use strict";
     var ctx = this.beginDraw();
 
+    var floorList = this.getCurrentBuilding().getFloorList();
+    var currentFloor = this.getCurrentFloorPlan();
+    var underneathFloors = [];
+    var aboveFloors = [];
+
+    for (var i = 0; i < floorList.length; i++) {
+        if (i < floorList.indexOf(currentFloor)) {
+            underneathFloors.push(floorList[i]);
+        }
+        else if (i > floorList.indexOf(currentFloor)) {
+            aboveFloors.push(floorList[i]);
+        }
+    }
+
+    for (var i = 0; i < underneathFloors.length; i++) {
+        for (var j = 0; j < underneathFloors[i].getWallList().length; j++) {
+            var wall = underneathFloors[i].getWallList()[j];
+            wall.drawDotted(ctx, true);
+        }
+    }
+
+    for (var i = 0; i < aboveFloors.length; i++) {
+        for (var j = 0; j < aboveFloors[i].getWallList().length; j++) {
+            var wall = aboveFloors[i].getWallList()[j];
+            wall.drawDotted(ctx, false);
+        }
+    }
+
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
 
@@ -265,7 +293,6 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
             }
         }
 */
-
         wall.draw(ctx, highlight);
     }
 
