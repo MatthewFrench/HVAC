@@ -84,10 +84,12 @@ HVACApplication.prototype.createUI = function () {
                             this.viewMode3DController.cameraCenterY = -window.innerHeight / 2 + 41;
                             this.viewMode3DController.cameraLookAtX = this.viewMode3DController.cameraCenterX;
                             this.viewMode3DController.cameraLookAtY = this.viewMode3DController.cameraCenterY;
-                            this.viewMode3DController.layoutViewMode3DCamera.position.z = this.viewMode3DController.viewZ;
-                            this.viewMode3DController.layoutViewMode3DCamera.position.x = this.viewMode3DController.cameraCenterX;
-                            this.viewMode3DController.layoutViewMode3DCamera.position.y = this.viewMode3DController.cameraCenterY;
-                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setX(this.viewMode3DController.cameraCenterX);
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setY(this.viewMode3DController.cameraCenterY);
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setZ(this.viewMode3DController.viewZ);
+                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.viewMode3DController.cameraLookAtX, this.viewMode3DController.cameraLookAtY, 0));
+                            this.viewMode3DController.dragButtonClicked();
                         })
                     }),
                     //Create edit mode buttons

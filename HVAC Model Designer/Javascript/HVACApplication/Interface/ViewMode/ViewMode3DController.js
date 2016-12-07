@@ -212,15 +212,15 @@ ViewMode3DController.prototype.create3DEverything = function () {
                 var lengthOfWall = wall.getLine().getLength();
                 var wallCenter = wall.getLine().getCenterPoint();
 
-                var wallWidth = 5;
-                var wallHeight = 25;
+                var wallWidth = 10;
+                var wallHeight = 160;
                 var wallLength = lengthOfWall;
 
                 var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
 
                 var group = new THREE.Object3D();
 
-                material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.5});
+                material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.75});
                 material.transparent = true;
                 var newMesh = new THREE.Mesh(geometry, material);
                 group.add(newMesh);
@@ -408,6 +408,70 @@ ViewMode3DController.prototype.orbitButtonClicked = function () {
 };
 
 ViewMode3DController.prototype.showAllFloors = function () {
+    var floorList = this.hvacApplication.getCurrentBuilding().getFloorList();
+    var currentFloor = this.hvacApplication.getCurrentFloorPlan();
+    var currentFloorIndex = floorList.indexOf(currentFloor);
+
+    var delay = 0;
+    for (var j = 0; j < floorList.length; j++) {
+        if (floorList[j] == currentFloor) continue;
+        for (var i = 0; i < floorList[j].getWallList().length; i++) {
+            (function (i, floor, floorNum, delay) {
+                AnimationTimer.StartTimerDelayed(this, delay * 0.1, 0.0, function () {
+                }, function () {
+
+                    var wall = floor.getWallList()[i];
+
+                    var lengthOfWall = wall.getLine().getLength();
+                    var wallCenter = wall.getLine().getCenterPoint();
+
+                    var wallWidth = 10;
+                    var wallHeight = 160;
+                    var wallLength = lengthOfWall;
+
+                    var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
+
+                    var group = new THREE.Object3D();
+
+                    material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.75});
+                    material.transparent = true;
+                    var newMesh = new THREE.Mesh(geometry, material);
+                    group.add(newMesh);
+
+                    //Create outline object
+                    var geo = new THREE.EdgesGeometry(geometry); // or WireframeGeometry( geometry )
+                    var mat = new THREE.LineBasicMaterial({color: 0xff0000, linewidth: 2});
+                    mat.transparent = true;
+                    var wireframe = new THREE.LineSegments(geo, mat);
+
+                    group.add(wireframe);
+
+                    this.layoutViewMode3DScene.add(group);
+
+                    var locationX = wallCenter.x;
+                    var locationY = -wallCenter.y;
+                    var locationZ = wallHeight / 2 + wallHeight * (floorNum - currentFloorIndex);
+
+                    var rotation = wall.getLine().getRotation();
+                    AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+                        var x = locationX * percent;
+                        var y = locationY * percent;
+
+                        group.position.set(x, y, locationZ);
+                        group.rotation.set(0, 0, rotation * percent);
+                    }, function () {
+                        group.position.set(locationX, locationY, locationZ);
+                        group.rotation.set(0, 0, rotation);
+
+                    });
+
+                });
+
+
+            }).call(this, i, floorList[j], j, delay);
+            delay++;
+        }
+    }
 
 };
 
@@ -417,6 +481,11 @@ ViewMode3DController.prototype.drawLayout = function () {
     this.viewZ = (1 / this.hvacApplication.viewScale) / 4 * 2415; //2363
 
     this.layoutViewMode3DCamera.position.setZ(this.viewZ);
+
+
+    if (this.lastViewScale != this.hvacApplication.viewScale) this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+    this.lastViewScale = this.hvacApplication.viewScale;
+
 
     this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
 };
