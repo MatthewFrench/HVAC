@@ -79,6 +79,15 @@ HVACApplication.prototype.createUI = function () {
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
+
+                            this.viewMode3DController.cameraCenterX = window.innerWidth / 2;
+                            this.viewMode3DController.cameraCenterY = -window.innerHeight / 2 + 41;
+                            this.viewMode3DController.cameraLookAtX = this.viewMode3DController.cameraCenterX;
+                            this.viewMode3DController.cameraLookAtY = this.viewMode3DController.cameraCenterY;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.z = this.viewMode3DController.viewZ;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.x = this.viewMode3DController.cameraCenterX;
+                            this.viewMode3DController.layoutViewMode3DCamera.position.y = this.viewMode3DController.cameraCenterY;
+                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
                         })
                     }),
                     //Create edit mode buttons
@@ -133,7 +142,17 @@ HVACApplication.prototype.createUI = function () {
 
     this.resizeCanvas();
 
+    if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
+        this.viewButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
+        this.createButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
+        this.editButtonDiv.style.backgroundColor = "#8070D6";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        this.deleteButtonDiv.style.backgroundColor = "#8070D6";
+    }
 };
+
 
 //Highlights View button and deselects other buttons.
 HVACApplication.prototype.viewWallButtonClicked = function () {
@@ -164,6 +183,14 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.editCornerButtonDiv.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+
+    if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
+        this.dragButtonDiv.style.backgroundColor = "#A696FF";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode2D) {
+        this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+    } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode3D) {
+        this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
+    }
 
     this.showViewModeLayout();
 };
@@ -239,6 +266,8 @@ HVACApplication.prototype.createWallButtonClicked = function () {
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
 
     this.showCreateModeLayout();
 };
@@ -270,11 +299,15 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
+    //this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {
         this.showEditCornerModeLayout();
+        this.editCornerButtonDiv.style.backgroundColor = "#A696FF";
     } else if (this.currentEditMode == EDIT_MODE_POINT) {
         this.showEditPointModeLayout();
+        this.editPointButtonDiv.style.backgroundColor = "#A696FF";
     }
 };
 
@@ -328,6 +361,12 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
+
+    if (currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+        this.deleteButtonDiv.style.backgroundColor = "#A696FF";
+    }
 
     this.showDeleteModeLayout();
 };
