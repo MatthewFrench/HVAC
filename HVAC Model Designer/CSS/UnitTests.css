@@ -1,0 +1,35 @@
+body {
+    background:
+            linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+            linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+            linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+            linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+            linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+            linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+    background-color: #131313;
+    background-size: 20px 20px;
+}
+
+.UnitTest_TitleDiv {
+    /*
+    Ensure background is added first
+    */
+    background: linear-gradient(to bottom, #eee, rgba(222,112,6,0.2), #de7006),url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZlcnNpb249JzEuMScgd2lkdGg9JzQwMCcgaGVpZ2h0PSc0MDAnPgoJPGRlZnMgaWQ9J2RlZnM0Jz4KCQk8ZmlsdGVyIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0nc1JHQicgaWQ9J2ZpbHRlcjMxMTUnPgoJCQk8ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgbnVtT2N0YXZlcz0nMScgYmFzZUZyZXF1ZW5jeT0nMC45JyBpZD0nZmVUdXJidWxlbmNlMzExNycgLz4KCQkJPGZlQ29sb3JNYXRyaXggcmVzdWx0PSdyZXN1bHQ1JyB2YWx1ZXM9JzEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDYgLTMuNzUgJyBpZD0nZmVDb2xvck1hdHJpeDMxMTknIC8+CgkJCTxmZUNvbXBvc2l0ZSBpbjI9J3Jlc3VsdDUnIG9wZXJhdG9yPSdpbicgaW49J1NvdXJjZUdyYXBoaWMnIHJlc3VsdD0ncmVzdWx0NicgaWQ9J2ZlQ29tcG9zaXRlMzEyMScgLz4KCQkJPGZlTW9ycGhvbG9neSBpbj0ncmVzdWx0Nicgb3BlcmF0b3I9J2RpbGF0ZScgcmFkaXVzPScxMCcgcmVzdWx0PSdyZXN1bHQzJyBpZD0nZmVNb3JwaG9sb2d5MzEyMycgLz4KCQk8L2ZpbHRlcj4KCTwvZGVmcz4KCTxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIHg9JzAnIHk9JzAnIGlkPSdyZWN0Mjk4NScgZmlsbD0nI2VlZWVlZScvPiAgICAgCgk8cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyB4PScwJyB5PScwJyBpZD0ncmVjdDI5ODUnIHN0eWxlPSdmaWxsOiNlMDg3Mjg7ZmlsdGVyOnVybCgjZmlsdGVyMzExNSknIC8+Cjwvc3ZnPg==);
+
+    background-attachment: fixed;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+
+    font-size: 28vw;
+    font-weight: bold;
+    text-align: center;
+}
+.UnitTest_TestHolderDiv {
+    position: absolute;
+    left: 20px;
+    top: 69vw;
+    width: calc(100% - 40px);
+    height: 1000px;
+    color: white;
+    text-align: center;
+}
