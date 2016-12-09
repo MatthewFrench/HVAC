@@ -7,7 +7,10 @@ window.onload = main;
 
 var unitTests;
 function main() {
-    unitTests = new UnitTests();
+    window.requestAnimationFrame(
+        function () {
+            unitTests = new UnitTests();
+        });
     window.requestAnimationFrame(requestFrameLoop);
 }
 function mainLogicTimer(speed) {
@@ -15,7 +18,7 @@ function mainLogicTimer(speed) {
 }
 var lastFPSTime = 0;
 var chosenFPS = 60.0;
-var chosenFPSMilliseconds = 1000.0/chosenFPS;
+var chosenFPSMilliseconds = 1000.0 / chosenFPS;
 function requestFrameLoop(time) {
     var delta = time - lastFPSTime;
     var speed = delta / chosenFPSMilliseconds;
@@ -31,72 +34,156 @@ function UnitTests() {
     this.testHolderDiv = CreateElement({type: 'div', class: 'UnitTest_TestHolderDiv'});
     document.body.appendChild(this.testHolderDiv);
 
-    this.unitTests = [];
-    this.unitTestList = getUnitTestList();
-    var names = 0;
-    for (var i = 0; i < this.unitTestList.length; i ++) {
-        var test = new UnitTestObject(this.unitTestList[i], CreateFunction( this, function(){
-            names ++;
-            if (names >= this.unitTests.length) {
-                //Run
-                unitTests.run();
-            }
-        }));
-        this.testHolderDiv.appendChild(test.getDiv());
-        this.unitTests.push(test);
-    }
+    //Create progress bar
+    this.progressBar = CreateElement({
+        type: 'div', class: 'meter', elements: [
+            this.progressBarSpan = CreateElement({type: 'span'})
+        ]
+    });
+    this.progressBarSpan.style.width = "0%";
+    this.progressBar.style.position = "absolute";
+    this.progressBar.style.top = "calc(50vh - 20px);";
+    this.progressBar.style.width = "calc(100% - 20px)";
+    this.progressBar.style.marginTop = "5px";
+    this.progressBar.style.left = "0px";
+    document.body.appendChild(this.progressBar);
 
-    this.testsToRun = this.unitTests.slice();
+    this.progressBar.style.opacity = "0.0";
+    AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+        this.progressBar.style.opacity = percent * percent + "";
+    }, function () {
+        this.progressBar.style.opacity = "1.0";
 
-    this.succeededNumber = 0;
-    this.failNumber = 0;
+
+        var progressBarSpan = this.progressBarSpan;
+        var progressBar = this.progressBar;
+
+        this.unitTests = [];
+        this.unitTestList = getUnitTestList();
+        var names = 0;
+        for (var i = 0; i < this.unitTestList.length; i++) {
+            (function(i){
+                //AnimationTimer.StartTimerDelayed(this, i * 0.1, 0.0, function () {
+                //}, function () {
+
+                var test = new UnitTestObject(this.unitTestList[i], CreateFunction(this, function () {
+                    names++;
+
+                    var oldPercent = ((names - 1) / this.unitTestList.length * 100.0);
+                    var newPercent = (names / this.unitTestList.length * 100.0);
+                    var time = this.unitTestList
+                    //AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+                    //    var x = newPercent - oldPercent;
+                    //    progressBarSpan.style.width = (x * percent + oldPercent) + "%";
+                    //}, function () {
+                    progressBarSpan.style.width = newPercent + "%";
+                    //});
+
+                    if (names == this.unitTests.length) {
+                        AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+                            progressBar.style.opacity = (1.0 - percent * percent) + "";
+                        }, function () {
+                            progressBar.style.opacity = "0.0";
+                            //Run
+                            this.testsToRun = this.unitTests.slice();
+                            this.succeededNumber = 0;
+                            this.failNumber = 0;
+                            window.requestAnimationFrame(CreateFunction(this, this.run));
+                        });
+                    }
+                }));
+                (function (test) {
+                    window.requestAnimationFrame(CreateFunction(this, function () {
+                        this.testHolderDiv.appendChild(test.getDiv());
+                    }));
+                }).call(this, test);
+                this.unitTests.push(test);
+
+                //});
+            }.call(this, i));
+        }
+    });
+
+    //
 
     //window.setTimeout(CreateFunction(unitTests, unitTests.run),1000);
 }
-UnitTests.prototype.runNextTest = function() {
+UnitTests.prototype.runNextTest = function () {
     if (this.testsToRun.length > 0) {
         var test = this.testsToRun[0];
         this.testsToRun.splice(0, 1);
         if (test != undefined) test.run(CreateFunction(this, function (outcome) {
-            if (outcome == true) this.succeededNumber ++;
-            if (outcome == false) this.failNumber ++;
-            setTimeout(CreateFunction(this, this.runNextTest));
+            var scrolled = 0;
+            AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
+                var amount = 200.0 / 60.0;
+                scrolled += speed * amount;
+                window.requestAnimationFrame(function() {window.scrollBy(0, speed * amount);});
+            }, function () {
+
+            });
+
+            if (outcome == true) this.succeededNumber++;
+            if (outcome == false) this.failNumber++;
+            window.requestAnimationFrame(CreateFunction(this, this.runNextTest));
         }));
     } else {
         //Finished so show finish thing
 
         this.testHolderDiv.appendChild(
-            CreateElement({type: 'div', class:'UnitTest_ResultDiv', text: "Tests Succeeded: " + this.succeededNumber + ", Failed: " + this.failNumber})
+            CreateElement({
+                type: 'div',
+                class: 'UnitTest_ResultDiv',
+                text: "Tests Succeeded: " + this.succeededNumber + ", Failed: " + this.failNumber
+            })
         );
     }
 };
 
-UnitTests.prototype.run = function() {
-    setTimeout(CreateFunction(this, this.runNextTest));
+UnitTests.prototype.run = function () {
+    setTimeout(CreateFunction(this, this.runNextTest), 1000);
 
+    var height = window.innerHeight;
+    var scrolled = 0;
+    AnimationTimer.StartTimer(this, 5.0, function (speed, percent) {
+        var amount = height / 5.0 / 60.0;
+        scrolled += speed * amount;
+        window.requestAnimationFrame(function() {window.scrollBy(0, speed * amount);});
+    }, function () {
+        console.log("Scroll amount: " + scrolled + ", " + height);
+    });
+
+    /*
     var body = document.body,
         html = document.documentElement;
-    var height = Math.max( body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    var height = Math.max(body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight);
     var scrollLength = height;
-    var scrollTime = 15.0;
-    AnimationTimer.StartTimer(this, scrollTime, function (speed, percent) {
-        var scroll = scrollLength * percent;
+    var scrollTime = 26.0 * this.unitTests.length / 50; //this.unitTests
+    var slowStart = 0.25;
 
-        if (percent < 0.5) scroll = scrollLength * percent * (percent / 0.5);
-        window.requestAnimationFrame(function() {window.scrollTo(0, scroll);});
-    }, function () {
 
-    });
+     AnimationTimer.StartTimer(this, scrollTime, function (speed, percent) {
+     var scroll = scrollLength * percent;
+
+     if (percent < slowStart) scroll = scrollLength * percent * (percent / slowStart);
+     window.requestAnimationFrame(function() {window.scrollTo(0, scroll);});
+     }, function () {
+
+     });*/
 };
 
 function UnitTestObject(testURL, nameCallback) {
-    this.div = CreateElement({type: 'div', class: 'UnitTestObject_Div', elements: [
-        CreateElement({type: 'div', class: 'UnitTest_TestHolderLoaderDiv', elements: [
-            this.loader = CreateElement({type: 'div', class: 'loader'})
-        ]}),
-        this.text = CreateElement({type: 'div', text: '', class: 'UnitTestObject_Name'})
-    ]});
+    this.div = CreateElement({
+        type: 'div', class: 'UnitTestObject_Div', elements: [
+            CreateElement({
+                type: 'div', class: 'UnitTest_TestHolderLoaderDiv', elements: [
+                    this.loader = CreateElement({type: 'div', class: 'loader'})
+                ]
+            }),
+            this.text = CreateElement({type: 'div', text: '', class: 'UnitTestObject_Name'})
+        ]
+    });
+    this.div.style.opacity = "0.0";
     this.div.style.border = "solid 4px transparent";
     this.div.style.borderRadius = "8px";
     this.loader.style.visibility = "hidden";
@@ -105,13 +192,13 @@ function UnitTestObject(testURL, nameCallback) {
     this.testURL = testURL;
     this.worker = new Worker(this.testURL);
     // Setup an event listener that will handle messages received from the worker.
-    this.worker.addEventListener('message', CreateFunction(this, function(e) {
+    this.worker.addEventListener('message', CreateFunction(this, function (e) {
         if (e.data.type == "name") {
             this.text.innerHTML = e.data.data;
             nameCallback();
         } else if (e.data.type == "outcome") {
             var outcome = e.data.data;
-            setTimeout( CreateFunction(this, function() {
+            window.requestAnimationFrame(CreateFunction(this, function () {
                 this.div.style.border = "solid 4px transparent";
                 this.loader.style.visibility = "hidden";
 
@@ -122,18 +209,23 @@ function UnitTestObject(testURL, nameCallback) {
                 }
 
                 this.callback(outcome);
-            }), 250);
+            }));
         }
     }), false);
     this.worker.postMessage("name");
 }
-UnitTestObject.prototype.run = function(callback) {
+UnitTestObject.prototype.run = function (callback) {
+    AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
+        this.div.style.opacity = percent * percent + "";
+    }, function () {
+        this.div.style.opacity = "1.0";
+    });
     this.callback = callback;
     this.loader.style.visibility = "";
     this.div.style.border = "solid 4px black";
 
     this.worker.postMessage("run");
 };
-UnitTestObject.prototype.getDiv = function() {
+UnitTestObject.prototype.getDiv = function () {
     return this.div;
 };
