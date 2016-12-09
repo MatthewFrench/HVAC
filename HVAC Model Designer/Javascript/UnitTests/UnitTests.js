@@ -8,7 +8,6 @@ window.onload = main;
 var unitTests;
 function main() {
     unitTests = new UnitTests();
-    window.setTimeout(CreateFunction(unitTests, unitTests.run),1000);
     window.requestAnimationFrame(requestFrameLoop);
 }
 function mainLogicTimer(speed) {
@@ -33,21 +32,43 @@ function UnitTests() {
     document.body.appendChild(this.testHolderDiv);
 
     this.unitTests = [];
-    for (var i = 0; i < 50; i ++) {
-        var test = new UnitTestObject('Javascript/UnitTests/Tests/AdvancedMath/IntersectionTest.js');
+    this.unitTestList = getUnitTestList();
+    var names = 0;
+    for (var i = 0; i < this.unitTestList.length; i ++) {
+        var test = new UnitTestObject(this.unitTestList[i], CreateFunction( this, function(){
+            names ++;
+            if (names >= this.unitTests.length) {
+                //Run
+                unitTests.run();
+            }
+        }));
         this.testHolderDiv.appendChild(test.getDiv());
         this.unitTests.push(test);
     }
 
     this.testsToRun = this.unitTests.slice();
+
+    this.succeededNumber = 0;
+    this.failNumber = 0;
+
+    //window.setTimeout(CreateFunction(unitTests, unitTests.run),1000);
 }
 UnitTests.prototype.runNextTest = function() {
-    var test = this.testsToRun[0];
-    this.testsToRun.splice(0, 1);
-    if (test != undefined) test.run(CreateFunction(this, function(outcome) {
-        //Callback
-         if (this.testsToRun.length > 0) setTimeout(CreateFunction(this, this.runNextTest));
-    }));
+    if (this.testsToRun.length > 0) {
+        var test = this.testsToRun[0];
+        this.testsToRun.splice(0, 1);
+        if (test != undefined) test.run(CreateFunction(this, function (outcome) {
+            if (outcome == true) this.succeededNumber ++;
+            if (outcome == false) this.failNumber ++;
+            setTimeout(CreateFunction(this, this.runNextTest));
+        }));
+    } else {
+        //Finished so show finish thing
+
+        this.testHolderDiv.appendChild(
+            CreateElement({type: 'div', class:'UnitTest_ResultDiv', text: "Tests Succeeded: " + this.succeededNumber + ", Failed: " + this.failNumber})
+        );
+    }
 };
 
 UnitTests.prototype.run = function() {
@@ -69,7 +90,7 @@ UnitTests.prototype.run = function() {
     });
 };
 
-function UnitTestObject(testURL) {
+function UnitTestObject(testURL, nameCallback) {
     this.div = CreateElement({type: 'div', class: 'UnitTestObject_Div', elements: [
         CreateElement({type: 'div', class: 'UnitTest_TestHolderLoaderDiv', elements: [
             this.loader = CreateElement({type: 'div', class: 'loader'})
@@ -87,6 +108,7 @@ function UnitTestObject(testURL) {
     this.worker.addEventListener('message', CreateFunction(this, function(e) {
         if (e.data.type == "name") {
             this.text.innerHTML = e.data.data;
+            nameCallback();
         } else if (e.data.type == "outcome") {
             var outcome = e.data.data;
             setTimeout( CreateFunction(this, function() {
@@ -99,7 +121,7 @@ function UnitTestObject(testURL) {
                     this.text.style.color = "red";
                 }
 
-                this.callback(e);
+                this.callback(outcome);
             }), 250);
         }
     }), false);

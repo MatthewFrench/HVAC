@@ -53,6 +53,14 @@ body {
 .UnitTestObject_Name {
     line-height: 100px;
 }
+.UnitTest_ResultDiv {
+    height: 100px;
+    width: 100%;
+    font-size: 50px;
+    line-height: 50px;
+    position: relative;
+    text-align: center;
+}
 
 
 
