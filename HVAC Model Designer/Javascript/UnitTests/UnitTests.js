@@ -63,21 +63,13 @@ function UnitTests() {
         var names = 0;
         for (var i = 0; i < this.unitTestList.length; i++) {
             (function(i){
-                //AnimationTimer.StartTimerDelayed(this, i * 0.1, 0.0, function () {
-                //}, function () {
-
                 var test = new UnitTestObject(this.unitTestList[i], CreateFunction(this, function () {
                     names++;
 
-                    var oldPercent = ((names - 1) / this.unitTestList.length * 100.0);
-                    var newPercent = (names / this.unitTestList.length * 100.0);
-                    var time = this.unitTestList
-                    //AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
-                    //    var x = newPercent - oldPercent;
-                    //    progressBarSpan.style.width = (x * percent + oldPercent) + "%";
-                    //}, function () {
-                    progressBarSpan.style.width = newPercent + "%";
-                    //});
+                    var p =(names / this.unitTestList.length * 100.0);
+                        window.requestAnimationFrame( function() {
+                    progressBarSpan.style.width = p + "%";
+                        });
 
                     if (names == this.unitTests.length) {
                         AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
@@ -117,7 +109,7 @@ UnitTests.prototype.runNextTest = function () {
             AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
                 var amount = 200.0 / 60.0;
                 scrolled += speed * amount;
-                window.requestAnimationFrame(function() {window.scrollBy(0, speed * amount);});
+                window.scrollBy(0, speed * amount);
             }, function () {
 
             });
@@ -149,7 +141,6 @@ UnitTests.prototype.run = function () {
         scrolled += speed * amount;
         window.requestAnimationFrame(function() {window.scrollBy(0, speed * amount);});
     }, function () {
-        console.log("Scroll amount: " + scrolled + ", " + height);
     });
 
     /*
