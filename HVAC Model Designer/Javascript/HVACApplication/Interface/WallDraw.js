@@ -36,7 +36,27 @@ Wall.prototype.draw = function(context, showHandles) {
     }
 };
 
-/*This function draws perpendicular lin es on our Layout*/
+Wall.prototype.drawDotted = function(context, setOfFloors) {
+    if (setOfFloors) {
+        context.strokeStyle = "green";
+    }
+    else {
+        context.strokeStyle = "red";
+    }
+
+    context.lineWidth = 5;
+    context.save();
+    context.setLineDash([2, 10]); /*dashes are 5px and spaces are 3px*/
+    context.beginPath();
+    context.lineCap = "round";
+    var line = this.getLine();
+    context.moveTo(line.getPoint1X(), line.getPoint1Y());
+    context.lineTo(line.getPoint2X(), line.getPoint2Y());
+    context.stroke();
+    context.restore();
+}
+
+/*This function draws perpendicular lines on our Layout*/
 Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
 
     var x1 = this.getLine().getPoint1X();
