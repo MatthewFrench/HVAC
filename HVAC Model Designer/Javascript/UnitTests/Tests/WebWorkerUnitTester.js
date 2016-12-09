@@ -5,7 +5,7 @@
 self.addEventListener('message', function(e) {
     if (e.data == "name") self.postMessage({type: 'name', data: name});
     if (e.data == "run") {
-        //importScripts("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
+        importScripts("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
         importScripts("/HVAC Model Designer/Javascript/Utility/AnimationTimer.js");
         importScripts("/HVAC Model Designer/Javascript/Utility/Stopwatch.js");
 
@@ -33,10 +33,14 @@ self.addEventListener('message', function(e) {
         importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeView.js");
         importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js");
         importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js");
-        //importScripts("/HVAC Model Designer/Javascript/Utility/WebGLCanvas.js");
         importScripts("/HVAC Model Designer/Javascript/Utility/Utility.js");
-
-        run();
+        try {
+            run();
+        }
+        catch(err) {
+            console.log("Run error: " + err);
+            fail();
+        }
     }
 }, false);
 function success() {
