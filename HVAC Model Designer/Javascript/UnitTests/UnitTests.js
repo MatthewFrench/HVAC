@@ -217,7 +217,18 @@ UnitTestObject.prototype.run = function (callback) {
     if (this.isWebWorker) {
         this.worker.postMessage({command: "run", url: this.testURL});
     } else {
-        this.setFinished(true);
+        var element = document.createElement("script");
+        element.src = this.testURL;
+        document.getElementsByTagName("head")[0].appendChild(element );
+
+        element.onload = CreateFunction(this, function(){
+            succeeded = true;
+            testResult = false;
+
+            run();
+
+            this.setFinished(testResult);
+        });
     }
 };
 UnitTestObject.prototype.setFinished = function(outcome) {

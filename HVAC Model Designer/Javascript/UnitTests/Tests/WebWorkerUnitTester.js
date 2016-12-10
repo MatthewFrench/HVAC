@@ -1,8 +1,9 @@
 /**
  * Created by personal on 12/9/16.
  */
+var self = this;
 // Setup an event listener that will handle messages sent to the worker.
-self.addEventListener('message', function(e) {
+if (self.document === undefined) self.addEventListener('message', function(e) {
     if (e.data['command'] == "run") {
         loadScript("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
         loadScript("/HVAC Model Designer/Javascript/Utility/AnimationTimer.js");
@@ -47,12 +48,15 @@ self.addEventListener('message', function(e) {
     }
 }, false);
 function success() {
-    self.postMessage({type: 'outcome', data: true});
+    if (self.document === undefined) self.postMessage({type: 'outcome', data: true});
+    testResult = true;
 }
 function fail() {
-    self.postMessage({type: 'outcome', data: false});
+    if (self.document === undefined) self.postMessage({type: 'outcome', data: false});
+    testResult = false;
 }
 var succeeded = true;
+var testResult = false;
 function assert(thing) {
     if (thing == false) succeeded = false;
 }
@@ -72,7 +76,7 @@ function end() {
     if (succeeded == false) {
         fail();
     } else success();
-    close();
+    if (self.document === undefined) close();
 }
 function loadScript(script) {
     var loaded = false;
