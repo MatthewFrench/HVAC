@@ -39,7 +39,8 @@ self.addEventListener('message', function(e) {
         }
         catch(err) {
             console.log("Run error: " + err);
-            fail();
+            succeeded = false;
+            end();
         }
     }
 }, false);
@@ -53,10 +54,17 @@ var succeeded = true;
 function assert(thing) {
     if (thing == false) succeeded = false;
 }
+function assertEqual(thing, thing2) {
+    if (thing != thing2) {
+        succeeded = false;
+        console.log("Assert Not Equal: " + thing + " vs " + thing2);
+    }
+}
 function end() {
     if (succeeded == false) {
         fail();
     } else success();
+    close();
 }
 function loadScript(script) {
     var loaded = false;

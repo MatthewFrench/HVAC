@@ -5,8 +5,10 @@ importScripts("../WebWorkerUnitTester.js");
 
 var name = 'Line - Line Intersection Test';
 function run() {
+    //Simple
     var intersectPoint = getLineIntersectionPoint(0, -10, 0, 10,
                                       -10, 0, 10, -0);
+
     assert(intersectPoint.getX() == 0 && intersectPoint.getY() == 0);
 
     //Colinear
@@ -25,9 +27,6 @@ function run() {
         1, -10, 1, 10);
 
     assert(intersectPoint == null);
-
-    //Rotate lines around center and test for intersection from many different angles
-
 
     end();
 }
