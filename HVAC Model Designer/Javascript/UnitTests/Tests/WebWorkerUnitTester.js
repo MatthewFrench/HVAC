@@ -5,35 +5,35 @@
 self.addEventListener('message', function(e) {
     if (e.data == "name") self.postMessage({type: 'name', data: name});
     if (e.data == "run") {
-        importScripts("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
-        importScripts("/HVAC Model Designer/Javascript/Utility/AnimationTimer.js");
-        importScripts("/HVAC Model Designer/Javascript/Utility/Stopwatch.js");
+        loadScript("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
+        loadScript("/HVAC Model Designer/Javascript/Utility/AnimationTimer.js");
+        loadScript("/HVAC Model Designer/Javascript/Utility/Stopwatch.js");
 
-        importScripts("/HVAC Model Designer/Javascript/HVACData/BuildingPlan.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/CornerPoint.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/FloorPlan.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/HVACData.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/HVACDataLoader.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/Point2D.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/Wall.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACData/Line2D.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/BuildingPlan.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/CornerPoint.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/FloorPlan.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/HVACData.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/HVACDataLoader.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/Point2D.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/Wall.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACData/Line2D.js");
 
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/FloorPicker.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Popovers/DoorPopover.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Popovers/LocationPopover.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/StartOverPopover.js");
-        importScripts("/HVAC Model Designer/Javascript/Utility/AdvancedMath.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/WallDraw.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/ViewMode/ViewMode3DController.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeCreate.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDrag.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditCorner.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditPoint.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeView.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js");
-        importScripts("/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js");
-        importScripts("/HVAC Model Designer/Javascript/Utility/Utility.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/FloorPicker.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Popovers/DoorPopover.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Popovers/LocationPopover.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/StartOverPopover.js");
+        loadScript("/HVAC Model Designer/Javascript/Utility/AdvancedMath.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/WallDraw.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/ViewMode/ViewMode3DController.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeCreate.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDrag.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditCorner.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditPoint.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeView.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js");
+        loadScript("/HVAC Model Designer/Javascript/Utility/Utility.js");
         try {
             run();
         }
@@ -57,4 +57,15 @@ function end() {
     if (succeeded == false) {
         fail();
     } else success();
+}
+function loadScript(script) {
+    var loaded = false;
+    while(loaded == false) {
+        loaded = true;
+        try {
+            importScripts(script);
+        } catch(err) {
+            loaded = false;
+        }
+    }
 }

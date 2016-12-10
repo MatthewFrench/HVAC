@@ -362,7 +362,7 @@ function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
 
     var colinear = (-s2_x * s1_y + s1_x * s2_y);
 
-    if (colinear <= 0.00001) {
+    if (Math.abs(colinear) <= 0.00001) {
         //colinear, so need to return
         return null;
     }
