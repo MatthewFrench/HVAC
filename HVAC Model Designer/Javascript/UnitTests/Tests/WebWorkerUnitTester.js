@@ -61,6 +61,14 @@ function assert(thing) {
     if (thing == false) succeeded = false;
 }
 function assertEqual(thing, thing2) {
+    if (typeof(thing) === 'number') {
+        var max = 10000000;
+        thing = Math.round(thing * max) / max;
+    }
+    if (typeof(thing2) === 'number') {
+        var max = 10000000;
+        thing2 = Math.round(thing2 * max) / max;
+    }
     if (thing != thing2) {
         succeeded = false;
         console.log("Assert Not Equal: " + thing + " vs " + thing2);
