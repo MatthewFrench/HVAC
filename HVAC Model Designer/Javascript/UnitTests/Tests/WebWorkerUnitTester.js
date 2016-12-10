@@ -82,7 +82,11 @@ function end() {
     if (succeeded == false) {
         fail();
     } else success();
-    if (self.document === undefined) close();
+    if (self.document == undefined)  {
+        close();
+    } else {
+        UnitTests.finishedCurrentTest();
+    }
 }
 function loadScript(script) {
     var loaded = false;

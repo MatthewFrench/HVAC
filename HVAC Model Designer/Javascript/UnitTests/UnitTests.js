@@ -27,6 +27,25 @@ function requestFrameLoop(time) {
     window.requestAnimationFrame(requestFrameLoop);
 }
 
+UnitTests.setUpSimulationDiv = function() {
+    var currentTest = unitTests.currentTest;
+    if (currentTest == null) return null;
+    //Open a simulation div
+    return currentTest.setUpSimulationDiv();
+};
+
+UnitTests.getTestData = function() {
+    var currentTest = unitTests.currentTest;
+    if (currentTest == null) return null;
+    return currentTest.getData();
+};
+
+UnitTests.finishedCurrentTest = function() {
+    var currentTest = unitTests.currentTest;
+    if (currentTest == null) return null;
+    currentTest.setFinished(testResult);
+};
+
 function UnitTests() {
     this.titleDiv = CreateElement({type: 'div', class: 'UnitTest_TitleDiv', text: 'Unit Tests'});
     document.body.appendChild(this.titleDiv);
@@ -47,6 +66,8 @@ function UnitTests() {
     this.progressBar.style.marginTop = "5px";
     this.progressBar.style.left = "0px";
     document.body.appendChild(this.progressBar);
+
+    this.currentTest = null;
 
     this.progressBar.style.opacity = "0.0";
     AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
@@ -104,7 +125,9 @@ UnitTests.prototype.runNextTest = function () {
     if (this.testsToRun.length > 0) {
         var test = this.testsToRun[0];
         this.testsToRun.splice(0, 1);
+        this.currentTest = test;
         if (test != undefined) test.run(CreateFunction(this, function (outcome) {
+            this.currentTest = null;
             AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
                 var amount = 180.0 / 60.0;
                 window.scrollBy(0, speed * amount);
@@ -188,6 +211,7 @@ function UnitTestObject(testData) {
     this.div.style.border = "solid 4px transparent";
     this.div.style.borderRadius = "8px";
     this.loader.style.visibility = "hidden";
+    this.simulationDiv = null;
 
 
     if (this.isWebWorker) {
@@ -226,8 +250,6 @@ UnitTestObject.prototype.run = function (callback) {
             testResult = false;
 
             run();
-
-            this.setFinished(testResult);
         });
     }
 };
@@ -244,6 +266,25 @@ UnitTestObject.prototype.setFinished = function(outcome) {
 
         this.callback(outcome);
     }));
+};
+UnitTestObject.prototype.setUpSimulationDiv = function() {
+    this.simulationDiv = CreateElement({type: 'div', class: 'UnitTest_SimulationDiv', elements: [
+        this.simulationInnerDiv = CreateElement({type: 'div', class: 'UnitTest_SimulationDiv_Inner'})
+    ]});
+    this.div.appendChild(this.simulationDiv);
+
+    var height = 500;
+    AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+        var amount = height / 60.0;
+        window.requestAnimationFrame(function() {window.scrollBy(0, speed * amount);});
+    }, function () {
+    });
+
+    return this.simulationInnerDiv;
+};
+UnitTestObject.prototype.getData = function() {
+    this.data = {};
+    return this.data;
 };
 UnitTestObject.prototype.getDiv = function () {
     return this.div;

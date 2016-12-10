@@ -26,10 +26,14 @@ HVACApplication.prototype.initUIVariables = function () {
 
 /*This function creates the User Interface, including adding buttons/menu*/
 HVACApplication.prototype.createUI = function () {
-    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv'});
+    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv', elements: [
+        CreateElement({type: 'div', class: 'ApplicationBackground1'}),
+        CreateElement({type: 'div', class: 'ApplicationBackground2'})
+    ]});
 
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
+            /*
             this.LocationDataButton = CreateElement({
                 type: 'button', class: 'LocationDataButton', text: 'Data',
                 onClick: CreateFunction(this, function () {
@@ -37,6 +41,7 @@ HVACApplication.prototype.createUI = function () {
                     newPopover.show();
                 })
             }),
+            */
             /*
             this.AJsButton = CreateElement({
                 type: 'button', class: 'AJsButton', text: 'AJsButton',
