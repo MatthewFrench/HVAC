@@ -38,10 +38,10 @@ Wall.prototype.draw = function(context, showHandles) {
 
 Wall.prototype.drawDotted = function(context, setOfFloors) {
     if (setOfFloors) {
-        context.strokeStyle = "green";
+        context.strokeStyle = "rgba(0, 255, 0, 0.5)";
     }
     else {
-        context.strokeStyle = "red";
+        context.strokeStyle = "rgba(255, 0, 0, 0.5)";
     }
 
     context.lineWidth = 5;

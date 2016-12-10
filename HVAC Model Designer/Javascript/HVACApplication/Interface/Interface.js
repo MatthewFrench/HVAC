@@ -350,7 +350,7 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
 /*This function shows the Delete button as selected*/
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_DRAG;
+    this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
     this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
     this.createButtonDiv.className = "CreateButtonDiv";
@@ -376,7 +376,7 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.viewMode3DController.hide();
 
-    if (currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+    if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
         this.deleteButtonDiv.style.backgroundColor = "#A696FF";
     }
 

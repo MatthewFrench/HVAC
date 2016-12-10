@@ -3,7 +3,7 @@
  */
 
 var PIXELS_IN_FOOT = 20.0;
-var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
+var GUIDE_LINE_LENGTH = 100 * PIXELS_IN_FOOT;
 var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function wallSlicer(walls, intersectHighlightPoints) {
