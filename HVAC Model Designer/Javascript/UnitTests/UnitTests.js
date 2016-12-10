@@ -189,34 +189,20 @@ function UnitTestObject(testData) {
     this.div.style.borderRadius = "8px";
     this.loader.style.visibility = "hidden";
 
-/*
+
     if (this.isWebWorker) {
 
-        this.worker = new Worker(this.testURL);
+        this.worker = new Worker("Javascript/UnitTests/Tests/WebWorkerUnitTester.js");
         // Setup an event listener that will handle messages received from the worker.
         this.worker.addEventListener('message', CreateFunction(this, function (e) {
-            if (e.data.type == "name") {
-                this.text.innerHTML = e.data.data;
-                nameCallback();
-            } else if (e.data.type == "outcome") {
+            if (e.data.type == "outcome") {
                 var outcome = e.data.data;
-                window.requestAnimationFrame(CreateFunction(this, function () {
-                    this.div.style.border = "solid 4px transparent";
-                    this.loader.style.visibility = "hidden";
-
-                    if (outcome == true) {
-                        this.text.style.color = "green";
-                    } else {
-                        this.text.style.color = "red";
-                    }
-
-                    this.callback(outcome);
-                }));
+                this.setFinished(outcome);
             }
         }), false);
 
     }
-    */
+
 }
 UnitTestObject.prototype.run = function (callback) {
     AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
@@ -228,8 +214,11 @@ UnitTestObject.prototype.run = function (callback) {
     this.loader.style.visibility = "";
     this.div.style.border = "solid 4px black";
 
-    this.setFinished(true);
-    //this.worker.postMessage("run");
+    if (this.isWebWorker) {
+        this.worker.postMessage({command: "run", url: this.testURL});
+    } else {
+        this.setFinished(true);
+    }
 };
 UnitTestObject.prototype.setFinished = function(outcome) {
     window.requestAnimationFrame(CreateFunction(this, function () {

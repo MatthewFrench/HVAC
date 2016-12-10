@@ -3,8 +3,7 @@
  */
 // Setup an event listener that will handle messages sent to the worker.
 self.addEventListener('message', function(e) {
-    if (e.data == "name") self.postMessage({type: 'name', data: name});
-    if (e.data == "run") {
+    if (e.data['command'] == "run") {
         loadScript("/HVAC Model Designer/Javascript/Utility/Outside%20Libraries/three.min.js");
         loadScript("/HVAC Model Designer/Javascript/Utility/AnimationTimer.js");
         loadScript("/HVAC Model Designer/Javascript/Utility/Stopwatch.js");
@@ -34,6 +33,8 @@ self.addEventListener('message', function(e) {
         loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js");
         loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js");
         loadScript("/HVAC Model Designer/Javascript/Utility/Utility.js");
+
+        loadScript("/HVAC Model Designer/"+e.data['url']);
         try {
             run();
         }
