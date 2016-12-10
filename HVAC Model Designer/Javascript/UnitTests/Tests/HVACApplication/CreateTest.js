@@ -1,10 +1,10 @@
 /**
  * Created by personal on 12/9/16.
  */
-importScripts("../WebWorkerUnitTester.js");
-
-var name = 'HVAC Application Creation Test';
 function run() {
+    var element = document.createElement('div');
+    //var app = new HVACApplication();
+    //assert(app != null);
 
     end();
 }

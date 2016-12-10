@@ -25,6 +25,7 @@ HVACApplication.prototype.initUIVariables = function () {
 
 /*This function creates the User Interface, including adding buttons/menu*/
 HVACApplication.prototype.createUI = function () {
+
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: document.body, elements: [
             this.LocationDataButton = CreateElement({

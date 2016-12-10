@@ -1,9 +1,6 @@
 /**
  * Created by personal on 12/9/16.
  */
-importScripts("../WebWorkerUnitTester.js");
-
-var name = 'Longer Line Creation Test';
 function run() {
     var line = getLongerLine(0, 0, 5, 5);
     var rotation = getAngleOfLineBetweenPoints(0, 0, 5, 5);

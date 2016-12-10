@@ -1,9 +1,7 @@
 /**
  * Created by personal on 12/9/16.
  */
-importScripts("../WebWorkerUnitTester.js");
 
-var name = 'Convert To Transform Test';
 function run() {
     var point = new Point2D({x: 0, y: 0});
     var translatePoint = new Point2D({x: 5, y: 0});

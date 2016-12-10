@@ -63,27 +63,27 @@ function UnitTests() {
         var names = 0;
         for (var i = 0; i < this.unitTestList.length; i++) {
             (function(i){
-                var test = new UnitTestObject(this.unitTestList[i], CreateFunction(this, function () {
-                    names++;
+                var test = new UnitTestObject(this.unitTestList[i]);
 
-                    var p =(names / this.unitTestList.length * 100.0);
-                        window.requestAnimationFrame( function() {
+                names++;
+
+                var p =(names / this.unitTestList.length * 100.0);
+                window.requestAnimationFrame( function() {
                     progressBarSpan.style.width = p + "%";
-                        });
+                });
+                if (names == this.unitTestList.length) {
+                    AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+                        progressBar.style.opacity = (1.0 - percent * percent) + "";
+                    }, function () {
+                        progressBar.style.opacity = "0.0";
+                        //Run
+                        this.testsToRun = this.unitTests.slice();
+                        this.succeededNumber = 0;
+                        this.failNumber = 0;
+                        window.requestAnimationFrame(CreateFunction(this, this.run));
+                    });
+                }
 
-                    if (names == this.unitTests.length) {
-                        AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
-                            progressBar.style.opacity = (1.0 - percent * percent) + "";
-                        }, function () {
-                            progressBar.style.opacity = "0.0";
-                            //Run
-                            this.testsToRun = this.unitTests.slice();
-                            this.succeededNumber = 0;
-                            this.failNumber = 0;
-                            window.requestAnimationFrame(CreateFunction(this, this.run));
-                        });
-                    }
-                }));
                 (function (test) {
                     window.requestAnimationFrame(CreateFunction(this, function () {
                         this.testHolderDiv.appendChild(test.getDiv());
@@ -169,7 +169,11 @@ UnitTests.prototype.run = function () {
      });*/
 };
 
-function UnitTestObject(testURL, nameCallback) {
+function UnitTestObject(testData) {
+    this.testData = testData;
+    this.testURL = testData['url'];
+    this.name = testData['name'];
+    this.isWebWorker = testData['webworker'];
     this.div = CreateElement({
         type: 'div', class: 'UnitTestObject_Div', elements: [
             CreateElement({
@@ -177,7 +181,7 @@ function UnitTestObject(testURL, nameCallback) {
                     this.loader = CreateElement({type: 'div', class: 'loader'})
                 ]
             }),
-            this.text = CreateElement({type: 'div', text: '', class: 'UnitTestObject_Name'})
+            this.text = CreateElement({type: 'div', text: '', class: 'UnitTestObject_Name', text: this.name})
         ]
     });
     this.div.style.opacity = "0.0";
@@ -185,31 +189,34 @@ function UnitTestObject(testURL, nameCallback) {
     this.div.style.borderRadius = "8px";
     this.loader.style.visibility = "hidden";
 
+/*
+    if (this.isWebWorker) {
 
-    this.testURL = testURL;
-    this.worker = new Worker(this.testURL);
-    // Setup an event listener that will handle messages received from the worker.
-    this.worker.addEventListener('message', CreateFunction(this, function (e) {
-        if (e.data.type == "name") {
-            this.text.innerHTML = e.data.data;
-            nameCallback();
-        } else if (e.data.type == "outcome") {
-            var outcome = e.data.data;
-            window.requestAnimationFrame(CreateFunction(this, function () {
-                this.div.style.border = "solid 4px transparent";
-                this.loader.style.visibility = "hidden";
+        this.worker = new Worker(this.testURL);
+        // Setup an event listener that will handle messages received from the worker.
+        this.worker.addEventListener('message', CreateFunction(this, function (e) {
+            if (e.data.type == "name") {
+                this.text.innerHTML = e.data.data;
+                nameCallback();
+            } else if (e.data.type == "outcome") {
+                var outcome = e.data.data;
+                window.requestAnimationFrame(CreateFunction(this, function () {
+                    this.div.style.border = "solid 4px transparent";
+                    this.loader.style.visibility = "hidden";
 
-                if (outcome == true) {
-                    this.text.style.color = "green";
-                } else {
-                    this.text.style.color = "red";
-                }
+                    if (outcome == true) {
+                        this.text.style.color = "green";
+                    } else {
+                        this.text.style.color = "red";
+                    }
 
-                this.callback(outcome);
-            }));
-        }
-    }), false);
-    this.worker.postMessage("name");
+                    this.callback(outcome);
+                }));
+            }
+        }), false);
+
+    }
+    */
 }
 UnitTestObject.prototype.run = function (callback) {
     AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
@@ -221,7 +228,22 @@ UnitTestObject.prototype.run = function (callback) {
     this.loader.style.visibility = "";
     this.div.style.border = "solid 4px black";
 
-    this.worker.postMessage("run");
+    this.setFinished(true);
+    //this.worker.postMessage("run");
+};
+UnitTestObject.prototype.setFinished = function(outcome) {
+    window.requestAnimationFrame(CreateFunction(this, function () {
+        this.div.style.border = "solid 4px transparent";
+        this.loader.style.visibility = "hidden";
+
+        if (outcome == true) {
+            this.text.style.color = "green";
+        } else {
+            this.text.style.color = "red";
+        }
+
+        this.callback(outcome);
+    }));
 };
 UnitTestObject.prototype.getDiv = function () {
     return this.div;

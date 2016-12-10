@@ -39,6 +39,7 @@ self.addEventListener('message', function(e) {
         }
         catch(err) {
             console.log("Run error: " + err);
+            console.log( err.stack )
             succeeded = false;
             end();
         }

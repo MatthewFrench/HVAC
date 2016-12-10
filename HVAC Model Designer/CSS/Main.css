@@ -23,6 +23,14 @@ body {
     margin: 0px;
 
 }
+.ApplicationDiv {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+}
 .WebGLCanvas {
     position: absolute;
     width: 500px;

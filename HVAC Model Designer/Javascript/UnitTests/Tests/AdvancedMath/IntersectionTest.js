@@ -1,9 +1,7 @@
 /**
  * Created by personal on 12/9/16.
  */
-importScripts("../WebWorkerUnitTester.js");
 
-var name = 'Line - Line Intersection Test';
 function run() {
     //Simple
     var intersectPoint = getLineIntersectionPoint(0, -10, 0, 10,
