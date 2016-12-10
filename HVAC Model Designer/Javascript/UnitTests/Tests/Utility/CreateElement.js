@@ -3,5 +3,9 @@
  */
 function run() {
 
+    var element = CreateElement({type: 'div'});
+
+    assertEqual(element.nodeName, "DIV")
+
     end();
 }
