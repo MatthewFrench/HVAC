@@ -14,7 +14,6 @@ function run() {
     //Add app to simulation div to show it on screen
     simulationDiv.appendChild(app.getApplicationDiv());
 
-
     //Simulate draw loop
     var logicLoop;
     var ranLogic = false;
@@ -42,10 +41,8 @@ function run() {
 
     app.windowResized();
 
-
     setTimeout(function(){
         assertEqual(ranLogic, true);
         end();
     }, 2000);
 }
-
