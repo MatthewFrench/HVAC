@@ -60,6 +60,12 @@ function assertEqual(thing, thing2) {
         console.log("Assert Not Equal: " + thing + " vs " + thing2);
     }
 }
+function assertGreaterThan(thing, thing2) {
+    if (thing <= thing2) {
+        succeeded = false;
+        console.log("Assert Not Greater: " + thing + " vs " + thing2);
+    }
+}
 function end() {
     if (succeeded == false) {
         fail();

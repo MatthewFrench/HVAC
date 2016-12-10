@@ -105,10 +105,8 @@ UnitTests.prototype.runNextTest = function () {
         var test = this.testsToRun[0];
         this.testsToRun.splice(0, 1);
         if (test != undefined) test.run(CreateFunction(this, function (outcome) {
-            var scrolled = 0;
             AnimationTimer.StartTimer(this, 0.5, function (speed, percent) {
-                var amount = 200.0 / 60.0;
-                scrolled += speed * amount;
+                var amount = 180.0 / 60.0;
                 window.scrollBy(0, speed * amount);
             }, function () {
 
@@ -120,6 +118,14 @@ UnitTests.prototype.runNextTest = function () {
         }));
     } else {
         //Finished so show finish thing
+
+        AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+            var amount = 100.0 / 60.0;
+            window.scrollBy(0, speed * amount);
+        }, function () {
+
+        });
+
 
         this.testHolderDiv.appendChild(
             CreateElement({
@@ -134,7 +140,7 @@ UnitTests.prototype.runNextTest = function () {
 UnitTests.prototype.run = function () {
     setTimeout(CreateFunction(this, this.runNextTest), 1000);
 
-    var height = window.innerHeight;
+    var height = window.innerHeight*3/4/1.8;
     var scrolled = 0;
     AnimationTimer.StartTimer(this, 5.0, function (speed, percent) {
         var amount = height / 5.0 / 60.0;

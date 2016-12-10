@@ -219,7 +219,9 @@ function nearestPointOnLine(ax, ay, bx, by, px, py) {
 function getAngleOfLineBetweenPoints(x1, y1, x2, y2) {
     var xDiff = x2 - x1;
     var yDiff = y2 - y1;
-    return Math.atan2(yDiff, xDiff);
+    var rot = Math.atan2(yDiff, xDiff);
+    if (rot < 0) rot += Math.PI * 2;
+    return rot;
 }
 
 //Makes endpoint 1 become perpendicular.
@@ -266,11 +268,11 @@ function getLongerLine(x1, y1, x2, y2) {
     var centerX = (x1 - x2) / 2 + x2;
     var centerY = (y1 - y2) / 2 + y2;
 
-    var newX1 = centerX + lineLength * Math.cos(nearestAngle);
-    var newY1 = centerY + lineLength * Math.sin(nearestAngle);
+    var newX1 = centerX - lineLength * Math.cos(nearestAngle);
+    var newY1 = centerY - lineLength * Math.sin(nearestAngle);
 
-    var newX2 = centerX - lineLength * Math.cos(nearestAngle);
-    var newY2 = centerY - lineLength * Math.sin(nearestAngle);
+    var newX2 = centerX + lineLength * Math.cos(nearestAngle);
+    var newY2 = centerY + lineLength * Math.sin(nearestAngle);
 
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
