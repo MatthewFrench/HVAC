@@ -11,8 +11,7 @@ var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
 //Constructor
-var HVACApplication = function (hasDomAccess) {
-    if (hasDomAccess != undefined) this.hasDomAccess = hasDomAccess;
+var HVACApplication = function () {
     this.hvacData = null;
     this.shiftPressed = false;
     this.currentMouseX = 0.0;
@@ -59,7 +58,6 @@ HVACApplication.prototype.loadData = function() {
 };
 
 HVACApplication.prototype.saveData = function() {
-    console.log("Saving: " + JSON.stringify(this.hvacData.getHashmap()));
     window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
 };
 

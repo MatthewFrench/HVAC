@@ -24,9 +24,9 @@ function BasementWallPopover() {
 }
 
 //This function shows the Basement Wall Popover
-BasementWallPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.BasementWallDiv);
+BasementWallPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.BasementWallDiv);
 };
 
 //This function hides the Basement Wall Popover

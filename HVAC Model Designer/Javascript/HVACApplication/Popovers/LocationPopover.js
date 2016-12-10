@@ -72,9 +72,9 @@ function LocationPopover() {
 }
 
 //This function shows the Location Popover
-LocationPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.locationDataDiv);
+LocationPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.locationDataDiv);
 };
 
 //This function hides the Location Popover

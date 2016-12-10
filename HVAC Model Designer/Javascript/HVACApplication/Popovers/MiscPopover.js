@@ -24,9 +24,9 @@ function MiscPopover() {
 }
 
 //This function shows the Miscellaneous Popover
-MiscPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.MiscDiv);
+MiscPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.MiscDiv);
 };
 
 //This function hides the Miscellaneous Popover

@@ -129,7 +129,6 @@ ViewMode3DController.prototype.createRenderer = function () {
 
         if (this.mouseDown) {
             if (this.currentMode == Mode3DTypeEnum.ROTATE) {
-                console.log(this.layoutViewMode3DCamera.up.x + ", " + this.layoutViewMode3DCamera.up.y + ", " + this.layoutViewMode3DCamera.up.z);
                 this.layoutViewMode3DCamera.up.set( 0, 1, 0 );
 
                 this.layoutViewMode3DCamera.position.setX(this.layoutViewMode3DCamera.position.x - movedX * 2);
@@ -264,7 +263,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     this.layoutViewMode3DRenderer.domElement.style.top = "82px";
     this.layoutViewMode3DRenderer.domElement.style.left = "0";
 
-    document.body.appendChild(this.layoutViewMode3DRenderer.domElement);
+    this.hvacApplication.applicationDiv.appendChild(this.layoutViewMode3DRenderer.domElement);
 
     window.addEventListener('resize', CreateFunction(this, this.resizeView), false);
 
@@ -275,22 +274,22 @@ ViewMode3DController.prototype.create3DEverything = function () {
     this.dragButton.style.position = "absolute";
     this.dragButton.style.left = "5px";
     this.dragButton.style.top = "85px";
-    document.body.appendChild(this.dragButton);
+    this.hvacApplication.applicationDiv.appendChild(this.dragButton);
 
     this.rotateButton.style.position = "absolute";
     this.rotateButton.style.left = "55px";
     this.rotateButton.style.top = "85px";
-    document.body.appendChild(this.rotateButton);
+    this.hvacApplication.applicationDiv.appendChild(this.rotateButton);
 
     this.orbitButton.style.position = "absolute";
     this.orbitButton.style.left = "115px";
     this.orbitButton.style.top = "85px";
-    document.body.appendChild(this.orbitButton);
+    this.hvacApplication.applicationDiv.appendChild(this.orbitButton);
 
     this.showAllFloorsButton.style.position = "absolute";
     this.showAllFloorsButton.style.left = "165px";
     this.showAllFloorsButton.style.top = "85px";
-    document.body.appendChild(this.showAllFloorsButton);
+    this.hvacApplication.applicationDiv.appendChild(this.showAllFloorsButton);
 
 
     this.resizeView();

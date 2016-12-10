@@ -24,9 +24,9 @@ function GlassDoorPopover() {
 }
 
 /*This function shows the Glass Door Popover*/
-GlassDoorPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.GlassDoorDiv);
+GlassDoorPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.GlassDoorDiv);
 };
 
 /*This function hides the Glassd Door Popover*/

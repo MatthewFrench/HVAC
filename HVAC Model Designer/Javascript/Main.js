@@ -14,6 +14,8 @@ var chosenFPSMilliseconds = 1000.0/chosenFPS;
 function main() {
     myApp = new HVACApplication();
 
+    document.body.appendChild(myApp.getApplicationDiv());
+
     document.body.onresize = windowResized;
 
     document.body.onkeydown = function(event) {
@@ -28,7 +30,10 @@ function main() {
 
     setTimeout(autoSave, 40.0 * 1000.0);
 
-    window.requestAnimationFrame(requestFrameLoop);
+    window.requestAnimationFrame(function() {
+        windowResized();
+        requestFrameLoop();
+    });
 }
 
 function autoSave() {
