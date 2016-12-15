@@ -56,8 +56,8 @@ ViewMode3DController.prototype.addFlatFloor = function () {
 
 /*This function allows us to show the 3D View Mode*/
 ViewMode3DController.prototype.show = function () {
-    this.cameraCenterX = window.innerWidth / 2; //-this.canvasWidth / 2.0 - window.innerWidth;
-    this.cameraCenterY = -window.innerHeight / 2 + 41; //this.canvasHeight / 2.0 - window.innerHeight;
+    this.cameraCenterX = this.hvacApplication.applicationDiv.clientWidth / 2; //-this.canvasWidth / 2.0 - window.innerWidth;
+    this.cameraCenterY = -this.hvacApplication.applicationDiv.clientHeight / 2 + 41; //this.canvasHeight / 2.0 - window.innerHeight;
 
     this.create3DEverything();
 
@@ -181,8 +181,8 @@ ViewMode3DController.prototype.createRenderer = function () {
 ViewMode3DController.prototype.create3DEverything = function () {
     this.viewZ = this.defaultZ;
 
-    var width = window.innerWidth;
-    var height = window.innerHeight - 82;
+    var width = this.hvacApplication.applicationDiv.clientWidth;
+    var height = this.hvacApplication.applicationDiv.clientHeight - 82;
 
     this.layoutViewMode3DCamera.aspect = width / height;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
@@ -493,8 +493,8 @@ ViewMode3DController.prototype.drawLayout = function () {
 ViewMode3DController.prototype.resizeView = function () {
     if (this.layoutViewMode3DRenderer == null) return;
 
-    var width = window.innerWidth;
-    var height = window.innerHeight - 82;
+    var width = this.hvacApplication.applicationDiv.clientWidth;
+    var height = this.hvacApplication.applicationDiv.clientHeight - 82;
 
     this.layoutViewMode3DCamera.aspect = width / height;
     this.layoutViewMode3DCamera.updateProjectionMatrix();
