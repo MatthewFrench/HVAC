@@ -3,17 +3,19 @@
  */
 
 var PIXELS_IN_FOOT = 20.0;
-var GUIDE_LINE_LENGTH = 50 * PIXELS_IN_FOOT;
+var GUIDE_LINE_LENGTH = 100 * PIXELS_IN_FOOT;
 var SNAP_TO_AMOUNT_PIXELS = 8;
 
 function wallSlicer(walls, intersectHighlightPoints) {
     if (walls.length == 0) return;
 
+    var floorPlan = walls[0].getFloorPlan();
+
     //Slice any walls that are intersecting
     var slicedWall = false;
     for (var w1 = 0; w1 < walls.length; w1++) {
         var wall1 = walls[w1];
-        for (var w2 = 0; w2 < walls.length; w2++) {
+        for (var w2 = w1+1; w2 < walls.length; w2++) {
             var wall2 = walls[w2];
             if (wall1 == wall2) continue;
             //Get Intersection point
@@ -60,9 +62,9 @@ function wallSlicer(walls, intersectHighlightPoints) {
                         intersectHighlightPoints.splice(intersectHighlightPoints.indexOf(intersectionPoint), 1);
                     });
 
-                    this.getCurrentFloorPlan().removeWall(wall1);
+                    floorPlan.removeWall(wall1);
 
-                    this.getCurrentFloorPlan().removeWall(wall2);
+                    floorPlan.removeWall(wall2);
 
                     //Gonna delete both walls and create 4 new walls
                     var newWall1 = new Wall({
@@ -71,7 +73,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                             x: intersectionPoint.getX(),
                             y: intersectionPoint.getY()
                         }),
-                        floor: this.getCurrentFloorPlan()
+                        floor: floorPlan
                     });
 
 
@@ -84,7 +86,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                             x: intersectionPoint.getX(),
                             y: intersectionPoint.getY()
                         }),
-                        floor: this.getCurrentFloorPlan()
+                        floor: floorPlan
                     });
 
 
@@ -97,7 +99,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                             x: intersectionPoint.getX(),
                             y: intersectionPoint.getY()
                         }),
-                        floor: this.getCurrentFloorPlan()
+                        floor: floorPlan
                     });
 
                     var newWall4 = new Wall({
@@ -109,7 +111,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                             x: intersectionPoint.getX(),
                             y: intersectionPoint.getY()
                         }),
-                        floor: this.getCurrentFloorPlan()
+                        floor: floorPlan
                     });
 
 
@@ -125,13 +127,13 @@ function wallSlicer(walls, intersectHighlightPoints) {
                         });
 
 
-                        this.getCurrentFloorPlan().removeWall(wall2);
+                        floorPlan.removeWall(wall2);
 
 
                         var newWall1 = new Wall({
                             point1: new CornerPoint({x: wall2Line.getPoint1X(), y: wall2Line.getPoint1Y()}),
                             point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()
+                            floor: floorPlan
                         });
 
 
@@ -141,7 +143,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                                 x: intersectionPoint.getX(),
                                 y: intersectionPoint.getY()
                             }),
-                            floor: this.getCurrentFloorPlan()
+                            floor: floorPlan
                         });
 
                         slicedWall = true;
@@ -154,12 +156,12 @@ function wallSlicer(walls, intersectHighlightPoints) {
                             intersectHighlightPoints.splice(intersectHighlightPoints.indexOf(intersectionPoint), 1);
                         });
 
-                        this.getCurrentFloorPlan().removeWall(wall1);
+                        floorPlan.removeWall(wall1);
 
                         var newWall1 = new Wall({
                             point1: new CornerPoint({x: wall1Line.getPoint1X(), y: wall1Line.getPoint1Y()}),
                             point2: new CornerPoint({x: intersectionPoint.getX(), y: intersectionPoint.getY()}),
-                            floor: this.getCurrentFloorPlan()
+                            floor: floorPlan
                         });
 
                         var newWall2 = new Wall({
@@ -168,7 +170,7 @@ function wallSlicer(walls, intersectHighlightPoints) {
                                 x: intersectionPoint.getX(),
                                 y: intersectionPoint.getY()
                             }),
-                            floor: this.getCurrentFloorPlan()
+                            floor: floorPlan
                         });
 
                         slicedWall = true;
@@ -219,7 +221,9 @@ function nearestPointOnLine(ax, ay, bx, by, px, py) {
 function getAngleOfLineBetweenPoints(x1, y1, x2, y2) {
     var xDiff = x2 - x1;
     var yDiff = y2 - y1;
-    return Math.atan2(yDiff, xDiff);
+    var rot = Math.atan2(yDiff, xDiff);
+    if (rot < 0) rot += Math.PI * 2;
+    return rot;
 }
 
 //Makes endpoint 1 become perpendicular.
@@ -230,12 +234,11 @@ function getPerpendicularInfiniteLinePoint1(x1, y1, x2, y2) {
 
     var lineLength = GUIDE_LINE_LENGTH / 2.0;
 
-    var newX1 = x1 + lineLength * Math.cos(nearestAngle);
-    var newY1 = y1 + lineLength * Math.sin(nearestAngle);
+    var newX1 = x1 - lineLength * Math.cos(nearestAngle);
+    var newY1 = y1 - lineLength * Math.sin(nearestAngle);
 
-    var newX2 = x1 - lineLength * Math.cos(nearestAngle);
-    var newY2 = y1 - lineLength * Math.sin(nearestAngle);
-
+    var newX2 = x1 + lineLength * Math.cos(nearestAngle);
+    var newY2 = y1 + lineLength * Math.sin(nearestAngle);
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
 
@@ -247,11 +250,11 @@ function getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2) {
 
     var lineLength = GUIDE_LINE_LENGTH / 2.0;
 
-    var newX1 = x2 + lineLength * Math.cos(nearestAngle);
-    var newY1 = y2 + lineLength * Math.sin(nearestAngle);
+    var newX1 = x2 - lineLength * Math.cos(nearestAngle);
+    var newY1 = y2 - lineLength * Math.sin(nearestAngle);
 
-    var newX2 = x2 - lineLength * Math.cos(nearestAngle);
-    var newY2 = y2 - lineLength * Math.sin(nearestAngle);
+    var newX2 = x2 + lineLength * Math.cos(nearestAngle);
+    var newY2 = y2 + lineLength * Math.sin(nearestAngle);
 
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
@@ -266,11 +269,11 @@ function getLongerLine(x1, y1, x2, y2) {
     var centerX = (x1 - x2) / 2 + x2;
     var centerY = (y1 - y2) / 2 + y2;
 
-    var newX1 = centerX + lineLength * Math.cos(nearestAngle);
-    var newY1 = centerY + lineLength * Math.sin(nearestAngle);
+    var newX1 = centerX - lineLength * Math.cos(nearestAngle);
+    var newY1 = centerY - lineLength * Math.sin(nearestAngle);
 
-    var newX2 = centerX - lineLength * Math.cos(nearestAngle);
-    var newY2 = centerY - lineLength * Math.sin(nearestAngle);
+    var newX2 = centerX + lineLength * Math.cos(nearestAngle);
+    var newY2 = centerY + lineLength * Math.sin(nearestAngle);
 
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 }
@@ -362,7 +365,7 @@ function getLineIntersectionPoint(point1X1, point1Y1, point1X2, point1Y2,
 
     var colinear = (-s2_x * s1_y + s1_x * s2_y);
 
-    if (colinear <= 0.00001) {
+    if (Math.abs(colinear) <= 0.00001) {
         //colinear, so need to return
         return null;
     }
@@ -390,7 +393,7 @@ function getWallIntersectionPoints(wallList, excludeWallList) {
     for (var i = 0; i < wallList.length; i++) {
         var wall1 = wallList[i];
         if (excludeWallList.includes(wall1)) continue;
-        for (var j = 0; j < wallList.length; j++) {
+        for (var j = i+1; j < wallList.length; j++) {
             var wall2 = wallList[j];
             if (excludeWallList.includes(wall2) || wall2 == wall1) continue;
 

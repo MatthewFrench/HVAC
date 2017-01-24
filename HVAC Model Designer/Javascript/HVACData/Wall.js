@@ -9,7 +9,7 @@ function Wall(options) {
     this.cornerPoint1 = new CornerPoint({point: options['point1'], pointType: CornerPointTypeEnum.POINT1, wall: this});
     this.cornerPoint2 = new CornerPoint({point: options['point2'], pointType: CornerPointTypeEnum.POINT2, wall: this});
     this.floorPlan = options['floor'];
-    this.floorPlan.addWall(this);
+    if (this.floorPlan != undefined) this.floorPlan.addWall(this);
 }
 
 //This function gets the first corner's point values

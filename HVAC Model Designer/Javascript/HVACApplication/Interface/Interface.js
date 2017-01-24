@@ -5,6 +5,7 @@
 /*This function creates some of the variables and sets them to Null for use later*/
 HVACApplication.prototype.initUIVariables = function () {
     "use strict";
+    this.applicationDiv = null;
     this.myBannerDiv = null;
     this.mySecondBannerDiv = null;
     this.titleSpan = null;
@@ -25,15 +26,23 @@ HVACApplication.prototype.initUIVariables = function () {
 
 /*This function creates the User Interface, including adding buttons/menu*/
 HVACApplication.prototype.createUI = function () {
+    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv', elements: [
+        CreateElement({type: 'div', class: 'ApplicationBackground1'}),
+        CreateElement({type: 'div', class: 'ApplicationBackground2'})
+    ]});
+
     this.myBannerDiv = CreateElement({
-        type: 'div', class: 'RibbonBanner', appendTo: document.body, elements: [
+        type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
+            /*
             this.LocationDataButton = CreateElement({
                 type: 'button', class: 'LocationDataButton', text: 'Data',
                 onClick: CreateFunction(this, function () {
-                    var newPopover = new LocationPopover();
+                    var newPopover = new LocationPopover(this.applicationDiv);
                     newPopover.show();
                 })
             }),
+            */
+            /*
             this.AJsButton = CreateElement({
                 type: 'button', class: 'AJsButton', text: 'AJsButton',
                 onClick: CreateFunction(this, function () {
@@ -41,6 +50,7 @@ HVACApplication.prototype.createUI = function () {
                     newPopover.show();
                 })
             }),
+            */
             //Create view mode button
             this.viewButtonDiv = CreateElement({
                 type: 'button', class: 'ViewButtonDiv', text: 'View',
@@ -113,7 +123,7 @@ HVACApplication.prototype.createUI = function () {
                                     this.getCurrentFloorPlan().clearWalls();
                                 }), CreateFunction(this, function () {
                                 }));
-                            newPopover.show();
+                            newPopover.show(this.applicationDiv);
                         })
                     }),
                     //Create delete mode button
@@ -129,18 +139,18 @@ HVACApplication.prototype.createUI = function () {
         type: 'span',
         class: 'TopTitle',
         text: 'HVAC Model Designer',
-        appendTo: document.body
+        appendTo: this.applicationDiv
     });
     this.layoutCanvas = CreateElement({
-        type: 'canvas', class: 'LayoutCanvas', appendTo: document.body,
+        type: 'canvas', class: 'LayoutCanvas', appendTo: this.applicationDiv,
         onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
 
     this.floorPicker = new FloorPicker(this);
-    document.body.appendChild(this.floorPicker.getDiv());
+    this.applicationDiv.appendChild(this.floorPicker.getDiv());
 
-    document.body.onmousemove = CreateFunction(this, this.layoutCanvasMouseMoved);
+    this.applicationDiv.onmousemove = CreateFunction(this, this.layoutCanvasMouseMoved);
 
     this.resizeCanvas();
 
@@ -340,7 +350,7 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
 /*This function shows the Delete button as selected*/
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
-    this.currentLayoutMode = LAYOUT_MODE_DRAG;
+    this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
     this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
     this.createButtonDiv.className = "CreateButtonDiv";
@@ -366,7 +376,7 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.viewMode3DController.hide();
 
-    if (currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
+    if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
         this.deleteButtonDiv.style.backgroundColor = "#A696FF";
     }
 
@@ -381,4 +391,8 @@ HVACApplication.prototype.deleteWallButtonClicked = function () {
     this.deleteButtonDiv.style.backgroundColor = "#A696FF";
 
     this.showDeleteModeLayout();
+};
+
+HVACApplication.prototype.getApplicationDiv = function() {
+    return this.applicationDiv;
 };

@@ -44,9 +44,9 @@ function TopAndBottomDataPopover() {
 
 
 }
-TopAndBottomDataPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.TopAndBottomDataDiv);
+TopAndBottomDataPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.TopAndBottomDataDiv);
 };
 TopAndBottomDataPopover.prototype.hide = function() {
     this.backgroundDiv.remove();

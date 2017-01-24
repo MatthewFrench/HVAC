@@ -30,7 +30,7 @@ var handleScroll = function(evt) {
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
-    document.body.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
+    this.applicationDiv.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 };
 
 //Shows the View Mode Layout

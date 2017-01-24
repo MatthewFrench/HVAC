@@ -32,6 +32,7 @@ function DoorPopover() {
     this.DoorTypeButton.selectedIndex = -1;
 
     //This function reveals the Door Thickness
+    /*
     this.DoorTypeButton.onchange = function() {
         var sel = document.getElementById('DoorType');
         var first = sel.options[sel.selectedIndex];
@@ -139,8 +140,9 @@ function DoorPopover() {
         self.ScreenDoorButton.selectedIndex = -1;
         self.DoorDescriptionButton.selectedIndex = -1;
     }
-
+*/
     //This function reveals the Door Description
+    /*
     this.DoorThicknessButton.onchange = function() {
         var sel = document.getElementById('DoorType');
         var first = sel.options[sel.selectedIndex];
@@ -214,7 +216,7 @@ function DoorPopover() {
         }
         self.DoorDescriptionButton.selectedIndex = -1;
     }
-
+*/
     //This function reveals Screen Door option
     this.DoorDescriptionButton.onchange = function(){
         self.DoorUValueBox.innerHTML = "";
@@ -246,6 +248,7 @@ function DoorPopover() {
     }
 
     //This function sets UValue of Door
+    /*
     this.ScreenDoorButton.onchange = function(){
         self.DoorUValueBox.innerHTML = "";
         self.DoorUValueBox.style.opacity = "1.0";
@@ -531,12 +534,13 @@ function DoorPopover() {
             }
         }
     }
+    */
 }
 
 //This function shows the Door Popover
-DoorPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.DoorDiv);
+DoorPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.DoorDiv);
 };
 
 //This function hides the Door Popover

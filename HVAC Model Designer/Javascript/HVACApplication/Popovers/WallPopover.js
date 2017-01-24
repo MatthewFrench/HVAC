@@ -24,9 +24,9 @@ function WallPopover() {
 }
 
 //This function shows the Wall Popover
-WallPopover.prototype.show = function() {
-    document.body.appendChild(this.backgroundDiv);
-    document.body.appendChild(this.WallDiv);
+WallPopover.prototype.show = function(parent) {
+    parent.appendChild(this.backgroundDiv);
+    parent.appendChild(this.WallDiv);
 };
 
 //This function hides the Wall Popover

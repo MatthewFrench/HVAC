@@ -148,30 +148,23 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
 
     var ctx = this.beginDraw();
 
+
+    //Draw above and below floors
     var floorList = this.getCurrentBuilding().getFloorList();
     var currentFloor = this.getCurrentFloorPlan();
-    var underneathFloors = [];
-    var aboveFloors = [];
+    var currentFloorIndex = floorList.indexOf(currentFloor);
 
-    for (var i = 0; i < floorList.length; i++) {
-        if (i < floorList.indexOf(currentFloor)) {
-            underneathFloors.push(floorList[i]);
-        }
-        else if (i > floorList.indexOf(currentFloor)) {
-            aboveFloors.push(floorList[i]);
-        }
-    }
-
-    for (var i = 0; i < underneathFloors.length; i++) {
-        for (var j = 0; j < underneathFloors[i].getWallList().length; j++) {
-            var wall = underneathFloors[i].getWallList()[j];
+    if (currentFloorIndex > 0) {
+        var underneathFloor = floorList[currentFloorIndex - 1];
+        for (var j = 0; j < underneathFloor.getWallList().length; j++) {
+            var wall = underneathFloor.getWallList()[j];
             wall.drawDotted(ctx, true);
         }
     }
-
-    for (var i = 0; i < aboveFloors.length; i++) {
-        for (var j = 0; j < aboveFloors[i].getWallList().length; j++) {
-            var wall = aboveFloors[i].getWallList()[j];
+    if (currentFloorIndex < floorList.length - 1) {
+        var aboveFloor = floorList[currentFloorIndex + 1];
+        for (var j = 0; j < aboveFloor.getWallList().length; j++) {
+            var wall = aboveFloor.getWallList()[j];
             wall.drawDotted(ctx, false);
         }
     }

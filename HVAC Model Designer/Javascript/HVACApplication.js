@@ -58,7 +58,6 @@ HVACApplication.prototype.loadData = function() {
 };
 
 HVACApplication.prototype.saveData = function() {
-    console.log("Saving: " + JSON.stringify(this.hvacData.getHashmap()));
     window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
 };
 
@@ -189,8 +188,8 @@ HVACApplication.prototype.setRotatedCanvasMouse = function() {
 
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
-    var mouseX = event.offsetX;
-    var mouseY = event.offsetY;
+    var mouseX = event.offsetX - this.layoutCanvas.clientLeft;
+    var mouseY = event.offsetY - this.layoutCanvas.clientTop;
     if(event.which == 3) return;
     this.mouseDown = true;
     this.previousMouseX = this.currentMouseX;
@@ -227,8 +226,8 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
 
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
-    var mouseX = event.clientX - this.layoutCanvas.offsetLeft;
-    var mouseY = event.clientY - this.layoutCanvas.offsetTop;
+    var mouseX = event.offsetX - this.applicationDiv.offsetLeft - this.applicationDiv.clientLeft;
+    var mouseY = event.offsetY - this.applicationDiv.offsetTop - this.applicationDiv.clientTop;
     this.previousMouseX = this.currentMouseX;
     this.currentMouseX = mouseX;
     this.previousMouseY = this.currentMouseY;
@@ -268,12 +267,18 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
         this.mouseMovedDeleteModeLayout();
     }
+
+    if(event.stopPropagation) event.stopPropagation();
+    if(event.preventDefault) event.preventDefault();
+    event.cancelBubble=true;
+    event.returnValue=false;
+    return false;
 };
 
 HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
-    var mouseX = event.offsetX;
-    var mouseY = event.offsetY;
+    var mouseX = event.offsetX - this.layoutCanvas.clientLeft;
+    var mouseY = event.offsetY - this.layoutCanvas.clientTop;
     if(event.which == 3) return;
     this.mouseDown = false;
     this.previousMouseX = this.currentMouseX;

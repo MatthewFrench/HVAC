@@ -8,7 +8,7 @@ function FloorPlan(options) {
     if (options == undefined || options == null) options = [];
     this.wallList = [];
     this.buildingPlan = options['building'];
-    this.buildingPlan.addFloor(this);
+    if (this.buildingPlan != undefined) this.buildingPlan.addFloor(this);
 }
 
 //This function gets the current building plan

@@ -24,9 +24,9 @@ function StartOverPopover(question, yesCallback, noCallback) {
 }
 
 /*This function shows the Start Over Popover*/
-StartOverPopover.prototype.show = function() {
-    document.body.appendChild(this.StartOverPopoverBlock);
-    document.body.appendChild(this.StartOverPopoverDiv);
+StartOverPopover.prototype.show = function(parent) {
+    parent.appendChild(this.StartOverPopoverBlock);
+    parent.appendChild(this.StartOverPopoverDiv);
 };
 
 /*This function hides the Start Over Popover*/
