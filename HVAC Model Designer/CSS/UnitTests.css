@@ -75,6 +75,7 @@ body {
 }
 .UnitTest_SimulationDiv_Inner {
     all: initial;
+    pointer: default;
 }
 
 
