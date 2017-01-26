@@ -71,17 +71,17 @@ HVACApplication.prototype.selectFloor = function(floor) {
 };
 
 HVACApplication.prototype.getCurrentWallList = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
+    //return this.HVACData.getBuildingList()[0].getFloorList()[0].getWallList();
     return this.selectedFloor.getWallList();
 };
 
 HVACApplication.prototype.getCurrentFloorPlan = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0];
+    //return this.HVACData.getBuildingList()[0].getFloorList()[0];
     return this.selectedFloor;
 };
 
 HVACApplication.prototype.getCurrentBuilding = function() {
-    //return this.hvacData.getBuildingList()[0];
+    //return this.HVACData.getBuildingList()[0];
     return this.selectedBuilding;
 };
 
