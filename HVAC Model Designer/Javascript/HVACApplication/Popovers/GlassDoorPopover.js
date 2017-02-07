@@ -1,12 +1,20 @@
 /**
- * Created by masse on 11/4/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Glass Door Popover code that will allow a user to input Information about any Glass
+ * Doors for calculating the U Value
  */
 
 /*This function creates the Glass Door Popover*/
 function GlassDoorPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'GlassDoorBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'GlassDoorBGCover'
+    });
     this.GlassDoorDiv = CreateElement({
-        type: 'div', class: 'GlassDoorDiv', elements: [
+        type: 'div',
+        class: 'GlassDoorDiv',
+        elements: [
             this.GlassDoorSaveButton = CreateElement({
                 type: 'button',
                 class: 'GlassDoorSaveButton',

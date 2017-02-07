@@ -7,7 +7,7 @@
     height: 100%;
 }
 
-.LocationDataDiv {
+.LocationDataDiv{
     position: absolute;
     width: 50%;
     height: 75%;
@@ -41,7 +41,7 @@
     outline: black solid thin;
 }
 
-.LocationTitle {
+.LocationTitle{
     position: absolute;
     color: black;
     font-size: 40px;
@@ -87,7 +87,7 @@
     opacity: 0;
 }
 
-.CityDropDown {
+.CityDropDown{
     position: absolute;
     width: 400px;
     height: 50px;
