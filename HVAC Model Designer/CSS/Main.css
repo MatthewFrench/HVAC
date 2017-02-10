@@ -119,6 +119,19 @@ body {
     cursor: pointer;
     border: #c9d7e0;
 }
+.RoomEditorButtonDiv {
+    position: absolute;
+    width: 100px;
+    top: 20px;
+    left: 100px;
+    height: 30px;
+    background: #c9d7e0;
+    text-align: center;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    border: #c9d7e0;
+}
 .CreateButtonDiv {
     position: absolute;
     width: 100px;
@@ -262,19 +275,6 @@ body {
     font-size: 14px;
     cursor: pointer;
     opacity: 0;
-}
-.LocationDataButton {
-    position: absolute;
-    width: 100px;
-    top: 20px;
-    right: 200px;
-    height: 30px;
-    background: #c9d7e0;
-    text-align: center;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-    border: #c9d7e0;
 }
 .AJsButton {
     position: absolute;

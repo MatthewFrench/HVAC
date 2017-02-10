@@ -20,7 +20,6 @@ HVACApplication.prototype.initUIVariables = function () {
     this.locationDataDiv = null;
     this.RestoreButton = null;
     this.StartOverButton = null;
-
     this.floorPicker = null;
 };
 
@@ -33,32 +32,25 @@ HVACApplication.prototype.createUI = function () {
 
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
-            /*
-            this.LocationDataButton = CreateElement({
-                type: 'button', class: 'LocationDataButton', text: 'Data',
-                onClick: CreateFunction(this, function () {
-                    var newPopover = new LocationPopover(this.applicationDiv);
-                    newPopover.show();
-                })
-            }),
-            */
-            /*
-            this.AJsButton = CreateElement({
-                type: 'button', class: 'AJsButton', text: 'AJsButton',
-                onClick: CreateFunction(this, function () {
-                    var newPopover = new DoorPopover();
-                    newPopover.show();
-                })
-            }),
-            */
             //Create view mode button
+            this.roomEditorButtonDiv = CreateElement({
+                type: 'button', class: 'RoomEditorButtonDiv', text: 'Room Editor',
+                onClick: CreateFunction(this, this.roomEditorButtonClicked)
+            }),
             this.viewButtonDiv = CreateElement({
-                type: 'button', class: 'ViewButtonDiv', text: 'View',
+                type: 'button', class: 'ViewButtonDiv', text: 'View Editor',
                 onClick: CreateFunction(this, this.viewWallButtonClicked)
             }),
             this.wallEditorButtonDiv = CreateElement({
                 type: 'button', class: 'WallEditorButtonDiv', text: 'Wall Editor',
                 onClick: CreateFunction(this, this.wallEditorButtonClicked)
+            }),
+            this.AJsButton = CreateElement({
+                type: 'button', class: 'AJsButton', text: 'AJs Button',
+                onClick: CreateFunction(this, function(){
+                    var newPopover2 = new WallPopover();
+                    newPopover2.show(this.applicationDiv);
+                })
             }),
             this.mySecondBannerDiv = CreateElement({
                 type: 'div', class: 'SecondRibbonBanner', elements: [
@@ -157,7 +149,6 @@ HVACApplication.prototype.createUI = function () {
     this.applicationDiv.onmousemove = CreateFunction(this, this.layoutCanvasMouseMoved);
 
     this.resizeCanvas();
-
 };
 
 HVACApplication.prototype.wallEditorButtonClicked = function () {
@@ -165,14 +156,11 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
     this.wallEditorButtonDiv.className = "WallEditorButtonDiv";
     this.wallEditorButtonDiv.style.backgroundColor = "#8070D6";
-    this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.style.backgroundColor = "#A696FF";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.style.backgroundColor = "#8070D6";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#8070D6";
+    this.roomEditorButtonDiv.style.backgroundColor = "#c9d7e0";
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
@@ -200,22 +188,37 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
     this.deleteMenuDiv.style.opacity = "1.0";
 }
 
+HVACApplication.prototype.roomEditorButtonClicked = function () {
+    "use strict";
+    this.roomEditorButtonDiv.style.backgroundColor = "#8070D6";
+    this.wallEditorButtonDiv.style.backgroundColor = "#c9d7e0";
+    this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
+
+    this.editPointButtonDiv.remove();
+    this.editCornerButtonDiv.remove();
+    this.viewMode2DButtonDiv.remove();
+    this.viewMode3DButtonDiv.remove();
+    this.dragButtonDiv.remove();
+    this.RestoreButton.remove();
+    this.StartOverButton.remove();
+    this.deleteButtonDiv.remove();
+    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.viewMode3DController.hide();
+    this.deleteMenuDiv.remove();
+    this.createButtonDiv.remove();
+    this.editButtonDiv.remove();
+}
+
 //Highlights View button and deselects other buttons.
 HVACApplication.prototype.viewWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
-    this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#8070D6";
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.createButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.editButtonDiv.className = "EditButtonDiv";
-    this.editButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
-    this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
-    this.viewMode2DButtonDiv.style.backgroundColor = "#8070D6";
+    this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
     this.wallEditorButtonDiv.style.backgroundColor = "#c9d7e0";
+    this.roomEditorButtonDiv.style.backgroundColor = "#c9d7e0";
 
     this.mySecondBannerDiv.appendChild(this.viewMode2DButtonDiv);
     this.viewMode2DButtonDiv.style.opacity = "1.0";
@@ -249,14 +252,6 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
 HVACApplication.prototype.dragButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
-    this.viewButtonDiv.className = "ViewButtonDiv";
-    this.viewButtonDiv.style.backgroundColor = "#8070D6";
-    this.createButtonDiv.className = "CreateButtonDiv";
-    this.createButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.editButtonDiv.className = "EditButtonDiv";
-    this.editButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
-    this.deleteMenuDiv.style.backgroundColor = "#c9d7e0";
     this.dragButtonDiv.style.backgroundColor = "#A696FF";
     this.viewMode2DButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
@@ -268,8 +263,6 @@ HVACApplication.prototype.dragButtonClicked = function () {
 /*This function shows that 2D mode has been selected*/
 HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
-    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
-    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
@@ -283,8 +276,6 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
 
 /*This function shows that 3D mode has been selected*/
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
-    this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
-    this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode2DButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
@@ -299,13 +290,9 @@ HVACApplication.prototype.viewWall3DButtonClicked = function() {
 HVACApplication.prototype.createWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-    this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.style.backgroundColor = "#A696FF";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.style.backgroundColor = "#8070D6";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#8070D6";
 
     this.editPointButtonDiv.remove();
@@ -326,13 +313,9 @@ HVACApplication.prototype.createWallButtonClicked = function () {
 HVACApplication.prototype.editButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT;
-    this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.style.backgroundColor = "#8070D6";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.style.backgroundColor = "#A696FF";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#8070D6";
     this.editPointButtonDiv.style.backgroundColor = "#8070D6";
     this.editCornerButtonDiv.style.backgroundColor = "#8070D6";
@@ -365,8 +348,6 @@ HVACApplication.prototype.editButtonClicked = function () {
 HVACApplication.prototype.editPointButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_POINT;
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
     this.editPointButtonDiv.style.backgroundColor = "#A696FF";
     this.editCornerButtonDiv.style.backgroundColor = "#8070D6";
 
@@ -377,8 +358,6 @@ HVACApplication.prototype.editPointButtonClicked = function () {
 HVACApplication.prototype.editCornerButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_CORNER;
-    this.editPointButtonDiv.className = "EditPointButtonDiv";
-    this.editCornerButtonDiv.className = "EditCornerButtonDiv";
     this.editPointButtonDiv.style.backgroundColor = "#8070D6";
     this.editCornerButtonDiv.style.backgroundColor = "#A696FF";
 
@@ -389,13 +368,9 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
-    this.viewButtonDiv.className = "ViewButtonDiv";
     this.viewButtonDiv.style.backgroundColor = "#c9d7e0";
-    this.createButtonDiv.className = "CreateButtonDiv";
     this.createButtonDiv.style.backgroundColor = "#8070D6";
-    this.editButtonDiv.className = "EditButtonDiv";
     this.editButtonDiv.style.backgroundColor = "#8070D6";
-    this.deleteMenuDiv.className = "deleteMenuDiv";
     this.deleteMenuDiv.style.backgroundColor = "#A696FF";
     this.deleteButtonDiv.style.backgroundColor = "#8070D6";
     this.StartOverButton.style.backgroundColor = "#8070D6";
