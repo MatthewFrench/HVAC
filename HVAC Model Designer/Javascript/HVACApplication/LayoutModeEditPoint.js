@@ -19,8 +19,10 @@ HVACApplication.prototype.showEditPointModeLayout = function () {
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     "use strict";
 
-    var closest = 25;
+    var closest = 25; //Limit for how close a wall has to be to the mouse
     var wallCloseness = closest;
+
+    //Checks for closest wall to mouse in selecting an endpoint.
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
         if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), closest)) {

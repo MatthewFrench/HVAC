@@ -127,9 +127,11 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
         }
     }
 
-    for (var i = 0; i < this.getCurrentWallList().length; i++) {
-        var wall = this.getCurrentWallList()[i];
-        wall.drawPerpendicular(ctx, closePointArray);
+    if (this.showMouse) {
+        for (var i = 0; i < this.getCurrentWallList().length; i++) {
+            var wall = this.getCurrentWallList()[i];
+            wall.drawPerpendicular(ctx, closePointArray);
+        }
     }
 
     for (var i = 0; i < this.getCurrentWallList().length; i++) {

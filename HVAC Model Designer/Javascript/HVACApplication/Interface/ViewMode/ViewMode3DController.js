@@ -31,6 +31,7 @@ function ViewMode3DController(hvacApplication) {
     this.createRenderer();
 }
 
+//Sets base for 3D walls at current floor
 ViewMode3DController.prototype.addFlatFloor = function () {
     for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
 
@@ -80,6 +81,7 @@ ViewMode3DController.prototype.hide = function () {
     this.hvacApplication.resizeCanvas();
 };
 
+//Creates the different 3D view button options on the canvas
 ViewMode3DController.prototype.createRenderer = function () {
     this.layoutViewMode3DRenderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     var width = window.innerWidth;
@@ -297,6 +299,7 @@ ViewMode3DController.prototype.create3DEverything = function () {
     this.hvacApplication.currentViewModeLayout = ViewModeType.Mode3D;
 };
 
+//Actions for when the Rotate Button is clicked in 3D mode
 ViewMode3DController.prototype.rotateButtonClicked = function() {
     //Get rotation, do look at, get new rotation, animate between rotations
     var oldSetX = this.layoutViewMode3DCamera.up.x;
@@ -332,6 +335,7 @@ ViewMode3DController.prototype.rotateButtonClicked = function() {
     this.currentMode = Mode3DTypeEnum.ROTATE;
 };
 
+//Actions for when the Drag Button is clicked in 3D mode
 ViewMode3DController.prototype.dragButtonClicked = function() {
     //Get rotation, do look at, get new rotation, animate between rotations
     var oldSetX = this.layoutViewMode3DCamera.up.x;
@@ -369,6 +373,7 @@ ViewMode3DController.prototype.dragButtonClicked = function() {
     this.currentMode = Mode3DTypeEnum.DRAG;
 };
 
+//Actions for when the Orbit Button is clicked in 3D mode
 ViewMode3DController.prototype.orbitButtonClicked = function () {
     this.currentMode = Mode3DTypeEnum.ORBIT;
 
@@ -406,6 +411,7 @@ ViewMode3DController.prototype.orbitButtonClicked = function () {
 
 };
 
+//Allows the viewing of all floors stacked on top of each other in 3D
 ViewMode3DController.prototype.showAllFloors = function () {
     var floorList = this.hvacApplication.getCurrentBuilding().getFloorList();
     var currentFloor = this.hvacApplication.getCurrentFloorPlan();
