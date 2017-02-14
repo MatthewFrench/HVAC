@@ -1,12 +1,20 @@
 /**
- * Created by masse on 10/26/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Miscellaneous Popover code that will allow a user to input Information about
+ * Miscellaneous items for calculating the U Value
  */
 
 //This function creates the Miscellaneous Popover
 function MiscPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'MiscBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'MiscBGCover'
+    });
     this.MiscDiv = CreateElement({
-        type: 'div', class: 'MiscDiv', elements: [
+        type: 'div',
+        class: 'MiscDiv',
+        elements: [
             this.MiscSaveButton = CreateElement({
                 type: 'button',
                 class: 'MiscSaveButton',

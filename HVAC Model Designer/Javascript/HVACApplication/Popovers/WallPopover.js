@@ -1,12 +1,20 @@
 /**
- * Created by masse on 10/26/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Wall Popover code that will allow a user to input Information about walls for calculating
+ * the U Value
  */
 
 //This function creates the Wall Popover
 function WallPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'WallBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'WallBGCover'
+    });
     this.WallDiv = CreateElement({
-        type: 'div', class: 'WallDiv', elements: [
+        type: 'div',
+        class: 'WallDiv',
+        elements: [
             this.WallSaveButton = CreateElement({
                 type: 'button',
                 class: 'WallSaveButton',

@@ -1,12 +1,20 @@
 /**
- * Created by masse on 10/26/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Window Popover code that will allow a user to input Information about windows for calculating
+ * the U Value
  */
 
 //This function creates the Window Popover
 function WindowPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'WindowBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'WindowBGCover'
+    });
     this.WindowDiv = CreateElement({
-        type: 'div', class: 'WindowDiv', elements: [
+        type: 'div',
+        class: 'WindowDiv',
+        elements: [
             this.WindowSaveButton = CreateElement({
                 type: 'button',
                 class: 'WindowSaveButton',

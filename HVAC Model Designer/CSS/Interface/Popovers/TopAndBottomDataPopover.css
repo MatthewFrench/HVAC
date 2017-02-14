@@ -5,7 +5,7 @@
     height: 100%;
 }
 
-.TopAndBottomDataDiv {
+.TopAndBottomDataDiv{
     position: absolute;
     width: 90%;
     height: 90%;
@@ -15,7 +15,7 @@
     outline: black solid thin;
 }
 
-.SaveDataButton {
+.SaveDataButton{
     position: absolute;
     width: 200px;
     height: 50px;
@@ -27,7 +27,7 @@
     outline: black solid thin;
 }
 
-.AtticTitle {
+.AtticTitle{
     position: absolute;
     color: black;
     font-size: 30px;
@@ -38,7 +38,7 @@
     outline: black solid thin;
 }
 
-.StudSpacingElement {
+.StudSpacingElement{
     position: absolute;
     color: black;
     font-size: 18px;
@@ -48,7 +48,7 @@
     font-weight: 600;
 }
 
-.StudSpacingButton {
+.StudSpacingButton{
     position: absolute;
     width: 200px;
     height: 40px;
@@ -58,7 +58,7 @@
     outline: black solid thin;
 }
 
-.StudHeightElement {
+.StudHeightElement{
     position: absolute;
     color: black;
     font-size: 18px;
@@ -68,7 +68,7 @@
     font-weight: 600;
 }
 
-.StudHeightButton {
+.StudHeightButton{
     position: absolute;
     width: 200px;
     height: 40px;
@@ -78,7 +78,7 @@
     outline: black solid thin;
 }
 
-.StudWidthElement {
+.StudWidthElement{
     position: absolute;
     color: black;
     font-size: 18px;
@@ -88,7 +88,7 @@
     font-weight: 600;
 }
 
-.StudWidthButton {
+.StudWidthButton{
     position: absolute;
     width: 200px;
     height: 40px;
@@ -98,7 +98,7 @@
     outline: black solid thin;
 }
 
-.AtticInsulationElement {
+.AtticInsulationElement{
     position: absolute;
     color: black;
     font-size: 18px;
@@ -108,7 +108,7 @@
     font-weight: 600;
 }
 
-.AtticInsulationButton {
+.AtticInsulationButton{
     position: absolute;
     width: 200px;
     height: 40px;
@@ -118,7 +118,7 @@
     outline: black solid thin;
 }
 
-.AtticInsulationDepthElement {
+.AtticInsulationDepthElement{
     position: absolute;
     color: black;
     font-size: 18px;
@@ -128,7 +128,7 @@
     font-weight: 600;
 }
 
-.AtticInsulationDepthButton {
+.AtticInsulationDepthButton{
     position: absolute;
     width: 200px;
     height: 40px;
@@ -178,7 +178,7 @@
     font-weight: 600;
 }
 
-.BasementTitle {
+.BasementTitle{
     position: absolute;
     color: black;
     font-size: 30px;
@@ -189,7 +189,7 @@
     outline: black solid thin;
 }
 
-.BasementCeilingButton {
+.BasementCeilingButton{
     position: absolute;
     width: 200px;
     height: 50px;
@@ -201,7 +201,7 @@
     outline: black solid thin;
 }
 
-.BasementFloorButton {
+.BasementFloorButton{
     position: absolute;
     width: 200px;
     height: 50px;
@@ -213,7 +213,7 @@
     outline: black solid thin;
 }
 
-.BasementWallButton {
+.BasementWallButton{
     position: absolute;
     width: 200px;
     height: 50px;
@@ -225,7 +225,7 @@
     outline: black solid thin;
 }
 
-.BasementWindowButton {
+.BasementWindowButton{
     position: absolute;
     width: 200px;
     height: 50px;
@@ -237,7 +237,7 @@
     outline: black solid thin;
 }
 
-.BasementDoorButton {
+.BasementDoorButton{
     position: absolute;
     width: 200px;
     height: 50px;

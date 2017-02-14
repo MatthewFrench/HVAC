@@ -1,12 +1,20 @@
 /**
- * Created by masse on 11/4/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Floor Popover code that will allow a user to input Information about the Floor for calculating
+ * the U Value
  */
 
 /*This function creates the Floor Popover*/
 function FloorPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'FloorBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'FloorBGCover'
+    });
     this.FloorDiv = CreateElement({
-        type: 'div', class: 'FloorDiv', elements: [
+        type: 'div',
+        class: 'FloorDiv',
+        elements: [
             this.FloorSaveButton = CreateElement({
                 type: 'button',
                 class: 'FloorSaveButton',

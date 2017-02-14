@@ -1,12 +1,20 @@
 /**
- * Created by masse on 11/4/2016.
+ * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Basement Wall Popover code that will allow a user to input Information about the
+ * Basement Walls for calculating the U Value
  */
 
 //This function creates the Basement Wall Popover
 function BasementWallPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWallBGCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'BasementWallBGCover'
+    });
     this.BasementWallDiv = CreateElement({
-        type: 'div', class: 'BasementWallDiv', elements: [
+        type: 'div',
+        class: 'BasementWallDiv',
+        elements: [
             this.BasementWallSaveButton = CreateElement({
                 type: 'button',
                 class: 'BasementWallSaveButton',
