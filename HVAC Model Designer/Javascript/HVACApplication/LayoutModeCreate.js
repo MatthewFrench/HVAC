@@ -98,6 +98,7 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
     var currentFloor = this.getCurrentFloorPlan();
     var currentFloorIndex = floorList.indexOf(currentFloor);
 
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex > 0) {
         var underneathFloor = floorList[currentFloorIndex - 1];
         for (var j = 0; j < underneathFloor.getWallList().length; j++) {
@@ -105,6 +106,8 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
             wall.drawDotted(ctx, true);
         }
     }
+
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex < floorList.length - 1) {
         var aboveFloor = floorList[currentFloorIndex + 1];
         for (var j = 0; j < aboveFloor.getWallList().length; j++) {
@@ -112,7 +115,6 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
             wall.drawDotted(ctx, false);
         }
     }
-
 
     var closePointArray = [];
     closePointArray.push(new Point2D({x: this.rotatedCanvasMouseX, y: this.rotatedCanvasMouseY}));
@@ -136,7 +138,7 @@ HVACApplication.prototype.drawCreateModeLayout = function () {
     }
 
     //Draw create mode starting point
-    if (this.currentCreateModeWall == null) {
+    if (this.currentCreateModeWall == null && this.showMouse) {
         var point = snapPointToWalls(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, this.getCurrentWallList(), []);
         ctx.fillStyle = "rgb(150,200,255)";
         ctx.beginPath();

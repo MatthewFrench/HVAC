@@ -71,17 +71,17 @@ HVACApplication.prototype.selectFloor = function(floor) {
 };
 
 HVACApplication.prototype.getCurrentWallList = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
+    //return this.HVACData.getBuildingList()[0].getFloorList()[0].getWallList();
     return this.selectedFloor.getWallList();
 };
 
 HVACApplication.prototype.getCurrentFloorPlan = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0];
+    //return this.HVACData.getBuildingList()[0].getFloorList()[0];
     return this.selectedFloor;
 };
 
 HVACApplication.prototype.getCurrentBuilding = function() {
-    //return this.hvacData.getBuildingList()[0];
+    //return this.HVACData.getBuildingList()[0];
     return this.selectedBuilding;
 };
 
@@ -188,6 +188,13 @@ HVACApplication.prototype.setRotatedCanvasMouse = function() {
 
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
+    if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
+        this.showMouse = false;
+        return;
+    }
+    else {
+        this.showMouse = true;
+    }
     var mouseX = event.offsetX - this.layoutCanvas.clientLeft;
     var mouseY = event.offsetY - this.layoutCanvas.clientTop;
     if(event.which == 3) return;
@@ -226,6 +233,13 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
 
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
+    if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
+        this.showMouse = false;
+        return;
+    }
+    else {
+        this.showMouse = true;
+    }
     var mouseX = event.offsetX - this.applicationDiv.offsetLeft - this.applicationDiv.clientLeft;
     var mouseY = event.offsetY - this.applicationDiv.offsetTop - this.applicationDiv.clientTop;
     this.previousMouseX = this.currentMouseX;
@@ -238,8 +252,6 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
     this.canvasMouseX = this.currentMouseX;
     this.canvasMouseY = this.currentMouseY;
-
-
 
     var oldRotatedX = this.rotatedCanvasMouseX;
     var oldRotatedY = this.rotatedCanvasMouseY;
@@ -277,6 +289,13 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
 HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
+    if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
+        this.showMouse = false;
+        return;
+    }
+    else {
+        this.showMouse = true;
+    }
     var mouseX = event.offsetX - this.layoutCanvas.clientLeft;
     var mouseY = event.offsetY - this.layoutCanvas.clientTop;
     if(event.which == 3) return;
