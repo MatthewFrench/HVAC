@@ -11,7 +11,17 @@ var ViewModeType = {
 
 //Allows the handling of Scrolling in View Mode
 var handleScroll = function(evt) {
-        var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
+        var delta;
+        if (evt.wheelDelta) {
+            delta = evt.wheelDelta / 40;
+        }
+        else if (evt.detail) {
+            delta = -evt.detail;
+        }
+        else {
+            delta = 0;
+        }
+
         if (delta) {
             var factor = Math.pow(scaleFactor, delta);
             this.viewScale = factor * this.viewScale;

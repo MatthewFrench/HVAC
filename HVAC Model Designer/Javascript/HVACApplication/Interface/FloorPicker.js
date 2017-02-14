@@ -9,8 +9,10 @@ function FloorPicker(hvacApplication) {
         CreateElement({type: 'div', class: 'FloorPicker_Title', text: 'Floors'}),
         this.floorContainer = CreateElement({type: 'div', class: 'FloorPicker_Floor_Container'}),
         CreateElement({type: 'div', class: 'FloorPicker_Bottom_Bar', elements: [
-            CreateElement({type: 'button', class: 'FloorPicker_Add_Button', text: '+', onClick: CreateFunction(this, this.addFloor)}),
-            CreateElement({type: 'button', class: 'FloorPicker_Remove_Button', text: '-', onClick: CreateFunction(this, this.removeFloor)})
+            CreateElement({type: 'button', class: 'FloorPicker_Add_Button', text: '+',
+                onClick: CreateFunction(this, this.addFloor)}),
+            CreateElement({type: 'button', class: 'FloorPicker_Remove_Button', text: '-',
+                onClick: CreateFunction(this, this.removeFloor)})
         ]})
     ]});
 

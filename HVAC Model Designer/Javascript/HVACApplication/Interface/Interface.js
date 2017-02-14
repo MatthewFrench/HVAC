@@ -20,6 +20,7 @@ HVACApplication.prototype.initUIVariables = function () {
     this.locationDataDiv = null;
     this.RestoreButton = null;
     this.StartOverButton = null;
+    this.showMouse = false;
 
     this.floorPicker = null;
 };

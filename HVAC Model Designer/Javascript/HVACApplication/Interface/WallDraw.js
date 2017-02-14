@@ -36,11 +36,15 @@ Wall.prototype.draw = function(context, showHandles) {
     }
 };
 
+//Draws dotted lines for the floors above/below the current floor
+//setOfFloors: boolean that decides if dealing with the floors above or below the current floor
 Wall.prototype.drawDotted = function(context, setOfFloors) {
     if (setOfFloors) {
+        //set of floors below are green
         context.strokeStyle = "rgba(0, 255, 0, 0.5)";
     }
     else {
+        //set of floors above are red
         context.strokeStyle = "rgba(255, 0, 0, 0.5)";
     }
 

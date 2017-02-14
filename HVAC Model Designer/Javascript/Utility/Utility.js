@@ -58,3 +58,14 @@ function runBlock(func, arguments) {
     return func.apply(this, arguments);
 }
     */
+
+//This function gets the Div that the mouse is currently on
+function GetTargetFromMouseEvent(event) {
+    var el = event.target || event.srcElement;
+    return el.nodeType == 1? el : el.parentNode;
+}
+
+//Checks to see if an Div element is within another Div element
+function ElementIsOrContainsElement(element1, element2) {
+    return element1.contains(element2) || element1 == element2;
+}
