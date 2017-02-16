@@ -5,56 +5,84 @@
  * plans that are being adjusted/created.
  */
 
-var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
-    LAYOUT_MODE_DELETE_WALL = 4;
-var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
-var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
+//var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
+//    LAYOUT_MODE_DELETE_WALL = 4;
+//var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
+//var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
 //Constructor
 var HVACApplication = function () {
     this.hvacData = null;
-    this.shiftPressed = false;
-    this.currentMouseX = 0.0;
-    this.currentMouseY = 0.0;
-    this.previousMouseX = 0.0;
-    this.previousMouseY = 0.0;
-    this.mouseMovedX = 0.0;
-    this.mouseMovedY = 0.0;
-    this.canvasMouseX = 0.0;
-    this.canvasMouseY = 0.0;
-    this.rotatedCanvasMouseX = 0.0;
-    this.rotatedCanvasMouseY = 0.0;
-    this.rotatedCanvasMouseMovedX = 0.0;
-    this.rotatedCanvasMouseMovedY = 0.0;
-    this.mouseDown = false;
-    this.intersectHighlightPoints = [];
-    this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-    this.currentEditMode = EDIT_MODE_POINT;
+    this.applicationDiv = null;
+    //this.shiftPressed = false;
+    //this.currentMouseX = 0.0;
+    //this.currentMouseY = 0.0;
+    //this.previousMouseX = 0.0;
+    //this.previousMouseY = 0.0;
+    //this.mouseMovedX = 0.0;
+    //this.mouseMovedY = 0.0;
+    //this.canvasMouseX = 0.0;
+    //this.canvasMouseY = 0.0;
+    //this.rotatedCanvasMouseX = 0.0;
+    //this.rotatedCanvasMouseY = 0.0;
+    //this.rotatedCanvasMouseMovedX = 0.0;
+    //this.rotatedCanvasMouseMovedY = 0.0;
+    //this.mouseDown = false;
+    //this.intersectHighlightPoints = [];
+    //this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
+    //this.currentEditMode = EDIT_MODE_POINT;
     this.selectedFloor = null;
     this.selectedBuilding = null;
-    this.viewAngle = 0.0;
-    this.viewScale = 1.0;
+    //this.viewAngle = 0.0;
+    //this.viewScale = 1.0;
 
-    this.viewMode3DController = new ViewMode3DController(this);
+    //this.viewMode3DController = new ViewMode3DController(this);
 
-    this.initUIVariables();
-    this.createUI();
+    //this.initUIVariables();
+    //this.createUI();
 
-    this.initCreateModeVariables();
-    this.initDragModeVariables();
-    this.initEditCornerModeVariables();
-    this.initEditPointModeVariables();
-    this.initViewModeVariables();
-    this.initDeleteModeVariables();
+    //this.initCreateModeVariables();
+    //this.initDragModeVariables();
+    //this.initEditCornerModeVariables();
+    //this.initEditPointModeVariables();
+    //this.initViewModeVariables();
+    //this.initDeleteModeVariables();
 
     this.loadData();
+
+    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv', elements: [
+        CreateElement({type: 'div', class: 'ApplicationBackground1'}),
+        CreateElement({type: 'div', class: 'ApplicationBackground2'}),
+        this.topBarDiv = CreateElement({type: 'div', class: 'HVACApplication_TopBar', elements: [
+            this.wallEditorTab = CreateElement({type: 'div', class: 'HVACApplication_WallEditorTab',
+                onClick: CreateFunction(this, this.wallEditorTabClick), text: "Wall Editor"}),
+            this.roomEditorTab = CreateElement({type: 'div', class: 'HVACApplication_RoomEditorTab',
+                onClick: CreateFunction(this, this.roomEditorTabClick), text: "Room Editor"}),
+            this.viewEditorTab = CreateElement({type: 'div', class: 'HVACApplication_ViewEditorTab',
+                onClick: CreateFunction(this, this.viewEditorTabClick), text: "View"})
+        ]}),
+        this.mainContentDiv = CreateElement({type: 'div', class: 'HVACApplication_MainContent'})
+    ]});
+
+    //Load editors
+
+};
+
+HVACApplication.prototype.wallEditorTabClick = function() {
+
+};
+HVACApplication.prototype.roomEditorTabClick = function() {
+
+};
+HVACApplication.prototype.viewEditorTabClick = function() {
+
 };
 
 HVACApplication.prototype.loadData = function() {
     "use strict";
     this.hvacData = HVACDataLoader.getHVACData();
     this.selectBuilding(this.hvacData.getBuildingList()[0]);
-    this.floorPicker.loadFloors();
+    //this.floorPicker.loadFloors();
 };
 
 HVACApplication.prototype.saveData = function() {
@@ -71,31 +99,27 @@ HVACApplication.prototype.selectFloor = function(floor) {
 };
 
 HVACApplication.prototype.getCurrentWallList = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0].getWallList();
     return this.selectedFloor.getWallList();
 };
 
 HVACApplication.prototype.getCurrentFloorPlan = function() {
-    //return this.hvacData.getBuildingList()[0].getFloorList()[0];
     return this.selectedFloor;
 };
 
 HVACApplication.prototype.getCurrentBuilding = function() {
-    //return this.hvacData.getBuildingList()[0];
     return this.selectedBuilding;
 };
 
 HVACApplication.prototype.logic = function() {
     "use strict";
-
-    this.layoutDraw();
+    //this.layoutDraw();
 };
 
 //Begin and End draw are duplicate drawing code for all layout modes
-HVACApplication.prototype.beginDraw = function() {
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
+HVACApplication.prototype.beginDraw = function(canvas, viewAngle, viewScale) {
+    var ctx = canvas.getContext("2d");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -103,19 +127,38 @@ HVACApplication.prototype.beginDraw = function() {
 
     ctx.translate(canvasWidth/2, canvasHeight/2);
 
-    ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
+    ctx.rotate(viewAngle); //convertToRadians(this.viewAngle)
 
-    ctx.scale(this.viewScale, this.viewScale);
+    ctx.scale(viewScale, viewScale);
 
     ctx.translate(-canvasWidth/2, -canvasHeight/2);
 
     return ctx;
 };
 
+HVACApplication.prototype.drawSlicePoints = function(canvas, viewAngle, viewScale, intersectHighlightPoints) {
+    //Draw slice intersection points
+    var ctx = canvas.getContext("2d");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    ctx.save();
+    ctx.translate(canvasWidth/2, canvasHeight/2);
+    ctx.rotate(viewAngle); //convertToRadians(this.viewAngle)
+    ctx.scale(viewScale, viewScale); //convertToRadians(this.viewAngle)
+    ctx.translate(-canvasWidth/2, -canvasHeight/2);
+    for (var i in intersectHighlightPoints) {
+        var intersectPoint = intersectHighlightPoints[i];
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 4.0;
+        ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
+    }
+    ctx.restore();
+}
+
 HVACApplication.prototype.endDraw = function(ctx) {
     ctx.restore();
 };
-
+/*
 HVACApplication.prototype.layoutDraw = function() {
     "use strict";
 
@@ -139,44 +182,20 @@ HVACApplication.prototype.layoutDraw = function() {
             this.drawEditCornerModeLayout();
         }
     }
-
-
-    //Draw slice intersection points
-
-    var ctx = this.layoutCanvas.getContext("2d");
-    var canvasWidth = this.layoutCanvas.width;
-    var canvasHeight = this.layoutCanvas.height;
-    ctx.save();
-    ctx.translate(canvasWidth/2, canvasHeight/2);
-    ctx.rotate(this.viewAngle); //convertToRadians(this.viewAngle)
-    ctx.scale(this.viewScale, this.viewScale); //convertToRadians(this.viewAngle)
-    ctx.translate(-canvasWidth/2, -canvasHeight/2);
-    for (var i in this.intersectHighlightPoints) {
-        var intersectPoint = this.intersectHighlightPoints[i];
-        ctx.strokeStyle = "blue";
-        ctx.lineWidth = 4.0;
-        ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
-    }
-    ctx.restore();
-
-/* Debug mouse position showing
-        ctx.fillStyle = "red";
-        ctx.beginPath();
-        ctx.arc(this.canvasMouseX, this.canvasMouseY, 5, 0, 2 * Math.PI);
-        ctx.fill();
-        */
 };
+*/
 
 HVACApplication.prototype.windowResized = function() {
-    this.resizeCanvas();
+    //this.resizeCanvas();
 };
 
-HVACApplication.prototype.resizeCanvas = function() {
-    "use strict";
-    this.layoutCanvas.width = this.layoutCanvas.clientWidth;
-    this.layoutCanvas.height = this.layoutCanvas.clientHeight;
-};
+//HVACApplication.prototype.resizeCanvas = function() {
+//    "use strict";
+    //this.layoutCanvas.width = this.layoutCanvas.clientWidth;
+    //this.layoutCanvas.height = this.layoutCanvas.clientHeight;
+//};
 
+/*
 HVACApplication.prototype.setRotatedCanvasMouse = function() {
     var canvasWidth = this.layoutCanvas.width;
     var canvasHeight = this.layoutCanvas.height;
@@ -185,7 +204,8 @@ HVACApplication.prototype.setRotatedCanvasMouse = function() {
     this.rotatedCanvasMouseX = p.getX();
     this.rotatedCanvasMouseY = p.getY();
 };
-
+*/
+/*
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
     var mouseX = event.offsetX - this.layoutCanvas.clientLeft;
@@ -238,7 +258,6 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
 
     this.canvasMouseX = this.currentMouseX;
     this.canvasMouseY = this.currentMouseY;
-
 
 
     var oldRotatedX = this.rotatedCanvasMouseX;
@@ -312,7 +331,8 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
         this.mouseReleasedDeleteModeLayout();
     }
 };
-
+*/
+/*
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
@@ -327,4 +347,9 @@ HVACApplication.prototype.onKeyup = function(event) {
     if (!event.shiftKey) {
         this.shiftPressed = false;
     }
+};
+    */
+
+HVACApplication.prototype.getApplicationDiv = function() {
+    return this.applicationDiv;
 };

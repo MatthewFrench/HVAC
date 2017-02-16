@@ -2,10 +2,10 @@
  * Created by Matt on 9/19/16.
  */
 
-/*This function creates some of the variables and sets them to Null for use later*/
+/*
+// *This function creates some of the variables and sets them to Null for use later* //
 HVACApplication.prototype.initUIVariables = function () {
     "use strict";
-    this.applicationDiv = null;
     this.myBannerDiv = null;
     this.mySecondBannerDiv = null;
     this.titleSpan = null;
@@ -24,33 +24,11 @@ HVACApplication.prototype.initUIVariables = function () {
     this.floorPicker = null;
 };
 
-/*This function creates the User Interface, including adding buttons/menu*/
+// *This function creates the User Interface, including adding buttons/menu* //
 HVACApplication.prototype.createUI = function () {
-    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv', elements: [
-        CreateElement({type: 'div', class: 'ApplicationBackground1'}),
-        CreateElement({type: 'div', class: 'ApplicationBackground2'})
-    ]});
 
     this.myBannerDiv = CreateElement({
         type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
-            /*
-            this.LocationDataButton = CreateElement({
-                type: 'button', class: 'LocationDataButton', text: 'Data',
-                onClick: CreateFunction(this, function () {
-                    var newPopover = new LocationPopover(this.applicationDiv);
-                    newPopover.show();
-                })
-            }),
-            */
-            /*
-            this.AJsButton = CreateElement({
-                type: 'button', class: 'AJsButton', text: 'AJsButton',
-                onClick: CreateFunction(this, function () {
-                    var newPopover = new DoorPopover();
-                    newPopover.show();
-                })
-            }),
-            */
             //Create view mode button
             this.viewButtonDiv = CreateElement({
                 type: 'button', class: 'ViewButtonDiv', text: 'View',
@@ -227,7 +205,7 @@ HVACApplication.prototype.dragButtonClicked = function () {
     this.showDragModeLayout();
 };
 
-/*This function shows that 2D mode has been selected*/
+// *This function shows that 2D mode has been selected* //
 HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
@@ -243,7 +221,7 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.layoutCanvas.style.display = "block";
 };
 
-/*This function shows that 3D mode has been selected*/
+// *This function shows that 3D mode has been selected* //
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.viewMode2DButtonDiv.className = 'ViewMode2DButtonDiv';
     this.viewMode3DButtonDiv.className = 'ViewMode3DButtonDiv';
@@ -347,7 +325,7 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
     this.showEditCornerModeLayout();
 };
 
-/*This function shows the Delete button as selected*/
+// *This function shows the Delete button as selected* //
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
@@ -372,8 +350,8 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.viewMode2DButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
-    this.RestoreButton.remove();
-    this.currentViewModeLayout = ViewModeType.Mode2D;
+    this.RestoreButton.remove();\\\
+    this.currentViewModeLayout = ViewModeTpe.Mode2D;
     this.viewMode3DController.hide();
 
     if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
@@ -392,7 +370,4 @@ HVACApplication.prototype.deleteWallButtonClicked = function () {
 
     this.showDeleteModeLayout();
 };
-
-HVACApplication.prototype.getApplicationDiv = function() {
-    return this.applicationDiv;
-};
+*/

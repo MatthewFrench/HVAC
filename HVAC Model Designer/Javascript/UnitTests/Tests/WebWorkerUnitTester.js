@@ -26,12 +26,12 @@ if (self.document === undefined) self.addEventListener('message', function(e) {
         loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/WallDraw.js");
         loadScript("/HVAC Model Designer/Javascript/HVACApplication.js");
         loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/ViewMode/ViewMode3DController.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeCreate.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDrag.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditCorner.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeEditPoint.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeView.js");
-        loadScript("/HVAC Model Designer/Javascript/HVACApplication/LayoutModeDelete.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/CreateLayoutMode.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/DragLayoutMode.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/EditCornerLayoutMode.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/EditPointLayoutMode.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/ViewLayoutMode.js");
+        loadScript("/HVAC Model Designer/Javascript/HVACApplication/DeleteLayoutMode.js");
         loadScript("/HVAC Model Designer/Javascript/HVACApplication/Interface/Interface.js");
         loadScript("/HVAC Model Designer/Javascript/Utility/Utility.js");
 
