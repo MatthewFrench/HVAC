@@ -30,8 +30,8 @@ HVACDataLoader.getHVACData = function() {
                 var building = new BuildingPlan({hvacData: hvacData});
                 var floor = new FloorPlan({building: building});
                 var wallDataArray = hvacDataMap["Walls"];
-                for (var i = 0; i < wallDataArray.length; i++) {
-                    var wallMap = wallDataArray[i];
+                for (var wallIndex = 0; i < wallDataArray.length; i++) {
+                    var wallMap = wallDataArray[wallIndex];
                     var x1 = wallMap["x1"];
                     var y1 = wallMap["y1"];
                     var x2 = wallMap["x2"];
@@ -59,14 +59,14 @@ HVACDataLoader.getHVACData = function() {
                 //                      "x" => number
                 //                      "y" => number
                 var hvacData = new HVACData();
-                for (var i1 in hvacDataMap['buildings']) {
-                    var buildingMap = hvacDataMap['buildings'][i1];
+                for (var buildingIndex in hvacDataMap['buildings']) {
+                    var buildingMap = hvacDataMap['buildings'][buildingIndex];
                     var building = new BuildingPlan({hvacData: hvacData});
-                    for (var i2 in buildingMap['floors']) {
-                        var floorMap = buildingMap['floors'][i2];
+                    for (var floorIndex in buildingMap['floors']) {
+                        var floorMap = buildingMap['floors'][floorIndex];
                         var floor = new FloorPlan({building: building});
-                        for (var i3 in floorMap['walls']) {
-                            var wallMap = floorMap['walls'][i3];
+                        for (var wallIndex in floorMap['walls']) {
+                            var wallMap = floorMap['walls'][wallIndex];
                             var x1 = wallMap["point1"]['x'];
                             var y1 = wallMap["point1"]['y'];
                             var x2 = wallMap["point2"]['x'];
