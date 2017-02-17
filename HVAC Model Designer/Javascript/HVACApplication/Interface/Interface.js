@@ -152,6 +152,7 @@ HVACApplication.prototype.createUI = function () {
     this.resizeCanvas();
 };
 
+//Highlights WallEditor button and shows its sub-options in the menu.
 HVACApplication.prototype.wallEditorButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -189,6 +190,7 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
     this.deleteMenuDiv.style.opacity = "1.0";
 }
 
+//Highlights RoomEditor button and shows its sub-options in the menu.
 HVACApplication.prototype.roomEditorButtonClicked = function () {
     "use strict";
     this.roomEditorButtonDiv.style.backgroundColor = "#8070D6";

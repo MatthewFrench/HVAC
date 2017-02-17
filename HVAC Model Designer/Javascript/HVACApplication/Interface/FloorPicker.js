@@ -47,9 +47,7 @@ FloorPicker.prototype.loadFloors = function() {
             row.onclick = CreateFunction(this, function() {
                 this.floorClicked(floorRow);
             });
-
         }).call(this, i);
-
     }
 };
 
