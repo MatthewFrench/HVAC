@@ -1,12 +1,15 @@
-/*This is a CSS Stylesheet that affects the way the Starting Over Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Starting Over Popover appears and acts.
+ */
 
-.StartOverPopover_Block{
+.EditFloorNamePopover_Block{
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
-.StartOverPopover_Div {
+
+.EditFloorNamePopover_Div {
     position: absolute;
     width: 300px;
     height: 100px;
@@ -14,7 +17,8 @@
     left: calc(50% - 150px);
     border: black solid thin;
 
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d6e9f8+0,b5d6f3+72,bddbf3+73,aacaee+100 */
+    /* Permalink - use to edit and share this gradient:
+        http://colorzilla.com/gradient-editor/#d6e9f8+0,b5d6f3+72,bddbf3+73,aacaee+100 */
     background: #d6e9f8; /* Old browsers */
     background: -moz-linear-gradient(top, #d6e9f8 0%, #b5d6f3 72%, #bddbf3 73%, #aacaee 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%); /* Chrome10-25,Safari5.1-6 */
@@ -23,7 +27,7 @@
     border-radius: 15px;
 }
 
-.StartOverPopover_Label {
+.EditFloorNamePopover_Label {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
@@ -32,13 +36,13 @@
     text-align: center;
 }
 
-.StartOverPopover_YesButton {
+.EditFloorNamePopover_SaveButton {
     position: absolute;
     bottom: 3px;
     right: calc(50% + 10px);
 }
 
-.StartOverPopover_CancelButton {
+.EditFloorNamePopover_CancelButton {
     position: absolute;
     bottom: 3px;
     left: calc(50% + 10px);

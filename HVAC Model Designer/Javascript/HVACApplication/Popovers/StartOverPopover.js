@@ -2,10 +2,17 @@
  * Created by Austin03 on 10/5/16.
  */
 
-/*This function creates the Start Over Popover*/
+/**
+ * This function creates the Start Over Popover.
+ *
+ * @param question
+ * @param yesCallback
+ * @param noCallback
+ * @constructor
+ */
 function StartOverPopover(question, yesCallback, noCallback) {
     "use strict";
-    //Constructor
+
     this.StartOverPopoverBlock = CreateElement({type: 'div', class: 'StartOverPopover_Block'});
 
     this.StartOverPopoverDiv = CreateElement({type: 'div', class: 'StartOverPopover_Div', elements: [

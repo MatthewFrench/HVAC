@@ -5,9 +5,10 @@
  */
 
 /**
- * This function creates the Floor Picker window on the canvas. It is the constructor.
+ * This function creates the Floor Picker window on the canvas.
  *
  * @param hvacApplication: The overall control that the Floor Picker is a part of.
+ * @constructor
  */
 function FloorPicker(hvacApplication) {
     this.hvacApplication = hvacApplication;
@@ -43,7 +44,9 @@ FloorPicker.prototype.loadFloors = function() {
     for (var i = floorList.length - 1; i >= 0; i--) {
         (function(index) {
             var floor = floorList[i];
-            var row = CreateElement({type: 'div', class: 'FloorPicker_Floor_Row', text: 'Floor ' + (index+1),
+            var floorName = floor.floorName;
+            if (floorName == "") floorName = 'Floor ' + (index+1);
+            var row = CreateElement({type: 'div', class: 'FloorPicker_Floor_Row', text: floorName,
                 appendTo: this.floorContainer});
             var floorRow = new FloorRow(row, floor);
             if (floor == this.hvacApplication.getCurrentFloorPlan()) {
@@ -84,6 +87,10 @@ FloorPicker.prototype.addFloor = function() {
 
     this.loadFloors();
     this.floorClicked(this.floorRows[0]);
+
+    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName);
+
+    newEditNamePopover.show(this.hvacApplication.applicationDiv);
 };
 
 /**
