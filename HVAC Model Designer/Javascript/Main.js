@@ -16,6 +16,7 @@ function main() {
 
     document.body.appendChild(myApp.getApplicationDiv());
 
+    /*
     document.body.onresize = windowResized;
 
     document.body.onkeydown = function(event) {
@@ -26,12 +27,14 @@ function main() {
         "use strict";
         myApp.onKeyup(event);
     }
+    */
+
     window.onunload = windowExit;
 
     setTimeout(autoSave, 40.0 * 1000.0);
 
     window.requestAnimationFrame(function() {
-        windowResized();
+        //windowResized();
         requestFrameLoop();
     });
 }
@@ -57,12 +60,12 @@ function requestFrameLoop(time) {
     lastFPSTime = time;
     window.requestAnimationFrame(requestFrameLoop);
 }
-
+/*
 function windowResized() {
     "use strict";
     myApp.windowResized();
 }
-
+*/
 function windowExit(e) {
     myApp.saveData();
 }

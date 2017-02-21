@@ -14,7 +14,12 @@ body {
     user-select: none;
 
     margin: 0px;
+}
 
+.Canvas2D {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .HVACApplication_TitleBar {
