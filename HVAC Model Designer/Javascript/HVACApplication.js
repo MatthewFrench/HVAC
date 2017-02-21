@@ -80,6 +80,12 @@ class HVACApplication {
             ]
         });
 
+        this.wallEditor = new WallEditor(this);
+        this.roomEditor = new RoomEditor(this);
+        this.viewEditor = new ViewEditor(this);
+
+        this.currentEditor = null;
+
         //Load editors
         this.wallEditorTabClick();
     }
@@ -90,7 +96,13 @@ class HVACApplication {
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
 
-        //Hide previous view and show wall editor
+        if (this.currentEditor != null) {
+            this.currentEditor.hide();
+            this.currentEditor.getDiv().remove();
+        }
+        this.currentEditor = this.wallEditor;
+        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
+        this.currentEditor.show();
     };
 
     roomEditorTabClick() {
@@ -98,7 +110,13 @@ class HVACApplication {
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab selected";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
 
-        //Hide previous view and show room editor
+        if (this.currentEditor != null) {
+            this.currentEditor.hide();
+            this.currentEditor.getDiv().remove();
+        }
+        this.currentEditor = this.roomEditor;
+        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
+        this.currentEditor.show();
     };
 
     viewEditorTabClick() {
@@ -106,7 +124,13 @@ class HVACApplication {
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab selected";
 
-        //Hide previous view and show view editor
+        if (this.currentEditor != null) {
+            this.currentEditor.hide();
+            this.currentEditor.getDiv().remove();
+        }
+        this.currentEditor = this.viewEditor;
+        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
+        this.currentEditor.show();
     };
 
     loadData() {

@@ -45,6 +45,13 @@ body {
     border-bottom-width: 1px;
 }
 
+.HVACApplication_MainContent {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    height: calc(100% - 60px);
+}
+
 .HVACApplication_WallEditorTab {
     flex: 1;
     line-height: 30px;
