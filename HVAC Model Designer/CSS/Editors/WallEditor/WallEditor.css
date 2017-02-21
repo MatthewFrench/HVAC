@@ -70,7 +70,7 @@
 .WallEditor_DeleteViewTab {
     flex: 1;
     line-height: 30px;
-    max-width: 115px;
+    max-width: 80px;
     text-align: center;
     font-size: 18px;
     outline: none;

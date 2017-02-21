@@ -11,6 +11,10 @@ class ViewEditor {
     show () {}
     hide () {}
 
+    logic() {
+
+    }
+
     getDiv() {
         return this.mainDiv;
     }

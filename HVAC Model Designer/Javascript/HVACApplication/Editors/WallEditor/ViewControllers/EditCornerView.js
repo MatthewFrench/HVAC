@@ -11,6 +11,10 @@ class EditCornerView {
     show () {}
     hide () {}
 
+    logic() {
+
+    }
+
     getDiv() {
         return this.mainDiv;
     }

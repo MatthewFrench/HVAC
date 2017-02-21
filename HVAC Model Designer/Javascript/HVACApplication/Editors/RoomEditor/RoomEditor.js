@@ -11,6 +11,10 @@ class RoomEditor {
     show () {}
     hide () {}
 
+    logic() {
+
+    }
+
     getDiv() {
         return this.mainDiv;
     }

@@ -11,6 +11,10 @@ class DeleteView {
     show () {}
     hide () {}
 
+    logic() {
+
+    }
+
     getDiv() {
         return this.mainDiv;
     }

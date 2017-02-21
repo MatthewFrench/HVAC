@@ -34,7 +34,7 @@ class WallEditor {
         this.editCornerView = new EditCornerView(hvacApplication);
         this.editPointView = new EditPointView(hvacApplication);
 
-        this.currentEditor = null;
+        this.viewController = null;
 
         this.createViewTabClick();
     }
@@ -45,22 +45,22 @@ class WallEditor {
         this.editCornerViewTab.className = "WallEditor_EditCornerViewTab";
         this.deleteViewTab.className = "WallEditor_DeleteViewTab";
 
-        if (this.currentEditor != null) {
-            this.currentEditor.hide();
-            this.currentEditor.getDiv().remove();
+        if (this.viewController != null) {
+            this.viewController.hide();
+            this.viewController.getDiv().remove();
         }
     }
 
     selectCurrentTab() {
-        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
-        this.currentEditor.show();
+        this.mainContentDiv.appendChild(this.viewController.getDiv());
+        this.viewController.show();
     }
 
     createViewTabClick () {
         this.deselectAllTabs();
 
         this.createViewTab.className = "WallEditor_CreateViewTab selected";
-        this.currentEditor = this.createView;
+        this.viewController = this.createView;
 
         this.selectCurrentTab();
     }
@@ -69,7 +69,7 @@ class WallEditor {
         this.deselectAllTabs();
 
         this.editPointViewTab.className = "WallEditor_EditPointViewTab selected";
-        this.currentEditor = this.editPointView;
+        this.viewController = this.editPointView;
 
         this.selectCurrentTab();
     }
@@ -78,7 +78,7 @@ class WallEditor {
         this.deselectAllTabs();
 
         this.editCornerViewTab.className = "WallEditor_EditCornerViewTab selected";
-        this.currentEditor = this.editCornerView;
+        this.viewController = this.editCornerView;
 
         this.selectCurrentTab();
     }
@@ -87,13 +87,17 @@ class WallEditor {
         this.deselectAllTabs();
 
         this.deleteViewTab.className = "WallEditor_DeleteViewTab selected";
-        this.currentEditor = this.deleteView;
+        this.viewController = this.deleteView;
 
         this.selectCurrentTab();
     }
 
     show () {}
     hide () {}
+
+    logic() {
+        if (this.viewController != null) this.viewController.logic();
+    }
 
     getDiv() {
         return this.mainDiv;

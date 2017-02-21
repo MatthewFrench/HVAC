@@ -167,6 +167,10 @@ class HVACApplication {
 
     logic() {
         "use strict";
+
+        if (this.currentEditor != null) {
+            this.currentEditor.logic();
+        }
         //this.layoutDraw();
     }
 

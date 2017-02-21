@@ -11,6 +11,10 @@ class EditPointView {
     show () {}
     hide () {}
 
+    logic() {
+
+    }
+
     getDiv() {
         return this.mainDiv;
     }
