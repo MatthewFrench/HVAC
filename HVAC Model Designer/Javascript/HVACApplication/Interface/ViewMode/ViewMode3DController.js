@@ -12,7 +12,7 @@ var Mode3DTypeEnum = {
 };
 
 /**
- * This function creates the 3D View Mode. In other words it is the constructor.
+ * This function creates the 3D View Mode. It is the constructor.
  *
  * @param hvacApplication: The overall control that the 3D mode is a part of.
  */

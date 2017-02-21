@@ -1,8 +1,14 @@
 /**
  * Created by personal on 11/7/16.
+ * This class controls the window on the canvas that allows you to manage the different floors of the
+ * current project.
  */
 
-/*This function creates the Floor Picker*/
+/**
+ * This function creates the Floor Picker window on the canvas. It is the constructor.
+ *
+ * @param hvacApplication: The overall control that the Floor Picker is a part of.
+ */
 function FloorPicker(hvacApplication) {
     this.hvacApplication = hvacApplication;
     this.mainDiv = new CreateElement({type: 'div', class: 'FloorPicker_Main_Div', elements: [
@@ -20,7 +26,9 @@ function FloorPicker(hvacApplication) {
     this.currentFloorRow = null;
 }
 
-/*This function allows the Floor Picker to load floors*/
+/**
+ * This function allows the Floor Picker to load floors into the window.
+ */
 FloorPicker.prototype.loadFloors = function() {
     //Clear rows
     this.floorRows = [];
@@ -30,10 +38,10 @@ FloorPicker.prototype.loadFloors = function() {
 
     var building = this.hvacApplication.getCurrentBuilding();
     var floorList = building.getFloorList();
+
+    //Iterate through floors and add each to the Floor Picker
     for (var i = floorList.length - 1; i >= 0; i--) {
-
         (function(index) {
-
             var floor = floorList[i];
             var row = CreateElement({type: 'div', class: 'FloorPicker_Floor_Row', text: 'Floor ' + (index+1),
                 appendTo: this.floorContainer});
@@ -51,7 +59,11 @@ FloorPicker.prototype.loadFloors = function() {
     }
 };
 
-/*This function lets users know which floor they have clicked on*/
+/**
+ * This function lets users know which floor they have clicked on.
+ *
+ * @param floorRow: The floor that the user selected.
+ */
 FloorPicker.prototype.floorClicked = function(floorRow) {
     if (this.currentFloorRow != null) {
         this.currentFloorRow.div.className = "FloorPicker_Floor_Row";
@@ -63,7 +75,9 @@ FloorPicker.prototype.floorClicked = function(floorRow) {
     this.hvacApplication.selectFloor(floorRow.floor);
 };
 
-/*This function creates a new floor in Floor Picker*/
+/**
+ * This function creates a new floor in Floor Picker.
+ */
 FloorPicker.prototype.addFloor = function() {
     var building = this.hvacApplication.getCurrentBuilding();
     new FloorPlan({building: building});
@@ -72,7 +86,9 @@ FloorPicker.prototype.addFloor = function() {
     this.floorClicked(this.floorRows[0]);
 };
 
-/*This function removes a floor in Floor Picker*/
+/**
+ * This function removes a floor in Floor Picker.
+ */
 FloorPicker.prototype.removeFloor = function() {
     if (this.currentFloorRow == null || this.floorRows.length <= 1) return;
     var building = this.hvacApplication.getCurrentBuilding();
@@ -82,12 +98,21 @@ FloorPicker.prototype.removeFloor = function() {
     this.floorClicked(this.floorRows[0]);
 };
 
-/*This function obtains the current Div*/
+/**
+ * This function obtains the current Div.
+ *
+ * @return: The current Div.
+ */
 FloorPicker.prototype.getDiv = function() {
     return this.mainDiv;
 };
 
-/*This function sets the floor and div to the current floor/div*/
+/**
+ * This function sets the floor and div to the current floor/div.
+ *
+ * @param div: The Div that is in use.
+ * @param floor: The Floor that is selected.
+ */
 function FloorRow(div, floor) {
     this.div = div;
     this.floor = floor;
