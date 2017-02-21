@@ -31,7 +31,7 @@ class Canvas2D {
 
         this.currentCreateModeWall = null;
 
-        document.body.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
+        window.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
     }
 
     logic() {
@@ -151,7 +151,6 @@ class Canvas2D {
 
     resizeCanvas() {
         console.log("Resizing canvas");
-//    "use strict";
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
     };
@@ -184,28 +183,6 @@ class Canvas2D {
         this.setRotatedCanvasMouse();
 
         this.mousePressedCreateModeLayout();
-        /*
-         if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-         this.mousePressedCreateModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-         this.mousePressedDragModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-         if (this.currentEditMode == EDIT_MODE_POINT) {
-         this.mousePressedEditPointModeLayout();
-         }
-         if (this.currentEditMode == EDIT_MODE_CORNER) {
-         this.mousePressedEditCornerModeLayout();
-         }
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
-         this.mousePressedViewModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
-         this.mousePressedDeleteModeLayout();
-         }
-         */
     };
 
     layoutCanvasMouseMoved(event) {
@@ -230,28 +207,6 @@ class Canvas2D {
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
 
         this.mouseMovedCreateModeLayout();
-        /*
-         if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-         this.mouseMovedCreateModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-         this.mouseMovedDragModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-         if (this.currentEditMode == EDIT_MODE_POINT) {
-         this.mouseMovedEditPointModeLayout();
-         }
-         if (this.currentEditMode == EDIT_MODE_CORNER) {
-         this.mouseMovedEditCornerModeLayout();
-         }
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
-         this.mouseMovedViewModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
-         this.mouseMovedDeleteModeLayout();
-         }
-         */
 
         if (event.stopPropagation) event.stopPropagation();
         if (event.preventDefault) event.preventDefault();
@@ -277,28 +232,6 @@ class Canvas2D {
         this.setRotatedCanvasMouse();
 
         this.mouseReleasedCreateModeLayout();
-        /*
-         if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-         this.mouseReleasedCreateModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-         this.mouseReleasedDragModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-         if (this.currentEditMode == EDIT_MODE_POINT) {
-         this.mouseReleasedEditPointModeLayout();
-         }
-         if (this.currentEditMode == EDIT_MODE_CORNER) {
-         this.mouseReleasedEditCornerModeLayout();
-         }
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
-         this.mouseReleasedViewModeLayout();
-         }
-         if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
-         this.mouseReleasedDeleteModeLayout();
-         }
-         */
     };
 
     // ******** FROM CreateLayoutMode ********** //
@@ -322,14 +255,9 @@ class Canvas2D {
 
 //Action taken for when the mouse is moving.
     mouseMovedCreateModeLayout() {
-        "use strict";
-
-
         if (this.currentCreateModeWall != null) {
             this.currentCreateModeWall.setPoint2X(this.rotatedCanvasMouseX);
             this.currentCreateModeWall.setPoint2Y(this.rotatedCanvasMouseY);
-
-            //snapWallToDecimalFromPoint1(this.currentCreateModeWall);
 
             var point = snapPointToWalls(this.currentCreateModeWall.getPoint2X(),
                 this.currentCreateModeWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(), [this.currentCreateModeWall]);
@@ -378,18 +306,13 @@ class Canvas2D {
         }
     }
 
-
     onKeydown(event) {
-        "use strict";
-        //var key = event.which;
         if (event.shiftKey) {
             this.shiftPressed = true;
         }
     }
 
     onKeyup(event) {
-        "use strict";
-        //var key = event.which;
         if (!event.shiftKey) {
             this.shiftPressed = false;
         }
