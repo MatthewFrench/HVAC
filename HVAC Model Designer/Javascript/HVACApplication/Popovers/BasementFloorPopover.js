@@ -4,18 +4,18 @@
 
 //This function creates the Basement Floor Popover
 function BasementFloorPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementFloorBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'BasementFloorBGCover'});
     this.BasementFloorDiv = CreateElement({
-        type: 'div', class: 'BasementFloorDiv', elements: [
+        type: 'div', className: 'BasementFloorDiv', elements: [
             this.BasementFloorSaveButton = CreateElement({
                 type: 'button',
-                class: 'BasementFloorSaveButton',
+                className: 'BasementFloorSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.BasementFloorCancelButton = CreateElement({
                 type: 'button',
-                class: 'BasementFloorCancelButton',
+                className: 'BasementFloorCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

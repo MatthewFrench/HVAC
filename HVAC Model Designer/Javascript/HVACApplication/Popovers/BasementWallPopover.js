@@ -4,18 +4,18 @@
 
 //This function creates the Basement Wall Popover
 function BasementWallPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'BasementWallBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'BasementWallBGCover'});
     this.BasementWallDiv = CreateElement({
-        type: 'div', class: 'BasementWallDiv', elements: [
+        type: 'div', className: 'BasementWallDiv', elements: [
             this.BasementWallSaveButton = CreateElement({
                 type: 'button',
-                class: 'BasementWallSaveButton',
+                className: 'BasementWallSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.BasementWallCancelButton = CreateElement({
                 type: 'button',
-                class: 'BasementWallCancelButton',
+                className: 'BasementWallCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

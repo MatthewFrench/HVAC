@@ -4,18 +4,18 @@
 
 /*This function creates the Glass Door Popover*/
 function GlassDoorPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'GlassDoorBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'GlassDoorBGCover'});
     this.GlassDoorDiv = CreateElement({
-        type: 'div', class: 'GlassDoorDiv', elements: [
+        type: 'div', className: 'GlassDoorDiv', elements: [
             this.GlassDoorSaveButton = CreateElement({
                 type: 'button',
-                class: 'GlassDoorSaveButton',
+                className: 'GlassDoorSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.GlassDoorCancelButton = CreateElement({
                 type: 'button',
-                class: 'GlassDoorCancelButton',
+                className: 'GlassDoorCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

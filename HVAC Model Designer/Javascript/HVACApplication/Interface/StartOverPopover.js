@@ -6,16 +6,16 @@
 function StartOverPopover(question, yesCallback, noCallback) {
     "use strict";
     //Constructor
-    this.StartOverPopoverBlock = CreateElement({type: 'div', class: 'StartOverPopover_Block'});
+    this.StartOverPopoverBlock = CreateElement({type: 'div', className: 'StartOverPopover_Block'});
 
-    this.StartOverPopoverDiv = CreateElement({type: 'div', class: 'StartOverPopover_Div', elements: [
-        this.StartOverLabel = CreateElement({type: 'label', class: 'StartOverPopover_Label', text: question}),
-        this.StartOverYesButton = CreateElement({type: 'button', class: 'StartOverPopover_YesButton', text: 'Yes',
+    this.StartOverPopoverDiv = CreateElement({type: 'div', className: 'StartOverPopover_Div', elements: [
+        this.StartOverLabel = CreateElement({type: 'label', className: 'StartOverPopover_Label', text: question}),
+        this.StartOverYesButton = CreateElement({type: 'button', className: 'StartOverPopover_YesButton', text: 'Yes',
             onClick: CreateFunction(this, function () {
                 this.hide();
                 yesCallback();
             })}),
-        this.cancelButton = CreateElement({type: 'button', class: 'StartOverPopover_CancelButton', text: 'Cancel',
+        this.cancelButton = CreateElement({type: 'button', className: 'StartOverPopover_CancelButton', text: 'Cancel',
             onClick: CreateFunction(this, function () {
                 this.hide();
                 noCallback();

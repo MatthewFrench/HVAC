@@ -27,7 +27,7 @@ class HVACApplication {
         //this.rotatedCanvasMouseX = 0.0;
         //this.rotatedCanvasMouseY = 0.0;
         //this.rotatedCanvasMouseMovedX = 0.0;
-        //this.rotatedCanvasMouseMovedY = 0.0;
+//this.rotatedCanvas                    MouseMovedY = 0.0;
         //this.mouseDown = false;
         //this.intersectHighlightPoints = [];
         //this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -52,31 +52,31 @@ class HVACApplication {
         this.loadData();
 
         this.applicationDiv = CreateElement({
-            type: 'div', class: 'ApplicationDiv', elements: [
-                CreateElement({type: 'div', class: 'ApplicationBackground1'}),
-                CreateElement({type: 'div', class: 'ApplicationBackground2'}),
+            type: 'div', className: 'ApplicationDiv', elements: [
+                CreateElement({type: 'div', className: 'ApplicationBackground1'}),
+                CreateElement({type: 'div', className: 'ApplicationBackground2'}),
                 this.mainTitleDiv = CreateElement({
                     type: 'div',
-                    class: 'HVACApplication_TitleBar',
+                    className: 'HVACApplication_TitleBar',
                     text: "HVAC Model Designer"
                 }),
                 this.topBarDiv = CreateElement({
-                    type: 'div', class: 'HVACApplication_TopBar', elements: [
+                    type: 'div', className: 'HVACApplication_TopBar', elements: [
                         this.wallEditorTab = CreateElement({
-                            type: 'div', class: 'HVACApplication_WallEditorTab',
+                            type: 'div', className: 'HVACApplication_WallEditorTab',
                             onClick: CreateFunction(this, this.wallEditorTabClick), text: "Wall Editor"
                         }),
                         this.roomEditorTab = CreateElement({
-                            type: 'div', class: 'HVACApplication_RoomEditorTab',
+                            type: 'div', className: 'HVACApplication_RoomEditorTab',
                             onClick: CreateFunction(this, this.roomEditorTabClick), text: "Room Editor"
                         }),
                         this.viewEditorTab = CreateElement({
-                            type: 'div', class: 'HVACApplication_ViewEditorTab',
+                            type: 'div', className: 'HVACApplication_ViewEditorTab',
                             onClick: CreateFunction(this, this.viewEditorTabClick), text: "View"
                         })
                     ]
                 }),
-                this.mainContentDiv = CreateElement({type: 'div', class: 'HVACApplication_MainContent'})
+                this.mainContentDiv = CreateElement({type: 'div', className: 'HVACApplication_MainContent'})
             ]
         });
 
@@ -89,18 +89,24 @@ class HVACApplication {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+
+        //Hide previous view and show wall editor
     };
 
     roomEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab selected";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+
+        //Hide previous view and show room editor
     };
 
     viewEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab selected";
+
+        //Hide previous view and show view editor
     };
 
     loadData() {

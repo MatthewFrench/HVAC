@@ -4,18 +4,18 @@
 
 //This function creates the Skylight Popover
 function SkylightPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'SkylightBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'SkylightBGCover'});
     this.SkylightDiv = CreateElement({
-        type: 'div', class: 'SkylightDiv', elements: [
+        type: 'div', className: 'SkylightDiv', elements: [
             this.SkylightSaveButton = CreateElement({
                 type: 'button',
-                class: 'SkylightSaveButton',
+                className: 'SkylightSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.SkylightCancelButton = CreateElement({
                 type: 'button',
-                class: 'SkylightCancelButton',
+                className: 'SkylightCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

@@ -4,18 +4,18 @@
 
 //This function creates the Wall Popover
 function WallPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'WallBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'WallBGCover'});
     this.WallDiv = CreateElement({
-        type: 'div', class: 'WallDiv', elements: [
+        type: 'div', className: 'WallDiv', elements: [
             this.WallSaveButton = CreateElement({
                 type: 'button',
-                class: 'WallSaveButton',
+                className: 'WallSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.WallCancelButton = CreateElement({
                 type: 'button',
-                class: 'WallCancelButton',
+                className: 'WallCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

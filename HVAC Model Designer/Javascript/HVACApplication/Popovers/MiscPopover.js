@@ -4,18 +4,18 @@
 
 //This function creates the Miscellaneous Popover
 function MiscPopover() {
-    this.backgroundDiv = CreateElement({type: 'div', class: 'MiscBGCover'});
+    this.backgroundDiv = CreateElement({type: 'div', className: 'MiscBGCover'});
     this.MiscDiv = CreateElement({
-        type: 'div', class: 'MiscDiv', elements: [
+        type: 'div', className: 'MiscDiv', elements: [
             this.MiscSaveButton = CreateElement({
                 type: 'button',
-                class: 'MiscSaveButton',
+                className: 'MiscSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.MiscCancelButton = CreateElement({
                 type: 'button',
-                class: 'MiscCancelButton',
+                className: 'MiscCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

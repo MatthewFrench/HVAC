@@ -28,42 +28,42 @@ HVACApplication.prototype.initUIVariables = function () {
 HVACApplication.prototype.createUI = function () {
 
     this.myBannerDiv = CreateElement({
-        type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
+        type: 'div', className: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
             //Create view mode button
             this.viewButtonDiv = CreateElement({
-                type: 'button', class: 'ViewButtonDiv', text: 'View',
+                type: 'button', className: 'ViewButtonDiv', text: 'View',
                 onClick: CreateFunction(this, this.viewWallButtonClicked)
             }),
             //Create create mode button
             this.createButtonDiv = CreateElement({
-                type: 'button', class: 'CreateButtonDiv', text: 'Create',
+                type: 'button', className: 'CreateButtonDiv', text: 'Create',
                 onClick: CreateFunction(this, this.createWallButtonClicked)
             }),
             this.editButtonDiv = CreateElement({
-                type: 'button', class: 'EditButtonDiv', text: 'Edit',
+                type: 'button', className: 'EditButtonDiv', text: 'Edit',
                 onClick: CreateFunction(this, this.editButtonClicked)
             }),
             this.deleteMenuDiv = CreateElement({
-                type: 'button', class: 'deleteMenuDiv', text: 'Delete',
+                type: 'button', className: 'deleteMenuDiv', text: 'Delete',
                 onClick: CreateFunction(this, this.deleteMenuClicked)
             }),
             this.mySecondBannerDiv = CreateElement({
-                type: 'div', class: 'SecondRibbonBanner', elements: [
+                type: 'div', className: 'SecondRibbonBanner', elements: [
                     //Create drag mode button
                     this.dragButtonDiv = CreateElement({
-                        type: 'text', class: 'DragButtonDiv', text: 'Drag',
+                        type: 'text', className: 'DragButtonDiv', text: 'Drag',
                         onClick: CreateFunction(this, this.dragButtonClicked)
                     }),
                     this.viewMode2DButtonDiv = CreateElement({
-                        type: 'text', class: 'ViewMode2DButtonDiv', text: '2D',
+                        type: 'text', className: 'ViewMode2DButtonDiv', text: '2D',
                         onClick: CreateFunction(this, this.viewWall2DButtonClicked)
                     }),
                     this.viewMode3DButtonDiv = CreateElement({
-                        type: 'text', class: 'ViewMode3DButtonDiv', text: '3D',
+                        type: 'text', className: 'ViewMode3DButtonDiv', text: '3D',
                         onClick: CreateFunction(this, this.viewWall3DButtonClicked)
                     }),
                     this.RestoreButton = CreateElement({
-                        type: 'text', class: 'RestoreButton', text: 'Restore',
+                        type: 'text', className: 'RestoreButton', text: 'Restore',
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
@@ -82,15 +82,15 @@ HVACApplication.prototype.createUI = function () {
                     }),
                     //Create edit mode buttons
                     this.editPointButtonDiv = CreateElement({
-                        type: 'text', class: 'EditPointButtonDiv', text: 'Point',
+                        type: 'text', className: 'EditPointButtonDiv', text: 'Point',
                         onClick: CreateFunction(this, this.editPointButtonClicked)
                     }),
                     this.editCornerButtonDiv = CreateElement({
-                        type: 'text', class: 'EditCornerButtonDiv', text: 'Corner',
+                        type: 'text', className: 'EditCornerButtonDiv', text: 'Corner',
                         onClick: CreateFunction(this, this.editCornerButtonClicked)
                     }),
                     this.StartOverButton = CreateElement({
-                        type: 'text', class: 'StartOverButton', text: 'Floor',
+                        type: 'text', className: 'StartOverButton', text: 'Floor',
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
@@ -106,7 +106,7 @@ HVACApplication.prototype.createUI = function () {
                     }),
                     //Create delete mode button
                     this.deleteButtonDiv = CreateElement({
-                        type: 'text', class: 'DeleteButtonDiv', text: 'Wall',
+                        type: 'text', className: 'DeleteButtonDiv', text: 'Wall',
                         onClick: CreateFunction(this, this.deleteWallButtonClicked)
                     })
                     ]
@@ -115,12 +115,12 @@ HVACApplication.prototype.createUI = function () {
     });
     this.titleSpan = CreateElement({
         type: 'span',
-        class: 'TopTitle',
+        className: 'TopTitle',
         text: 'HVAC Model Designer',
         appendTo: this.applicationDiv
     });
     this.layoutCanvas = CreateElement({
-        type: 'canvas', class: 'LayoutCanvas', appendTo: this.applicationDiv,
+        type: 'canvas', className: 'LayoutCanvas', appendTo: this.applicationDiv,
         onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
