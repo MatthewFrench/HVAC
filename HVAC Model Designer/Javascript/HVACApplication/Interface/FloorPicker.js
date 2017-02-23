@@ -16,6 +16,8 @@ function FloorPicker(hvacApplication) {
 
     this.floorRows = [];
     this.currentFloorRow = null;
+
+    this.loadFloors();
 }
 
 /*This function allows the Floor Picker to load floors*/

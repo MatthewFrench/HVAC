@@ -30,9 +30,9 @@ function CreateElement({
     if (id != null) element.id = id;
     if (value != null) element.value = value;
     if (onClick != null) element.onclick = onClick;
-    if (onMouseMove != null) element.addEventListener("onmousemove", onMouseMove);
-    if (onMouseDown != null) element.addEventListener("onmousedown", onMouseDown);
-    if (onMouseUp != null) element.addEventListener("onmouseup", onMouseUp);
+    if (onMouseMove != null) element.addEventListener("mousemove", onMouseMove);
+    if (onMouseDown != null) element.addEventListener("mousedown", onMouseDown);
+    if (onMouseUp != null) element.addEventListener("mouseup", onMouseUp);
 
     for (let addElement of elements) {
         element.appendChild(addElement);

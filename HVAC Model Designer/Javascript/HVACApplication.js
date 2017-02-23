@@ -54,6 +54,8 @@ class HVACApplication {
 
         this.loadData();
 
+        this.floorPickerWindow = new FloorPicker(this);
+
         this.applicationDiv = CreateElement({
             type: 'div', className: 'ApplicationDiv', elements: [
                 CreateElement({type: 'div', className: 'ApplicationBackground1'}),
@@ -79,7 +81,8 @@ class HVACApplication {
                         })
                     ]
                 }),
-                this.mainContentDiv = CreateElement({type: 'div', className: 'HVACApplication_MainContent'})
+                this.mainContentDiv = CreateElement({type: 'div', className: 'HVACApplication_MainContent'}),
+                this.floorPickerWindow.getDiv()
             ]
         });
 
@@ -137,10 +140,8 @@ class HVACApplication {
     };
 
     loadData() {
-        "use strict";
         this.hvacData = HVACDataLoader.getHVACData();
         this.selectBuilding(this.hvacData.getBuildingList()[0]);
-        //this.floorPicker.loadFloors();
     };
 
     saveData() {
@@ -169,46 +170,11 @@ class HVACApplication {
     };
 
     logic() {
-        "use strict";
-
         if (this.currentEditor != null) {
             this.currentEditor.logic();
         }
-        //this.layoutDraw();
     }
 
-    /*
-     layoutDraw() {
-     "use strict";
-
-     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
-     this.drawViewModeLayout();
-     }
-     if (this.currentLayoutMode == LAYOUT_MODE_DELETE_WALL) {
-     this.drawDeleteModeLayout();
-     }
-     if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
-     this.drawCreateModeLayout();
-     }
-     if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
-     this.drawDragModeLayout();
-     }
-     if (this.currentLayoutMode == LAYOUT_MODE_EDIT) {
-     if (this.currentEditMode == EDIT_MODE_POINT) {
-     this.drawEditPointModeLayout();
-     }
-     if (this.currentEditMode == EDIT_MODE_CORNER) {
-     this.drawEditCornerModeLayout();
-     }
-     }
-     };
-     */
-
-    /*
-    windowResized() {
-        if (this.currentEditor != null) this.currentEditor.onResize();
-    }
-*/
     getApplicationDiv() {
         return this.applicationDiv;
     }

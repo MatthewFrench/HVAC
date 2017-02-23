@@ -5,13 +5,15 @@
 class CreateView {
     constructor(hvacApplication) {
         this.hvacApplication = hvacApplication;
-        this.canvas2D = new Canvas2D(hvacApplication);
+        this.canvas2D = new Canvas2D({hvacApplication: hvacApplication, allowCreatingWalls: true});
         this.mainDiv = CreateElement({type: 'div', className: 'CreateView_mainDiv', elements: [
             this.canvas2D.getCanvas()
         ]});
     }
 
-    show () {}
+    show () {
+        this.canvas2D.logic();
+    }
     hide () {}
 
     logic() {

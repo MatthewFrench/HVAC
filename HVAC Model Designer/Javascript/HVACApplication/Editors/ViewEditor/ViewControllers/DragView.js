@@ -1,12 +1,12 @@
 /**
- * Created by matt on 2/6/17.
+ * Created by matt on 2/23/17.
  */
 
-class EditCornerView {
+class DragView {
     constructor(hvacApplication) {
         this.hvacApplication = hvacApplication;
-        this.canvas2D = new Canvas2D({hvacApplication: hvacApplication, allowCornerEditing: true});
-        this.mainDiv = CreateElement({type: 'div', className: 'EditCornerView_mainDiv', elements: [
+        this.canvas2D = new Canvas2D({hvacApplication: hvacApplication, allowDragging: true});
+        this.mainDiv = CreateElement({type: 'div', className: 'DragView_mainDiv', elements: [
             this.canvas2D.getCanvas()
         ]});
     }
