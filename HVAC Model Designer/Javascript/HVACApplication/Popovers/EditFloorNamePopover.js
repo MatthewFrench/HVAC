@@ -15,7 +15,9 @@ function EditFloorNamePopover(floorName) {
     this.EditFloorNamePopoverBlock = CreateElement({type: 'div', class: 'EditFloorNamePopover_Block'});
 
     this.EditFloorNamePopoverDiv = CreateElement({type: 'div', class: 'EditFloorNamePopover_Div', elements: [
-        this.FloorNameLabel = CreateElement({type: 'label', class: 'EditFloorNamePopover_Label', text: floorName}),
+        this.FloorNameLabel = CreateElement({type: 'label', class: 'EditFloorNamePopover_Label',
+            text: "What would you like to name your floor?"}),
+        this.FloorNameTextBox = CreateElement({type: 'input', class: 'EditFloorNamePopover_TextBox', value: floorName}),
         this.SaveButton = CreateElement({type: 'button', class: 'EditFloorNamePopover_SaveButton', text: 'Save',
             onClick: CreateFunction(this, function () {
                 this.hide();

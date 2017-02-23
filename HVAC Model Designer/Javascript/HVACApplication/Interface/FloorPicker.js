@@ -18,6 +18,8 @@ function FloorPicker(hvacApplication) {
         CreateElement({type: 'div', class: 'FloorPicker_Bottom_Bar', elements: [
             CreateElement({type: 'button', class: 'FloorPicker_Add_Button', text: '+',
                 onClick: CreateFunction(this, this.addFloor)}),
+            CreateElement({type: 'button', class: 'FloorPicker_Edit_Name_Button', text: 'Edit Name',
+                onClick: CreateFunction(this, this.editFloorName)}),
             CreateElement({type: 'button', class: 'FloorPicker_Remove_Button', text: '-',
                 onClick: CreateFunction(this, this.removeFloor)})
         ]})
@@ -44,8 +46,8 @@ FloorPicker.prototype.loadFloors = function() {
     for (var i = floorList.length - 1; i >= 0; i--) {
         (function(index) {
             var floor = floorList[i];
+            if (floor.floorName == "") floor.floorName = 'Floor ' + (index+1);
             var floorName = floor.floorName;
-            if (floorName == "") floorName = 'Floor ' + (index+1);
             var row = CreateElement({type: 'div', class: 'FloorPicker_Floor_Row', text: floorName,
                 appendTo: this.floorContainer});
             var floorRow = new FloorRow(row, floor);
@@ -92,6 +94,15 @@ FloorPicker.prototype.addFloor = function() {
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 };
+
+/**
+ * This function displays the EditFloorNamePopover.js to be able to change the name of the floor.
+ */
+FloorPicker.prototype.editFloorName = function() {
+    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName);
+
+    newEditNamePopover.show(this.hvacApplication.applicationDiv);
+}
 
 /**
  * This function removes a floor in Floor Picker.

@@ -36,6 +36,18 @@ This is a CSS Stylesheet that affects the way the Starting Over Popover appears 
     text-align: center;
 }
 
+.EditFloorNamePopover_TextBox {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 15px;
+    width: calc(100% - 20px);
+    display: inline-block;
+    text-align: left;
+    border: black solid thin;
+}
+
 .EditFloorNamePopover_SaveButton {
     position: absolute;
     bottom: 3px;
