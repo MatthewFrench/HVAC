@@ -5,7 +5,6 @@
 //This function is a constructor needed for a static class
 function HVACDataLoader(){
     "use strict";
-
 }
 
 //This functions loads up (and stores) the HVAC Data from the application based on version

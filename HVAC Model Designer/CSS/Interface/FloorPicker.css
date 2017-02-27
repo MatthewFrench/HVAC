@@ -50,6 +50,13 @@
     float: left;
 }
 
+.FloorPicker_Edit_Name_Button {
+    position: absolute;
+    bottom: 0px;
+    left: calc(50% - 40px);
+    width: 80px;
+}
+
 .FloorPicker_Remove_Button {
     float: right;
 }

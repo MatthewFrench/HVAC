@@ -2,10 +2,16 @@
  * Created by Austin03 on 10/5/16.
  */
 
-/*This function creates the Start Over Popover*/
-function StartOverPopover(question, yesCallback, noCallback) {
+/**
+ * This function creates the Start Over Popover.
+ *
+ * @param question
+ * @param yesCallback
+ * @constructor
+ */
+function StartOverPopover(question, yesCallback) {
     "use strict";
-    //Constructor
+
     this.StartOverPopoverBlock = CreateElement({type: 'div', class: 'StartOverPopover_Block'});
 
     this.StartOverPopoverDiv = CreateElement({type: 'div', class: 'StartOverPopover_Div', elements: [
@@ -18,7 +24,6 @@ function StartOverPopover(question, yesCallback, noCallback) {
         this.cancelButton = CreateElement({type: 'button', class: 'StartOverPopover_CancelButton', text: 'Cancel',
             onClick: CreateFunction(this, function () {
                 this.hide();
-                noCallback();
             })})
     ]});
 }
