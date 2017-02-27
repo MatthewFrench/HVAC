@@ -10,11 +10,178 @@
 .WallDiv{
     position: absolute;
     width: 30%;
-    height: 70%;
+    height: 75%;
     top: 15%;
     left: 68%;
     background-color: grey;
     outline: black solid thin;
+}
+
+.InsulationMaterialsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 25%;
+    width: 300px;
+    top: 5%;
+    font-weight: 600;
+}
+
+.InsulationMaterialsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 10%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.InsulationDetailsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 18%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.InsulationDetailsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 23%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.ConstructionMaterialsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 18%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.ConstructionMaterialsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 23%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SheathingMaterialsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 25%;
+    width: 300px;
+    top: 33%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SheathingMaterialsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 38%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SheathingDetailsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 48%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SheathingDetailsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 53%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SidingMaterialsElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 27%;
+    width: 300px;
+    top: 48%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SidingMaterialsButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 53%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.InteriorFinishElement{
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 28%;
+    width: 300px;
+    top: 63%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.InteriorFinishButton{
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 68%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    background-color: white;
+    opacity: 0;
 }
 
 .WallSaveButton{
