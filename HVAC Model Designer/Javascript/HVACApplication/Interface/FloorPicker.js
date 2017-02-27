@@ -90,7 +90,12 @@ FloorPicker.prototype.addFloor = function() {
     this.loadFloors();
     this.floorClicked(this.floorRows[0]);
 
-    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName);
+    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
+        CreateFunction(this, function (newFloorName) {
+            this.currentFloorRow.floor.floorName = newFloorName;
+            this.loadFloors();
+            this.floorClicked(this.floorRows[0]);
+        }));
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 };
@@ -99,7 +104,12 @@ FloorPicker.prototype.addFloor = function() {
  * This function displays the EditFloorNamePopover.js to be able to change the name of the floor.
  */
 FloorPicker.prototype.editFloorName = function() {
-    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName);
+    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
+        CreateFunction(this, function (newFloorName) {
+            this.currentFloorRow.floor.floorName = newFloorName;
+            this.loadFloors();
+            this.floorClicked(this.floorRows[0]);
+        }));
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 }

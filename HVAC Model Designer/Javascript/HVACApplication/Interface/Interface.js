@@ -118,7 +118,6 @@ HVACApplication.prototype.createUI = function () {
                             var newPopover = new StartOverPopover('Are you sure you want to start this floor from scratch?',
                                 CreateFunction(this, function () {
                                     this.getCurrentFloorPlan().clearWalls();
-                                }), CreateFunction(this, function () {
                                 }));
                             newPopover.show(this.applicationDiv);
                         })

@@ -9,7 +9,7 @@
  * @param floorName: The name of the floor to be edited.
  * @constructor
  */
-function EditFloorNamePopover(floorName) {
+function EditFloorNamePopover(floorName, saveName) {
     "use strict";
 
     this.EditFloorNamePopoverBlock = CreateElement({type: 'div', class: 'EditFloorNamePopover_Block'});
@@ -20,6 +20,7 @@ function EditFloorNamePopover(floorName) {
         this.FloorNameTextBox = CreateElement({type: 'input', class: 'EditFloorNamePopover_TextBox', value: floorName}),
         this.SaveButton = CreateElement({type: 'button', class: 'EditFloorNamePopover_SaveButton', text: 'Save',
             onClick: CreateFunction(this, function () {
+                saveName(this.FloorNameTextBox.value);
                 this.hide();
             })}),
         this.cancelButton = CreateElement({type: 'button', class: 'EditFloorNamePopover_CancelButton', text: 'Cancel',

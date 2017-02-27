@@ -7,10 +7,9 @@
  *
  * @param question
  * @param yesCallback
- * @param noCallback
  * @constructor
  */
-function StartOverPopover(question, yesCallback, noCallback) {
+function StartOverPopover(question, yesCallback) {
     "use strict";
 
     this.StartOverPopoverBlock = CreateElement({type: 'div', class: 'StartOverPopover_Block'});
@@ -25,7 +24,6 @@ function StartOverPopover(question, yesCallback, noCallback) {
         this.cancelButton = CreateElement({type: 'button', class: 'StartOverPopover_CancelButton', text: 'Cancel',
             onClick: CreateFunction(this, function () {
                 this.hide();
-                noCallback();
             })})
     ]});
 }
