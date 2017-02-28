@@ -1,13 +1,15 @@
-/*This is a CSS Stylesheet that affects the way the Basement Floor Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Basement Floor Popover appears and acts
+ */
 
-.BasementFloorBGCover{
+.BasementFloorBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.BasementFloorDiv{
+.BasementFloorDiv {
     position: absolute;
     width: 40%;
     height: 75%;
@@ -17,7 +19,7 @@
     outline: black solid thin;
 }
 
-.BasementFloorSaveButton{
+.BasementFloorSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
@@ -29,7 +31,7 @@
     outline: black solid thin;
 }
 
-.BasementFloorCancelButton{
+.BasementFloorCancelButton {
     position: absolute;
     width: 90px;
     height: 30px;

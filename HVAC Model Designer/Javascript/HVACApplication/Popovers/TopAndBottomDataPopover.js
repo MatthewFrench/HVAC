@@ -2,11 +2,17 @@
  * Created by AJ Massey on 10/26/2016.
  *
  * This Code is the Basement and Attic Popover code that will allow a user to input Information about Basements
- * and Attics for calculating the U Value
+ * and Attics for calculating the U Value.
+ */
+
+/**
+ * This function creates the Top&Bottom Popover.
+ *
+ * @constructor
  */
 function TopAndBottomDataPopover() {
     "use strict";
-    //Constructor
+
     var attic_stud_spacing_text;
     var attic_stud_spacing_text2;
     var attic_stud_spacing_text3;
@@ -131,11 +137,19 @@ function TopAndBottomDataPopover() {
     this.StudSpacingButton.selectedIndex = -1;
 }
 
+/**
+ * This function shows the Top&Bottom Popover.
+ *
+ * @param parent: The hvacApplication class that the Top&Bottom Popover is contained in.
+ */
 TopAndBottomDataPopover.prototype.show = function(parent) {
     parent.appendChild(this.backgroundDiv);
     parent.appendChild(this.TopAndBottomDataDiv);
 };
 
+/**
+ * This function hides the Top&Bottom Popover.
+ */
 TopAndBottomDataPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.TopAndBottomDataDiv.remove();

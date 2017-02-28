@@ -1,13 +1,23 @@
 /**
  * Created by personal on 10/21/16.
+ *
+ * This class handles the loading of data from local storage.
  */
 
-//This function is a constructor needed for a static class
+/**
+ * This function is a constructor needed for a static class
+ *
+ * @constructor
+ */
 function HVACDataLoader(){
     "use strict";
 }
 
-//This functions loads up (and stores) the HVAC Data from the application based on version
+/**
+ * This functions loads up (and stores) the HVAC Data from the application based on version
+ *
+ * @returns: hvacData that contains the different projects on local storage.
+ */
 HVACDataLoader.getHVACData = function() {
     "use strict";
     var hvacDataMap = JSON.parse(window.localStorage.getItem("HVACData"));

@@ -1,8 +1,12 @@
 /**
  * Created by Matt on 9/19/16.
+ *
+ * This class deals with user interaction with the canvas when the Edit Corner Mode is selected.
  */
 
-//Creates and initializes the Point variables
+/**
+ * Creates and initializes the Point variables.
+ */
 HVACApplication.prototype.initEditPointModeVariables = function () {
     "use strict";
     this.currentEditPointSelectedWall = null;
@@ -10,12 +14,16 @@ HVACApplication.prototype.initEditPointModeVariables = function () {
     this.highlightedPoint = null;
 };
 
-//Shows the Edit Point Layout Mode
+/**
+ * Shows the Edit Point Layout Mode
+ */
 HVACApplication.prototype.showEditPointModeLayout = function () {
     "use strict";
 };
 
-//Action taken for when the mouse is pressed down.
+/**
+ * When the mouse is pressed down, selects closest point near the mouse and track wall of that point.
+ */
 HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     "use strict";
 
@@ -26,9 +34,13 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
         if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), closest)) {
-            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(), this.rotatedCanvasMouseY - wall.getPoint1Y());
+            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(),
+                this.rotatedCanvasMouseY - wall.getPoint1Y()
+            );
             if (Math.round(closest) == Math.round(newClosest)) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                    wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+                );
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < wallCloseness) {
                     wallCloseness = dist;
@@ -37,7 +49,9 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
                     this.currentEditPointSelectedWall = wall;
                 }
             } else if (newClosest < closest) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                    wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+                );
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 wallCloseness = dist;
                 closest = newClosest;
@@ -46,9 +60,13 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
             }
         }
         if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), closest)) {
-            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(), this.rotatedCanvasMouseY - wall.getPoint2Y());
+            var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(),
+                this.rotatedCanvasMouseY - wall.getPoint2Y()
+            );
             if (Math.round(closest) == Math.round(newClosest)) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                    wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+                );
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < wallCloseness) {
                     wallCloseness = dist;
@@ -57,7 +75,9 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
                     this.currentEditPointSelectedWall = wall;
                 }
             } else if (newClosest < closest) {
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                    wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+                );
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 wallCloseness = dist;
                 closest = newClosest;
@@ -68,15 +88,17 @@ HVACApplication.prototype.mousePressedEditPointModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is moving.
+/**
+ * When the mouse is moving, the selected wall point needs to move if mouse is down.
+ */
 HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     "use strict";
-
     this.highlightedPoint = null;
     var closest = 15;
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
         if (Math.round(dist) < Math.round(closest)) {
             closest = dist;
@@ -87,44 +109,44 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     if (this.currentEditPointSelectedWall != null) {
         this.highlightedPoint = this.currentEditPointSelectedWall;
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
-            this.currentEditPointSelectedWall.setPoint1X( this.rotatedCanvasMouseX );
-            this.currentEditPointSelectedWall.setPoint1Y( this.rotatedCanvasMouseY );
-
-            //snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
+            this.currentEditPointSelectedWall.setPoint1X(this.rotatedCanvasMouseX);
+            this.currentEditPointSelectedWall.setPoint1Y(this.rotatedCanvasMouseY);
 
             //Auto snap
             var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint1X(),
                 this.currentEditPointSelectedWall.getPoint1Y(), this.getCurrentWallList(), [this.currentEditPointSelectedWall]);
-            this.currentEditPointSelectedWall.setPoint1X( point.getX() );
-            this.currentEditPointSelectedWall.setPoint1Y( point.getY() );
+            this.currentEditPointSelectedWall.setPoint1X(point.getX());
+            this.currentEditPointSelectedWall.setPoint1Y(point.getY());
 
+            //If Shift button pressed down, will edit wall at only 90 degree angles
             if (this.shiftPressed) {
-                var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(), this.currentEditPointSelectedWall.getPoint1Y(),
-                    this.currentEditPointSelectedWall.getPoint2X(), this.currentEditPointSelectedWall.getPoint2Y(), 45);
-                this.currentEditPointSelectedWall.setPoint1X( line.getPoint1X() );
-                this.currentEditPointSelectedWall.setPoint1Y( line.getPoint1Y() );
+                var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
+                    this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
+                    this.currentEditPointSelectedWall.getPoint2Y(), 45
+                );
+                this.currentEditPointSelectedWall.setPoint1X(line.getPoint1X());
+                this.currentEditPointSelectedWall.setPoint1Y(line.getPoint1Y());
             }
-
         }
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
-            this.currentEditPointSelectedWall.setPoint2X( this.rotatedCanvasMouseX );
-            this.currentEditPointSelectedWall.setPoint2Y( this.rotatedCanvasMouseY );
-
-            //snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
+            this.currentEditPointSelectedWall.setPoint2X(this.rotatedCanvasMouseX);
+            this.currentEditPointSelectedWall.setPoint2Y(this.rotatedCanvasMouseY);
 
             //Auto snap
             var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint2X(),
                 this.currentEditPointSelectedWall.getPoint2Y(), this.getCurrentWallList(), [this.currentEditPointSelectedWall]);
-            this.currentEditPointSelectedWall.setPoint2X( point.getX() );
-            this.currentEditPointSelectedWall.setPoint2Y( point.getY() );
+            this.currentEditPointSelectedWall.setPoint2X(point.getX());
+            this.currentEditPointSelectedWall.setPoint2Y(point.getY());
 
+            //If Shift button pressed down, will edit wall at only 90 degree angles
             if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(), this.currentEditPointSelectedWall.getPoint1Y(),
-                    this.currentEditPointSelectedWall.getPoint2X(), this.currentEditPointSelectedWall.getPoint2Y(), 45);
-                this.currentEditPointSelectedWall.setPoint2X( line.getPoint2X() );
-                this.currentEditPointSelectedWall.setPoint2Y( line.getPoint2Y() );
+                var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
+                    this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
+                    this.currentEditPointSelectedWall.getPoint2Y(), 45
+                );
+                this.currentEditPointSelectedWall.setPoint2X(line.getPoint2X());
+                this.currentEditPointSelectedWall.setPoint2Y(line.getPoint2Y());
             }
-
         }
     } else {
         if (this.mouseDown) {
@@ -134,28 +156,30 @@ HVACApplication.prototype.mouseMovedEditPointModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is released.
+/**
+ * When the mouse is released, check if the point overlapped another existing wall.
+ */
 HVACApplication.prototype.mouseReleasedEditPointModeLayout = function () {
     "use strict";
     if (this.currentEditMode == EDIT_MODE_POINT) {
         this.currentEditPointSelectedWall = null;
     }
-
     wallSlicer.call(this, this.getCurrentWallList(), this.intersectHighlightPoints);
 };
 
-//Redraws the display on the canvas.
+/**
+ * Redraws the display on the canvas.
+ */
 HVACApplication.prototype.drawEditPointModeLayout = function () {
     "use strict";
-
     var ctx = this.beginDraw();
-
 
     //Draw above and below floors
     var floorList = this.getCurrentBuilding().getFloorList();
     var currentFloor = this.getCurrentFloorPlan();
     var currentFloorIndex = floorList.indexOf(currentFloor);
 
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex > 0) {
         var underneathFloor = floorList[currentFloorIndex - 1];
         for (var j = 0; j < underneathFloor.getWallList().length; j++) {
@@ -163,6 +187,8 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
             wall.drawDotted(ctx, true);
         }
     }
+
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex < floorList.length - 1) {
         var aboveFloor = floorList[currentFloorIndex + 1];
         for (var j = 0; j < aboveFloor.getWallList().length; j++) {
@@ -171,14 +197,19 @@ HVACApplication.prototype.drawEditPointModeLayout = function () {
         }
     }
 
+    //Checks if mouse is close to one of the endpoints of the wall, and highlights that endpoint.
     var closePointArray = [];
     closePointArray.push(new Point2D({x:this.currentMouseX, y:this.currentMouseY}));
     if (this.currentEditPointSelectedWall != null) {
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
-            closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint1X(), y: this.currentEditPointSelectedWall.getPoint1Y()}));
+            closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint1X(),
+                y: this.currentEditPointSelectedWall.getPoint1Y()})
+            );
         }
         if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
-            closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint2X(), y: this.currentEditPointSelectedWall.getPoint2Y()}));
+            closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint2X(),
+                y: this.currentEditPointSelectedWall.getPoint2Y()})
+            );
         }
     }
 

@@ -1,8 +1,15 @@
 /**
  * Created by personal on 10/21/16.
+ *
+ * This class handles the properties of a given line (wall) on the canvas.
  */
 
-//This function loads up options (if any) and creates points for a 2D line
+/**
+ * This function loads up options (if any) and creates points for a 2D line.
+ *
+ * @param options: The previous settings and layout.
+ * @constructor
+ */
 function Line2D(options) {
     "use strict";
     if (options == undefined || options == null) options = [];
@@ -27,80 +34,112 @@ function Line2D(options) {
     }
 }
 
-//This function gets the first X point
+/**
+ * This function gets the first X point.
+ *
+ * @return: The X-value of the first point of a line.
+ */
 Line2D.prototype.getPoint1X = function() {
     "use strict";
     return this.point1.getX();
 };
 
-//This function gets the second X point
+/**
+ * This function gets the second X point.
+ *
+ * @return: The X-value of the second point of a line.
+ */
 Line2D.prototype.getPoint2X = function() {
     "use strict";
     return this.point2.getX();
 };
 
-//This function gets the first Y point
+/**
+ * This function gets the first Y point.
+ *
+ * @return: The Y-value of the first point of a line.
+ */
 Line2D.prototype.getPoint1Y = function() {
     "use strict";
     return this.point1.getY();
 };
 
-//This function gets the second Y point
+/**
+ * This function gets the second X point.
+ *
+ * @return: The X-value of the second point of a line.
+ */
 Line2D.prototype.getPoint2Y = function() {
     "use strict";
     return this.point2.getY();
 };
 
-//This function sets the first X point
+/**
+ * This function sets the first X point
+ *
+ * @param x: The X-value that is being set on the first point of the line.
+ */
 Line2D.prototype.setPoint1X = function(x) {
     "use strict";
     return this.point1.setX(x);
 };
 
-//This function sets the second X point
+/**
+ * This function sets the second X point
+ *
+ * @param x: The X-value that is being set on the second point of the line.
+ */
 Line2D.prototype.setPoint2X = function(x) {
     "use strict";
     return this.point2.setX(x);
 };
 
-//This function sets the first Y point
+/**
+ * This function sets the first Y point
+ *
+ * @param y: The Y-value that is being set on the first point of the line.
+ */
 Line2D.prototype.setPoint1Y = function(y) {
     "use strict";
     return this.point1.setY(y);
 };
 
-//This function sets the second Y point
+/**
+ * This function sets the second Y point
+ *
+ * @param y: The Y-value that is being set on the second point of the line.
+ */
 Line2D.prototype.setPoint2Y = function(y) {
     "use strict";
     return this.point2.setY(y);
 };
 
-//This function returns the first point (X and Y values)
+/**
+ * This function returns the first point (X and Y values)
+ *
+ * @return: The first coordinate point of the line.
+ */
 Line2D.prototype.getPoint1 = function() {
     "use strict";
     return this.point1;
 };
 
-//This function returns the second point (X and Y values)
+/**
+ * This function returns the second point (X and Y values)
+ *
+ * @return: The second coordinate point of the line.
+ */
 Line2D.prototype.getPoint2 = function() {
     "use strict";
     return this.point2;
 };
 
-//This function sets the X value of first point
-Line2D.prototype.setPoint1 = function(point1) {
-    "use strict";
-    this.point1.setX(point1.getX());
-};
-
-//This function sets the X value of second point
-Line2D.prototype.setPoint2 = function(point2) {
-    "use strict";
-    this.point2.setX(point2.getX());
-};
-
-//This functions finds out if the points and line are in the options
-//if it finds them, it loads them into points and sets those points based on the options
+/**
+ * This functions finds out if the points and line are in the options.
+ * If it finds them, it loads them into points and sets those points based on the options.
+ *
+ * @param options: Previous option settings
+ */
 Line2D.prototype.set = function(options) {
     "use strict";
     if ("point1" in options) {
@@ -118,7 +157,11 @@ Line2D.prototype.set = function(options) {
     }
 };
 
-//This function gets the angle of the line between two points
+/**
+ * This function gets the angle of the line between two points.
+ *
+ * @return: The angle of the line between two points.
+ */
 Line2D.prototype.getAngleOfLineBetweenPoints = function()
 {
     var xDiff = this.point2.getX() - this.point1.getX();
@@ -126,7 +169,13 @@ Line2D.prototype.getAngleOfLineBetweenPoints = function()
     return Math.atan2(yDiff, xDiff);
 };
 
-//This function gets the nearest point based on a given point
+/**
+ * This function gets the nearest point based on a given point.
+ *
+ * @param px: X-value of the given point
+ * @param py: Y-value of the given point
+ * @return: The nearest point to the coordinate point being passed in.
+ */
 Line2D.prototype.getNearestPointFromPoint = function( px,  py) {
     var clampToSegment = true;
 
@@ -148,7 +197,11 @@ Line2D.prototype.getNearestPointFromPoint = function( px,  py) {
     return new Point2D({x: this.point1.getX() + abx * t, y: this.point1.getY() + aby * t});
 };
 
-//This function obtains a perpendicular line to the given point 1
+/**
+ * This function obtains a perpendicular line to the given point 1
+ *
+ * @return: The new line at a perpendicular angle.
+ */
 Line2D.prototype.getPerpendicularLineFromPoint1 = function() {
     "use strict";
     var x1 = this.point1.getX();
@@ -169,7 +222,11 @@ Line2D.prototype.getPerpendicularLineFromPoint1 = function() {
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 };
 
-//This function obtains a perpendicular line to the given point 2
+/**
+ * This function obtains a perpendicular line to the given point 2
+ *
+ * @return: The new line at a perpendicular angle.
+ */
 Line2D.prototype.getPerpendicularInfiniteLinePoint2 = function() {
     "use strict";
     var x1 = this.point1.getX();
@@ -190,7 +247,11 @@ Line2D.prototype.getPerpendicularInfiniteLinePoint2 = function() {
     return new Line2D({ x1: newX1, y1:  newY1, x2: newX2, y2: newY2});
 };
 
-//This function obtains a longer line for accurate drawing
+/**
+ * This function obtains a longer line for accurate drawing
+ *
+ * @return: A longer more accurate line.
+ */
 Line2D.prototype.getLongerLine = function() {
     "use strict";
     var x1 = this.point1.getX();
@@ -214,7 +275,11 @@ Line2D.prototype.getLongerLine = function() {
     return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
 };
 
-//This function gets the length of the line
+/**
+ * This function gets the length of the line.
+ *
+ * @return: The length of the current line.
+ */
 Line2D.prototype.getLength = function() {
     var x1 = this.point1.getX();
     var y1 = this.point1.getY();
@@ -223,7 +288,11 @@ Line2D.prototype.getLength = function() {
     return Math.hypot(x1 - x2, y1 - y2);
 };
 
-//This function gets the center of a line
+/**
+ * This function gets the center of a line.
+ *
+ * @return: The center point of the line.
+ */
 Line2D.prototype.getCenterPoint = function() {
     var x1 = this.point1.getX();
     var y1 = this.point1.getY();
@@ -234,7 +303,11 @@ Line2D.prototype.getCenterPoint = function() {
     return new Point2D({x: centerX, y: centerY});
 };
 
-//This function gets the current rotation of a line
+/**
+ * This function gets the current rotation of a line.
+ *
+ * @return: The degree for how much the line has rotated.
+ */
 Line2D.prototype.getRotation = function() {
     var x1 = this.point1.getX();
     var y1 = this.point1.getY();

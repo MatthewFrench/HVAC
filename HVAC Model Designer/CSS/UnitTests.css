@@ -1,3 +1,7 @@
+/**
+This contains a series of unit tests to ensure the visual interface works correctly
+ */
+
 body {
     background:
             linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
@@ -11,9 +15,7 @@ body {
 }
 
 .UnitTest_TitleDiv {
-    /*
-    Ensure background is added first
-    */
+    /*Ensure background is added first*/
     background: linear-gradient(to bottom, #eee, rgba(222,112,6,0.2), #de7006),url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZlcnNpb249JzEuMScgd2lkdGg9JzQwMCcgaGVpZ2h0PSc0MDAnPgoJPGRlZnMgaWQ9J2RlZnM0Jz4KCQk8ZmlsdGVyIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0nc1JHQicgaWQ9J2ZpbHRlcjMxMTUnPgoJCQk8ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgbnVtT2N0YXZlcz0nMScgYmFzZUZyZXF1ZW5jeT0nMC45JyBpZD0nZmVUdXJidWxlbmNlMzExNycgLz4KCQkJPGZlQ29sb3JNYXRyaXggcmVzdWx0PSdyZXN1bHQ1JyB2YWx1ZXM9JzEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDYgLTMuNzUgJyBpZD0nZmVDb2xvck1hdHJpeDMxMTknIC8+CgkJCTxmZUNvbXBvc2l0ZSBpbjI9J3Jlc3VsdDUnIG9wZXJhdG9yPSdpbicgaW49J1NvdXJjZUdyYXBoaWMnIHJlc3VsdD0ncmVzdWx0NicgaWQ9J2ZlQ29tcG9zaXRlMzEyMScgLz4KCQkJPGZlTW9ycGhvbG9neSBpbj0ncmVzdWx0Nicgb3BlcmF0b3I9J2RpbGF0ZScgcmFkaXVzPScxMCcgcmVzdWx0PSdyZXN1bHQzJyBpZD0nZmVNb3JwaG9sb2d5MzEyMycgLz4KCQk8L2ZpbHRlcj4KCTwvZGVmcz4KCTxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIHg9JzAnIHk9JzAnIGlkPSdyZWN0Mjk4NScgZmlsbD0nI2VlZWVlZScvPiAgICAgCgk8cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyB4PScwJyB5PScwJyBpZD0ncmVjdDI5ODUnIHN0eWxlPSdmaWxsOiNlMDg3Mjg7ZmlsdGVyOnVybCgjZmlsdGVyMzExNSknIC8+Cjwvc3ZnPg==);
 
     background-attachment: fixed;
@@ -28,6 +30,7 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+
 .UnitTest_TestHolderDiv {
     position: absolute;
     left: 20px;
@@ -39,6 +42,7 @@ body {
     text-shadow: 1px 1px black;
     min-width: 950px;
 }
+
 .UnitTest_TestHolderLoaderDiv {
     width: 50px;
     height: calc(100% - 20px);
@@ -48,6 +52,7 @@ body {
     left: 15px;
     bottom: 60px;
 }
+
 .UnitTestObject_Div {
     min-height: 100px;
     width: 100%;
@@ -55,9 +60,11 @@ body {
     line-height: 50px;
     position: relative;
 }
+
 .UnitTestObject_Name {
     line-height: 100px;
 }
+
 .UnitTest_ResultDiv {
     height: 100px;
     width: 100%;
@@ -66,6 +73,7 @@ body {
     position: relative;
     text-align: center;
 }
+
 .UnitTest_SimulationDiv {
 
     width: 100%;
@@ -73,6 +81,7 @@ body {
     border: solid 1px black;
     position: relative;
 }
+
 .UnitTest_SimulationDiv_Inner {
     all: initial;
     pointer: default;
@@ -99,6 +108,7 @@ body {
     -ms-transform: translateZ(0);
     transform: translateZ(0);
 }
+
 .loader:before {
     width: 50%;
     height: 50%;
@@ -109,6 +119,7 @@ body {
     left: 0;
     content: '';
 }
+
 .loader:after {
     background:
             linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
@@ -131,6 +142,7 @@ body {
     bottom: 0;
     right: 0;
 }
+
 @-webkit-keyframes load3 {
     0% {
         -webkit-transform: rotate(0deg);
@@ -141,6 +153,7 @@ body {
         transform: rotate(360deg);
     }
 }
+
 @keyframes load3 {
     0% {
         -webkit-transform: rotate(0deg);
@@ -151,10 +164,6 @@ body {
         transform: rotate(360deg);
     }
 }
-
-
-
-
 
 .meter {
     height: 20px;  /* Can be anything */
@@ -169,6 +178,7 @@ body {
     -moz-box-shadow   : inset 0 -1px 1px rgba(255,255,255,0.3);
     box-shadow        : inset 0 -1px 1px rgba(255,255,255,0.3);
 }
+
 .meter > span {
     display: block;
     height: 100%;
@@ -204,6 +214,7 @@ body {
     position: relative;
     overflow: hidden;
 }
+
 .meter > span:after, .animate > span > span {
     content: "";
     position: absolute;
@@ -277,4 +288,3 @@ body {
     -webkit-animation: none;
     background-image: none;
 }
-

@@ -1,8 +1,12 @@
 /**
  * Created by Matt on 9/19/16.
+ *
+ * This class creates the different elements of the user interface and handles user events.
  */
 
-/*This function creates some of the variables and sets them to Null for use later*/
+/**
+ * This function creates some of the variables and sets them to Null for use later.
+ */
 HVACApplication.prototype.initUIVariables = function () {
     "use strict";
     this.applicationDiv = null;
@@ -15,7 +19,7 @@ HVACApplication.prototype.initUIVariables = function () {
     this.editButtonDiv = null;
     this.editPointButtonDiv = null;
     this.editCornerButtonDiv = null;
-    this.viewMode2DButtonDiv = null;
+    this.RotateButtonDiv = null;
     this.viewMode3DButtonDiv = null;
     this.locationDataDiv = null;
     this.RestoreButton = null;
@@ -24,65 +28,124 @@ HVACApplication.prototype.initUIVariables = function () {
     this.floorPicker = null;
 };
 
-/*This function creates the User Interface, including adding buttons/menu*/
+/**
+ * This function creates the User Interface, including adding buttons/menu
+ */
 HVACApplication.prototype.createUI = function () {
-    this.applicationDiv = CreateElement({type: 'div', class: 'ApplicationDiv', elements: [
-        CreateElement({type: 'div', class: 'ApplicationBackground1'}),
-        CreateElement({type: 'div', class: 'ApplicationBackground2'})
-    ]});
+    this.applicationDiv = CreateElement({
+        type: 'div',
+        class: 'ApplicationDiv',
+        elements: [
+            CreateElement({
+                type: 'div',
+                class: 'ApplicationBackground1'
+            }),
+            CreateElement({
+                type: 'div',
+                class: 'ApplicationBackground2'
+            })
+        ]
+    });
 
     this.myBannerDiv = CreateElement({
-        type: 'div', class: 'RibbonBanner', appendTo: this.applicationDiv, elements: [
-            //Create view mode button
+        //The top ribbon banner
+        type: 'div',
+        class: 'RibbonBanner',
+        appendTo: this.applicationDiv,
+        elements: [
+            //creates Room Editor button
             this.roomEditorButtonDiv = CreateElement({
-                type: 'button', class: 'RoomEditorButtonDiv', text: 'Room Editor',
+                type: 'button',
+                class: 'RoomEditorButtonDiv',
+                text: 'Room Editor',
                 onClick: CreateFunction(this, this.roomEditorButtonClicked)
             }),
+
+            //creates View Editor button
             this.viewButtonDiv = CreateElement({
-                type: 'button', class: 'ViewButtonDiv', text: 'View Editor',
+                type: 'button',
+                class: 'ViewButtonDiv',
+                text: 'View Editor',
                 onClick: CreateFunction(this, this.viewWallButtonClicked)
             }),
+
+            //creates Wall Editor button
             this.wallEditorButtonDiv = CreateElement({
-                type: 'button', class: 'WallEditorButtonDiv', text: 'Wall Editor',
+                type: 'button',
+                class: 'WallEditorButtonDiv',
+                text: 'Wall Editor',
                 onClick: CreateFunction(this, this.wallEditorButtonClicked)
             }),
+
+            //creates AJ Button
             this.AJsButton = CreateElement({
-                type: 'button', class: 'AJsButton', text: 'AJs Button',
+                type: 'button',
+                class: 'AJsButton',
+                text: 'AJs Button',
                 onClick: CreateFunction(this, function(){
-                    var newPopover2 = new WallPopover();
-                    newPopover2.show(this.applicationDiv);
+                    var newWallPopover = new WallPopover();
+                    newWallPopover.show(this.applicationDiv);
                 })
             }),
+
+            //The bottom ribbon banner that is within the top ribbon banner
             this.mySecondBannerDiv = CreateElement({
-                type: 'div', class: 'SecondRibbonBanner', elements: [
-                    //Create create mode button
+                type: 'div',
+                class: 'SecondRibbonBanner',
+                elements: [
+                    //Creates Create Mode button
                     this.createButtonDiv = CreateElement({
-                        type: 'button', class: 'CreateButtonDiv', text: 'Create',
+                        type: 'button',
+                        class: 'CreateButtonDiv',
+                        text: 'Create',
                         onClick: CreateFunction(this, this.createWallButtonClicked)
                     }),
+
+                    //Creates Edit Mode button
                     this.editButtonDiv = CreateElement({
-                        type: 'button', class: 'EditButtonDiv', text: 'Edit',
+                        type: 'button',
+                        class: 'EditButtonDiv',
+                        text: 'Edit',
                         onClick: CreateFunction(this, this.editButtonClicked)
                     }),
+
+                    //Creates Delete Mode button
                     this.deleteMenuDiv = CreateElement({
-                        type: 'button', class: 'deleteMenuDiv', text: 'Delete',
+                        type: 'button',
+                        class: 'deleteMenuDiv',
+                        text: 'Delete',
                         onClick: CreateFunction(this, this.deleteMenuClicked)
                     }),
-                    //Create drag mode button
+
+                    //Create Drag Mode button
                     this.dragButtonDiv = CreateElement({
-                        type: 'text', class: 'DragButtonDiv', text: 'Drag',
+                        type: 'text',
+                        class: 'DragButtonDiv',
+                        text: 'Drag',
                         onClick: CreateFunction(this, this.dragButtonClicked)
                     }),
-                    this.viewMode2DButtonDiv = CreateElement({
-                        type: 'text', class: 'ViewMode2DButtonDiv', text: '2D',
+
+                    //Creates Rotate Mode button
+                    this.RotateButtonDiv = CreateElement({
+                        type: 'text',
+                        class: 'RotateButtonDiv',
+                        text: 'Rotate',
                         onClick: CreateFunction(this, this.viewWall2DButtonClicked)
                     }),
+
+                    //Creates 3D Mode button
                     this.viewMode3DButtonDiv = CreateElement({
-                        type: 'text', class: 'ViewMode3DButtonDiv', text: '3D',
+                        type: 'text',
+                        class: 'ViewMode3DButtonDiv',
+                        text: '3D',
                         onClick: CreateFunction(this, this.viewWall3DButtonClicked)
                     }),
+
+                    //Creates Restore button
                     this.RestoreButton = CreateElement({
-                        type: 'text', class: 'RestoreButton', text: 'Restore',
+                        type: 'text',
+                        class: 'RestoreButton',
+                        text: 'Restore',
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
@@ -92,53 +155,79 @@ HVACApplication.prototype.createUI = function () {
                             this.viewMode3DController.cameraLookAtX = this.viewMode3DController.cameraCenterX;
                             this.viewMode3DController.cameraLookAtY = this.viewMode3DController.cameraCenterY;
 
-                            this.viewMode3DController.layoutViewMode3DCamera.position.setX(this.viewMode3DController.cameraCenterX);
-                            this.viewMode3DController.layoutViewMode3DCamera.position.setY(this.viewMode3DController.cameraCenterY);
-                            this.viewMode3DController.layoutViewMode3DCamera.position.setZ(this.viewMode3DController.viewZ);
-                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.viewMode3DController.cameraLookAtX, this.viewMode3DController.cameraLookAtY, 0));
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setX(
+                                this.viewMode3DController.cameraCenterX);
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setY(
+                                this.viewMode3DController.cameraCenterY);
+                            this.viewMode3DController.layoutViewMode3DCamera.position.setZ(
+                                this.viewMode3DController.viewZ);
+                            this.viewMode3DController.layoutViewMode3DCamera.lookAt(
+                                new THREE.Vector3(this.viewMode3DController.cameraLookAtX,
+                                    this.viewMode3DController.cameraLookAtY, 0));
                             this.viewMode3DController.dragButtonClicked();
                         })
                     }),
-                    //Create edit mode buttons
+
+                    //Creates Edit Point button
                     this.editPointButtonDiv = CreateElement({
-                        type: 'text', class: 'EditPointButtonDiv', text: 'Point',
+                        type: 'text',
+                        class: 'EditPointButtonDiv',
+                        text: 'Point',
                         onClick: CreateFunction(this, this.editPointButtonClicked)
                     }),
+
+                    //Creates Edit Corner button
                     this.editCornerButtonDiv = CreateElement({
-                        type: 'text', class: 'EditCornerButtonDiv', text: 'Corner',
+                        type: 'text',
+                        class: 'EditCornerButtonDiv',
+                        text: 'Corner',
                         onClick: CreateFunction(this, this.editCornerButtonClicked)
                     }),
+
+                    //Creates Delete Floor button
                     this.StartOverButton = CreateElement({
-                        type: 'text', class: 'StartOverButton', text: 'Floor',
+                        type: 'text',
+                        class: 'StartOverButton',
+                        text: 'Floor',
                         onClick: CreateFunction(this, function () {
                             this.viewAngle = 0;
                             this.viewScale = 1.0;
                             this.StartOverButton.style.backgroundColor = "#A696FF";
                             this.deleteButtonDiv.style.backgroundColor = "#8070D6";
-                            var newPopover = new StartOverPopover('Are you sure you want to start this floor from scratch?',
+                            var newStartOverPopover = new StartOverPopover(
+                                'Are you sure you want to start this floor from scratch?',
                                 CreateFunction(this, function () {
                                     this.getCurrentFloorPlan().clearWalls();
                                 }));
-                            newPopover.show(this.applicationDiv);
+                            newStartOverPopover.show(this.applicationDiv);
                         })
                     }),
-                    //Create delete mode button
+
+                    //Creates Delete Wall button
                     this.deleteButtonDiv = CreateElement({
-                        type: 'text', class: 'DeleteButtonDiv', text: 'Wall',
+                        type: 'text',
+                        class: 'DeleteButtonDiv',
+                        text: 'Wall',
                         onClick: CreateFunction(this, this.deleteWallButtonClicked)
                     })
-                    ]
+                ]
             })
         ]
     });
+
+    //Creates Top Title on top ribbon
     this.titleSpan = CreateElement({
         type: 'span',
         class: 'TopTitle',
         text: 'HVAC Model Designer',
         appendTo: this.applicationDiv
     });
+
+    //Creates the canvas
     this.layoutCanvas = CreateElement({
-        type: 'canvas', class: 'LayoutCanvas', appendTo: this.applicationDiv,
+        type: 'canvas',
+        class: 'LayoutCanvas',
+        appendTo: this.applicationDiv,
         onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
         onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased)
     });
@@ -151,7 +240,9 @@ HVACApplication.prototype.createUI = function () {
     this.resizeCanvas();
 };
 
-//Highlights WallEditor button and shows its sub-options in the menu.
+/**
+ * Highlights WallEditor button and shows its sub-options in the menu when its clicked.
+ */
 HVACApplication.prototype.wallEditorButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -165,7 +256,7 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.viewMode2DButtonDiv.remove();
+    this.RotateButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
@@ -176,8 +267,7 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
 
     this.showCreateModeLayout();
 
-    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL)
-    {
+    if (this.currentLayoutMode == LAYOUT_MODE_CREATE_WALL) {
         this.createButtonDiv.style.backgroundColor = "#A696FF";
     }
 
@@ -189,7 +279,9 @@ HVACApplication.prototype.wallEditorButtonClicked = function () {
     this.deleteMenuDiv.style.opacity = "1.0";
 }
 
-//Highlights RoomEditor button and shows its sub-options in the menu.
+/**
+ * Highlights RoomEditor button and shows its sub-options in the menu when its clicked.
+ */
 HVACApplication.prototype.roomEditorButtonClicked = function () {
     "use strict";
     this.roomEditorButtonDiv.style.backgroundColor = "#8070D6";
@@ -198,7 +290,7 @@ HVACApplication.prototype.roomEditorButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.viewMode2DButtonDiv.remove();
+    this.RotateButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
@@ -211,19 +303,21 @@ HVACApplication.prototype.roomEditorButtonClicked = function () {
     this.editButtonDiv.remove();
 }
 
-//Highlights View button and deselects other buttons.
+/**
+ * Highlights View button and deselects other buttons when its clicked.
+ */
 HVACApplication.prototype.viewWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.viewButtonDiv.style.backgroundColor = "#8070D6";
-    this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+    this.RotateButtonDiv.style.backgroundColor = "#A696FF";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
     this.wallEditorButtonDiv.style.backgroundColor = "#c9d7e0";
     this.roomEditorButtonDiv.style.backgroundColor = "#c9d7e0";
 
-    this.mySecondBannerDiv.appendChild(this.viewMode2DButtonDiv);
-    this.viewMode2DButtonDiv.style.opacity = "1.0";
+    this.mySecondBannerDiv.appendChild(this.RotateButtonDiv);
+    this.RotateButtonDiv.style.opacity = "1.0";
     this.mySecondBannerDiv.appendChild(this.viewMode3DButtonDiv);
     this.viewMode3DButtonDiv.style.opacity = "1.0";
     this.mySecondBannerDiv.appendChild(this.dragButtonDiv);
@@ -242,7 +336,7 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     if (this.currentLayoutMode == LAYOUT_MODE_DRAG) {
         this.dragButtonDiv.style.backgroundColor = "#A696FF";
     } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode2D) {
-        this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+        this.RotateButtonDiv.style.backgroundColor = "#A696FF";
     } else if (this.currentLayoutMode == LAYOUT_MODE_VIEW && this.currentViewModeLayout == ViewModeType.Mode3D) {
         this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
     }
@@ -250,23 +344,27 @@ HVACApplication.prototype.viewWallButtonClicked = function () {
     this.showViewModeLayout();
 };
 
-//Highlights Drag button and deselects other buttons.
+/**
+ * Highlights Drag button and deselects other buttons when its clicked.
+ */
 HVACApplication.prototype.dragButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DRAG;
     this.dragButtonDiv.style.backgroundColor = "#A696FF";
-    this.viewMode2DButtonDiv.style.backgroundColor = "#8070D6";
+    this.RotateButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
     this.StartOverButton.style.backgroundColor = "#8070D6";
 
     this.showDragModeLayout();
 };
 
-/*This function shows that 2D mode has been selected*/
+/**
+ * This function shows that 2D mode has been selected.
+ */
 HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.currentLayoutMode = LAYOUT_MODE_VIEW;
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
-    this.viewMode2DButtonDiv.style.backgroundColor = "#A696FF";
+    this.RotateButtonDiv.style.backgroundColor = "#A696FF";
     this.viewMode3DButtonDiv.style.backgroundColor = "#8070D6";
     this.StartOverButton.style.backgroundColor = "#8070D6";
 
@@ -276,19 +374,22 @@ HVACApplication.prototype.viewWall2DButtonClicked = function() {
     this.layoutCanvas.style.display = "block";
 };
 
-/*This function shows that 3D mode has been selected*/
+/**
+ * This function shows that 3D mode has been selected.
+ */
 HVACApplication.prototype.viewWall3DButtonClicked = function() {
     this.dragButtonDiv.style.backgroundColor = "#8070D6";
-    this.viewMode2DButtonDiv.style.backgroundColor = "#8070D6";
+    this.RotateButtonDiv.style.backgroundColor = "#8070D6";
     this.viewMode3DButtonDiv.style.backgroundColor = "#A696FF";
     this.StartOverButton.style.backgroundColor = "#8070D6";
 
     this.currentViewModeLayout = ViewModeType.Mode3D;
     this.viewMode3DController.show();
-    //this.layoutCanvas.style.display = "none";
 };
 
-//Highlights Create button and deselects other buttons.
+/**
+ * Highlights Create button and deselects other buttons.
+ */
 HVACApplication.prototype.createWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
@@ -299,7 +400,7 @@ HVACApplication.prototype.createWallButtonClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.viewMode2DButtonDiv.remove();
+    this.RotateButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
@@ -311,7 +412,9 @@ HVACApplication.prototype.createWallButtonClicked = function () {
     this.showCreateModeLayout();
 };
 
-//Highlights Edit button and deselects other buttons.
+/**
+ * Highlights Edit button and deselects other buttons.
+ */
 HVACApplication.prototype.editButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_EDIT;
@@ -328,13 +431,12 @@ HVACApplication.prototype.editButtonClicked = function () {
     this.mySecondBannerDiv.appendChild(this.editCornerButtonDiv);
     this.editCornerButtonDiv.style.opacity = "1.0";
 
-    this.viewMode2DButtonDiv.remove();
+    this.RotateButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
     this.StartOverButton.remove();
     this.deleteButtonDiv.remove();
-    //this.currentViewModeLayout = ViewModeType.Mode2D;
     this.viewMode3DController.hide();
 
     if (this.currentEditMode == EDIT_MODE_CORNER) {
@@ -346,7 +448,9 @@ HVACApplication.prototype.editButtonClicked = function () {
     }
 };
 
-//Highlights Point button underneath Edit button.
+/**
+ * Highlights Point button underneath Edit button.
+ */
 HVACApplication.prototype.editPointButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_POINT;
@@ -356,7 +460,9 @@ HVACApplication.prototype.editPointButtonClicked = function () {
     this.showEditPointModeLayout();
 };
 
-//Highlights Corner button underneath Edit button.
+/**
+ * Highlights Corner button underneath Edit button.
+ */
 HVACApplication.prototype.editCornerButtonClicked = function () {
     "use strict";
     this.currentEditMode = EDIT_MODE_CORNER;
@@ -366,7 +472,9 @@ HVACApplication.prototype.editCornerButtonClicked = function () {
     this.showEditCornerModeLayout();
 };
 
-/*This function shows the Delete button as selected*/
+/**
+ * This function shows the Delete button as selected.
+ */
 HVACApplication.prototype.deleteMenuClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
@@ -384,7 +492,7 @@ HVACApplication.prototype.deleteMenuClicked = function () {
 
     this.editPointButtonDiv.remove();
     this.editCornerButtonDiv.remove();
-    this.viewMode2DButtonDiv.remove();
+    this.RotateButtonDiv.remove();
     this.viewMode3DButtonDiv.remove();
     this.dragButtonDiv.remove();
     this.RestoreButton.remove();
@@ -398,7 +506,9 @@ HVACApplication.prototype.deleteMenuClicked = function () {
     this.showDeleteModeLayout();
 };
 
-//Highlights Delete button and deselects other buttons.
+/**
+ * Highlights Delete button and deselects other buttons.
+ */
 HVACApplication.prototype.deleteWallButtonClicked = function () {
     "use strict";
     this.currentLayoutMode = LAYOUT_MODE_DELETE_WALL;
@@ -408,6 +518,11 @@ HVACApplication.prototype.deleteWallButtonClicked = function () {
     this.showDeleteModeLayout();
 };
 
+/**
+ * Gets the current Application Div
+ *
+ * @return: The current Application Div
+ */
 HVACApplication.prototype.getApplicationDiv = function() {
     return this.applicationDiv;
 };

@@ -1,15 +1,18 @@
 /**
  * Created by Matt on 9/23/2016.
+ *
+ * This class deals with user interaction with the canvas when the Create Mode is selected.
  */
 
-var scaleFactor = 1.1;
+var scaleFactor = 1.1; //Ratio of how much the canvas should scale when zooming in/out
 
+//Determines which view type is currently being displayed
 var ViewModeType = {
     Mode2D: 0,
     Mode3D: 1
 };
 
-//Allows the handling of Scrolling in View Mode
+//Allows the handling of scrolling in View Mode.
 var handleScroll = function(evt) {
         var delta;
         if (evt.wheelDelta) {
@@ -36,14 +39,18 @@ var handleScroll = function(evt) {
         evt.preventDefault();
 };
 
-//Creates and initializes the View Mode variables
+/**
+ * Creates and initializes the View Mode variables.
+ */
 HVACApplication.prototype.initViewModeVariables = function () {
     "use strict";
     this.currentViewModeLayout = ViewModeType.Mode2D;
     this.applicationDiv.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 };
 
-//Shows the View Mode Layout
+/**
+ * Shows the View Mode Layout.
+ */
 HVACApplication.prototype.showViewModeLayout = function () {
     "use strict";
     if (this.currentViewModeLayout == ViewModeType.Mode3D) {
@@ -51,7 +58,7 @@ HVACApplication.prototype.showViewModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is pressed down.
+//When the mouse is pressed down, calculates the current mouse point.
 HVACApplication.prototype.mousePressedViewModeLayout = function () {
     "use strict";
     var canvasWidth = this.layoutCanvas.width;
@@ -59,13 +66,9 @@ HVACApplication.prototype.mousePressedViewModeLayout = function () {
     this.mouseAngle = Math.atan2(this.canvasMouseX - canvasWidth/2, this.canvasMouseY - canvasHeight/2);
 };
 
-//Action taken for when the mouse is moving.
+//When the mouse is moving, calculates the rotation angle based on how much the mouse moved.
 HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     "use strict";
-
-    //{ 1, 1 } =
-    //{ 1, -1 } =
-
     if (this.mouseDown) {
         var canvasWidth = this.layoutCanvas.width;
         var canvasHeight = this.layoutCanvas.height;
@@ -75,7 +78,7 @@ HVACApplication.prototype.mouseMovedViewModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is released.
+//Action taken for when the mouse is released. Currently has no effect on anything by itself.
 HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
     "use strict";
 };
@@ -83,9 +86,7 @@ HVACApplication.prototype.mouseReleasedViewModeLayout = function () {
 //Redraws the display on the canvas.
 HVACApplication.prototype.drawViewModeLayout = function () {
     "use strict";
-
     if (this.currentViewModeLayout == ViewModeType.Mode2D) {
-
         var ctx = this.beginDraw();
 
         for (var i = 0; i < this.getCurrentWallList().length; i++) {

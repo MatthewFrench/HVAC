@@ -2,7 +2,7 @@
  * Created by AJ Massey on 10/26/2016.
  *
  * This Code is the Location Popover code that will allow a user to input Information about their Location
- * for calculating the U Value
+ * for calculating the U Value.
  */
 
 var stateData = {"Alabama":{"name":"Alabama","cities":["Alexander City","Anniston AP","Auburn","Birmingham AP","Decatur",
@@ -134,10 +134,14 @@ var stateData = {"Alabama":{"name":"Alabama","cities":["Alexander City","Annisto
         "Waukesha","Wausau AP"]},"Wyoming":{"name":"Wyoming","cities":["Big Piney","Casper AP","Cheyene AP","Cody AP","Evanston",
         "Gillette","Lander AP","Laramie AP","Newcastle","Rawlins","Rock Springs AP","Sheridan AP","Torrington","Worland"]}};
 
-//This function creates the Location Popover
+/**
+ * This function creates the Location Popover.
+ *
+ * @constructor
+ */
 function LocationPopover() {
     "use strict";
-    //Constructor
+
     this.optionArray = [];
     this.textArray = [];
     var optionArray2 = [];
@@ -145,17 +149,55 @@ function LocationPopover() {
     this.locationDataDiv = null;
     this.saveDataButton = null;
     this.titleSpan = null;
-    this.backgroundDiv = CreateElement({type: 'div', class: 'BackgroundCover'});
+    this.backgroundDiv = CreateElement({
+        type: 'div',
+        class: 'BackgroundCover'
+    });
 
-    this.locationDataDiv = CreateElement({type: 'div', class: 'LocationDataDiv', elements: [
-        this.LocationSaveButton = CreateElement({type: 'button', class: 'LocationSaveButton', text: 'Save'}),
-        this.titleSpan = CreateElement({type: 'span', class: 'LocationTitle', text: 'Input Location Data'}),
-        this.firstElement = CreateElement({type: 'state', class: 'State', text: 'Select your State'}),
-        this.firstButton = CreateElement({type: 'select', id: 'State', class: 'StateDropDown', text: 'Select a State from Dropdown'}),
-        this.secondElement = CreateElement({type: 'city', class: 'City', text: 'Select the City closest to yours'}),
-        this.secondButton = CreateElement({type: 'select', id: 'City', class: 'CityDropDown', text: 'Select a City from Dropdown'}),
-        this.LocationCancelButton = CreateElement({type: 'button', class: 'LocationCancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
-    ]});
+    this.locationDataDiv = CreateElement({
+        type: 'div',
+        class: 'LocationDataDiv',
+        elements: [
+            this.LocationSaveButton = CreateElement({
+                type: 'button',
+                class: 'LocationSaveButton',
+                text: 'Save'
+            }),
+            this.titleSpan = CreateElement({
+                type: 'span',
+                class: 'LocationTitle',
+                text: 'Input Location Data'
+            }),
+            this.firstElement = CreateElement({
+                type: 'state',
+                class: 'State',
+                text: 'Select your State'
+            }),
+            this.firstButton = CreateElement({
+                type: 'select',
+                id: 'State',
+                class: 'StateDropDown',
+                text: 'Select a State from Dropdown'
+            }),
+            this.secondElement = CreateElement({
+                type: 'city',
+                class: 'City',
+                text: 'Select the City closest to yours'
+            }),
+            this.secondButton = CreateElement({
+                type: 'select',
+                id: 'City',
+                class: 'CityDropDown',
+                text: 'Select a City from Dropdown'
+            }),
+            this.LocationCancelButton = CreateElement({
+                type: 'button',
+                class: 'LocationCancelButton',
+                text: 'Cancel',
+                onClick: CreateFunction(this, this.hide)
+            })
+        ]
+    });
 
     var self = this;
     this.LocationSaveButton.onclick = function () {
@@ -166,20 +208,23 @@ function LocationPopover() {
     };
 
     //This For Loop will add all of the States to the State Selection
-    for (var state in stateData)
-    {
-            var text;
-            var option = CreateElement({type: 'option', value: state, elements:[
+    for (var state in stateData) {
+        var text;
+        var option = CreateElement({
+            type: 'option',
+            value: state,
+            elements:[
                 text = document.createTextNode(state)
-            ], appendTo: this.firstButton});
-            this.optionArray.push(option);
-            this.textArray.push(text);
+            ],
+            appendTo: this.firstButton
+        });
+        this.optionArray.push(option);
+        this.textArray.push(text);
     }
 
     this.firstButton.selectedIndex = -1;
 
-    this.firstButton.onchange = function()
-    {
+    this.firstButton.onchange = function() {
         self.secondButton.innerHTML = "";
         self.secondButton.style.opacity = "1.0";
         self.secondElement.style.opacity = "1.0";
@@ -188,27 +233,37 @@ function LocationPopover() {
         var cityArray = stateData[state]["cities"];
 
         //This For Loop will add all of the Cities from the State Selected to the City Selection
-        for (var city in cityArray)
-        {
+        for (var city in cityArray) {
             var text2;
-            var option2 = CreateElement({type: 'option', value: cityArray[city], elements: [
-                text2 = document.createTextNode(cityArray[city])
-            ], appendTo: self.secondButton});
+            var option2 = CreateElement({
+                type: 'option',
+                value: cityArray[city],
+                elements: [
+                    text2 = document.createTextNode(cityArray[city])
+                ],
+                appendTo: self.secondButton
+            });
             optionArray2.push(option2);
             textArray2.push(text2);
         }
     }
-    self.locationDataDiv.appendChild(self.secondButton);
 
+    self.locationDataDiv.appendChild(self.secondButton);
 }
 
-//This function shows the Location Popover
+/**
+ * This function shows the Location Popover.
+ *
+ * @param parent: The hvacApplication class that the Location Popover is contained in.
+ */
 LocationPopover.prototype.show = function(parent) {
     parent.appendChild(this.backgroundDiv);
     parent.appendChild(this.locationDataDiv);
 };
 
-//This function hides the Location Popover
+/**
+ * This function hides the Location Popover.
+ */
 LocationPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.locationDataDiv.remove();

@@ -1,13 +1,15 @@
-/*This is a CSS Stylesheet that affects the way the Door Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Door Popover appears and acts
+ */
 
-.DoorBGCover{
+.DoorBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.DoorDiv{
+.DoorDiv {
     position: absolute;
     width: 40%;
     height: 75%;
@@ -17,7 +19,7 @@
     outline: black solid thin;
 }
 
-.DoorTypeElement{
+.DoorTypeElement {
     position: absolute;
     color: black;
     font-size: 18px;
@@ -27,7 +29,7 @@
     font-weight: 600;
 }
 
-.DoorTypeButton{
+.DoorTypeButton {
     position: absolute;
     width: 100px;
     height: 50px;
@@ -39,7 +41,7 @@
     outline: black solid thin;
 }
 
-.ScreenDoorElement{
+.ScreenDoorElement {
     position: absolute;
     color: black;
     font-size: 18px;
@@ -50,7 +52,7 @@
     opacity: 0;
 }
 
-.ScreenDoorButton{
+.ScreenDoorButton {
     position: absolute;
     width: 100px;
     height: 50px;
@@ -63,7 +65,7 @@
     opacity: 0;
 }
 
-.DoorThicknessElement{
+.DoorThicknessElement {
     position: absolute;
     color: black;
     font-size: 18px;
@@ -74,7 +76,7 @@
     opacity: 0;
 }
 
-.DoorThicknessButton{
+.DoorThicknessButton {
     position: absolute;
     width: 100px;
     height: 50px;
@@ -87,7 +89,7 @@
     opacity: 0;
 }
 
-.DoorDescriptionElement{
+.DoorDescriptionElement {
     position: absolute;
     color: black;
     font-size: 18px;
@@ -98,7 +100,7 @@
     opacity: 0;
 }
 
-.DoorDescriptionButton{
+.DoorDescriptionButton {
     position: absolute;
     width: 500px;
     height: 50px;
@@ -111,7 +113,7 @@
     opacity: 0;
 }
 
-.DoorUValueElement{
+.DoorUValueElement {
     position: absolute;
     color: black;
     font-size: 18px;
@@ -136,7 +138,7 @@
     opacity: 0;
 }
 
-.DoorSaveButton{
+.DoorSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
@@ -148,7 +150,7 @@
     outline: black solid thin;
 }
 
-.DoorCancelButton{
+.DoorCancelButton {
     position: absolute;
     width: 90px;
     height: 30px;

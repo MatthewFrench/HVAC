@@ -1,13 +1,15 @@
-/*This is a CSS Stylesheet that affects the way the Miscellaneous Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Miscellaneous Popover appears and acts
+ */
 
-.MiscBGCover{
+.MiscBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.MiscDiv{
+.MiscDiv {
     position: absolute;
     width: 40%;
     height: 75%;
@@ -17,7 +19,7 @@
     outline: black solid thin;
 }
 
-.MiscSaveButton{
+.MiscSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
@@ -29,7 +31,7 @@
     outline: black solid thin;
 }
 
-.MiscCancelButton{
+.MiscCancelButton {
     position: absolute;
     width: 90px;
     height: 30px;

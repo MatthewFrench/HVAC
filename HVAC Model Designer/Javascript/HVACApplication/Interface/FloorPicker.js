@@ -1,5 +1,6 @@
 /**
  * Created by personal on 11/7/16.
+ *
  * This class controls the window on the canvas that allows you to manage the different floors of the
  * current project.
  */
@@ -12,18 +13,43 @@
  */
 function FloorPicker(hvacApplication) {
     this.hvacApplication = hvacApplication;
-    this.mainDiv = new CreateElement({type: 'div', class: 'FloorPicker_Main_Div', elements: [
-        CreateElement({type: 'div', class: 'FloorPicker_Title', text: 'Floors'}),
-        this.floorContainer = CreateElement({type: 'div', class: 'FloorPicker_Floor_Container'}),
-        CreateElement({type: 'div', class: 'FloorPicker_Bottom_Bar', elements: [
-            CreateElement({type: 'button', class: 'FloorPicker_Add_Button', text: '+',
-                onClick: CreateFunction(this, this.addFloor)}),
-            CreateElement({type: 'button', class: 'FloorPicker_Edit_Name_Button', text: 'Edit Name',
-                onClick: CreateFunction(this, this.editFloorName)}),
-            CreateElement({type: 'button', class: 'FloorPicker_Remove_Button', text: '-',
-                onClick: CreateFunction(this, this.removeFloor)})
-        ]})
-    ]});
+    this.mainDiv = new CreateElement({
+        type: 'div',
+        class: 'FloorPicker_Main_Div',
+        elements: [
+            CreateElement({
+                type: 'div',
+                class: 'FloorPicker_Title',
+                text: 'Floors'}),
+            this.floorContainer = CreateElement({
+                type: 'div',
+                class: 'FloorPicker_Floor_Container'}),
+            CreateElement({
+                type: 'div',
+                class: 'FloorPicker_Bottom_Bar',
+                elements: [
+                    CreateElement({
+                        type: 'button',
+                        class: 'FloorPicker_Add_Button',
+                        text: '+',
+                        onClick: CreateFunction(this, this.addFloor)
+                    }),
+                    CreateElement({
+                        type: 'button',
+                        class: 'FloorPicker_Edit_Name_Button',
+                        text: 'Edit Name',
+                        onClick: CreateFunction(this, this.editFloorName)
+                    }),
+                    CreateElement({
+                        type: 'button',
+                        class: 'FloorPicker_Remove_Button',
+                        text: '-',
+                        onClick: CreateFunction(this, this.removeFloor)
+                    })
+                ]
+            })
+        ]
+    });
 
     this.floorRows = [];
     this.currentFloorRow = null;
@@ -48,8 +74,12 @@ FloorPicker.prototype.loadFloors = function() {
             var floor = floorList[i];
             if (floor.floorName == "") floor.floorName = 'Floor ' + (index+1);
             var floorName = floor.floorName;
-            var row = CreateElement({type: 'div', class: 'FloorPicker_Floor_Row', text: floorName,
+            var row = CreateElement({
+                type: 'div',
+                class: 'FloorPicker_Floor_Row',
+                text: floorName,
                 appendTo: this.floorContainer});
+
             var floorRow = new FloorRow(row, floor);
             if (floor == this.hvacApplication.getCurrentFloorPlan()) {
                 row.className = "FloorPicker_Floor_Row selected";
@@ -90,6 +120,7 @@ FloorPicker.prototype.addFloor = function() {
     this.loadFloors();
     this.floorClicked(this.floorRows[0]);
 
+    //Create and display EditFloorNamePopover to allow user to change name of the floor
     var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
         CreateFunction(this, function (newFloorName) {
             this.currentFloorRow.floor.floorName = newFloorName;
@@ -104,6 +135,7 @@ FloorPicker.prototype.addFloor = function() {
  * This function displays the EditFloorNamePopover.js to be able to change the name of the floor.
  */
 FloorPicker.prototype.editFloorName = function() {
+    //Create and display EditFloorNamePopover to allow user to change name of the floor
     var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
         CreateFunction(this, function (newFloorName) {
             this.currentFloorRow.floor.floorName = newFloorName;

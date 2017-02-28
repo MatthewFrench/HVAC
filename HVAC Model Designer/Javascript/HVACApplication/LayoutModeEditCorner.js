@@ -1,44 +1,62 @@
 /**
  * Created by Matt on 9/19/16.
+ *
+ * This class deals with user interaction with the canvas when the Edit Corner Mode is selected.
  */
 
-//Creates and initializes the variables for Wall Connecting
+/**
+ * Creates and initializes the variables for Wall Connecting
+ *
+ * @param cornerPoint: The coordinate point where two walls are connected and create a corner.
+ * @param connectedWall: One of the connected walls in the corner.
+ * @constructor
+ */
 var WallConnection = function(cornerPoint, connectedWall) {
     "use strict";
-
     this.cornerPoint = cornerPoint;
     this.connectedWall = connectedWall;
-    var lengthOfWall = Math.hypot(connectedWall.getPoint2X() - connectedWall.getPoint1X(), connectedWall.getPoint2Y() - connectedWall.getPoint1Y());
-    this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.getPoint1X(), cornerPoint.getY() - connectedWall.getPoint1Y()) / lengthOfWall;
+    var lengthOfWall = Math.hypot(connectedWall.getPoint2X() - connectedWall.getPoint1X(),
+        connectedWall.getPoint2Y() - connectedWall.getPoint1Y()
+    );
+    this.percentageOnWallLine = Math.hypot(cornerPoint.getX() - connectedWall.getPoint1X(),
+            cornerPoint.getY() - connectedWall.getPoint1Y()) / lengthOfWall;
 };
 
-//This function reattaches two walls that were previously split
+/**
+ * This function reattaches two walls that were previously split.
+ */
 WallConnection.prototype.reattach = function() {
-    var newX = (this.connectedWall.getPoint2X() - this.connectedWall.getPoint1X()) * this.percentageOnWallLine + this.connectedWall.getPoint1X();
-    var newY = (this.connectedWall.getPoint2Y() - this.connectedWall.getPoint1Y()) * this.percentageOnWallLine + this.connectedWall.getPoint1Y();
+    var newX = (this.connectedWall.getPoint2X() - this.connectedWall.getPoint1X())
+        * this.percentageOnWallLine + this.connectedWall.getPoint1X();
+
+    var newY = (this.connectedWall.getPoint2Y() - this.connectedWall.getPoint1Y())
+        * this.percentageOnWallLine + this.connectedWall.getPoint1Y();
+
     this.cornerPoint.setX(newX);
     this.cornerPoint.setY(newY);
 };
 
-//Creates and initializes the corner mode variable
+/**
+ * Creates and initializes the corner mode variable
+ */
 HVACApplication.prototype.initEditCornerModeVariables = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
     this.highlightedCorners = [];
 };
 
-//Shows the Corner Mode Layout
+/**
+ * Shows the Corner Mode Layout
+ */
 HVACApplication.prototype.showEditCornerModeLayout = function () {
     "use strict";
 };
 
-//Action taken for when the mouse is pressed down.
+/**
+ * When the mouse is pressed down, selects all points near the mouse and track all walls of those points.
+ */
 HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     "use strict";
-    //Select all points near the mouse and track all walls of those points
-
-    console.log("Mouse pressed");
-
     this.currentEditCornerSelectedCornerPoints = [];
     var searchArea = 15;
     var closestCornerPoint = null;
@@ -58,7 +76,6 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 
     //Store all wall connections
     this.wallConnections = [];
-    console.log("Wall connection: " + this.wallConnections);
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var firstWall = this.getCurrentWallList()[i];
         for (var j = i+1; j < this.getCurrentWallList().length; j++) {
@@ -84,12 +101,19 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
 
             var checkConnection = function(checkWallPoint, targetWallPoint1, targetWallPoint2) {
                 var pointOnLine = nearestPointOnLine(targetWallPoint1.getX(), targetWallPoint1.getY(),
-                    targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(), checkWallPoint.getY());
-                var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(), pointOnLine.getY() - checkWallPoint.getY());
-                if (distBetweenConnection <= 1.0) { //If within 1 pixel, be connected to wall
+                    targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(), checkWallPoint.getY()
+                );
+                var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(),
+                    pointOnLine.getY() - checkWallPoint.getY()
+                );
+
+                //If within 1 pixel, be connected to wall
+                if (distBetweenConnection <= 1.0) {
                     //Check if an end point
-                    if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(), checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
-                        Math.hypot(checkWallPoint.getX() - targetWallPoint2.getX(), checkWallPoint.getY() - targetWallPoint2.getY()) <= 1.0) {
+                    if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(),
+                            checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
+                        Math.hypot(checkWallPoint.getX() - targetWallPoint2.getX(),
+                            checkWallPoint.getY() - targetWallPoint2.getY()) <= 1.0) {
                         //End point do nothing
                     } else {
                         //Not an end point, add
@@ -149,22 +173,30 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
                 }
                 if (containsWall) continue;
 
-                var pointOnLine = nearestPointOnLine(checkWall.getPoint1X(), checkWall.getPoint1Y(), checkWall.getPoint2X(), checkWall.getPoint2Y(), cornerPoint.getX(), cornerPoint.getY());
+                var pointOnLine = nearestPointOnLine(checkWall.getPoint1X(), checkWall.getPoint1Y(),
+                    checkWall.getPoint2X(), checkWall.getPoint2Y(), cornerPoint.getX(), cornerPoint.getY()
+                );
+
+                //Check if points are added, if not add them to corner points
                 if (Math.hypot(cornerPoint.getX() - pointOnLine.getX(), cornerPoint.getY() - pointOnLine.getY()) <= 1.0) {
-                    //Check if points are added, if not add them to corner points
                     var wallCorner1 = checkWall.getCornerPoint1();
                     var wallCorner2 = checkWall.getCornerPoint2();
                     var addWallCorner1 = true;
                     var addWallCorner2 = true;
                     for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
                         var checkCorner = currentEditCornerSelectedCornerPointsClones[j];
-                        if (checkCorner.getWall() == wallCorner1.getWall() && checkCorner.getPointType() == wallCorner1.getPointType()) addWallCorner1 = false;
-                        if (checkCorner.getWall() == wallCorner2.getWall() && checkCorner.getPointType() == wallCorner2.getPointType()) addWallCorner2 = false;
+                        if (checkCorner.getWall() == wallCorner1.getWall()
+                            && checkCorner.getPointType() == wallCorner1.getPointType()) {
+                                addWallCorner1 = false;
+                        }
+                        if (checkCorner.getWall() == wallCorner2.getWall()
+                            && checkCorner.getPointType() == wallCorner2.getPointType()) {
+                                addWallCorner2 = false;
+                        }
                     }
                     if (addWallCorner1) this.currentEditCornerSelectedCornerPoints.push(wallCorner1);
                     if (addWallCorner2) this.currentEditCornerSelectedCornerPoints.push(wallCorner2);
                 }
-
             }
         }
     }
@@ -175,7 +207,9 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
         var closest = 15.0;
         for (var i = 0; i < this.getCurrentWallList().length; i++) {
             var wall = this.getCurrentWallList()[i];
-            var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),  this.rotatedCanvasMouseX,  this.rotatedCanvasMouseY);
+            var point = nearestPointOnLine( wall.getPoint1X(), wall.getPoint1Y(),
+                wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+            );
             var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
             if (dist <= closest) {
                 closestWall = wall;
@@ -189,16 +223,18 @@ HVACApplication.prototype.mousePressedEditCornerModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is moving.
+/**
+ * When the mouse is moving, the selected wall corner needs to move if mouse is down.
+ */
 HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     "use strict";
-
-
     this.highlightedCorners = [];
     var closest = 15;
     for (var i = 0; i < this.getCurrentWallList().length; i++) {
         var wall = this.getCurrentWallList()[i];
-        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY
+        );
         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
         if (dist < closest) {
             //closest = dist;
@@ -208,14 +244,12 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     }
     
     if (this.mouseDown) {
-
-
         for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
             var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
             cornerPoint.setX(cornerPoint.getX() - this.rotatedCanvasMouseMovedX);
             cornerPoint.setY(cornerPoint.getY() - this.rotatedCanvasMouseMovedY);
         }
-        console.log("Mouse move wall connections: " + this.wallConnections.length);
+
         //Re-align walls
         for (var i = 0; i < this.wallConnections.length; i++) {
             var wallConnection = this.wallConnections[i];
@@ -233,25 +267,28 @@ HVACApplication.prototype.mouseMovedEditCornerModeLayout = function () {
     }
 };
 
-//Action taken for when the mouse is released.
+/**
+ * When the mouse is released, check if the corner point overlapped another existing wall.
+ */
 HVACApplication.prototype.mouseReleasedEditCornerModeLayout = function () {
     "use strict";
     this.currentEditCornerSelectedCornerPoints = [];
-
     wallSlicer.call(this, this.getCurrentWallList(), this.intersectHighlightPoints);
 };
 
-//Redraws the display on the canvas.
+/**
+ * Redraws the display on the canvas.
+ */
 HVACApplication.prototype.drawEditCornerModeLayout = function () {
     "use strict";
     var ctx = this.beginDraw();
-
 
     //Draw above and below floors
     var floorList = this.getCurrentBuilding().getFloorList();
     var currentFloor = this.getCurrentFloorPlan();
     var currentFloorIndex = floorList.indexOf(currentFloor);
 
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex > 0) {
         var underneathFloor = floorList[currentFloorIndex - 1];
         for (var j = 0; j < underneathFloor.getWallList().length; j++) {
@@ -259,6 +296,8 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
             wall.drawDotted(ctx, true);
         }
     }
+
+    //Gets the walls of the Floor beneath the current one and displays on canvas
     if (currentFloorIndex < floorList.length - 1) {
         var aboveFloor = floorList[currentFloorIndex + 1];
         for (var j = 0; j < aboveFloor.getWallList().length; j++) {
@@ -288,6 +327,5 @@ HVACApplication.prototype.drawEditCornerModeLayout = function () {
 */
         wall.draw(ctx, highlight);
     }
-
     this.endDraw(ctx);
 };

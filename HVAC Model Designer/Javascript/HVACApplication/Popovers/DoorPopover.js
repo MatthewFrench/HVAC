@@ -2,10 +2,14 @@
  * Created by AJ Massey on 10/26/2016.
  *
  * This Code is the Door Popover code that will allow a user to input Information about Doors for calculating
- * the U Value
+ * the U Value.
  */
 
-//This function creates the Door Popover
+/**
+ * This function creates the Door Popover.
+ *
+ * @constructor
+ */
 function DoorPopover() {
     var Doortext;
     var Doortext2;
@@ -162,7 +166,8 @@ function DoorPopover() {
                 type: 'option',
                 value: 'First',
                 elements: [
-                    Doordescriptiontext = document.createTextNode("Fiberglass or Mineral Wool Core with Steel Stiffeners, no Thermal Break")
+                    Doordescriptiontext = document.createTextNode(
+                        "Fiberglass or Mineral Wool Core with Steel Stiffeners, no Thermal Break")
                 ],
                 appendTo: self.DoorDescriptionButton
             });
@@ -218,7 +223,8 @@ function DoorPopover() {
                 type: 'option',
                 value: 'Eighth',
                 elements: [
-                    Doordescriptiontext8 = document.createTextNode("Polyurethane Core with Thermal Break and Wood Perimeter (24 Gage)")
+                    Doordescriptiontext8 = document.createTextNode(
+                        "Polyurethane Core with Thermal Break and Wood Perimeter (24 Gage)")
                 ],
                 appendTo: self.DoorDescriptionButton
             });
@@ -367,14 +373,10 @@ function DoorPopover() {
         var sel4 = document.getElementById('DoorDescription');
         var fourth = sel4.options[sel4.selectedIndex];
 
-        if(first.value == "Wood")
-        {
-            if(second.value == "35")
-            {
-                if(third.value == "None")
-                {
-                    if(fourth.value == "First")
-                    {
+        if(first.value == "Wood") {
+            if(second.value == "35") {
+                if(third.value == "None") {
+                    if(fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -383,9 +385,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -394,9 +394,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -406,11 +404,8 @@ function DoorPopover() {
                             appendTo: self.DoorUValueBox
                         })
                     }
-                }
-                else if(third.value == "Wood")
-                {
-                    if (fourth.value == "First")
-                    {
+                } else if(third.value == "Wood") {
+                    if (fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -419,9 +414,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -430,9 +423,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -442,11 +433,8 @@ function DoorPopover() {
                             appendTo: self.DoorUValueBox
                         })
                     }
-                }
-                else
-                {
-                    if(fourth.value == "First")
-                    {
+                } else {
+                    if(fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -455,9 +443,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -466,9 +452,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -480,13 +464,9 @@ function DoorPopover() {
                     }
                 }
 
-            }
-            else if(second.value == "45")
-            {
-                if(third.value == "None")
-                {
-                    if(fourth.value == "First")
-                    {
+            } else if(second.value == "45") {
+                if(third.value == "None") {
+                    if(fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -495,9 +475,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -506,9 +484,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if (fourth.value == "Third")
-                    {
+                    } else if (fourth.value == "Third") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -517,9 +493,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -529,11 +503,8 @@ function DoorPopover() {
                             appendTo: self.DoorUValueBox
                         })
                     }
-                }
-                else if(third.value == "Wood")
-                {
-                    if (fourth.value == "First")
-                    {
+                } else if(third.value == "Wood") {
+                    if (fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -542,9 +513,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -553,9 +522,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if (fourth.value == "Third")
-                    {
+                    } else if (fourth.value == "Third") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -564,9 +531,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -576,11 +541,8 @@ function DoorPopover() {
                             appendTo: self.DoorUValueBox
                         })
                     }
-                }
-                else
-                {
-                    if(fourth.value == "First")
-                    {
+                } else {
+                    if(fourth.value == "First") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -589,9 +551,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if(fourth.value == "Second")
-                    {
+                    } else if(fourth.value == "Second") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -600,9 +560,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else if (fourth.value == "Third")
-                    {
+                    } else if (fourth.value == "Third") {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -611,9 +569,7 @@ function DoorPopover() {
                             ],
                             appendTo: self.DoorUValueBox
                         })
-                    }
-                    else
-                    {
+                    } else {
                         var DoorUValueoption = CreateElement({
                             type: 'option',
                             value: 'UValue',
@@ -624,11 +580,8 @@ function DoorPopover() {
                         })
                     }
                 }
-            }
-            else
-            {
-                if(third.value == "None")
-                {
+            } else {
+                if(third.value == "None") {
                     var DoorUValueoption = CreateElement({
                         type: 'option',
                         value: 'UValue',
@@ -637,9 +590,7 @@ function DoorPopover() {
                         ],
                         appendTo: self.DoorUValueBox
                     })
-                }
-                else if(third.value == "Wood")
-                {
+                } else if(third.value == "Wood") {
                     var DoorUValueoption = CreateElement({
                         type: 'option',
                         value: 'UValue',
@@ -648,9 +599,7 @@ function DoorPopover() {
                         ],
                         appendTo: self.DoorUValueBox
                     })
-                }
-                else
-                {
+                } else {
                     var DoorUValueoption = CreateElement({
                         type: 'option',
                         value: 'UValue',
@@ -665,13 +614,17 @@ function DoorPopover() {
     }
 }
 
-//This function shows the Door Popover
+/**
+ * This function shows the Door Popover.
+ */
 DoorPopover.prototype.show = function(parent) {
     parent.appendChild(this.backgroundDiv);
     parent.appendChild(this.DoorDiv);
 };
 
-//This function hides the Door Popover
+/**
+ * This function hides the Door Popover.
+ */
 DoorPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.DoorDiv.remove();

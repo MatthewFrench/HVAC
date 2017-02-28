@@ -2,10 +2,14 @@
  * Created by AJ Massey on 10/26/2016.
  *
  * This Code is the Wall Popover code that will allow a user to input Information about walls for calculating
- * the U Value
+ * the U Value.
  */
 
-//This function creates the Wall Popover
+/**
+ * This function creates the Wall Popover.
+ *
+ * @constructor
+ */
 function WallPopover() {
     var self = this;
 
@@ -212,8 +216,7 @@ function WallPopover() {
         var sel = document.getElementById('InsulationMaterials');
         var first = sel.options[sel.selectedIndex];
         var i;
-        for(i = document.getElementById("InsulationDetails").options.length - 1 ; i >= 0 ; i--)
-        {
+        for(i = document.getElementById("InsulationDetails").options.length - 1 ; i >= 0 ; i--) {
             document.getElementById("InsulationDetails").remove(i);
         }
         document.getElementById("InsulationDetails").style.display = "block";
@@ -299,8 +302,7 @@ function WallPopover() {
     };
     this.InsulationDetailsButton.onchange = function() {
         var i;
-        for(i = document.getElementById("ConstructionMaterials").options.length - 1 ; i >= 0 ; i--)
-        {
+        for(i = document.getElementById("ConstructionMaterials").options.length - 1 ; i >= 0 ; i--) {
             document.getElementById("ConstructionMaterials").remove(i);
         }
         document.getElementById("InsulationDetails").style.display = "none";
@@ -400,8 +402,7 @@ function WallPopover() {
     };
     this.ConstructionMaterialsButton.onchange = function() {
         var i;
-        for(i = document.getElementById("SheathingMaterials").options.length - 1 ; i >= 0 ; i--)
-        {
+        for(i = document.getElementById("SheathingMaterials").options.length - 1 ; i >= 0 ; i--) {
             document.getElementById("SheathingMaterials").remove(i);
         }
         self.SheathingMaterialsElement.style.opacity = "1.0";
@@ -514,13 +515,19 @@ function WallPopover() {
     };
 }
 
-//This function shows the Wall Popover
+/**
+ * This function shows the Wall Popover.
+ *
+ * @param parent: The hvacApplication class that the StartOver Popover is contained in.
+ */
 WallPopover.prototype.show = function(parent) {
     parent.appendChild(this.backgroundDiv);
     parent.appendChild(this.WallDiv);
 };
 
-//This function hides the Wall Popover
+/**
+ * This function hides the Wall Popover.
+ */
 WallPopover.prototype.hide = function() {
     this.backgroundDiv.remove();
     this.WallDiv.remove();

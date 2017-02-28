@@ -2,7 +2,7 @@
 This is a CSS Stylesheet that affects the way the Starting Over Popover appears and acts.
  */
 
-.EditFloorNamePopover_Block{
+.EditFloorNamePopover_Block {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;

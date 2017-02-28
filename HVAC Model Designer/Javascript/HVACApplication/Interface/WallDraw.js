@@ -1,24 +1,15 @@
 /**
  * Created by Matt on 9/9/16.
+ *
+ * This class handles the drawing of the lines on the canvas.
  */
 
-/*
- function Wall(options) {
-     "use strict";
-     this.cornerPoint1 = new CornerPoint({point: options['point1'], wall: this});
-     this.cornerPoint2 = new CornerPoint({point: options['point2'], wall: this});
-     this.floorPlan = options['floor'];
-     this.floorPlan.addWall(this);
- }
-
- Wall.prototype.getCornerPoint1() - CornerPoint
- Wall.prototype.getCornerPoint2() - CornerPoint
- Wall.prototype.getFloorPlan() - FloorPlan
- Wall.prototype.getLine() - Line2D
- Wall.prototype.setLine(Line2D)
+/**
+ * This function draws lines on our canvas.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param showHandles: Determine if show wall endpoints.
  */
-
-/*This function draws lines on our Layout*/
 Wall.prototype.draw = function(context, showHandles) {
     context.strokeStyle = "white";
 
@@ -36,21 +27,25 @@ Wall.prototype.draw = function(context, showHandles) {
     }
 };
 
-//Draws dotted lines for the floors above/below the current floor
-//setOfFloors: boolean that decides if dealing with the floors above or below the current floor
+/**
+ * Draws dotted lines for the floors above/below the current floor.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param setOfFloors: boolean that decides if dealing with the floors above or below the current floor.
+ */
 Wall.prototype.drawDotted = function(context, setOfFloors) {
     if (setOfFloors) {
-        //set of floors below are green
+        //The floors above the current floor are set to green
         context.strokeStyle = "rgba(0, 255, 0, 0.5)";
     }
     else {
-        //set of floors above are red
+        //The floors above the current floor are set to red
         context.strokeStyle = "rgba(255, 0, 0, 0.5)";
     }
 
     context.lineWidth = 5;
     context.save();
-    context.setLineDash([2, 10]); /*dashes are 5px and spaces are 3px*/
+    context.setLineDash([2, 10]); //dashes are 5px and spaces are 3px
     context.beginPath();
     context.lineCap = "round";
     var line = this.getLine();
@@ -60,7 +55,12 @@ Wall.prototype.drawDotted = function(context, setOfFloors) {
     context.restore();
 }
 
-/*This function draws perpendicular lines on our Layout*/
+/**
+ * This function draws perpendicular lines on the canvas.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param nearPointArray: The current point of the cursor.
+ */
 Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
 
     var x1 = this.getLine().getPoint1X();
@@ -76,13 +76,17 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
     var line2 = getPerpendicularInfiniteLinePoint2(x1, y1, x2, y2);
     var line3 = getLongerLine(x1, y1, x2, y2);
 
+    //Check if the current point of the cursor is close enough to this wall to snap to it.
     var nearPixels = 25.0;
     for (var i = 0; i < nearPointArray.length; i++) {
         var point = nearPointArray[i];
 
-        var nearPoint1 = nearestPointOnLine( line.getPoint1X(),  line.getPoint1Y(),  line.getPoint2X(),  line.getPoint2Y(),  point.getX(),  point.getY());
-        var nearPoint2 = nearestPointOnLine( line2.getPoint1X(),  line2.getPoint1Y(),  line2.getPoint2X(),  line2.getPoint2Y(),  point.getX(),  point.getY());
-        var nearPoint3 = nearestPointOnLine( line3.getPoint1X(),  line3.getPoint1Y(),  line3.getPoint2X(),  line3.getPoint2Y(),  point.getX(),  point.getY());
+        var nearPoint1 = nearestPointOnLine(line.getPoint1X(), line.getPoint1Y(),
+            line.getPoint2X(), line.getPoint2Y(), point.getX(), point.getY());
+        var nearPoint2 = nearestPointOnLine(line2.getPoint1X(), line2.getPoint1Y(),
+            line2.getPoint2X(), line2.getPoint2Y(), point.getX(), point.getY());
+        var nearPoint3 = nearestPointOnLine(line3.getPoint1X(), line3.getPoint1Y(),
+            line3.getPoint2X(), line3.getPoint2Y(), point.getX(), point.getY());
 
         if (Math.hypot(nearPoint1.getX() - point.getX(), nearPoint1.getY() - point.getY()) <= nearPixels) {
             line1Near = true;
@@ -102,12 +106,10 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
     var centerX = (x1 - x2) / 2.0 + x2;
     var centerY = (y1 - y2) / 2.0 + y2;
     var length = Math.hypot(x1 - x2, y1 - y2);
-    //var grd=context.createRadialGradient(centerX,centerY,length/2.0,centerX,centerY,length + GUIDE_LINE_LENGTH/2.0);
-    //grd.addColorStop(0,"rgba(0, 0, 0, 1.0)");
-    //grd.addColorStop(1,"rgba(0, 0, 0, 0.05)");
 
     context.strokeStyle = "#08ff08";//grd;
     context.beginPath();
+
     if (line1Near) {
         context.moveTo(line.getPoint1X(), line.getPoint1Y());
         context.lineTo(line.getPoint2X(), line.getPoint2Y());
@@ -120,11 +122,19 @@ Wall.prototype.drawPerpendicular = function(context, nearPointArray) {
         context.moveTo(line3.getPoint1X(), line3.getPoint1Y());
         context.lineTo(line3.getPoint2X(), line3.getPoint2Y());
     }
+
     context.stroke();
     context.globalAlpha = 1.0;
 };
 
-/*This function shows the length of the line being drawn on our Layout*/
+/**
+ * This function shows the length of the line being drawn on our canvas.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param translatePoint: The current coordinate point of the cursor.
+ * @param rotation: The degree for how much the canvas has rotated.
+ * @param scale: The ratio for how much the canvas has zoomed in/out.
+ */
 Wall.prototype.drawLength = function(context, translatePoint, rotation, scale) {
     "use strict";
     //Go down to 5 decimal places
@@ -140,7 +150,6 @@ Wall.prototype.drawLength = function(context, translatePoint, rotation, scale) {
     var lengthInFeet = Math.hypot(x1 - x2, y1 - y2) / PIXELS_IN_FOOT;
     var feet = Math.floor(lengthInFeet);
     var inches = ((lengthInFeet - feet) * 12).toFixed(1);
-    //var inches = ((lengthInFeet - feet) * 12);
     var centerX = (x1 - x2) / 2.0 + x2;
     var centerY = (y1 - y2) / 2.0 + y2;
 
@@ -150,11 +159,8 @@ Wall.prototype.drawLength = function(context, translatePoint, rotation, scale) {
         centerY = y2 - 50.0;
     }
 
-
     context.save();
-
     context.setTransform(1, 0, 0, 1, 0, 0);
-
     context.textAlign = "center";
     context.font = '30px Helvetica';
 
@@ -162,16 +168,23 @@ Wall.prototype.drawLength = function(context, translatePoint, rotation, scale) {
     context.globalAlpha = 0.9;
     context.fillStyle = "black";
     fillRoundedRect(context, centerX - textSize / 2, centerY - 15 - 2, textSize, 30, 5);
-    //context.fillRect(centerX - textSize / 2, centerY - 28, textSize, 30);
     context.globalAlpha = 1.0;
     context.fillStyle = "white";
     context.textBaseline = "middle";
     context.fillText(feet+" ft " + inches + " in", centerX, centerY);
-
     context.restore();
 };
 
-/*This function would create a rectangle with a border*/
+/**
+ * This function would create a rectangle with a border. Currently Unused.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param x: The x-coordinate of the top-left corner of the Wall Length Text rectangle.
+ * @param y: The y-coordinate of the top-left corner of the Wall Length Text rectangle.
+ * @param width: The width-size of the text rectangle. Base on the length of the text.
+ * @param height: The height-size of the text rectangle.
+ * @param cornerRadius: The degree of the rounded corners of the rectangle.
+ */
 function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
     "use strict";
 
@@ -189,7 +202,16 @@ function strokeRoundedRect(context, x, y, width, height, cornerRadius) {
     context.stroke();
 }
 
-/*This function creates a rectangle that is completely filled. Currently being used for our Wall Length*/
+/**
+ * This function creates a rectangle that is completely filled. Currently being used for our Wall Length.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param x: The x-coordinate of the top-left corner of the Wall Length Text rectangle.
+ * @param y: The y-coordinate of the top-left corner of the Wall Length Text rectangle.
+ * @param width: The width-size of the text rectangle. Base on the length of the text.
+ * @param height: The height-size of the text rectangle.
+ * @param cornerRadius: The degree of the rounded corners of the rectangle.
+ */
 function fillRoundedRect(context, x, y, width, height, cornerRadius) {
     "use strict";
 
@@ -207,7 +229,13 @@ function fillRoundedRect(context, x, y, width, height, cornerRadius) {
     context.fill();
 }
 
-/*This function gives stroke width and color*/
+/**
+ * This function gives stroke width and color.
+ *
+ * @param context: The canvas on which the lines will be drawn on.
+ * @param x: The x-coordinate of one end of a wall.
+ * @param y: The y-coordinate of one end of a wall.
+ */
 function drawHandle(context, x, y) {
     "use strict";
     context.lineWidth = 2;

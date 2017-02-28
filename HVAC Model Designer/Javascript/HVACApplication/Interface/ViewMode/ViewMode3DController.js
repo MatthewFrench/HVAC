@@ -1,5 +1,6 @@
 /**
  * Created by personal on 11/11/16.
+ *
  * This class deals with creating the 3D Model of the different floors and displaying the floor in
  * different View modes.
  */
@@ -115,26 +116,34 @@ ViewMode3DController.prototype.createRenderer = function () {
 
     //Creates the Drag button on the canvas
     this.dragButton = CreateElement({
-        type: 'button', text: 'Drag', onClick: CreateFunction(this, function () {
+        type: 'button',
+        text: 'Drag',
+        onClick: CreateFunction(this, function () {
             this.dragButtonClicked();
         })
     });
 
     //Creates the Rotate button on the canvas
     this.rotateButton = CreateElement({
-        type: 'button', text: 'Rotate', onClick: CreateFunction(this, function () {
+        type: 'button',
+        text: 'Rotate',
+        onClick: CreateFunction(this, function () {
             this.rotateButtonClicked();
         })
     });
 
     //Creates the Orbit button on the canvas
     this.orbitButton = CreateElement({
-        type: 'button', text: 'Orbit', onClick: CreateFunction(this, this.orbitButtonClicked)
+        type: 'button',
+        text: 'Orbit',
+        onClick: CreateFunction(this, this.orbitButtonClicked)
     });
 
     //Creates the ShowAllFloors button on the canvas
     this.showAllFloorsButton = CreateElement({
-        type: 'button', text: 'Show All Floors', onClick: CreateFunction(this, this.showAllFloors)
+        type: 'button',
+        text: 'Show All Floors',
+        onClick: CreateFunction(this, this.showAllFloors)
     });
 
     //Gets the current mouse coordinates and notifies the program that the mouse button is currently down
