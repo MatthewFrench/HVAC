@@ -2,12 +2,17 @@
  * Created by matt on 9/30/16.
  * This JS file is an animation timer that is used to animate anything that is dynamically moved
  */
-/*
- animationRunTimeSeconds - Length of the animation in seconds.
- frameUpdateCallback - Callback function that takes speed, passed milliseconds and finished decimal from 0.0 to 1.0
+
+/**
+ * Creates and initializes the AnimationTimer and other variables.
+ *
+ * @param self: This own AnimationTimer.
+ * @param animationRunTimeSeconds: Length of the animation in seconds.
+ * @param frameUpdateCallback: Callback function that takes speed, passed milliseconds and finished decimal from 0.0 to 1.0
+ * @param finishedCallback: Callback function that wraps up the frame updating.
+ * @constructor
  */
 function AnimationTimer(self, animationRunTimeSeconds, frameUpdateCallback, finishedCallback) {
-    //Constructor
     this.self = self;
     this.animationRunTimeMilliseconds = animationRunTimeSeconds * 1000.0;
     this.frameUpdateCallback = frameUpdateCallback;
@@ -16,6 +21,12 @@ function AnimationTimer(self, animationRunTimeSeconds, frameUpdateCallback, fini
     //this.timerCount = 0.0;
     this.stopwatch = new Stopwatch();
 }
+
+/**
+ * This function initiates the updating of the frame.
+ *
+ * @param speed: Length of the animation in seconds.
+ */
 AnimationTimer.prototype.process = function(speed) {
     if (this.finished == false) {
         //this.timerCount += passedMilliseconds;
@@ -32,11 +43,26 @@ AnimationTimer.prototype.process = function(speed) {
         }
     }
 };
+
+/**
+ * Checks to see if the process to update the AnimationTimer has been complete.
+ *
+ * @return: Boolean of if the process has finished.
+ */
 AnimationTimer.prototype.isFinished = function() {
     return this.finished;
 };
 //Static functions and variables
 AnimationTimer.TimerList = [];
+
+/**
+ * Creates new AnimationTimer to be the starting timer for updating frames.
+ *
+ * @param self: This own AnimationTimer
+ * @param animationRunTimeSeconds: Length of the animation in seconds.
+ * @param frameUpdateCallback: Callback function that takes speed, passed milliseconds and finished decimal from 0.0 to 1.0
+ * @param finishedCallback: Callback function that wraps up the frame updating.
+ */
 AnimationTimer.StartTimer = function(self, animationRunTimeSeconds, frameUpdateCallback, finishedCallback) {
     var self = self;
     var animationTimer = new AnimationTimer(self, animationRunTimeSeconds, frameUpdateCallback, finishedCallback);
@@ -44,6 +70,16 @@ AnimationTimer.StartTimer = function(self, animationRunTimeSeconds, frameUpdateC
     //Run once at 0 just so anything that needs drawn or placed will be
     animationTimer.process(0.0);
 };
+
+/**
+ * Creates new AnimationTimer that is used to delay the starting timer.
+ *
+ * @param self: This own AnimationTimer
+ * @param animationDelay: Amount of time to delay animation in seconds.
+ * @param animationRunTimeSeconds: Length of the animation in seconds.
+ * @param frameUpdateCallback: Callback function that takes speed, passed milliseconds and finished decimal from 0.0 to 1.0
+ * @param finishedCallback: Callback function that wraps up the frame updating.
+ */
 AnimationTimer.StartTimerDelayed = function(self, animationDelay, animationRunTimeSeconds, frameUpdateCallback, finishedCallback) {
     var self = self;
 
@@ -55,6 +91,12 @@ AnimationTimer.StartTimerDelayed = function(self, animationDelay, animationRunTi
     });
     AnimationTimer.TimerList.push(delayTimer);
 };
+
+/**
+ * Goes through each timer in the list and processes them.
+ *
+ * @param speed: Length of the animation in seconds.
+ */
 AnimationTimer.ProcessTimers = function(speed) {
     var completedOne = false;
     for (var i = 0; i < AnimationTimer.TimerList.length; i++) {

@@ -1,5 +1,6 @@
 /**
  * Created by Matt on 9/9/16.
+ *
  * This JS file controls our entire HVAC Application, allowing us to do the various functions such as Create, Drag,
  * Edit, and Delete. It also controls the initial rotation of the window and establishes the floor plans and building
  * plans that are being adjusted/created.
@@ -10,7 +11,11 @@ var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAY
 var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
-//Constructor
+/**
+ * Creates the HVACApplication class and initializes set variables.
+ *
+ * @constructor
+ */
 var HVACApplication = function () {
     this.hvacData = null;
     this.shiftPressed = false;
@@ -39,17 +44,18 @@ var HVACApplication = function () {
 
     this.initUIVariables();
     this.createUI();
-
     this.initCreateModeVariables();
     this.initDragModeVariables();
     this.initEditCornerModeVariables();
     this.initEditPointModeVariables();
     this.initViewModeVariables();
     this.initDeleteModeVariables();
-
     this.loadData();
 };
 
+/**
+ * Loads in the information that was saved to local storage.
+ */
 HVACApplication.prototype.loadData = function() {
     "use strict";
     this.hvacData = HVACDataLoader.getHVACData();
@@ -57,41 +63,72 @@ HVACApplication.prototype.loadData = function() {
     this.floorPicker.loadFloors();
 };
 
+/**
+ * Saves the current project information to local storage.
+ */
 HVACApplication.prototype.saveData = function() {
     window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
 };
 
+/**
+ * Set the selected building project and also selected the first floor of it.
+ *
+ * @param building: The building project currently loaded.
+ */
 HVACApplication.prototype.selectBuilding = function(building) {
     this.selectedBuilding = building;
     this.selectFloor(building.getFloorList()[0]);
 };
 
+/**
+ * Set the current selected floor.
+ *
+ * @param floor: The floor that the user or the first instance of loading a building project has selected.
+ */
 HVACApplication.prototype.selectFloor = function(floor) {
     this.selectedFloor = floor;
 };
 
+/**
+ * Retrieves the wall list of the currently selected floor.
+ *
+ * @return: The wall list of the currently selected floor.
+ */
 HVACApplication.prototype.getCurrentWallList = function() {
-    //return this.HVACData.getBuildingList()[0].getFloorList()[0].getWallList();
     return this.selectedFloor.getWallList();
 };
 
+/**
+ * Retrieves the currently selected floor.
+ *
+ * @return: The currently selected floor.
+ */
 HVACApplication.prototype.getCurrentFloorPlan = function() {
-    //return this.HVACData.getBuildingList()[0].getFloorList()[0];
     return this.selectedFloor;
 };
 
+/**
+ * Retrieves the currently selected building project.
+ *
+ * @return: The currently selected building project.
+ */
 HVACApplication.prototype.getCurrentBuilding = function() {
-    //return this.HVACData.getBuildingList()[0];
     return this.selectedBuilding;
 };
 
+/**
+ * Redraw the canvas.
+ */
 HVACApplication.prototype.logic = function() {
     "use strict";
-
     this.layoutDraw();
 };
 
-//Begin and End draw are duplicate drawing code for all layout modes
+/**
+ * Begin and End draw are duplicate drawing code for all layout modes
+ *
+ * @return: context of the canvas.
+ */
 HVACApplication.prototype.beginDraw = function() {
     var ctx = this.layoutCanvas.getContext("2d");
     var canvasWidth = this.layoutCanvas.width;
@@ -112,13 +149,20 @@ HVACApplication.prototype.beginDraw = function() {
     return ctx;
 };
 
+/**
+ * Restore the layout of the canvas.
+ *
+ * @param ctx: The context of the canvas.
+ */
 HVACApplication.prototype.endDraw = function(ctx) {
     ctx.restore();
 };
 
+/**
+ * Determines which mode user is in and proceeds to draw the canvas based on that mode.
+ */
 HVACApplication.prototype.layoutDraw = function() {
     "use strict";
-
     if (this.currentLayoutMode == LAYOUT_MODE_VIEW) {
         this.drawViewModeLayout();
     }
@@ -140,9 +184,7 @@ HVACApplication.prototype.layoutDraw = function() {
         }
     }
 
-
     //Draw slice intersection points
-
     var ctx = this.layoutCanvas.getContext("2d");
     var canvasWidth = this.layoutCanvas.width;
     var canvasHeight = this.layoutCanvas.height;
@@ -167,16 +209,25 @@ HVACApplication.prototype.layoutDraw = function() {
         */
 };
 
+/**
+ * Resizes the canvas to properly fit the web browser on computer screen.
+ */
 HVACApplication.prototype.windowResized = function() {
     this.resizeCanvas();
 };
 
+/**
+ * Resizes the canvas width and height.
+ */
 HVACApplication.prototype.resizeCanvas = function() {
     "use strict";
     this.layoutCanvas.width = this.layoutCanvas.clientWidth;
     this.layoutCanvas.height = this.layoutCanvas.clientHeight;
 };
 
+/**
+ * Sets the mouse position on the canvas.
+ */
 HVACApplication.prototype.setRotatedCanvasMouse = function() {
     var canvasWidth = this.layoutCanvas.width;
     var canvasHeight = this.layoutCanvas.height;
@@ -186,6 +237,12 @@ HVACApplication.prototype.setRotatedCanvasMouse = function() {
     this.rotatedCanvasMouseY = p.getY();
 };
 
+/**
+ * When the mouse is pressed down, calculate its location and handle the events based on which mode the project
+ * is in.
+ *
+ * @param event: The event of the mouse being pressed down.
+ */
 HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     "use strict";
     if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
@@ -231,8 +288,15 @@ HVACApplication.prototype.layoutCanvasMousePressed = function(event) {
     }
 };
 
+/**
+ * When the mouse is moving, calculate its location and handle the events based on which mode the project
+ * is in.
+ *
+ * @param event: The event of the mouse moving.
+ */
 HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     "use strict";
+    //Determines if the mouse is located on multiple Divs
     if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
         this.showMouse = false;
         return;
@@ -240,6 +304,7 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     else {
         this.showMouse = true;
     }
+
     var mouseX = event.offsetX - this.applicationDiv.offsetLeft - this.applicationDiv.clientLeft;
     var mouseY = event.offsetY - this.applicationDiv.offsetTop - this.applicationDiv.clientTop;
     this.previousMouseX = this.currentMouseX;
@@ -287,8 +352,15 @@ HVACApplication.prototype.layoutCanvasMouseMoved = function(event) {
     return false;
 };
 
+/**
+ * When the mouse is released, calculate its location and handle the events based on which mode the project
+ * is in.
+ *
+ * @param event: The event of the mouse being released.
+ */
 HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     "use strict";
+    //Determines if the mouse is located on multiple Divs
     if (ElementIsOrContainsElement(GetTargetFromMouseEvent(event), this.layoutCanvas) == false) {
         this.showMouse = false;
         return;
@@ -332,6 +404,11 @@ HVACApplication.prototype.layoutCanvasMouseReleased = function(event) {
     }
 };
 
+/**
+ * Determines if the Shift key is pressed down.
+ *
+ * @param event: The event of the key being pressed down.
+ */
 HVACApplication.prototype.onKeydown = function(event) {
     "use strict";
     //var key = event.which;
@@ -340,6 +417,11 @@ HVACApplication.prototype.onKeydown = function(event) {
     }
 };
 
+/**
+ * Determines if the Shift key is released.
+ *
+ * @param event: The event of the key being released.
+ */
 HVACApplication.prototype.onKeyup = function(event) {
     "use strict";
     //var key = event.which;
