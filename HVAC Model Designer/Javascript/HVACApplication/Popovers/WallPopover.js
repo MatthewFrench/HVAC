@@ -419,7 +419,7 @@ function WallPopover() {
             type: 'option',
             value: 'FB',
             elements: [
-                SheathingMaterialsText2 = document.createTextNode("Fiberboard")
+                SheathingMaterialsText = document.createTextNode("Fiberboard")
             ],
             appendTo: self.SheathingMaterialsButton
         });
@@ -427,7 +427,7 @@ function WallPopover() {
             type: 'option',
             value: 'FG',
             elements: [
-                SheathingMaterialsText3 = document.createTextNode("Fiberglass")
+                SheathingMaterialsText = document.createTextNode("Fiberglass")
             ],
             appendTo: self.SheathingMaterialsButton
         });
@@ -435,7 +435,7 @@ function WallPopover() {
             type: 'option',
             value: 'EP',
             elements: [
-                SheathingMaterialsText4 = document.createTextNode("Extruded Polystyrene")
+                SheathingMaterialsText = document.createTextNode("Extruded Polystyrene")
             ],
             appendTo: self.SheathingMaterialsButton
         });
@@ -443,7 +443,7 @@ function WallPopover() {
             type: 'option',
             value: 'FFP',
             elements: [
-                SheathingMaterialsText5 = document.createTextNode("Foil-Faced Polyisocyanurate")
+                SheathingMaterialsText = document.createTextNode("Foil-Faced Polyisocyanurate")
             ],
             appendTo: self.SheathingMaterialsButton
         });
@@ -474,7 +474,7 @@ function WallPopover() {
                 type: 'option',
                 value: .47,
                 elements: [
-                    SheathingDetailsText2 = document.createTextNode("3/8''")
+                    SheathingDetailsText = document.createTextNode("3/8''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
@@ -482,7 +482,7 @@ function WallPopover() {
                 type: 'option',
                 value: .63,
                 elements: [
-                    SheathingDetailsText3 = document.createTextNode("1/2''")
+                    SheathingDetailsText = document.createTextNode("1/2''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
@@ -490,7 +490,7 @@ function WallPopover() {
                 type: 'option',
                 value: .77,
                 elements: [
-                    SheathingDetailsText4 = document.createTextNode("5/8''")
+                    SheathingDetailsText = document.createTextNode("5/8''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
@@ -498,7 +498,7 @@ function WallPopover() {
                 type: 'option',
                 value: .94,
                 elements: [
-                    SheathingDetailsText5 = document.createTextNode("3/4''")
+                    SheathingDetailsText = document.createTextNode("3/4''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
@@ -506,12 +506,114 @@ function WallPopover() {
                 type: 'option',
                 value: 1.25,
                 elements: [
-                    SheathingDetailsText6 = document.createTextNode("1''")
+                    SheathingDetailsText = document.createTextNode("1''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
         }
         self.SheathingDetailsButton.selectedIndex = -1;
+    };
+    this.SheathingDetailsButton.onchange = function() {
+        var i;
+        for(i = document.getElementById("SidingMaterials").options.length - 1 ; i >= 0 ; i--)
+        {
+            document.getElementById("SidingMaterials").remove(i);
+        }
+        document.getElementById("SheathingDetails").style.display = "none";
+        document.getElementById("SidingMaterials").style.display = "block";
+        self.SheathingDetailsElement.style.opacity = "0.0";
+        self.SidingMaterialsElement.style.opacity = "1.0";
+        self.SidingMaterialsButton.style.opacity = "1.0";
+        var SidingMaterialsOption = CreateElement({
+            type: 'option',
+            value: 0.34,
+            elements: [
+                SidingMaterialsText = document.createTextNode("Hardboard")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption2 = CreateElement({
+            type: 'option',
+            value: 0.77,
+            elements: [
+                SidingMaterialsText2 = document.createTextNode("Plywood 5/8''")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption3 = CreateElement({
+            type: 'option',
+            value: 0.93,
+            elements: [
+                SidingMaterialsText3 = document.createTextNode("Plywood 3/4''")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption4 = CreateElement({
+            type: 'option',
+            value: 0.80,
+            elements: [
+                SidingMaterialsText4 = document.createTextNode("Wood Beveled Lapped")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption5 = CreateElement({
+            type: 'option',
+            value: 0.61,
+            elements: [
+                SidingMaterialsText5 = document.createTextNode("Alum, Steel, Vinyl (Hollow Back)")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption6 = CreateElement({
+            type: 'option',
+            value: 1.80,
+            elements: [
+                SidingMaterialsText6 = document.createTextNode("Alum, Steel, Vinyl (w/ 1/2'' board)")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        var SidingMaterialsOption7 = CreateElement({
+            type: 'option',
+            value: 0.44,
+            elements: [
+                SidingMaterialsText7 = document.createTextNode("Brick 4''")
+            ],
+            appendTo: self.SidingMaterialsButton
+        });
+        self.SidingMaterialsButton.selectedIndex = -1;
+    };
+    this.SidingMaterialsButton.onchange = function() {
+        var i;
+        for (i = document.getElementById("InteriorFinish").options.length - 1; i >= 0; i--) {
+            document.getElementById("InteriorFinish").remove(i);
+        }
+        self.InteriorFinishElement.style.opacity = "1.0";
+        self.InteriorFinishButton.style.opacity = "1.0";
+        var InteriorFinishOption = CreateElement({
+            type: 'option',
+            value: 0.45,
+            elements: [
+                InteriorFinishText = document.createTextNode("Gypsum Board 1/2''")
+            ],
+            appendTo: self.InteriorFinishButton
+        });
+        var InteriorFinishOption2 = CreateElement({
+            type: 'option',
+            value: 0.56,
+            elements: [
+                InteriorFinishText2 = document.createTextNode("Gypsum Board 5/8''")
+            ],
+            appendTo: self.InteriorFinishButton
+        });
+        var InteriorFinishOption3 = CreateElement({
+            type: 'option',
+            value: 0.47,
+            elements: [
+                InteriorFinishText3 = document.createTextNode("Paneling 3/8''")
+            ],
+            appendTo: self.InteriorFinishButton
+        });
+        self.InteriorFinishButton.selectedIndex = -1;
     };
 }
 
