@@ -11,23 +11,28 @@
  * @constructor
  */
 function MiscPopover() {
+/*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'MiscBGCover'});
+    this.MiscDiv = CreateElement({
+        type: 'div', className: 'MiscDiv', elements: [
+*/
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'MiscBGCover'
+        className: 'MiscBGCover'
     });
     this.MiscDiv = CreateElement({
         type: 'div',
-        class: 'MiscDiv',
+        className: 'MiscDiv',
         elements: [
             this.MiscSaveButton = CreateElement({
                 type: 'button',
-                class: 'MiscSaveButton',
+                className: 'MiscSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.MiscCancelButton = CreateElement({
                 type: 'button',
-                class: 'MiscCancelButton',
+                className: 'MiscCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

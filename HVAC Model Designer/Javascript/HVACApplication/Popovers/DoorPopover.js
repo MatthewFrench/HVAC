@@ -11,6 +11,25 @@
  * @constructor
  */
 function DoorPopover() {
+    /*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'DoorBGCover'});
+    this.DoorDiv = CreateElement({type: 'div', className: 'DoorDiv', elements: [
+        this.DoorTypeElement = CreateElement({type: 'DoorType', className: 'DoorTypeElement',
+            text: 'Type of Door'}),
+        this.DoorTypeButton = CreateElement({type: 'select', id: 'DoorType', className: 'DoorTypeButton'}),
+        this.ScreenDoorElement = CreateElement({type: 'ScreenDoor', className: 'ScreenDoorElement',
+            text: 'Type of Screen Door'}),
+        this.ScreenDoorButton = CreateElement({type: 'select', id: 'ScreenDoor', className: 'ScreenDoorButton'}),
+        this.DoorThicknessElement = CreateElement({type: 'DoorThickness', className: 'DoorThicknessElement', text: 'Thickness of your Door'}),
+        this.DoorThicknessButton = CreateElement({type: 'select', id: 'DoorThickness', className: 'DoorThicknessButton'}),
+        this.DoorDescriptionElement = CreateElement({type: 'DoorDescription', className: 'DoorDescriptionElement', text: 'Description of your Door'}),
+        this.DoorDescriptionButton = CreateElement({type: 'select', id: 'DoorDescription', className: 'DoorDescriptionButton'}),
+        this.DoorUValueElement = CreateElement({type: 'DoorUValue', className: 'DoorUValueElement', text: 'The U Value of your  Door'}),
+        this.DoorUValueBox = CreateElement({type: 'DoorUValue', id: 'DoorUValue', className: 'DoorUValueBox'}),
+        this.DoorSaveButton = CreateElement({type: 'button', className: 'DoorSaveButton', text: 'Save', onClick: CreateFunction(this, this.hide)}),
+        this.DoorCancelButton = CreateElement({type: 'button', className: 'DoorCancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
+    ]});
+*/
     var Doortext;
     var Doortext2;
     var Doorthicknesstext;
@@ -31,71 +50,71 @@ function DoorPopover() {
     var DoorUValuetext;
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'DoorBGCover'
+        className: 'DoorBGCover'
     });
     this.DoorDiv = CreateElement({
         type: 'div',
-        class: 'DoorDiv',
+        className: 'DoorDiv',
         elements: [
             this.DoorTypeElement = CreateElement({
                 type: 'DoorType',
-                class: 'DoorTypeElement',
+                className: 'DoorTypeElement',
                 text: 'Type of Door'
             }),
             this.DoorTypeButton = CreateElement({
                 type: 'select',
                 id: 'DoorType',
-                class: 'DoorTypeButton'
+                className: 'DoorTypeButton'
             }),
             this.ScreenDoorElement = CreateElement({
                 type: 'ScreenDoor',
-                class: 'ScreenDoorElement',
+                className: 'ScreenDoorElement',
                 text: 'Type of Screen Door'
             }),
             this.ScreenDoorButton = CreateElement({
                 type: 'select',
                 id: 'ScreenDoor',
-                class: 'ScreenDoorButton'
+                className: 'ScreenDoorButton'
             }),
             this.DoorThicknessElement = CreateElement({
                 type: 'DoorThickness',
-                class: 'DoorThicknessElement',
+                className: 'DoorThicknessElement',
                 text: 'Thickness of your Door'
             }),
             this.DoorThicknessButton = CreateElement({
                 type: 'select',
                 id: 'DoorThickness',
-                class: 'DoorThicknessButton'
+                className: 'DoorThicknessButton'
             }),
             this.DoorDescriptionElement = CreateElement({
                 type: 'DoorDescription',
-                class: 'DoorDescriptionElement',
+                className: 'DoorDescriptionElement',
                 text: 'Description of your Door'
             }),
             this.DoorDescriptionButton = CreateElement({
                 type: 'select',
                 id: 'DoorDescription',
-                class: 'DoorDescriptionButton'
+                className: 'DoorDescriptionButton'
             }),
             this.DoorUValueElement = CreateElement({
                 type: 'DoorUValue',
-                class: 'DoorUValueElement',
+                className: 'DoorUValueElement',
                 text: 'The U Value of your Door'
             }),
             this.DoorUValueBox = CreateElement({
                 type: 'DoorUValue',
                 id: 'DoorUValue',
-                class: 'DoorUValueBox'
+                className: 'DoorUValueBox'
             }),
             this.DoorSaveButton = CreateElement({
                 type: 'button',
-                class: 'DoorSaveButton',
+                className: 'DoorSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.DoorCancelButton = CreateElement({
                 type: 'button',
-                class: 'DoorCancelButton',
+                className: 'DoorCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

@@ -11,23 +11,28 @@
  * @constructor
  */
 function FloorPopover() {
+    /*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'FloorBGCover'});
+    this.FloorDiv = CreateElement({
+        type: 'div', className: 'FloorDiv', elements: [
+        */
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'FloorBGCover'
+        className: 'FloorBGCover'
     });
     this.FloorDiv = CreateElement({
         type: 'div',
-        class: 'FloorDiv',
+        className: 'FloorDiv',
         elements: [
             this.FloorSaveButton = CreateElement({
                 type: 'button',
-                class: 'FloorSaveButton',
+                className: 'FloorSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.FloorCancelButton = CreateElement({
                 type: 'button',
-                class: 'FloorCancelButton',
+                className: 'FloorCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

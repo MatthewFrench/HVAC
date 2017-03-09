@@ -22,22 +22,11 @@ function main() {
 
     document.body.appendChild(myApp.getApplicationDiv());
 
-    document.body.onresize = windowResized;
-
-    document.body.onkeydown = function(event) {
-        "use strict";
-        myApp.onKeydown(event);
-    }
-    document.body.onkeyup = function(event) {
-        "use strict";
-        myApp.onKeyup(event);
-    }
     window.onunload = windowExit;
 
     setTimeout(autoSave, 40.0 * 1000.0);
 
     window.requestAnimationFrame(function() {
-        windowResized();
         requestFrameLoop();
     });
 }
@@ -70,23 +59,10 @@ function mainLogicTimer(speed) {
 function requestFrameLoop(time) {
     var delta = time - lastFPSTime;
     var speed = delta / chosenFPSMilliseconds;
-    //while (speed > 1.9) {
-    //    speed -= 1.0;
-    //    mainLogicTimer(1.0);
-    //}
     mainLogicTimer(speed);
     lastFPSTime = time;
     window.requestAnimationFrame(requestFrameLoop);
 }
-
-/**
- * Resizes the program if the internet browser window is resized.
- */
-function windowResized() {
-    "use strict";
-    myApp.windowResized();
-}
-
 /**
  * If the internet browser window exits, need to save the data of the program to local storage then end program.
  *

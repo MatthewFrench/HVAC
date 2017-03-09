@@ -11,23 +11,28 @@
  * @constructor
  */
 function GlassDoorPopover() {
+/*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'GlassDoorBGCover'});
+    this.GlassDoorDiv = CreateElement({
+        type: 'div', className: 'GlassDoorDiv', elements: [
+*/
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'GlassDoorBGCover'
+        className: 'GlassDoorBGCover'
     });
     this.GlassDoorDiv = CreateElement({
         type: 'div',
-        class: 'GlassDoorDiv',
+        className: 'GlassDoorDiv',
         elements: [
             this.GlassDoorSaveButton = CreateElement({
                 type: 'button',
-                class: 'GlassDoorSaveButton',
+                className: 'GlassDoorSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.GlassDoorCancelButton = CreateElement({
                 type: 'button',
-                class: 'GlassDoorCancelButton',
+                className: 'GlassDoorCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

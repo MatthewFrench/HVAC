@@ -13,46 +13,19 @@
  */
 function FloorPicker(hvacApplication) {
     this.hvacApplication = hvacApplication;
-    this.mainDiv = new CreateElement({
-        type: 'div',
-        class: 'FloorPicker_Main_Div',
-        elements: [
-            CreateElement({
-                type: 'div',
-                class: 'FloorPicker_Title',
-                text: 'Floors'}),
-            this.floorContainer = CreateElement({
-                type: 'div',
-                class: 'FloorPicker_Floor_Container'}),
-            CreateElement({
-                type: 'div',
-                class: 'FloorPicker_Bottom_Bar',
-                elements: [
-                    CreateElement({
-                        type: 'button',
-                        class: 'FloorPicker_Add_Button',
-                        text: '+',
-                        onClick: CreateFunction(this, this.addFloor)
-                    }),
-                    CreateElement({
-                        type: 'button',
-                        class: 'FloorPicker_Edit_Name_Button',
-                        text: 'Edit Name',
-                        onClick: CreateFunction(this, this.editFloorName)
-                    }),
-                    CreateElement({
-                        type: 'button',
-                        class: 'FloorPicker_Remove_Button',
-                        text: '-',
-                        onClick: CreateFunction(this, this.removeFloor)
-                    })
-                ]
-            })
-        ]
-    });
+    this.mainDiv = new CreateElement({type: 'div', className: 'FloorPicker_Main_Div', elements: [
+        CreateElement({type: 'div', className: 'FloorPicker_Title', text: 'Floors'}),
+        this.floorContainer = CreateElement({type: 'div', className: 'FloorPicker_Floor_Container'}),
+        CreateElement({type: 'div', className: 'FloorPicker_Bottom_Bar', elements: [
+            CreateElement({type: 'button', className: 'FloorPicker_Add_Button', text: '+', onClick: CreateFunction(this, this.addFloor)}),
+            CreateElement({type: 'button', className: 'FloorPicker_Remove_Button', text: '-', onClick: CreateFunction(this, this.removeFloor)})
+        ]})
+    ]});
 
     this.floorRows = [];
     this.currentFloorRow = null;
+
+    this.loadFloors();
 }
 
 /**
@@ -72,12 +45,7 @@ FloorPicker.prototype.loadFloors = function() {
     for (var i = floorList.length - 1; i >= 0; i--) {
         (function(index) {
             var floor = floorList[i];
-            if (floor.floorName == "") floor.floorName = 'Floor ' + (index+1);
-            var floorName = floor.floorName;
-            var row = CreateElement({
-                type: 'div',
-                class: 'FloorPicker_Floor_Row',
-                text: floorName,
+            var row = CreateElement({type: 'div', className: 'FloorPicker_Floor_Row', text: 'Floor ' + (index+1),
                 appendTo: this.floorContainer});
 
             var floorRow = new FloorRow(row, floor);

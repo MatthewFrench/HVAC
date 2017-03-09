@@ -15,26 +15,26 @@ function EditFloorNamePopover(floorName, saveName) {
 
     this.EditFloorNamePopoverBlock = CreateElement({
         type: 'div',
-        class: 'EditFloorNamePopover_Block'
+        className: 'EditFloorNamePopover_Block'
     });
 
     this.EditFloorNamePopoverDiv = CreateElement({
         type: 'div',
-        class: 'EditFloorNamePopover_Div',
+        className: 'EditFloorNamePopover_Div',
         elements: [
             this.FloorNameLabel = CreateElement({
                 type: 'label',
-                class: 'EditFloorNamePopover_Label',
+                className: 'EditFloorNamePopover_Label',
                 text: "What would you like to name your floor?"
             }),
             this.FloorNameTextBox = CreateElement({
                 type: 'input',
-                class: 'EditFloorNamePopover_TextBox',
+                className: 'EditFloorNamePopover_TextBox',
                 value: floorName
             }),
             this.SaveButton = CreateElement({
                 type: 'button',
-                class: 'EditFloorNamePopover_SaveButton',
+                className: 'EditFloorNamePopover_SaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, function () {
                     saveName(this.FloorNameTextBox.value);
@@ -43,7 +43,7 @@ function EditFloorNamePopover(floorName, saveName) {
             }),
             this.cancelButton = CreateElement({
                 type: 'button',
-                class: 'EditFloorNamePopover_CancelButton',
+                className: 'EditFloorNamePopover_CancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, function () {
                     this.hide();

@@ -11,23 +11,28 @@
  * @constructor
  */
 function WindowPopover() {
+/*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'WindowBGCover'});
+    this.WindowDiv = CreateElement({
+        type: 'div', className: 'WindowDiv', elements: [
+*/
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'WindowBGCover'
+        className: 'WindowBGCover'
     });
     this.WindowDiv = CreateElement({
         type: 'div',
-        class: 'WindowDiv',
+        className: 'WindowDiv',
         elements: [
             this.WindowSaveButton = CreateElement({
                 type: 'button',
-                class: 'WindowSaveButton',
+                className: 'WindowSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.WindowCancelButton = CreateElement({
                 type: 'button',
-                class: 'WindowCancelButton',
+                className: 'WindowCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

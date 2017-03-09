@@ -11,23 +11,18 @@
  * @constructor
  */
 function CeilingPopover() {
-    this.backgroundDiv = CreateElement({
-        type: 'div',
-        class: 'CeilingBGCover'
-    });
+    this.backgroundDiv = CreateElement({type: 'div', className: 'CeilingBGCover'});
     this.CeilingDiv = CreateElement({
-        type: 'div',
-        class: 'CeilingDiv',
-        elements: [
+        type: 'div', className: 'CeilingDiv', elements: [
             this.CeilingSaveButton = CreateElement({
                 type: 'button',
-                class: 'CeilingSaveButton',
+                className: 'CeilingSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.CeilingCancelButton = CreateElement({
                 type: 'button',
-                class: 'CeilingCancelButton',
+                className: 'CeilingCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

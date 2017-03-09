@@ -16,21 +16,21 @@ function StartOverPopover(question, yesCallback) {
 
     this.StartOverPopoverBlock = CreateElement({
         type: 'div',
-        class: 'StartOverPopover_Block'
+        className: 'StartOverPopover_Block'
     });
 
     this.StartOverPopoverDiv = CreateElement({
         type: 'div',
-        class: 'StartOverPopover_Div',
+        className: 'StartOverPopover_Div',
         elements: [
             this.StartOverLabel = CreateElement({
                 type: 'label',
-                class: 'StartOverPopover_Label',
+                className: 'StartOverPopover_Label',
                 text: question
             }),
             this.StartOverYesButton = CreateElement({
                 type: 'button',
-                class: 'StartOverPopover_YesButton',
+                className: 'StartOverPopover_YesButton',
                 text: 'Yes',
                 onClick: CreateFunction(this, function () {
                     this.hide();
@@ -39,7 +39,7 @@ function StartOverPopover(question, yesCallback) {
             }),
             this.cancelButton = CreateElement({
                 type: 'button',
-                class: 'StartOverPopover_CancelButton',
+                className: 'StartOverPopover_CancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, function () {
                     this.hide();

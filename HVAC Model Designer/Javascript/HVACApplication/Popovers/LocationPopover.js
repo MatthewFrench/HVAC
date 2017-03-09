@@ -149,50 +149,64 @@ function LocationPopover() {
     this.locationDataDiv = null;
     this.saveDataButton = null;
     this.titleSpan = null;
+
+    /*
+    this.backgroundDiv = CreateElement({type: 'div', className: 'BackgroundCover'});
+
+    this.locationDataDiv = CreateElement({type: 'div', className: 'LocationDataDiv', elements: [
+        this.LocationSaveButton = CreateElement({type: 'button', className: 'LocationSaveButton', text: 'Save'}),
+        this.titleSpan = CreateElement({type: 'span', className: 'LocationTitle', text: 'Input Location Data'}),
+        this.firstElement = CreateElement({type: 'state', className: 'State', text: 'Select your State'}),
+        this.firstButton = CreateElement({type: 'select', id: 'State', className: 'StateDropDown', text: 'Select a State from Dropdown'}),
+        this.secondElement = CreateElement({type: 'city', className: 'City', text: 'Select the City closest to yours'}),
+        this.secondButton = CreateElement({type: 'select', id: 'City', className: 'CityDropDown', text: 'Select a City from Dropdown'}),
+        this.LocationCancelButton = CreateElement({type: 'button', className: 'LocationCancelButton', text: 'Cancel', onClick: CreateFunction(this, this.hide)})
+    ]});
+*/
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'BackgroundCover'
+        className: 'BackgroundCover'
     });
 
     this.locationDataDiv = CreateElement({
         type: 'div',
-        class: 'LocationDataDiv',
+        className: 'LocationDataDiv',
         elements: [
             this.LocationSaveButton = CreateElement({
                 type: 'button',
-                class: 'LocationSaveButton',
+                className: 'LocationSaveButton',
                 text: 'Save'
             }),
             this.titleSpan = CreateElement({
                 type: 'span',
-                class: 'LocationTitle',
+                className: 'LocationTitle',
                 text: 'Input Location Data'
             }),
             this.firstElement = CreateElement({
                 type: 'state',
-                class: 'State',
+                className: 'State',
                 text: 'Select your State'
             }),
             this.firstButton = CreateElement({
                 type: 'select',
                 id: 'State',
-                class: 'StateDropDown',
+                className: 'StateDropDown',
                 text: 'Select a State from Dropdown'
             }),
             this.secondElement = CreateElement({
                 type: 'city',
-                class: 'City',
+                className: 'City',
                 text: 'Select the City closest to yours'
             }),
             this.secondButton = CreateElement({
                 type: 'select',
                 id: 'City',
-                class: 'CityDropDown',
+                className: 'CityDropDown',
                 text: 'Select a City from Dropdown'
             }),
             this.LocationCancelButton = CreateElement({
                 type: 'button',
-                class: 'LocationCancelButton',
+                className: 'LocationCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })

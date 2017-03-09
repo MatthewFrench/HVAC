@@ -12,6 +12,36 @@
  */
 function TopAndBottomDataPopover() {
     "use strict";
+/*
+    //Constructor
+    this.TopAndBottomDataDiv = null;
+    this.saveDataButton = null;
+    this.titleSpan = null;
+    this.backgroundDiv = CreateElement({type: 'div', className: 'BackgroundCover'});
+
+    this.TopAndBottomDataDiv = CreateElement({type: 'div', className: 'TopAndBottomDataDiv', elements: [
+        this.saveDataButton = CreateElement({type: 'button', className: 'SaveDataButton',
+            text: 'Save Attic and Basement Data', onClick: CreateFunction(this, this.hide)}),
+        this.titleSpan = CreateElement({type: 'span', className: 'AtticTitle', text: 'Input Attic Data'}),
+        this.StudSpacingElement = CreateElement({type: 'StudSpacing', className: 'StudSpacingElement',
+            text: 'Spacing of your Studs'}),
+        this.StudSpacingButton = CreateElement({type: 'select', id: 'StudSpacing', className: 'StudSpacingButton'}),
+        this.StudSpacingElement = CreateElement({type: 'StudHeight', className: 'StudHeightElement',
+            text: 'Height of your Studs'}),
+        this.StudHeightButton = CreateElement({type: 'select', id: 'StudHeight', className: 'StudHeightButton'}),
+        this.StudWidthElement = CreateElement({type: 'StudWidth', className: 'StudWidthElement', text: 'Width of your Studs'}),
+        this.StudWidthButton = CreateElement({type: 'select', id: 'StudWidth', className: 'StudWidthButton'}),
+        this.AtticInsulationElement = CreateElement({type: 'AtticInsulation', className: 'AtticInsulationElement',
+            text: 'Type of Insulation'}),
+        this.AtticInsulationButton = CreateElement({type: 'select', id: 'AtticInsulation', className: 'AtticInsulationButton'}),
+        this.AtticInsulationDepthElement = CreateElement({type: 'AtticDepthInsulation',
+            className: 'AtticInsulationDepthElement', text: 'Depth of Attic Insulation'}),
+        this.AtticInsulationDepthButton = CreateElement({type: 'select', id: 'AtticDepthInsulation',
+            className: 'AtticInsulationDepthButton'}),
+        this.TotalAtticUValueElement = CreateElement({type: 'TotalAtticUValue', className: 'TotalAtticUValueElement', text: 'Total Attic U Value'}),
+        this.TotalAtticUValueText = CreateElement({type: 'input', id: 'TotalAtticUValue', className: 'TotalAtticUValueText'})
+    ]});
+*/
 
     var attic_stud_spacing_text;
     var attic_stud_spacing_text2;
@@ -22,82 +52,82 @@ function TopAndBottomDataPopover() {
     this.titleSpan = null;
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'BackgroundCover'
+        className: 'BackgroundCover'
     });
     this.TopAndBottomDataDiv = CreateElement({
         type: 'div',
-        class: 'TopAndBottomDataDiv',
+        className: 'TopAndBottomDataDiv',
         elements: [
             this.saveDataButton = CreateElement({
                 type: 'button',
-                class: 'SaveDataButton',
+                className: 'SaveDataButton',
                 text: 'Save Attic and Basement Data',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.titleSpan = CreateElement({
                 type: 'span',
-                class: 'AtticTitle',
+                className: 'AtticTitle',
                 text: 'Input Attic Data'
             }),
             this.StudSpacingElement = CreateElement({
                 type: 'StudSpacing',
-                class: 'StudSpacingElement',
+                className: 'StudSpacingElement',
                 text: 'Spacing of your Studs'
             }),
             this.StudSpacingButton = CreateElement({
                 type: 'select',
                 id: 'StudSpacing',
-                class: 'StudSpacingButton'
+                className: 'StudSpacingButton'
             }),
             this.StudSpacingElement = CreateElement({
                 type: 'StudHeight',
-                class: 'StudHeightElement',
+                className: 'StudHeightElement',
                 text: 'Height of your Studs'
             }),
             this.StudHeightButton = CreateElement({
                 type: 'select',
                 id: 'StudHeight',
-                class: 'StudHeightButton'
+                className: 'StudHeightButton'
             }),
             this.StudWidthElement = CreateElement({
                 type: 'StudWidth',
-                class: 'StudWidthElement',
+                className: 'StudWidthElement',
                 text: 'Width of your Studs'
             }),
             this.StudWidthButton = CreateElement({
                 type: 'select',
                 id: 'StudWidth',
-                class: 'StudWidthButton'
+                className: 'StudWidthButton'
             }),
             this.AtticInsulationElement = CreateElement({
                 type: 'AtticInsulation',
-                class: 'AtticInsulationElement',
+                className: 'AtticInsulationElement',
                 text: 'Type of Insulation'
             }),
             this.AtticInsulationButton = CreateElement({
                 type: 'select',
                 id: 'AtticInsulation',
-                class: 'AtticInsulationButton'
+                className: 'AtticInsulationButton'
             }),
             this.AtticInsulationDepthElement = CreateElement({
                 type: 'AtticDepthInsulation',
-                class: 'AtticInsulationDepthElement',
+                className: 'AtticInsulationDepthElement',
                 text: 'Depth of Attic Insulation'
             }),
             this.AtticInsulationDepthButton = CreateElement({
                 type: 'select',
                 id: 'AtticDepthInsulation',
-                class: 'AtticInsulationDepthButton'
+                className: 'AtticInsulationDepthButton'
             }),
             this.TotalAtticUValueElement = CreateElement({
                 type: 'TotalAtticUValue',
-                class: 'TotalAtticUValueElement',
+                className: 'TotalAtticUValueElement',
                 text: 'Total Attic U Value'
             }),
             this.TotalAtticUValueText = CreateElement({
                 type: 'input',
                 id: 'TotalAtticUValue',
-                class: 'TotalAtticUValueText'
+                className: 'TotalAtticUValueText'
             })
         ]
     });

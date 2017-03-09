@@ -17,7 +17,100 @@ body {
     user-select: none;
 
     margin: 0px;
+}
 
+.Canvas2D {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.Canvas3D {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.HVACApplication_TitleBar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 28px;
+    background: #c9d7e0;
+    text-align: center;
+    font-weight: 700;
+    text-shadow: 2px 0 0 white, 0 -2px 0 white, 0 2px 0 white, -2px 0 0 white;
+}
+
+.HVACApplication_TopBar {
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    width: 100%;
+    height: 30px;
+    background: #c9d7e0;
+    display: flex;
+
+    border-bottom-color: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.HVACApplication_MainContent {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    height: calc(100% - 60px);
+}
+
+.HVACApplication_WallEditorTab {
+    flex: 1;
+    line-height: 30px;
+    max-width: 100px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    border-right: #b7c2c8 solid 1px;
+    border-top: #b7c2c8 solid 1px;
+    font-family:Helvetica;
+}
+.HVACApplication_WallEditorTab.selected {
+    background-color: rgb(128, 112, 214);
+}
+.HVACApplication_RoomEditorTab {
+    flex: 1;
+    line-height: 30px;
+    max-width: 115px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    border: #c9d7e0;
+    border-right: #b7c2c8 solid 1px;
+    border-top: #b7c2c8 solid 1px;
+    font-family:Helvetica;
+}
+.HVACApplication_RoomEditorTab.selected {
+    background-color: rgb(128, 112, 214);
+}
+.HVACApplication_ViewEditorTab {
+    flex: 1;
+    line-height: 30px;
+    max-width: 55px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    border-right: #b7c2c8 solid 1px;
+    border-top: #b7c2c8 solid 1px;
+    font-family:Helvetica;
+}
+.HVACApplication_ViewEditorTab.selected {
+    background-color: rgb(128, 112, 214);
 }
 
 .ApplicationBackground1 {
@@ -29,7 +122,10 @@ body {
     height: 100%;
 
     background-color: #434343;
-    background-image:linear-gradient(#434343, #282828);
+    background-image: linear-gradient(#434343, #282828);
+
+    z-index: -1;
+
 }
 
 .ApplicationBackground2 {
@@ -43,6 +139,8 @@ body {
     background-color: transparent;
     background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
     background-size:50px 50px;
+
+    z-index: -1;
 }
 
 .ApplicationDiv {
@@ -52,7 +150,7 @@ body {
     left: 0px;
     top: 0px;
     margin: 0px;
-    overflow: none;
+    overflow: hidden;
 }
 
 .WebGLCanvas {
@@ -301,7 +399,6 @@ body {
 .AJsButton {
     position: absolute;
     width: 100px;
-    top: 20px;
     right: 100px;
     height: 30px;
     background: #c9d7e0;
