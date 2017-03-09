@@ -434,11 +434,6 @@ class Canvas3D {
     }
 
     resizeCanvas() {
-        console.log("Canvas width: " + this.canvas.width + ", height: " + this.canvas.height);
-
-
-        console.log("Canvas actual width: " + this.canvas.clientWidth + ", actual height: " + this.canvas.clientWidth);
-
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
 
@@ -452,8 +447,6 @@ class Canvas3D {
         this.layoutViewMode3DCamera.aspect = this.canvas.width / this.canvas.height;
         this.layoutViewMode3DCamera.updateProjectionMatrix();
         this.layoutViewMode3DRenderer.setSize(this.canvas.width, this.canvas.height);
-
-        console.log();
     }
 
 

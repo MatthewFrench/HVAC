@@ -1,37 +1,60 @@
 /**
  * Created by matt on 10/7/16.
+ *
+ * This class keeps track of the time that passes.
  */
-
-//This function is a constructor for the Stopwatch class
 class Stopwatch {
+/**
+ * This function creates new Stopwatch class
+ *
+ * @constructor
+ */
     constructor() {
         this.reset();
     }
 
-    //This function resets the milliseconds to the current time.
+/**
+ * This function resets the milliseconds to the current time.
+ */
     reset() {
         this.startMilliseconds = Date.now();
     }
 
-    //This function gets milliseconds
+/**
+ * This function gets milliseconds.
+ *
+ * @return: Length of time passed in milliseconds.
+ */
     getMilliseconds() {
         let currentMilliseconds = Date.now();
         return currentMilliseconds - this.startMilliseconds;
     }
 
-    //This function gets seconds
+/**
+ * This function gets seconds.
+ *
+ * @return: Length of time passed in seconds.
+ */
     getSeconds() {
         let currentMilliseconds = Date.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0;
     }
 
-    //This function gets minutes
+/**
+ * This function gets minutes.
+ *
+ * @return: Length of time passed in minutes.
+ */
     getMinutes() {
         let currentMilliseconds = Date.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0 / 60.0;
     }
     
-    //This function gets hours
+/**
+ * This function gets hours.
+ *
+ * @return: Length of time passed in hours.
+ */
     getHours() {
         let currentMilliseconds = Date.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0 / 60.0 / 60.0;

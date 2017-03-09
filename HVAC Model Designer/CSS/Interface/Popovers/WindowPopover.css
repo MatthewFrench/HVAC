@@ -1,6 +1,8 @@
-/*This is a CSS Stylesheet that affects the way the Window Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Window Popover appears and acts
+ */
 
-.WindowBGCover{
+.WindowBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
@@ -17,7 +19,7 @@
     outline: black solid thin;
 }
 
-.WindowSaveButton{
+.WindowSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
@@ -29,7 +31,7 @@
     outline: black solid thin;
 }
 
-.WindowCancelButton{
+.WindowCancelButton {
     position: absolute;
     width: 90px;
     height: 30px;

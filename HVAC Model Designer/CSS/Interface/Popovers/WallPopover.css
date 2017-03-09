@@ -1,6 +1,8 @@
-/*This is a CSS Stylesheet that affects the way the Wall Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Wall Popover appears and acts
+ */
 
-.WallBGCover{
+.WallBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
@@ -9,32 +11,199 @@
 
 .WallDiv {
     position: absolute;
-    width: 40%;
+    width: 30%;
     height: 75%;
-    top: 10%;
-    left: 25%;
+    top: 15%;
+    left: 68%;
     background-color: grey;
     outline: black solid thin;
 }
 
-.WallSaveButton{
+.InsulationMaterialsElement {
     position: absolute;
-    width: 90px;
-    height: 30px;
-    top: 84%;
-    left: 60%;
+    color: black;
+    font-size: 18px;
+    left: 25%;
+    width: 300px;
+    top: 5%;
+    font-weight: 600;
+}
+
+.InsulationMaterialsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 10%;
+    left: 8%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;
     outline: black solid thin;
 }
 
-.WallCancelButton{
+.InsulationDetailsElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 18%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.InsulationDetailsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 23%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.ConstructionMaterialsElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 18%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.ConstructionMaterialsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 23%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SheathingMaterialsElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 25%;
+    width: 300px;
+    top: 33%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SheathingMaterialsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 38%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SheathingDetailsElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 23%;
+    width: 300px;
+    top: 48%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SheathingDetailsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 53%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.SidingMaterialsElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 27%;
+    width: 300px;
+    top: 48%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.SidingMaterialsButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 53%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    opacity: 0;
+}
+
+.InteriorFinishElement {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    left: 28%;
+    width: 300px;
+    top: 63%;
+    font-weight: 600;
+    opacity: 0;
+}
+
+.InteriorFinishButton {
+    position: absolute;
+    width: 350px;
+    height: 33px;
+    top: 68%;
+    left: 8%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+    background-color: white;
+    opacity: 0;
+}
+
+.WallSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
-    top: 84%;
-    left: 80%;
+    top: 92%;
+    left: 30%;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    outline: black solid thin;
+}
+
+.WallCancelButton {
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    top: 92%;
+    left: 50%;
     font-weight: 700;
     font-size: 20px;
     text-align: center;

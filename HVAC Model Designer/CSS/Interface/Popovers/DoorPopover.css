@@ -1,6 +1,8 @@
-/*This is a CSS Stylesheet that affects the way the Door Popover appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Door Popover appears and acts
+ */
 
-.DoorBGCover{
+.DoorBGCover {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
@@ -136,7 +138,7 @@
     opacity: 0;
 }
 
-.DoorSaveButton{
+.DoorSaveButton {
     position: absolute;
     width: 90px;
     height: 30px;
@@ -148,7 +150,7 @@
     outline: black solid thin;
 }
 
-.DoorCancelButton{
+.DoorCancelButton {
     position: absolute;
     width: 90px;
     height: 30px;

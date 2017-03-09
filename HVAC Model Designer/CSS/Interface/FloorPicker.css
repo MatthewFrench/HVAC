@@ -1,4 +1,6 @@
-/*This is a CSS Stylesheet that affects the way the Floor Picker appears and acts*/
+/**
+This is a CSS Stylesheet that affects the way the Floor Picker appears and acts
+ */
 
 .FloorPicker_Main_Div {
     width: 125px;
@@ -48,6 +50,13 @@
 
 .FloorPicker_Add_Button {
     float: left;
+}
+
+.FloorPicker_Edit_Name_Button {
+    position: absolute;
+    bottom: 0px;
+    left: calc(50% - 40px);
+    width: 80px;
 }
 
 .FloorPicker_Remove_Button {

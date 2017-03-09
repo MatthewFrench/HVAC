@@ -1,23 +1,23 @@
 .ThreeDView_DragButton {
     position:absolute;
     left:5px;
-    top:85px;
+    top:5px;
 }
 
 .ThreeDView_RotateButton {
     position:absolute;
     left:55px;
-    top:85px;
+    top:5px;
 }
 
 .ThreeDView_OrbitButton {
     position:absolute;
     left:115px;
-    top:85px;
+    top:5px;
 }
 
 .ThreeDView_AllFloorsButton {
     position:absolute;
     left:165px;
-    top:85px;
+    top:5px;
 }

@@ -1,9 +1,16 @@
 /**
  * Created by personal on 10/21/16.
+ *
+ * This class handles the properties of a given line (wall) on the canvas.
  */
 
-//This function loads up options (if any) and creates points for a 2D line
 class Line2D {
+/**
+ * This function loads up options (if any) and creates points for a 2D line.
+ *
+ * @param options: The previous settings and layout.
+ * @constructor
+ */
     constructor({x1 = 0, y1 = 0, x2 = 0, y2 = 0, point1 = null, point2 = null, line = null} = {}) {
         if (line != null) {
             var copyLine = line;
@@ -20,60 +27,100 @@ class Line2D {
         }
     }
 
-//This function gets the first X point
+/**
+ * This function gets the first X point.
+ *
+ * @return: The X-value of the first point of a line.
+ */
     getPoint1X() {
 
         return this.point1.getX();
     }
 
-//This function gets the second X point
+/**
+ * This function gets the second X point.
+ *
+ * @return: The X-value of the second point of a line.
+ */
     getPoint2X() {
 
         return this.point2.getX();
     }
 
-//This function gets the first Y point
+/**
+ * This function gets the first Y point.
+ *
+ * @return: The Y-value of the first point of a line.
+ */
     getPoint1Y() {
 
         return this.point1.getY();
     }
 
-//This function gets the second Y point
+/**
+ * This function gets the second X point.
+ *
+ * @return: The X-value of the second point of a line.
+ */
     getPoint2Y() {
 
         return this.point2.getY();
     }
 
-//This function sets the first X point
+/**
+ * This function sets the first X point
+ *
+ * @param x: The X-value that is being set on the first point of the line.
+ */
     setPoint1X(x) {
 
         return this.point1.setX(x);
     }
-//This function sets the second X point
+/**
+ * This function sets the second X point
+ *
+ * @param x: The X-value that is being set on the second point of the line.
+ */
     setPoint2X(x) {
 
         return this.point2.setX(x);
     }
 
-//This function sets the first Y point
+/**
+ * This function sets the first Y point
+ *
+ * @param y: The Y-value that is being set on the first point of the line.
+ */
     setPoint1Y(y) {
 
         return this.point1.setY(y);
     }
 
-//This function sets the second Y point
+/**
+ * This function sets the second Y point
+ *
+ * @param y: The Y-value that is being set on the second point of the line.
+ */
     setPoint2Y(y) {
 
         return this.point2.setY(y);
     }
 
-//This function returns the first point (X and Y values)
+/**
+ * This function returns the first point (X and Y values)
+ *
+ * @return: The first coordinate point of the line.
+ */
     getPoint1() {
 
         return this.point1;
     }
 
-//This function returns the second point (X and Y values)
+/**
+ * This function returns the second point (X and Y values)
+ *
+ * @return: The second coordinate point of the line.
+ */
     getPoint2() {
 
         return this.point2;
@@ -91,8 +138,12 @@ class Line2D {
         this.point2.setX(point2.getX());
     }
 
-//This functions finds out if the points and line are in the options
-//if it finds them, it loads them into points and sets those points based on the options
+/**
+ * This functions finds out if the points and line are in the options.
+ * If it finds them, it loads them into points and sets those points based on the options.
+ *
+ * @param options: Previous option settings
+ */
     set(options) {
 
         if ("point1" in options) {
@@ -110,14 +161,24 @@ class Line2D {
         }
     }
 
-//This function gets the angle of the line between two points
+/**
+ * This function gets the angle of the line between two points.
+ *
+ * @return: The angle of the line between two points.
+ */
     getAngleOfLineBetweenPoints() {
         var xDiff = this.point2.getX() - this.point1.getX();
         var yDiff = this.point2.getY() - this.point1.getY();
         return Math.atan2(yDiff, xDiff);
     }
 
-//This function gets the nearest point based on a given point
+/**
+ * This function gets the nearest point based on a given point.
+ *
+ * @param px: X-value of the given point
+ * @param py: Y-value of the given point
+ * @return: The nearest point to the coordinate point being passed in.
+ */
     getNearestPointFromPoint(px, py) {
         var clampToSegment = true;
 
@@ -139,7 +200,11 @@ class Line2D {
         return new Point2D({x: this.point1.getX() + abx * t, y: this.point1.getY() + aby * t});
     }
 
-//This function obtains a perpendicular line to the given point 1
+/**
+ * This function obtains a perpendicular line to the given point 1
+ *
+ * @return: The new line at a perpendicular angle.
+ */
     getPerpendicularLineFromPoint1() {
 
         var x1 = this.point1.getX();
@@ -160,9 +225,12 @@ class Line2D {
         return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
     }
 
-//This function obtains a perpendicular line to the given point 2
+/**
+ * This function obtains a perpendicular line to the given point 2
+ *
+ * @return: The new line at a perpendicular angle.
+ */
     getPerpendicularInfiniteLinePoint2() {
-
         var x1 = this.point1.getX();
         var y1 = this.point1.getY();
         var x2 = this.point2.getX();
@@ -181,9 +249,12 @@ class Line2D {
         return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
     }
 
-//This function obtains a longer line for accurate drawing
+/**
+ * This function obtains a longer line for accurate drawing
+ *
+ * @return: A longer more accurate line.
+ */
     getLongerLine() {
-
         var x1 = this.point1.getX();
         var y1 = this.point1.getY();
         var x2 = this.point2.getX();
@@ -205,7 +276,11 @@ class Line2D {
         return new Line2D({x1: newX1, y1: newY1, x2: newX2, y2: newY2});
     }
 
-//This function gets the length of the line
+/**
+ * This function gets the length of the line.
+ *
+ * @return: The length of the current line.
+ */
     getLength() {
         var x1 = this.point1.getX();
         var y1 = this.point1.getY();
@@ -214,7 +289,11 @@ class Line2D {
         return Math.hypot(x1 - x2, y1 - y2);
     }
 
-//This function gets the center of a line
+/**
+ * This function gets the center of a line.
+ *
+ * @return: The center point of the line.
+ */
     getCenterPoint() {
         var x1 = this.point1.getX();
         var y1 = this.point1.getY();
@@ -225,7 +304,11 @@ class Line2D {
         return new Point2D({x: centerX, y: centerY});
     }
 
-//This function gets the current rotation of a line
+/**
+ * This function gets the current rotation of a line.
+ *
+ * @return: The degree for how much the line has rotated.
+ */
     getRotation() {
         var x1 = this.point1.getX();
         var y1 = this.point1.getY();

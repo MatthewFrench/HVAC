@@ -10,8 +10,13 @@
 //var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
 //var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
 
-//Constructor
+
 class HVACApplication {
+    /**
+     * Creates the HVACApplication class and initializes set variables.
+     *
+     * @constructor
+     */
     constructor() {
         this.hvacData = null;
         this.applicationDiv = null;
@@ -78,7 +83,16 @@ class HVACApplication {
                         this.viewEditorTab = CreateElement({
                             type: 'div', className: 'HVACApplication_ViewEditorTab',
                             onClick: CreateFunction(this, this.viewEditorTabClick), text: "View"
-                        })
+                        }),
+                        //creates AJ Button
+                        this.AJsButton = CreateElement({
+                            type: 'button',
+                            className: 'AJsButton',
+                            text: 'AJs Button',
+                            onClick: CreateFunction(this, function(){
+                                var newWallPopover = new WallPopover();
+                                newWallPopover.show(this.applicationDiv);
+                            })})
                     ]
                 }),
                 this.mainContentDiv = CreateElement({type: 'div', className: 'HVACApplication_MainContent'}),
