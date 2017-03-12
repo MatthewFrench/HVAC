@@ -15,6 +15,7 @@ class FloorPlan {
         this.wallList = [];
         this.buildingPlan = building;
         if (this.buildingPlan != null) this.buildingPlan.addFloor(this);
+        this.floorName = "";
     }
 
 /**
