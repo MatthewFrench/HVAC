@@ -14,7 +14,6 @@ class Canvas3D {
 
         window.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
 
-
         this.layoutViewMode3DRenderer = null;
 
         this.viewZ = 0;
@@ -32,7 +31,6 @@ class Canvas3D {
         this.currentMode = Mode3DTypeEnum.DRAG;
 
         this.createRenderer();
-
 
         this.canvas = this.layoutViewMode3DRenderer.domElement;
         this.canvas.className = "Canvas3D";
@@ -58,9 +56,9 @@ class Canvas3D {
         this.layoutViewMode3DCamera.position.setZ(this.viewZ);
 
 
-        if (this.lastViewScale != this.hvacApplication.viewScale) this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+        if (this.lastViewScale != this.hvacApplication.viewScale)
+            this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
         this.lastViewScale = this.hvacApplication.viewScale;
-
 
         this.layoutViewMode3DRenderer.render(this.layoutViewMode3DScene, this.layoutViewMode3DCamera);
     }
@@ -70,7 +68,6 @@ class Canvas3D {
         var width = 100;
         var height = 100;
         this.layoutViewMode3DCamera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100000);
-
 
         this.layoutViewMode3DScene = new THREE.Scene();
 
@@ -133,7 +130,6 @@ class Canvas3D {
                     //console.log("x: " + this.layoutViewMode3DCamera.rotation.x + ", y: " + this.layoutViewMode3DCamera.rotation.y + ", z: " + this.layoutViewMode3DCamera.rotation.z);
                 }
             }
-
         });
         this.layoutViewMode3DRenderer.domElement.onmouseup = CreateFunction(this, function (event) {
             var mouseX = event.offsetX;
@@ -159,11 +155,9 @@ class Canvas3D {
         this.layoutViewMode3DCamera.position.x = this.cameraCenterX;
         this.layoutViewMode3DCamera.position.y = this.cameraCenterY;
 
-
         this.cameraLookAtX = this.cameraCenterX;
         this.cameraLookAtY = this.cameraCenterY;
         this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
-
 
         this.layoutViewMode3DScene = new THREE.Scene();
 
@@ -216,16 +210,12 @@ class Canvas3D {
                         group.rotation.set(0, 0, rotation);
 
                     });
-
                 });
-
-
             }).call(this, i);
         }
 
         this.layoutViewMode3DRenderer.setPixelRatio(window.devicePixelRatio);
         this.layoutViewMode3DRenderer.setSize(width, height);
-
 
         //this.canvas.appendChild(this.layoutViewMode3DRenderer.domElement);
 
@@ -255,7 +245,6 @@ class Canvas3D {
         }
     }
 
-
     switchToRotateMode() {
         //Get rotation, do look at, get new rotation, animate between rotations
         var oldSetX = this.layoutViewMode3DCamera.up.x;
@@ -263,7 +252,6 @@ class Canvas3D {
         var oldSetZ = this.layoutViewMode3DCamera.up.z;
 
         if (oldSetX != 0 || oldSetY != 1 || oldSetZ != 0) {
-
             var oldX = this.layoutViewMode3DCamera.rotation.x;
             var oldY = this.layoutViewMode3DCamera.rotation.y;
             var oldZ = this.layoutViewMode3DCamera.rotation.z;
@@ -287,7 +275,6 @@ class Canvas3D {
                 this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
             });
         }
-
         this.currentMode = Mode3DTypeEnum.ROTATE;
     };
 
@@ -297,9 +284,7 @@ class Canvas3D {
         var oldSetY = this.layoutViewMode3DCamera.up.y;
         var oldSetZ = this.layoutViewMode3DCamera.up.z;
 
-
         if (oldSetX != 0 || oldSetY != 1 || oldSetZ != 0) {
-
             var oldX = this.layoutViewMode3DCamera.rotation.x;
             var oldY = this.layoutViewMode3DCamera.rotation.y;
             var oldZ = this.layoutViewMode3DCamera.rotation.z;
@@ -322,9 +307,7 @@ class Canvas3D {
                 this.layoutViewMode3DCamera.up.set(0, 1, 0);
                 this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
             });
-
         }
-
         this.currentMode = Mode3DTypeEnum.DRAG;
     }
 
@@ -336,9 +319,7 @@ class Canvas3D {
         var oldSetY = this.layoutViewMode3DCamera.up.y;
         var oldSetZ = this.layoutViewMode3DCamera.up.z;
 
-
         if (oldSetX != 0 || oldSetY != 0 || oldSetZ != 1) {
-
             var oldX = this.layoutViewMode3DCamera.rotation.x;
             var oldY = this.layoutViewMode3DCamera.rotation.y;
             var oldZ = this.layoutViewMode3DCamera.rotation.z;
@@ -362,7 +343,6 @@ class Canvas3D {
                 this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
             });
         }
-
     }
 
     showAllFloors() {
@@ -422,15 +402,11 @@ class Canvas3D {
                             group.rotation.set(0, 0, rotation);
 
                         });
-
                     });
-
-
                 }).call(this, i, floorList[j], j, delay);
                 delay++;
             }
         }
-
     }
 
     resizeCanvas() {
@@ -475,8 +451,6 @@ class Canvas3D {
         this.canvasMouseY = this.currentMouseY;
 
         this.setRotatedCanvasMouse();
-
-
     }
 
     layoutCanvasMouseMoved(event) {
@@ -493,16 +467,11 @@ class Canvas3D {
         this.canvasMouseX = this.currentMouseX;
         this.canvasMouseY = this.currentMouseY;
 
-
         var oldRotatedX = this.rotatedCanvasMouseX;
         var oldRotatedY = this.rotatedCanvasMouseY;
         this.setRotatedCanvasMouse();
         this.rotatedCanvasMouseMovedX = oldRotatedX - this.rotatedCanvasMouseX;
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
-
-
-
-
 
         if (event.stopPropagation) event.stopPropagation();
         if (event.preventDefault) event.preventDefault();
@@ -526,7 +495,6 @@ class Canvas3D {
         this.canvasMouseY = this.currentMouseY;
 
         this.setRotatedCanvasMouse();
-
     }
 
     getCanvas() {
