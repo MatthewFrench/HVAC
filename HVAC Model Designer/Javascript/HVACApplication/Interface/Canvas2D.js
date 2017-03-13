@@ -47,7 +47,6 @@ var handleScroll = function(evt) {
     evt.preventDefault();
 };
 
-
 class Canvas2D {
     constructor({hvacApplication, allowCreatingWalls = false, allowEditingPoints = false, allowCornerEditing = false,
                 allowDeletingWalls = false, allowDragging = false, allowRotating = false} = {}) {
@@ -120,6 +119,7 @@ class Canvas2D {
                 wall.drawDotted(ctx, true);
             }
         }
+
         if (currentFloorIndex < floorList.length - 1) {
             var aboveFloor = floorList[currentFloorIndex + 1];
             for (var j = 0; j < aboveFloor.getWallList().length; j++) {
@@ -127,7 +127,6 @@ class Canvas2D {
                 wall.drawDotted(ctx, false);
             }
         }
-
 
         var closePointArray = [];
         if (this.allowCreatingWalls) {
@@ -137,10 +136,12 @@ class Canvas2D {
         if (this.allowEditingPoints) {
             if (this.currentEditPointSelectedWall != null) {
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
-                    closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint1X(), y: this.currentEditPointSelectedWall.getPoint1Y()}));
+                    closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint1X(),
+                        y: this.currentEditPointSelectedWall.getPoint1Y()}));
                 }
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
-                    closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint2X(), y: this.currentEditPointSelectedWall.getPoint2Y()}));
+                    closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint2X(),
+                        y: this.currentEditPointSelectedWall.getPoint2Y()}));
                 }
             }
         }
@@ -150,39 +151,40 @@ class Canvas2D {
             wall.drawPerpendicular(ctx, closePointArray);
         }
 
-            for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
-                var wall = this.hvacApplication.getCurrentWallList()[i];
+        for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
+            var wall = this.hvacApplication.getCurrentWallList()[i];
 
-                var highlight = false;
-                if (this.allowCornerEditing) {
-                    if (this.currentEditCornerSelectedCornerPoints.length == 0) {
-                        highlight = this.highlightedCorners.indexOf(wall) != -1;
-                    } else {
-                        for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
-                            var corner = this.currentEditCornerSelectedCornerPoints[j];
-                            if (corner.getWall() == wall) highlight = true;
-                        }
+            var highlight = false;
+            if (this.allowCornerEditing) {
+                if (this.currentEditCornerSelectedCornerPoints.length == 0) {
+                    highlight = this.highlightedCorners.indexOf(wall) != -1;
+                } else {
+                    for (var j = 0; j < this.currentEditCornerSelectedCornerPoints.length; j++) {
+                        var corner = this.currentEditCornerSelectedCornerPoints[j];
+                        if (corner.getWall() == wall) highlight = true;
                     }
                 }
-                if (this.allowEditingPoints && wall == this.highlightedPoint) {
-                    highlight = true;
-                }
-                if (this.allowDeletingWalls && wall == this.highlightedDeleteWall) {
-                    highlight = true;
-                }
-
-                wall.draw(ctx, highlight);
             }
+            if (this.allowEditingPoints && wall == this.highlightedPoint) {
+                highlight = true;
+            }
+            if (this.allowDeletingWalls && wall == this.highlightedDeleteWall) {
+                highlight = true;
+            }
+
+            wall.draw(ctx, highlight);
+        }
 
         //Draw create mode starting point
         if (this.allowCreatingWalls) {
-            var point = snapPointToWalls(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, this.hvacApplication.getCurrentWallList(), []);
+            var point = snapPointToWalls(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
+                this.hvacApplication.getCurrentWallList(), []);
+
             ctx.fillStyle = "rgb(150,200,255)";
             ctx.beginPath();
             ctx.arc(point.getX(), point.getY(), 5, 0, 2 * Math.PI);
             ctx.fill();
         }
-
 
         if (this.allowCreatingWalls && this.currentCreateWall != null) {
             var canvasWidth = this.canvas.width;
@@ -197,7 +199,6 @@ class Canvas2D {
             this.currentEditPointSelectedWall.drawLength(ctx, new Point2D({x: canvasWidth/2, y: canvasHeight/2}),
                 this.viewAngle, this.viewScale);
         }
-
 
         this.endDraw(ctx);
     }
@@ -251,22 +252,21 @@ class Canvas2D {
         ctx.restore();
     }
 
-
     resizeCanvas() {
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
     }
 
-
     setRotatedCanvasMouse() {
         var canvasWidth = this.canvas.width;
         var canvasHeight = this.canvas.height;
         var p = convertToTransform(new Point2D({x: this.canvasMouseX, y: this.canvasMouseY}),
-            new Point2D({x: canvasWidth / 2, y: canvasHeight / 2}), this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
+            new Point2D({x: canvasWidth / 2, y: canvasHeight / 2}),
+            this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
+
         this.rotatedCanvasMouseX = p.getX();
         this.rotatedCanvasMouseY = p.getY();
     }
-
 
     layoutCanvasMousePressed(event) {
         "use strict";
@@ -305,10 +305,15 @@ class Canvas2D {
             var wallCloseness = closest;
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
-                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), closest)) {
-                    var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(), this.rotatedCanvasMouseY - wall.getPoint1Y());
+                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
+                        wall.getPoint1X(), wall.getPoint1Y(), closest)) {
+                    var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(),
+                        this.rotatedCanvasMouseY - wall.getPoint1Y());
+
                     if (Math.round(closest) == Math.round(newClosest)) {
-                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+
                         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                         if (dist < wallCloseness) {
                             wallCloseness = dist;
@@ -317,7 +322,9 @@ class Canvas2D {
                             this.currentEditPointSelectedWall = wall;
                         }
                     } else if (newClosest < closest) {
-                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+
                         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                         wallCloseness = dist;
                         closest = newClosest;
@@ -325,10 +332,15 @@ class Canvas2D {
                         this.currentEditPointSelectedWall = wall;
                     }
                 }
-                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), closest)) {
-                    var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(), this.rotatedCanvasMouseY - wall.getPoint2Y());
+                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
+                        wall.getPoint2X(), wall.getPoint2Y(), closest)) {
+                    var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(),
+                        this.rotatedCanvasMouseY - wall.getPoint2Y());
+
                     if (Math.round(closest) == Math.round(newClosest)) {
-                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+
                         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                         if (dist < wallCloseness) {
                             wallCloseness = dist;
@@ -337,7 +349,9 @@ class Canvas2D {
                             this.currentEditPointSelectedWall = wall;
                         }
                     } else if (newClosest < closest) {
-                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                        var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
+                            wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+
                         var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                         wallCloseness = dist;
                         closest = newClosest;
@@ -357,12 +371,18 @@ class Canvas2D {
             //Select closest points at location
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
-                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint1X(), wall.getPoint1Y(), searchArea)) {
-                    searchArea = Math.hypot(wall.getPoint1X() - this.rotatedCanvasMouseX, wall.getPoint1Y() - this.rotatedCanvasMouseY);
+                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
+                        wall.getPoint1X(), wall.getPoint1Y(), searchArea)) {
+                    searchArea = Math.hypot(wall.getPoint1X() - this.rotatedCanvasMouseX,
+                        wall.getPoint1Y() - this.rotatedCanvasMouseY);
+
                     closestCornerPoint = wall.getCornerPoint1();
                 }
-                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY, wall.getPoint2X(), wall.getPoint2Y(), searchArea)) {
-                    searchArea = Math.hypot(wall.getPoint2X() - this.rotatedCanvasMouseX, wall.getPoint2Y() - this.rotatedCanvasMouseY);
+                if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
+                        wall.getPoint2X(), wall.getPoint2Y(), searchArea)) {
+                    searchArea = Math.hypot(wall.getPoint2X() - this.rotatedCanvasMouseX,
+                        wall.getPoint2Y() - this.rotatedCanvasMouseY);
+
                     closestCornerPoint = wall.getCornerPoint2();
                 }
             }
@@ -395,11 +415,15 @@ class Canvas2D {
                     var checkConnection = function(checkWallPoint, targetWallPoint1, targetWallPoint2) {
                         var pointOnLine = nearestPointOnLine(targetWallPoint1.getX(), targetWallPoint1.getY(),
                             targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(), checkWallPoint.getY());
-                        var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(), pointOnLine.getY() - checkWallPoint.getY());
+                        var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(),
+                            pointOnLine.getY() - checkWallPoint.getY());
+
                         if (distBetweenConnection <= 1.0) { //If within 1 pixel, be connected to wall
                             //Check if an end point
-                            if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(), checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
-                                Math.hypot(checkWallPoint.getX() - targetWallPoint2.getX(), checkWallPoint.getY() - targetWallPoint2.getY()) <= 1.0) {
+                            if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(),
+                                    checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
+                                Math.hypot(checkWallPoint.getX() - targetWallPoint2.getX(),
+                                    checkWallPoint.getY() - targetWallPoint2.getY()) <= 1.0) {
                                 //End point do nothing
                             } else {
                                 //Not an end point, add
@@ -431,11 +455,14 @@ class Canvas2D {
             if (closestCornerPoint != null) {
                 for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                     var wall = this.hvacApplication.getCurrentWallList()[i];
-                    var dist = Math.hypot(wall.getPoint1X() - closestCornerPoint.getX(), wall.getPoint1Y() - closestCornerPoint.getY());
+                    var dist = Math.hypot(wall.getPoint1X() - closestCornerPoint.getX(),
+                        wall.getPoint1Y() - closestCornerPoint.getY());
+
                     if (dist <= 1) {
                         this.currentEditCornerSelectedCornerPoints.push(wall.getCornerPoint1());
                     }
-                    dist = Math.hypot(wall.getPoint2X() - closestCornerPoint.getX(), wall.getPoint2Y() - closestCornerPoint.getY());
+                    dist = Math.hypot(wall.getPoint2X() - closestCornerPoint.getX(),
+                        wall.getPoint2Y() - closestCornerPoint.getY());
                     if (dist <= 1) {
                         this.currentEditCornerSelectedCornerPoints.push(wall.getCornerPoint2());
                     }
@@ -455,12 +482,15 @@ class Canvas2D {
                         for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
                             var checkCorner = currentEditCornerSelectedCornerPointsClone[j];
                             if (checkCorner.getWall() == checkWall) containsWall = true;
-
                         }
                         if (containsWall) continue;
 
-                        var pointOnLine = nearestPointOnLine(checkWall.getPoint1X(), checkWall.getPoint1Y(), checkWall.getPoint2X(), checkWall.getPoint2Y(), cornerPoint.getX(), cornerPoint.getY());
-                        if (Math.hypot(cornerPoint.getX() - pointOnLine.getX(), cornerPoint.getY() - pointOnLine.getY()) <= 1.0) {
+                        var pointOnLine = nearestPointOnLine(checkWall.getPoint1X(),
+                            checkWall.getPoint1Y(), checkWall.getPoint2X(), checkWall.getPoint2Y(),
+                            cornerPoint.getX(), cornerPoint.getY());
+
+                        if (Math.hypot(cornerPoint.getX() - pointOnLine.getX(),
+                                cornerPoint.getY() - pointOnLine.getY()) <= 1.0) {
                             //Check if points are added, if not add them to corner points
                             var wallCorner1 = checkWall.getCornerPoint1();
                             var wallCorner2 = checkWall.getCornerPoint2();
@@ -468,13 +498,14 @@ class Canvas2D {
                             var addWallCorner2 = true;
                             for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
                                 var checkCorner = currentEditCornerSelectedCornerPointsClones[j];
-                                if (checkCorner.getWall() == wallCorner1.getWall() && checkCorner.getPointType() == wallCorner1.getPointType()) addWallCorner1 = false;
-                                if (checkCorner.getWall() == wallCorner2.getWall() && checkCorner.getPointType() == wallCorner2.getPointType()) addWallCorner2 = false;
+                                if (checkCorner.getWall() == wallCorner1.getWall() &&
+                                    checkCorner.getPointType() == wallCorner1.getPointType()) addWallCorner1 = false;
+                                if (checkCorner.getWall() == wallCorner2.getWall() &&
+                                    checkCorner.getPointType() == wallCorner2.getPointType()) addWallCorner2 = false;
                             }
                             if (addWallCorner1) this.currentEditCornerSelectedCornerPoints.push(wallCorner1);
                             if (addWallCorner2) this.currentEditCornerSelectedCornerPoints.push(wallCorner2);
                         }
-
                     }
                 }
             }
@@ -485,7 +516,9 @@ class Canvas2D {
                 var closest = 15.0;
                 for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                     var wall = this.hvacApplication.getCurrentWallList()[i];
-                    var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),  this.rotatedCanvasMouseX,  this.rotatedCanvasMouseY);
+                    var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(),
+                        wall.getPoint2X(), wall.getPoint2Y(),  this.rotatedCanvasMouseX,  this.rotatedCanvasMouseY);
+
                     var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                     if (dist <= closest) {
                         closestWall = wall;
@@ -521,13 +554,11 @@ class Canvas2D {
         this.canvasMouseX = this.currentMouseX;
         this.canvasMouseY = this.currentMouseY;
 
-
         var oldRotatedX = this.rotatedCanvasMouseX;
         var oldRotatedY = this.rotatedCanvasMouseY;
         this.setRotatedCanvasMouse();
         this.rotatedCanvasMouseMovedX = oldRotatedX - this.rotatedCanvasMouseX;
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
-
 
         // ******** Allow Creating Walls
         if (this.allowCreatingWalls && this.currentCreateWall != null) {
@@ -540,8 +571,10 @@ class Canvas2D {
             this.currentCreateWall.setPoint2Y(point.getY());
 
             if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(), this.currentCreateWall.getPoint1Y(),
-                    this.currentCreateWall.getPoint2X(), this.currentCreateWall.getPoint2Y(), 45);
+                var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(),
+                    this.currentCreateWall.getPoint1Y(), this.currentCreateWall.getPoint2X(),
+                    this.currentCreateWall.getPoint2Y(), 45);
+
                 this.currentCreateWall.setPoint2X(line.getPoint2X());
                 this.currentCreateWall.setPoint2Y(line.getPoint2Y());
             }
@@ -571,18 +604,22 @@ class Canvas2D {
 
                     //Auto snap
                     var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint1X(),
-                        this.currentEditPointSelectedWall.getPoint1Y(), this.hvacApplication.getCurrentWallList(), [this.currentEditPointSelectedWall]);
+                        this.currentEditPointSelectedWall.getPoint1Y(), this.hvacApplication.getCurrentWallList(),
+                        [this.currentEditPointSelectedWall]);
+
                     this.currentEditPointSelectedWall.setPoint1X( point.getX() );
                     this.currentEditPointSelectedWall.setPoint1Y( point.getY() );
 
                     if (this.shiftPressed) {
-                        var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(), this.currentEditPointSelectedWall.getPoint1Y(),
-                            this.currentEditPointSelectedWall.getPoint2X(), this.currentEditPointSelectedWall.getPoint2Y(), 45);
+                        var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
+                            this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
+                            this.currentEditPointSelectedWall.getPoint2Y(), 45);
+
                         this.currentEditPointSelectedWall.setPoint1X( line.getPoint1X() );
                         this.currentEditPointSelectedWall.setPoint1Y( line.getPoint1Y() );
                     }
-
                 }
+
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_TWO) {
                     this.currentEditPointSelectedWall.setPoint2X( this.rotatedCanvasMouseX );
                     this.currentEditPointSelectedWall.setPoint2Y( this.rotatedCanvasMouseY );
@@ -591,17 +628,20 @@ class Canvas2D {
 
                     //Auto snap
                     var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint2X(),
-                        this.currentEditPointSelectedWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(), [this.currentEditPointSelectedWall]);
+                        this.currentEditPointSelectedWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(),
+                        [this.currentEditPointSelectedWall]);
+
                     this.currentEditPointSelectedWall.setPoint2X( point.getX() );
                     this.currentEditPointSelectedWall.setPoint2Y( point.getY() );
 
                     if (this.shiftPressed) {
-                        var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(), this.currentEditPointSelectedWall.getPoint1Y(),
-                            this.currentEditPointSelectedWall.getPoint2X(), this.currentEditPointSelectedWall.getPoint2Y(), 45);
+                        var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
+                            this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
+                            this.currentEditPointSelectedWall.getPoint2Y(), 45);
+
                         this.currentEditPointSelectedWall.setPoint2X( line.getPoint2X() );
                         this.currentEditPointSelectedWall.setPoint2Y( line.getPoint2Y() );
                     }
-
                 }
             } else {
                 if (this.mouseDown) {
@@ -617,7 +657,9 @@ class Canvas2D {
             var closest = 15;
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),
+                    this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < closest) {
                     //closest = dist;
@@ -627,8 +669,6 @@ class Canvas2D {
             }
 
             if (this.mouseDown) {
-
-
                 for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
                     var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
                     cornerPoint.setX(cornerPoint.getX() - this.rotatedCanvasMouseMovedX);
@@ -656,7 +696,8 @@ class Canvas2D {
             this.highlightedDeleteWall = null;
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),
+                    this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < 15) {
                     this.highlightedDeleteWall = wall;
@@ -667,7 +708,6 @@ class Canvas2D {
         // ***** Dragging Code
         if (this.allowDragging) {
             if (this.mouseDown) {
-
                 for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                     var wall = this.hvacApplication.getCurrentWallList()[i];
                     wall.setPoint1X(wall.getPoint1X() - this.rotatedCanvasMouseMovedX);
@@ -675,9 +715,9 @@ class Canvas2D {
                     wall.setPoint1Y(wall.getPoint1Y() - this.rotatedCanvasMouseMovedY);
                     wall.setPoint2Y(wall.getPoint2Y() - this.rotatedCanvasMouseMovedY);
                 }
-
             }
         }
+
         // ***** Rotating Code
         if (this.allowRotating) {
             if (this.mouseDown) {
@@ -688,7 +728,6 @@ class Canvas2D {
                 this.mouseAngle = newMouseAngle;
             }
         }
-
 
         if (event.stopPropagation) event.stopPropagation();
         if (event.preventDefault) event.preventDefault();
@@ -726,8 +765,10 @@ class Canvas2D {
             this.currentCreateWall.setPoint2Y(point.getY());
 
             if (this.shiftPressed) {
-                var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(), this.currentCreateWall.getPoint1Y(),
-                    this.currentCreateWall.getPoint2X(), this.currentCreateWall.getPoint2Y(), 45);
+                var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(),
+                    this.currentCreateWall.getPoint1Y(), this.currentCreateWall.getPoint2X(),
+                    this.currentCreateWall.getPoint2Y(), 45);
+
                 this.currentCreateWall.setPoint2X(line.getPoint2X());
                 this.currentCreateWall.setPoint2Y(line.getPoint2Y());
             }
@@ -738,21 +779,18 @@ class Canvas2D {
             }
 
             this.currentCreateWall = null;
-
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
         // ********** EDIT WALL CODE
         if (this.allowEditingPoints) {
             this.currentEditPointSelectedWall = null;
-
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
         // ********** Edit Corner Code
         if (this.allowCornerEditing) {
             this.currentEditCornerSelectedCornerPoints = [];
-
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 

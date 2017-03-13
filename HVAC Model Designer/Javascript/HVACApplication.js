@@ -92,7 +92,8 @@ class HVACApplication {
                             onClick: CreateFunction(this, function(){
                                 var newWallPopover = new WallPopover();
                                 newWallPopover.show(this.applicationDiv);
-                            })})
+                            })
+                        })
                     ]
                 }),
                 this.mainContentDiv = CreateElement({type: 'div', className: 'HVACApplication_MainContent'}),
@@ -109,7 +110,6 @@ class HVACApplication {
         //Load editors
         this.wallEditorTabClick();
     }
-
 
     wallEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
