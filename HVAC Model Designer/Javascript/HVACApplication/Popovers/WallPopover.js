@@ -11,11 +11,6 @@
  * @constructor
  */
 function WallPopover() {
-/*
-    this.backgroundDiv = CreateElement({type: 'div', className: 'WallBGCover'});
-    this.WallDiv = CreateElement({
-        type: 'div', className: 'WallDiv', elements: [
-*/
     var self = this;
 
     this.backgroundDiv = CreateElement({
