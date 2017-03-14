@@ -14,7 +14,7 @@
 function CreateElement({
     type = 'div', className = null, inputType = null, text = null, html = null, opacity = null,
     appendTo = null, src = null, id = null, value = null, onClick = null, onMouseMove = null, onMouseDown = null,
-    onMouseUp = null, elements = []
+    onMouseOut = null, onMouseOver = null, onMouseUp = null, elements = []
 } = {}) {
     //type : Element type to create
     //class : Class name of element
@@ -41,6 +41,8 @@ function CreateElement({
     if (onMouseMove != null) element.addEventListener("mousemove", onMouseMove);
     if (onMouseDown != null) element.addEventListener("mousedown", onMouseDown);
     if (onMouseUp != null) element.addEventListener("mouseup", onMouseUp);
+    if (onMouseOut != null) element.addEventListener("mouseout", onMouseOut);
+    if (onMouseOver != null) element.addEventListener("mouseover", onMouseOver);
 
     for (let addElement of elements) {
         element.appendChild(addElement);

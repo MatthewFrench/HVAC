@@ -62,7 +62,9 @@ class Canvas2D {
             className: 'Canvas2D',
             onMouseDown: CreateFunction(this, this.layoutCanvasMousePressed),
             onMouseUp: CreateFunction(this, this.layoutCanvasMouseReleased),
-            onMouseMove: CreateFunction(this, this.layoutCanvasMouseMoved)
+            onMouseMove: CreateFunction(this, this.layoutCanvasMouseMoved),
+            onMouseOut: CreateFunction(this, this.layoutCanvasMouseOut),
+            onMouseOver: CreateFunction(this, this.layoutCanvasMouseOver)
         });
 
         this.shiftPressed = false;
@@ -80,6 +82,7 @@ class Canvas2D {
         this.rotatedCanvasMouseMovedY = 0.0;
         this.mouseDown = false;
         this.intersectHighlightPoints = [];
+        this.mouseIsOnCanvas = true;
 
         // **** Create Wall Variables
         this.currentCreateWall = null;
@@ -129,11 +132,11 @@ class Canvas2D {
         }
 
         var closePointArray = [];
-        if (this.allowCreatingWalls) {
+        if (this.allowCreatingWalls && this.mouseIsOnCanvas) {
             closePointArray.push(new Point2D({x: this.rotatedCanvasMouseX, y: this.rotatedCanvasMouseY}));
         }
 
-        if (this.allowEditingPoints) {
+        if (this.allowEditingPoints && this.mouseIsOnCanvas) {
             if (this.currentEditPointSelectedWall != null) {
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
                     closePointArray.push(new Point2D({x: this.currentEditPointSelectedWall.getPoint1X(),
@@ -176,7 +179,7 @@ class Canvas2D {
         }
 
         //Draw create mode starting point
-        if (this.allowCreatingWalls) {
+        if (this.allowCreatingWalls && this.mouseIsOnCanvas) {
             var point = snapPointToWalls(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
                 this.hvacApplication.getCurrentWallList(), []);
 
@@ -801,6 +804,15 @@ class Canvas2D {
                 this.highlightedDeleteWall = null;
             }
         }
+    }
+
+    layoutCanvasMouseOut(event) {
+        this.mouseIsOnCanvas = false;
+        layoutCanvasMouseReleased(event);
+    }
+
+    layoutCanvasMouseOver(event) {
+        this.mouseIsOnCanvas = true;
     }
 
     onKeydown(event) {
