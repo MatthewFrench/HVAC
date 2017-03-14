@@ -15,91 +15,91 @@ function WallPopover() {
 
     this.backgroundDiv = CreateElement({
         type: 'div',
-        className: 'WallBGCover'
+        class: 'WallBGCover'
     });
     this.WallDiv = CreateElement({
         type: 'div',
-        className: 'WallDiv',
+        class: 'WallDiv',
         elements: [
             this.InsulationMaterialsElement = CreateElement({
                 type: 'InsulationMaterials',
-                className: 'InsulationMaterialsElement',
+                class: 'InsulationMaterialsElement',
                 text: 'Type of Insulation Material'
             }),
             this.InsulationMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'InsulationMaterials',
-                className: 'InsulationMaterialsButton'
+                class: 'InsulationMaterialsButton'
             }),
             this.InsulationDetailsElement = CreateElement({
                 type: 'InsulationDetails',
-                className: 'InsulationDetailsElement',
+                class: 'InsulationDetailsElement',
                 text: 'Choose Thickness of Insulation'
             }),
             this.InsulationDetailsButton = CreateElement({
                 type: 'select',
                 id: 'InsulationDetails',
-                className: 'InsulationDetailsButton'
+                class: 'InsulationDetailsButton'
             }),
             this.ConstructionMaterialsElement = CreateElement({
                 type: 'ConstructionMaterials',
-                className: 'ConstructionMaterialsElement',
+                class: 'ConstructionMaterialsElement',
                 text: 'Type of Construction Material'
             }),
             this.ConstructionMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'ConstructionMaterials',
-                className: 'ConstructionMaterialsButton'
+                class: 'ConstructionMaterialsButton'
             }),
             this.SheathingMaterialsElement = CreateElement({
                 type: 'SheathingMaterials',
-                className: 'SheathingMaterialsElement',
+                class: 'SheathingMaterialsElement',
                 text: 'Type of Sheathing Material'
             }),
             this.SheathingMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'SheathingMaterials',
-                className: 'SheathingMaterialsButton'
+                class: 'SheathingMaterialsButton'
             }),
             this.SheathingDetailsElement = CreateElement({
                 type: 'SheathingDetails',
-                className: 'SheathingDetailsElement',
+                class: 'SheathingDetailsElement',
                 text: 'Choose Thickness of Sheathing'
             }),
             this.SheathingDetailsButton = CreateElement({
                 type: 'select',
                 id: 'SheathingDetails',
-                className: 'SheathingDetailsButton'
+                class: 'SheathingDetailsButton'
             }),
             this.SidingMaterialsElement = CreateElement({
                 type: 'SidingMaterials',
-                className: 'SidingMaterialsElement',
+                class: 'SidingMaterialsElement',
                 text: 'Type of Siding Material'
             }),
             this.SidingMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'SidingMaterials',
-                className: 'SidingMaterialsButton'
+                class: 'SidingMaterialsButton'
             }),
             this.InteriorFinishElement = CreateElement({
                 type: 'InteriorFinish',
-                className: 'InteriorFinishElement',
+                class: 'InteriorFinishElement',
                 text: 'Type of Interior Finish'
             }),
             this.InteriorFinishButton = CreateElement({
                 type: 'select',
                 id: 'InteriorFinish',
-                className: 'InteriorFinishButton'
+                class: 'InteriorFinishButton'
             }),
             this.WallSaveButton = CreateElement({
                 type: 'button',
-                className: 'WallSaveButton',
+                class: 'WallSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.WallCancelButton = CreateElement({
                 type: 'button',
-                className: 'WallCancelButton',
+                class: 'WallCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })
@@ -117,7 +117,7 @@ function WallPopover() {
         type: 'option',
         value: 'Fiberglass Blown',
         elements: [
-            InsulationText2 = document.createTextNode("Fiberglass Blown")
+            InsulationText = document.createTextNode("Fiberglass Blown")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -125,7 +125,7 @@ function WallPopover() {
         type: 'option',
         value: 'Rock Wool Batt',
         elements: [
-            InsulationText3 = document.createTextNode("Rock Wool Batt")
+            InsulationText = document.createTextNode("Rock Wool Batt")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -133,7 +133,7 @@ function WallPopover() {
         type: 'option',
         value: 'Rock Wool Blown',
         elements: [
-            InsulationText4 = document.createTextNode("Rock Wool Blown")
+            InsulationText = document.createTextNode("Rock Wool Blown")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -141,7 +141,7 @@ function WallPopover() {
         type: 'option',
         value: 'Cellulose Blown',
         elements: [
-            InsulationText5 = document.createTextNode("Cellulose Blown")
+            InsulationText = document.createTextNode("Cellulose Blown")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -149,7 +149,7 @@ function WallPopover() {
         type: 'option',
         value: 2.13,
         elements: [
-            InsulationText6 = document.createTextNode("Vermiculite")
+            InsulationText = document.createTextNode("Vermiculite")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -157,7 +157,7 @@ function WallPopover() {
         type: 'option',
         value: 1.05,
         elements: [
-            InsulationText7 = document.createTextNode("Autoclaved Aerated Concrete")
+            InsulationText = document.createTextNode("Autoclaved Aerated Concrete")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -165,7 +165,7 @@ function WallPopover() {
         type: 'option',
         value: 4.48,
         elements: [
-            InsulationText8 = document.createTextNode("Urea Terpolymer Foam")
+            InsulationText = document.createTextNode("Urea Terpolymer Foam")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -173,7 +173,7 @@ function WallPopover() {
         type: 'option',
         value: 4.00,
         elements: [
-            InsulationText9 = document.createTextNode("Rigid Fiberglass")
+            InsulationText = document.createTextNode("Rigid Fiberglass")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -181,7 +181,7 @@ function WallPopover() {
         type: 'option',
         value: 4.00,
         elements: [
-            InsulationText10 = document.createTextNode("Expanded Polystyrene (Beadboard)")
+            InsulationText = document.createTextNode("Expanded Polystyrene (Beadboard)")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -189,7 +189,7 @@ function WallPopover() {
         type: 'option',
         value: 5.00,
         elements: [
-            InsulationText11 = document.createTextNode("Extruded Polystyrene")
+            InsulationText = document.createTextNode("Extruded Polystyrene")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -197,7 +197,7 @@ function WallPopover() {
         type: 'option',
         value: 6.25,
         elements: [
-            InsulationText12 = document.createTextNode("Polyurethane (Foamed-in-Place)")
+            InsulationText = document.createTextNode("Polyurethane (Foamed-in-Place)")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -205,7 +205,7 @@ function WallPopover() {
         type: 'option',
         value: 'Polyisocyanurate (Foil-Faced)',
         elements: [
-            InsulationText13 = document.createTextNode("Polyisocyanurate (Foil-Faced)")
+            InsulationText = document.createTextNode("Polyisocyanurate (Foil-Faced)")
         ],
         appendTo: this.InsulationMaterialsButton
     });
@@ -237,7 +237,7 @@ function WallPopover() {
                 type: 'option',
                 value: 13.00,
                 elements: [
-                    InsulationDetailsText2 = document.createTextNode("3 5/8''")
+                    InsulationDetailsText = document.createTextNode("3 5/8''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -245,7 +245,7 @@ function WallPopover() {
                 type: 'option',
                 value: 15.00,
                 elements: [
-                    InsulationDetailsText3 = document.createTextNode("3 1/2''")
+                    InsulationDetailsText = document.createTextNode("3 1/2''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -253,7 +253,7 @@ function WallPopover() {
                 type: 'option',
                 value: 19.00,
                 elements: [
-                    InsulationDetailsText4 = document.createTextNode("6 1/2''")
+                    InsulationDetailsText = document.createTextNode("6 1/2''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -261,7 +261,7 @@ function WallPopover() {
                 type: 'option',
                 value: 21.00,
                 elements: [
-                    InsulationDetailsText5 = document.createTextNode("5 1/4'' High Density")
+                    InsulationDetailsText = document.createTextNode("5 1/4'' High Density")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -269,7 +269,7 @@ function WallPopover() {
                 type: 'option',
                 value: 25.00,
                 elements: [
-                    InsulationDetailsText6 = document.createTextNode("8''")
+                    InsulationDetailsText = document.createTextNode("8''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -277,7 +277,7 @@ function WallPopover() {
                 type: 'option',
                 value: 30.00,
                 elements: [
-                    InsulationDetailsText7 = document.createTextNode("8'' High Density")
+                    InsulationDetailsText = document.createTextNode("8'' High Density")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -285,7 +285,7 @@ function WallPopover() {
                 type: 'option',
                 value: 30.00,
                 elements: [
-                    InsulationDetailsText8 = document.createTextNode("9 1/2''")
+                    InsulationDetailsText = document.createTextNode("9 1/2''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
@@ -293,10 +293,14 @@ function WallPopover() {
                 type: 'option',
                 value: 38.00,
                 elements: [
-                    InsulationDetailsText9 = document.createTextNode("12''")
+                    InsulationDetailsText = document.createTextNode("12''")
                 ],
                 appendTo: self.InsulationDetailsButton
             });
+        }
+        else
+        {
+            self.InsulationDetailsButton.onchange();
         }
         self.InsulationDetailsButton.selectedIndex = -1;
     };
@@ -507,6 +511,110 @@ function WallPopover() {
                 value: 1.25,
                 elements: [
                     SheathingDetailsText = document.createTextNode("1''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+        }
+        else if (first.value == 'FB') {
+            var SheathingDetailsOption = CreateElement({
+                type: 'option',
+                value: 1.32,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1/2''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption2 = CreateElement({
+                type: 'option',
+                value: 2.06,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("25/32''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption3 = CreateElement({
+                type: 'option',
+                value: 2.64,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+        }
+        else if (first.value == 'FG') {
+            var SheathingDetailsOption = CreateElement({
+                type: 'option',
+                value: 3.00,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("3/4''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption2 = CreateElement({
+                type: 'option',
+                value: 4.00,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption3 = CreateElement({
+                type: 'option',
+                value: 6.00,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1 1/2''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+        }
+        else if (first.value == 'EP') {
+            var SheathingDetailsOption = CreateElement({
+                type: 'option',
+                value: 3.75,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("3/4''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption2 = CreateElement({
+                type: 'option',
+                value: 5.00,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption3 = CreateElement({
+                type: 'option',
+                value: 7.50,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1 1/2''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+        }
+        else if (first.value == 'FFP') {
+            var SheathingDetailsOption = CreateElement({
+                type: 'option',
+                value: 5.40,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("3/4''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption2 = CreateElement({
+                type: 'option',
+                value: 7.20,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1''")
+                ],
+                appendTo: self.SheathingDetailsButton
+            });
+            var SheathingDetailsOption3 = CreateElement({
+                type: 'option',
+                value: 10.80,
+                elements: [
+                    SheathingDetailsText = document.createTextNode("1 1/2''")
                 ],
                 appendTo: self.SheathingDetailsButton
             });
