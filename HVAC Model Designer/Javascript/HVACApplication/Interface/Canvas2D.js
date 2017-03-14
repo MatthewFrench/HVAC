@@ -808,7 +808,7 @@ class Canvas2D {
 
     layoutCanvasMouseOut(event) {
         this.mouseIsOnCanvas = false;
-        layoutCanvasMouseReleased(event);
+        this.layoutCanvasMouseReleased(event);
     }
 
     layoutCanvasMouseOver(event) {
