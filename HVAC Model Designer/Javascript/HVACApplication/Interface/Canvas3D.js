@@ -33,7 +33,10 @@ class Canvas3D {
         this.createRenderer();
 
         this.canvas = this.layoutViewMode3DRenderer.domElement;
-        this.canvas.className = "Canvas3D";
+        this.canvasContainer = CreateElement({type: "div", className: "Canvas3D", elements:[
+            this.canvas
+        ]});
+
         //Set mouse events for canvas
         this.canvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 
@@ -47,7 +50,7 @@ class Canvas3D {
     }
 
     logic() {
-        if (this.canvas.width != this.canvas.clientWidth || this.canvas.height != this.canvas.clientHeight) {
+        if (this.canvas.width != this.canvasContainer.clientWidth || this.canvas.height != this.canvasContainer.clientHeight) {
             this.resizeCanvas();
         }
 
@@ -410,8 +413,9 @@ class Canvas3D {
     }
 
     resizeCanvas() {
-        this.canvas.width = this.canvas.clientWidth;
-        this.canvas.height = this.canvas.clientHeight;
+        console.log("Resizing canvas, clientWidth: " + this.canvasContainer.clientWidth + " vs " + this.canvas.width);
+        //this.canvas.width = this.canvasContainer.clientWidth;
+        //this.canvas.height = this.canvasContainer.clientHeight;
 
         if (this.canvas.width == 0) {
             this.canvas.width = 100;
@@ -420,9 +424,9 @@ class Canvas3D {
 
         if (this.layoutViewMode3DRenderer == null) return;
 
-        this.layoutViewMode3DCamera.aspect = this.canvas.width / this.canvas.height;
+        this.layoutViewMode3DCamera.aspect = this.canvasContainer.clientWidth / this.canvasContainer.clientHeight;
         this.layoutViewMode3DCamera.updateProjectionMatrix();
-        this.layoutViewMode3DRenderer.setSize(this.canvas.width, this.canvas.height);
+        this.layoutViewMode3DRenderer.setSize(this.canvasContainer.clientWidth/2, this.canvasContainer.clientHeight/2);
     }
 
 
@@ -498,6 +502,6 @@ class Canvas3D {
     }
 
     getCanvas() {
-        return this.canvas;//this.layoutViewMode3DRenderer.domElement;//this.canvas;
+        return this.canvasContainer;//this.layoutViewMode3DRenderer.domElement;//this.canvas;
     }
 }
