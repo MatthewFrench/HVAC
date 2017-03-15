@@ -69,13 +69,11 @@ body {
 .HVACApplication_WallEditorTab {
     flex: 1;
     line-height: 30px;
-    max-width: 100px;
+    max-width: 115px;
     text-align: center;
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border-right: #b7c2c8 solid 1px;
-    border-top: #b7c2c8 solid 1px;
     font-family:Helvetica;
 }
 .HVACApplication_WallEditorTab.selected {
@@ -90,8 +88,6 @@ body {
     outline: none;
     cursor: pointer;
     border: #c9d7e0;
-    border-right: #b7c2c8 solid 1px;
-    border-top: #b7c2c8 solid 1px;
     font-family:Helvetica;
 }
 .HVACApplication_RoomEditorTab.selected {
@@ -100,13 +96,11 @@ body {
 .HVACApplication_ViewEditorTab {
     flex: 1;
     line-height: 30px;
-    max-width: 55px;
+    max-width: 80px;
     text-align: center;
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border-right: #b7c2c8 solid 1px;
-    border-top: #b7c2c8 solid 1px;
     font-family:Helvetica;
 }
 .HVACApplication_ViewEditorTab.selected {
