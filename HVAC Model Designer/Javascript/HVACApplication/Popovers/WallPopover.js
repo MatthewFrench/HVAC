@@ -15,91 +15,91 @@ function WallPopover() {
 
     this.backgroundDiv = CreateElement({
         type: 'div',
-        class: 'WallBGCover'
+        className: 'WallBGCover'
     });
     this.WallDiv = CreateElement({
         type: 'div',
-        class: 'WallDiv',
+        className: 'WallDiv',
         elements: [
             this.InsulationMaterialsElement = CreateElement({
                 type: 'InsulationMaterials',
-                class: 'InsulationMaterialsElement',
+                className: 'InsulationMaterialsElement',
                 text: 'Type of Insulation Material'
             }),
             this.InsulationMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'InsulationMaterials',
-                class: 'InsulationMaterialsButton'
+                className: 'InsulationMaterialsButton'
             }),
             this.InsulationDetailsElement = CreateElement({
                 type: 'InsulationDetails',
-                class: 'InsulationDetailsElement',
+                className: 'InsulationDetailsElement',
                 text: 'Choose Thickness of Insulation'
             }),
             this.InsulationDetailsButton = CreateElement({
                 type: 'select',
                 id: 'InsulationDetails',
-                class: 'InsulationDetailsButton'
+                className: 'InsulationDetailsButton'
             }),
             this.ConstructionMaterialsElement = CreateElement({
                 type: 'ConstructionMaterials',
-                class: 'ConstructionMaterialsElement',
+                className: 'ConstructionMaterialsElement',
                 text: 'Type of Construction Material'
             }),
             this.ConstructionMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'ConstructionMaterials',
-                class: 'ConstructionMaterialsButton'
+                className: 'ConstructionMaterialsButton'
             }),
             this.SheathingMaterialsElement = CreateElement({
                 type: 'SheathingMaterials',
-                class: 'SheathingMaterialsElement',
+                className: 'SheathingMaterialsElement',
                 text: 'Type of Sheathing Material'
             }),
             this.SheathingMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'SheathingMaterials',
-                class: 'SheathingMaterialsButton'
+                className: 'SheathingMaterialsButton'
             }),
             this.SheathingDetailsElement = CreateElement({
                 type: 'SheathingDetails',
-                class: 'SheathingDetailsElement',
+                className: 'SheathingDetailsElement',
                 text: 'Choose Thickness of Sheathing'
             }),
             this.SheathingDetailsButton = CreateElement({
                 type: 'select',
                 id: 'SheathingDetails',
-                class: 'SheathingDetailsButton'
+                className: 'SheathingDetailsButton'
             }),
             this.SidingMaterialsElement = CreateElement({
                 type: 'SidingMaterials',
-                class: 'SidingMaterialsElement',
+                className: 'SidingMaterialsElement',
                 text: 'Type of Siding Material'
             }),
             this.SidingMaterialsButton = CreateElement({
                 type: 'select',
                 id: 'SidingMaterials',
-                class: 'SidingMaterialsButton'
+                className: 'SidingMaterialsButton'
             }),
             this.InteriorFinishElement = CreateElement({
                 type: 'InteriorFinish',
-                class: 'InteriorFinishElement',
+                className: 'InteriorFinishElement',
                 text: 'Type of Interior Finish'
             }),
             this.InteriorFinishButton = CreateElement({
                 type: 'select',
                 id: 'InteriorFinish',
-                class: 'InteriorFinishButton'
+                className: 'InteriorFinishButton'
             }),
             this.WallSaveButton = CreateElement({
                 type: 'button',
-                class: 'WallSaveButton',
+                className: 'WallSaveButton',
                 text: 'Save',
                 onClick: CreateFunction(this, this.hide)
             }),
             this.WallCancelButton = CreateElement({
                 type: 'button',
-                class: 'WallCancelButton',
+                className: 'WallCancelButton',
                 text: 'Cancel',
                 onClick: CreateFunction(this, this.hide)
             })
