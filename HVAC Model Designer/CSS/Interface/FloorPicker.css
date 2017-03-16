@@ -55,8 +55,8 @@ This is a CSS Stylesheet that affects the way the Floor Picker appears and acts
 .FloorPicker_Edit_Name_Button {
     position: absolute;
     bottom: 0px;
-    left: calc(50% - 40px);
-    width: 83px;
+    left: calc(50% - 41px);
+    width: 84px;
 }
 
 .FloorPicker_Remove_Button {

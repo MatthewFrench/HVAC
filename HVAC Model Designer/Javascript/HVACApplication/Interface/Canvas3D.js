@@ -426,7 +426,7 @@ class Canvas3D {
 
         this.layoutViewMode3DCamera.aspect = this.canvasContainer.clientWidth / this.canvasContainer.clientHeight;
         this.layoutViewMode3DCamera.updateProjectionMatrix();
-        this.layoutViewMode3DRenderer.setSize(this.canvasContainer.clientWidth/2, this.canvasContainer.clientHeight/2);
+        this.layoutViewMode3DRenderer.setSize(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
     }
 
 
