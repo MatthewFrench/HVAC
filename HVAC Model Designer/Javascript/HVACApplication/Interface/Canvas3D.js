@@ -50,7 +50,7 @@ class Canvas3D {
     }
 
     logic() {
-        if (this.canvas.width != this.canvasContainer.clientWidth || this.canvas.height != this.canvasContainer.clientHeight) {
+        if (this.layoutViewMode3DRenderer.getSize().width != this.canvasContainer.clientWidth || this.layoutViewMode3DRenderer.getSize().height != this.canvasContainer.clientHeight) {
             this.resizeCanvas();
         }
 
@@ -413,15 +413,6 @@ class Canvas3D {
     }
 
     resizeCanvas() {
-        console.log("Resizing canvas, clientWidth: " + this.canvasContainer.clientWidth + " vs " + this.canvas.width);
-        //this.canvas.width = this.canvasContainer.clientWidth;
-        //this.canvas.height = this.canvasContainer.clientHeight;
-
-        if (this.canvas.width == 0) {
-            this.canvas.width = 100;
-            this.canvas.height = 100;
-        }
-
         if (this.layoutViewMode3DRenderer == null) return;
 
         this.layoutViewMode3DCamera.aspect = this.canvasContainer.clientWidth / this.canvasContainer.clientHeight;
