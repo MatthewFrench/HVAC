@@ -38,6 +38,7 @@
 }
 .WallEditor_CreateViewTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }
 .WallEditor_EditPointViewTab {
     flex: 1;
@@ -52,6 +53,7 @@
 }
 .WallEditor_EditPointViewTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }
 .WallEditor_EditCornerViewTab {
     flex: 1;
@@ -66,6 +68,7 @@
 }
 .WallEditor_EditCornerViewTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }
 .WallEditor_DeleteViewTab {
     flex: 1;
@@ -80,4 +83,5 @@
 }
 .WallEditor_DeleteViewTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }

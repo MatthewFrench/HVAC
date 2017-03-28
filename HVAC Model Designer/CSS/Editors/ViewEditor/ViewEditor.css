@@ -38,6 +38,7 @@
 }
 .ViewEditor_DragTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }
 .ViewEditor_RotateTab {
     flex: 1;
@@ -52,6 +53,7 @@
 }
 .ViewEditor_RotateTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }
 .ViewEditor_View3DTab {
     flex: 1;
@@ -66,4 +68,5 @@
 }
 .ViewEditor_View3DTab.selected {
     background-color: rgb(208, 194, 255);
+    border-radius: 15px;
 }

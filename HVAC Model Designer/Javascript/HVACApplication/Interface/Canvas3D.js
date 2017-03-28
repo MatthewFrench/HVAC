@@ -415,8 +415,25 @@ class Canvas3D {
     resizeCanvas() {
         if (this.layoutViewMode3DRenderer == null) return;
 
+        if (this.canvasContainer.clientWidth != 0 && this.canvasContainer.clientHeight != 0 &&
+            this.layoutViewMode3DRenderer.getSize().width == 0 && this.layoutViewMode3DRenderer.getSize().height == 0) {
+            //Move camera to center
+            this.cameraCenterX = this.canvasContainer.clientWidth  / 2; //-this.canvasWidth / 2.0 - window.innerWidth;
+            this.cameraCenterY = -this.canvasContainer.clientHeight / 2 + 41; //this.canvasHeight / 2.0 - window.innerHeight;
+
+            this.layoutViewMode3DCamera.position.z = this.viewZ;
+            this.layoutViewMode3DCamera.position.x = this.cameraCenterX;
+            this.layoutViewMode3DCamera.position.y = this.cameraCenterY;
+
+            this.cameraLookAtX = this.cameraCenterX;
+            this.cameraLookAtY = this.cameraCenterY;
+            this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
+            //End camera move
+        }
+
         this.layoutViewMode3DCamera.aspect = this.canvasContainer.clientWidth / this.canvasContainer.clientHeight;
         this.layoutViewMode3DCamera.updateProjectionMatrix();
+
         this.layoutViewMode3DRenderer.setSize(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
     }
 
