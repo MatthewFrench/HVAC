@@ -87,7 +87,6 @@ body {
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border: #c9d7e0;
     font-family:Helvetica;
 }
 .HVACApplication_RoomEditorTab.selected {
@@ -96,7 +95,7 @@ body {
 .HVACApplication_ViewEditorTab {
     flex: 1;
     line-height: 30px;
-    max-width: 80px;
+    max-width: 115px;
     text-align: center;
     font-size: 18px;
     outline: none;

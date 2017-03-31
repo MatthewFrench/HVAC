@@ -33,7 +33,6 @@
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border-right: #7b8388 solid 1px;
     font-family:Helvetica;
 }
 .ViewEditor_DragTab.selected {
@@ -48,7 +47,6 @@
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border-right: #7b8388 solid 1px;
     font-family:Helvetica;
 }
 .ViewEditor_RotateTab.selected {
@@ -63,7 +61,6 @@
     font-size: 18px;
     outline: none;
     cursor: pointer;
-    border-right: #7b8388 solid 1px;
     font-family:Helvetica;
 }
 .ViewEditor_View3DTab.selected {
