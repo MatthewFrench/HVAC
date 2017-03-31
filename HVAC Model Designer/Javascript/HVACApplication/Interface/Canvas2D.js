@@ -66,6 +66,7 @@ class Canvas2D {
             onMouseOut: CreateFunction(this, this.layoutCanvasMouseOut),
             onMouseOver: CreateFunction(this, this.layoutCanvasMouseOver)
         });
+        this.canvas.tabIndex = "1";
 
         this.shiftPressed = false;
         this.currentMouseX = 0.0;
@@ -105,6 +106,9 @@ class Canvas2D {
         window.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
 
         this.canvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
+
+        this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
+        this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
     }
 
     logic() {
