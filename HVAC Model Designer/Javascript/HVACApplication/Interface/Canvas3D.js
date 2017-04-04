@@ -59,7 +59,8 @@ class Canvas3D {
     }
 
     logic() {
-        if (this.layoutViewMode3DRenderer.getSize().width != this.canvasContainer.clientWidth || this.layoutViewMode3DRenderer.getSize().height != this.canvasContainer.clientHeight) {
+        if (this.layoutViewMode3DRenderer.getSize().width != this.canvasContainer.clientWidth
+            || this.layoutViewMode3DRenderer.getSize().height != this.canvasContainer.clientHeight) {
             this.resizeCanvas();
         }
 
