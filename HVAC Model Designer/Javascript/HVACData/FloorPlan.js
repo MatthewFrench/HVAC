@@ -11,11 +11,11 @@ class FloorPlan {
  * @param options: The previous settings and layout.
  * @constructor
  */
-    constructor({building = null} = {}) {
+    constructor({building = null, floorName = ""} = {}) {
         this.wallList = [];
         this.buildingPlan = building;
         if (this.buildingPlan != null) this.buildingPlan.addFloor(this);
-        this.floorName = "";
+        this.floorName = floorName;
     }
 
 /**
@@ -72,6 +72,6 @@ class FloorPlan {
             var wall = this.wallList[i];
             wallMaps.push(wall.getHashmap());
         }
-        return {walls: wallMaps};
+        return {walls: wallMaps, floorName: this.floorName};
     }
 }
