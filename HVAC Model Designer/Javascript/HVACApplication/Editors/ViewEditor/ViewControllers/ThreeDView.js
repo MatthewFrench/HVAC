@@ -28,9 +28,11 @@ class ThreeDView {
     }
 
     show() {
+        this.canvas3D.show();
     }
 
     hide() {
+        this.canvas3D.hide();
     }
 
     logic() {

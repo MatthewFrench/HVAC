@@ -63,8 +63,33 @@ FloorPicker.prototype.loadFloors = function() {
             row.onclick = CreateFunction(this, function() {
                 this.floorClicked(floorRow);
             });
+
+            row.draggable="true";
+
+            var allowDrop = function(ev) {
+                ev.preventDefault();
+            };
+            var drag = function(ev) {
+                ev.dataTransfer.setData("Floor ID", index);
+            };
+            row.ondrop = CreateFunction(this, function(ev){
+                this.droppedOnFloor(ev, index);
+            });
+            row.ondragover = allowDrop;
+            row.ondragstart = drag;
+
         }).call(this, i);
     }
+};
+
+FloorPicker.prototype.droppedOnFloor = function(ev, index) {
+    console.log("Row was dropped on row: " + index);
+    var moveFloor = ev.dataTransfer.getData("Floor ID");
+
+    var building = this.hvacApplication.getCurrentBuilding();
+    building.putFloorAboveFloor(moveFloor, index);
+
+    this.loadFloors();
 };
 
 /**

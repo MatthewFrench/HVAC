@@ -77,8 +77,12 @@ class ViewEditor {
         this.selectCurrentTab();
     }
 
-    show () {}
-    hide () {}
+    show () {
+        this.viewController.show();
+    }
+    hide () {
+        this.viewController.hide();
+    }
 
     logic() {
         if (this.viewController != null) this.viewController.logic();

@@ -26,6 +26,14 @@ class BuildingPlan {
         this.floorList.push(floor);
     }
 
+    putFloorAboveFloor(moveFloorIndex, toFloorIndex) {
+        console.log("Moving Floor");
+        var putAboveFloor = this.floorList[toFloorIndex];
+        var movingFloor = this.floorList[moveFloorIndex];
+        this.removeFloor(movingFloor);
+        this.floorList.splice(this.floorList.indexOf(putAboveFloor)+1, 0, movingFloor);
+    }
+
 /**
  * This function obtain the list of floors.
  */

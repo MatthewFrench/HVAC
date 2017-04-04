@@ -40,13 +40,22 @@ class Canvas3D {
         //Set mouse events for canvas
         this.canvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 
-        //On Show
+        //On Creation
         this.cameraCenterX = this.canvas.width / 2; //-this.canvasWidth / 2.0 - window.innerWidth;
         this.cameraCenterY = -this.canvas.height / 2 + 41; //this.canvasHeight / 2.0 - window.innerHeight;
 
-        this.create3DEverything();
+        this.prep3D();
+    }
 
+    show() {
+        this.createBasicScene();
         this.addFlatFloor();
+    }
+
+    hide() {
+        while(this.layoutViewMode3DScene.children.length > 0) {
+            this.layoutViewMode3DScene.remove(this.layoutViewMode3DScene.children[0]);
+        }
     }
 
     logic() {
@@ -144,7 +153,7 @@ class Canvas3D {
         });
     }
 
-    create3DEverything() {
+    prep3D() {
         this.viewZ = this.defaultZ;
 
         var width = 100;
@@ -163,66 +172,67 @@ class Canvas3D {
         this.layoutViewMode3DCamera.lookAt(new THREE.Vector3(this.cameraLookAtX, this.cameraLookAtY, 0));
 
         this.layoutViewMode3DScene = new THREE.Scene();
-
-        for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
-
-            (function (i) {
-                AnimationTimer.StartTimerDelayed(this, i * 0.1, 0.0, function () {
-                }, function () {
-
-                    var wall = this.hvacApplication.getCurrentWallList()[i];
-
-                    var lengthOfWall = wall.getLine().getLength();
-                    var wallCenter = wall.getLine().getCenterPoint();
-
-                    var wallWidth = 10;
-                    var wallHeight = 160;
-                    var wallLength = lengthOfWall;
-
-                    var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
-
-                    var group = new THREE.Object3D();
-
-                    var material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.75});
-                    material.transparent = true;
-                    var newMesh = new THREE.Mesh(geometry, material);
-                    group.add(newMesh);
-
-                    //Create outline object
-                    var geo = new THREE.EdgesGeometry(geometry); // or WireframeGeometry( geometry )
-                    var mat = new THREE.LineBasicMaterial({color: 0xff0000, linewidth: 2});
-                    mat.transparent = true;
-                    var wireframe = new THREE.LineSegments(geo, mat);
-
-                    group.add(wireframe);
-
-                    this.layoutViewMode3DScene.add(group);
-
-                    var locationX = wallCenter.x;
-                    var locationY = -wallCenter.y;
-
-                    var rotation = wall.getLine().getRotation();
-                    AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
-                        var x = locationX * percent;
-                        var y = locationY * percent;
-
-                        group.position.set(x, y, wallHeight / 2);
-                        group.rotation.set(0, 0, rotation * percent);
-                    }, function () {
-                        group.position.set(locationX, locationY, wallHeight / 2);
-                        group.rotation.set(0, 0, rotation);
-
-                    });
-                });
-            }).call(this, i);
-        }
-
         this.layoutViewMode3DRenderer.setPixelRatio(window.devicePixelRatio);
         this.layoutViewMode3DRenderer.setSize(width, height);
 
         //this.canvas.appendChild(this.layoutViewMode3DRenderer.domElement);
 
         this.resizeCanvas();
+    }
+
+    createBasicScene() {
+         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
+
+         (function (i) {
+         AnimationTimer.StartTimerDelayed(this, i * 0.1, 0.0, function () {
+         }, function () {
+
+         var wall = this.hvacApplication.getCurrentWallList()[i];
+
+         var lengthOfWall = wall.getLine().getLength();
+         var wallCenter = wall.getLine().getCenterPoint();
+
+         var wallWidth = 10;
+         var wallHeight = 160;
+         var wallLength = lengthOfWall;
+
+         var geometry = new THREE.BoxBufferGeometry(wallWidth, wallLength, wallHeight);
+
+         var group = new THREE.Object3D();
+
+         var material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: false, opacity: 0.75});
+         material.transparent = true;
+         var newMesh = new THREE.Mesh(geometry, material);
+         group.add(newMesh);
+
+         //Create outline object
+         var geo = new THREE.EdgesGeometry(geometry); // or WireframeGeometry( geometry )
+         var mat = new THREE.LineBasicMaterial({color: 0xff0000, linewidth: 2});
+         mat.transparent = true;
+         var wireframe = new THREE.LineSegments(geo, mat);
+
+         group.add(wireframe);
+
+         this.layoutViewMode3DScene.add(group);
+
+         var locationX = wallCenter.x;
+         var locationY = -wallCenter.y;
+
+         var rotation = wall.getLine().getRotation();
+         AnimationTimer.StartTimer(this, 1.0, function (speed, percent) {
+         var x = locationX * percent;
+         var y = locationY * percent;
+
+         group.position.set(x, y, wallHeight / 2);
+         group.rotation.set(0, 0, rotation * percent);
+         }, function () {
+         group.position.set(locationX, locationY, wallHeight / 2);
+         group.rotation.set(0, 0, rotation);
+
+         });
+         });
+         }).call(this, i);
+         }
     }
 
     addFlatFloor() {
