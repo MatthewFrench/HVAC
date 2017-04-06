@@ -8,13 +8,21 @@
 class SimulationPoint {
     constructor({x=0, y=0} = {}) {
         this.leftPoint = null;
+        this.isWallLeft = false;
         this.rightPoint = null;
+        this.isWallRight = false;
         this.bottomPoint = null;
+        this.isWallBottom = false;
         this.topPoint = null;
+        this.isWallTop = false;
         this.x = x;
         this.y = y;
         this.isInside = true;
         this.temperature = 0.0;
+        //Variable for calculations
+        this.processed = false;
+        this.indexX = 0;
+        this.indexY = 0;
     }
 }
 
@@ -91,13 +99,6 @@ class SimulatorCanvas {
         this.densityUndo = Math.pow(40.0 / this.pointDensity, 1/3);
         this.wallTransferRateSqrt = Math.pow(this.wallTransferRate, 1.0/this.densityUndo);
         this.airTransferRateSqrt = Math.pow(this.airTransferRate, 1.0/this.densityUndo);
-        console.log("----------------");
-        console.log("Point Density: " + this.pointDensity);
-        console.log("New Density Undo: " + this.densityUndo);
-        console.log("Original Wall transfer: " + this.wallTransferRate);
-        console.log("Wall transfer: " + this.wallTransferRateSqrt);
-        console.log("Original Air transfer: " + this.airTransferRate);
-        console.log("Air transfer: " + this.airTransferRateSqrt);
     }
 
     initializeSimulationPoints() {
@@ -124,14 +125,26 @@ class SimulatorCanvas {
         maxX = maxX + padding*2;
         maxY = maxY + padding*2;
         //Now Create the points with density
+        var indexX = 0;
+        var indexY = 0;
+        var indexArray = {};
         for (var x = minX; x <= maxX; x += this.pointDensity*2) {
+            indexArray[indexX] = {};
             for (var y = minY; y <= maxY; y += this.pointDensity*2) {
                 var simulationPoint = new SimulationPoint({x: x, y: y});
+                indexArray[indexX][indexY] = simulationPoint;
+                simulationPoint.processed = false;
+                simulationPoint.indexX = indexX;
+                simulationPoint.indexY = indexY;
                 simulationPoint.temperature = 60.0;
-                this.setPointConnections(simulationPoint);
                 this.simulationPoints.push(simulationPoint);
+                indexY += 1;
             }
+            indexX += 1;
+            indexY = 0;
         }
+        this.setPointConnections(indexArray);
+        this.setPointWalls();
         //Now mark inside and outside points
         this.setInsideOutsidePoints();
 
@@ -164,6 +177,24 @@ class SimulatorCanvas {
         this.initializeSimulationPoints();
     }
 
+    setPointWalls() {
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var point = this.simulationPoints[i];
+            if (point.leftPoint != null) {
+                point.isWallLeft = this.isWallBetweenPoints(point, point.leftPoint);
+            }
+            if (point.rightPoint != null) {
+                point.isWallRight = this.isWallBetweenPoints(point, point.rightPoint);
+            }
+            if (point.topPoint != null) {
+                point.isWallTop = this.isWallBetweenPoints(point, point.topPoint);
+            }
+            if (point.bottomPoint != null) {
+                point.isWallBottom = this.isWallBetweenPoints(point, point.bottomPoint);
+            }
+        }
+    }
+
     setOutsideTemperature() {
         this.outsideTemperature = 100.0;
         for (var i = 0; i < this.simulationPoints.length; i++) {
@@ -185,8 +216,8 @@ class SimulatorCanvas {
         //Point 0 is always outside. Set that as the first outside and use
         //flood fill to set the rest outside. Anything left is inside.
         var processList = [];
-        var processedList = [];
         processList.push(this.simulationPoints[0]);
+        this.simulationPoints[0].processed = true;
 
         while (processList.length > 0) {
             var point = processList.shift();
@@ -194,27 +225,29 @@ class SimulatorCanvas {
             point.isInside = false;
 
             if (point.leftPoint != null) {
-                if (!this.isWallBetweenPoints(point, point.leftPoint) && processedList.indexOf(point.leftPoint) == -1 && processList.indexOf(point.leftPoint) == -1) {
+                if (!point.isWallLeft && point.leftPoint.processed == false) {
                     processList.push(point.leftPoint);
+                    point.leftPoint.processed = true;
                 }
             }
             if (point.rightPoint != null) {
-                if (!this.isWallBetweenPoints(point, point.rightPoint) && processedList.indexOf(point.rightPoint) == -1 && processList.indexOf(point.rightPoint) == -1) {
+                if (!point.isWallRight && point.rightPoint.processed == false) {
                     processList.push(point.rightPoint);
+                    point.rightPoint.processed = true;
                 }
             }
             if (point.topPoint != null) {
-                if (!this.isWallBetweenPoints(point, point.topPoint) && processedList.indexOf(point.topPoint) == -1 && processList.indexOf(point.topPoint) == -1) {
+                if (!point.isWallTop && point.topPoint.processed == false) {
                     processList.push(point.topPoint);
+                    point.topPoint.processed = true;
                 }
             }
             if (point.bottomPoint != null) {
-                if (!this.isWallBetweenPoints(point, point.bottomPoint) && processedList.indexOf(point.bottomPoint) == -1 && processList.indexOf(point.bottomPoint) == -1) {
+                if (!point.isWallBottom && point.bottomPoint.processed == false) {
                     processList.push(point.bottomPoint);
+                    point.bottomPoint.processed = true;
                 }
             }
-
-            processedList.push(point);
         }
     }
 
@@ -237,56 +270,27 @@ class SimulatorCanvas {
         return false;
     }
 
-    setPointConnections(simulationPoint) {
-        if (this.simulationPoints.length == 0) return;
-        //Set closest neighbor
-        var minXLeftPoint = null;
-        var minXRightPoint = null;
-        var minYTopPoint = null;
-        var minYBottomPoint = null;
-        var minXLeft = 1000.0;
-        var minXRight = 1000.0;
-        var minYTop = 1000.0;
-        var minYBottom = 1000.0;
+    setPointConnections(indexArray) {
         for (var i = 0; i < this.simulationPoints.length; i++) {
-            var checkPoint = this.simulationPoints[i];
-            if (checkPoint == simulationPoint) continue;
-            var xOffLeft = simulationPoint.x - checkPoint.x;
-            var xOffRight = checkPoint.x - simulationPoint.x;
-            var xOffTop = simulationPoint.y - checkPoint.y;
-            var xOffBottom = checkPoint.y - simulationPoint.y;
-            if (xOffLeft < minXLeft && xOffLeft > 0 && checkPoint.y == simulationPoint.y) {
-                minXLeft = xOffLeft;
-                minXLeftPoint = checkPoint;
+            var simulationPoint = this.simulationPoints[i];
+
+            if (indexArray[simulationPoint.indexX - 1] != undefined) {
+                if (indexArray[simulationPoint.indexX - 1][simulationPoint.indexY] != undefined) {
+                    simulationPoint.leftPoint = indexArray[simulationPoint.indexX - 1][simulationPoint.indexY];
+                }
             }
-            if (xOffRight < minXRight && xOffRight > 0 && checkPoint.y == simulationPoint.y) {
-                minXRight = xOffRight;
-                minXRightPoint = checkPoint;
+
+            if (indexArray[simulationPoint.indexX + 1] != undefined) {
+                if (indexArray[simulationPoint.indexX + 1][simulationPoint.indexY] != undefined) {
+                    simulationPoint.rightPoint = indexArray[simulationPoint.indexX + 1][simulationPoint.indexY];
+                }
             }
-            if (xOffTop < minYTop && xOffTop > 0 && checkPoint.x == simulationPoint.x) {
-                minYTop = xOffTop;
-                minYTopPoint = checkPoint;
+                if (indexArray[simulationPoint.indexX][simulationPoint.indexY - 1] != undefined) {
+                    simulationPoint.topPoint = indexArray[simulationPoint.indexX][simulationPoint.indexY - 1];
+                }
+            if (indexArray[simulationPoint.indexX][simulationPoint.indexY + 1] != undefined) {
+                simulationPoint.bottomPoint = indexArray[simulationPoint.indexX][simulationPoint.indexY + 1];
             }
-            if (xOffBottom < minYBottom && xOffBottom > 0 && checkPoint.x == simulationPoint.x) {
-                minYBottom = xOffBottom;
-                minYBottomPoint = checkPoint;
-            }
-        }
-        if (minXLeftPoint != null) {
-            simulationPoint.leftPoint = minXLeftPoint;
-            minXLeftPoint.rightPoint = simulationPoint;
-        }
-        if (minXRightPoint != null) {
-            simulationPoint.rightPoint = minXRightPoint;
-            minXRightPoint.leftPoint = simulationPoint;
-        }
-        if (minYTopPoint != null) {
-            simulationPoint.topPoint = minYTopPoint;
-            minYTopPoint.bottomPoint = simulationPoint;
-        }
-        if (minYBottomPoint != null) {
-            simulationPoint.bottomPoint = minYBottomPoint;
-            minYBottomPoint.topPoint = simulationPoint;
         }
     }
 
@@ -369,90 +373,96 @@ class SimulatorCanvas {
     }
 
     runSimulation() {
-        //Loop through outside points first
-        //On any outside point that connects to an inside point
-        //Run the heat transfer
-        //Add points that had heat transfer to a point list
-        //loop through point list and repeat until done
-        //For inside to inside points, check if wall between for heat modification
-
         var pointsToProcess = [];
 
+        this.simulateHeatPoints(pointsToProcess);
+
+        this.simulateHeatTransfer(pointsToProcess);
+    }
+
+    simulateHeatPoints(pointsToProcess) {
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
+            point.processed = false;
             if (point.isInside == false) {
+                point.processed = true;
                 if (point.leftPoint != null && point.leftPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.leftPoint);
+                    this.transferTemperatureBetweenPoints(point, point.leftPoint, point.isWallLeft);
                     pointsToProcess.push(point.leftPoint);
+                    point.leftPoint.processed = true;
                 }
                 if (point.rightPoint != null && point.rightPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.rightPoint);
+                    this.transferTemperatureBetweenPoints(point, point.rightPoint, point.isWallRight);
                     pointsToProcess.push(point.rightPoint);
+                    point.rightPoint.processed = true;
                 }
                 if (point.topPoint != null && point.topPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.topPoint);
+                    this.transferTemperatureBetweenPoints(point, point.topPoint, point.isWallTop);
                     pointsToProcess.push(point.topPoint);
+                    point.topPoint.processed = true;
                 }
                 if (point.bottomPoint != null && point.bottomPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.bottomPoint);
+                    this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.isWallBottom);
                     pointsToProcess.push(point.bottomPoint);
+                    point.bottomPoint.processed = true;
                 }
             }
         }
+    }
 
-        var processedPoints = [];
-
+    simulateHeatTransfer(pointsToProcess) {
         //Loop through pointsToProcess
         while (pointsToProcess.length > 0) {
             var point = pointsToProcess.shift();
             if (point.leftPoint != null && point.leftPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.leftPoint);
-                if (processedPoints.indexOf(point.leftPoint) == -1 &&
-                    pointsToProcess.indexOf(point.leftPoint) == -1) {
+                this.transferTemperatureBetweenPoints(point, point.leftPoint, point.isWallLeft);
+                if (point.leftPoint.processed == false) {
                     pointsToProcess.push(point.leftPoint);
+                    point.leftPoint.processed = true;
                 }
             }
             if (point.rightPoint != null && point.rightPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.rightPoint);
-                if (processedPoints.indexOf(point.rightPoint) == -1 &&
-                    pointsToProcess.indexOf(point.rightPoint) == -1) {
+                this.transferTemperatureBetweenPoints(point, point.rightPoint, point.isWallRight);
+                if (point.rightPoint.processed == false) {
                     pointsToProcess.push(point.rightPoint);
+                    point.rightPoint.processed = true;
                 }
             }
             if (point.topPoint != null && point.topPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.topPoint);
-                if (processedPoints.indexOf(point.topPoint) == -1 &&
-                    pointsToProcess.indexOf(point.topPoint) == -1) {
+                this.transferTemperatureBetweenPoints(point, point.topPoint, point.isWallTop);
+                if (point.topPoint.processed == false) {
                     pointsToProcess.push(point.topPoint);
+                    point.topPoint.processed = true;
                 }
             }
             if (point.bottomPoint != null && point.bottomPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.bottomPoint);
-                if (processedPoints.indexOf(point.bottomPoint) == -1 &&
-                    pointsToProcess.indexOf(point.bottomPoint) == -1) {
+                this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.isWallBottom);
+                if (point.bottomPoint.processed == false) {
                     pointsToProcess.push(point.bottomPoint);
+                    point.bottomPoint.processed = true;
                 }
             }
-            processedPoints.push(point);
         }
     }
-    transferTemperatureBetweenPoints(fromPoint, toPoint) {
+
+
+    transferTemperatureBetweenPoints(fromPoint, toPoint, wallBetween) {
         if (fromPoint.isInside == false) {
             //Only transfer and assume that there is already a wall between
             var temperatureDifference = fromPoint.temperature - toPoint.temperature;
             var tempAdd = temperatureDifference * this.wallTransferRateSqrt;
-            toPoint.temperature = tempAdd + toPoint.temperature;
+            toPoint.temperature += tempAdd;
         } else {
             //Determine if there is a wall between
             var transferRate = this.airTransferRateSqrt;
-            if (this.isWallBetweenPoints(fromPoint, toPoint)) {
+            if (wallBetween) {
                 transferRate = this.wallTransferRateSqrt;
             }
             var temperatureDifference = fromPoint.temperature - toPoint.temperature;
             var tempAdd = temperatureDifference * transferRate;
 
-            toPoint.temperature = toPoint.temperature + tempAdd;
-            fromPoint.temperature = fromPoint.temperature - tempAdd;
+            toPoint.temperature += tempAdd;
+            fromPoint.temperature -= tempAdd;
         }
     }
 
@@ -477,6 +487,12 @@ class SimulatorCanvas {
         }
 
         this.endDraw(ctx);
+
+        ctx.fillStyle = "white";
+        ctx.font = "25px Helvetica";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 30);
     }
 
     show() {
