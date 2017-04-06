@@ -97,11 +97,11 @@ class SimulatorCanvas {
             maxY = Math.max(maxY, wall.getPoint1Y(), wall.getPoint2Y());
         }
         //Add a 100 pixel bounding box around the simulation
-        var padding = 500;
+        var padding = this.pointDensity;
         minX = minX - padding;
         minY = minY - padding;
-        maxX = maxX + padding;
-        maxY = maxY + padding;
+        maxX = maxX + padding*1.9;
+        maxY = maxY + padding*1.9;
         //Now Create the points with density
         for (var x = minX; x <= maxX; x += this.pointDensity*2) {
             for (var y = minY; y <= maxY; y += this.pointDensity*2) {
@@ -269,33 +269,6 @@ class SimulatorCanvas {
     drawSimulationPoints() {
         var ctx = this.canvas.getContext("2d");
 
-        ctx.strokeStyle = "rgba(0,0,0,0.25)";
-        for (var i = 0; i < this.simulationPoints.length; i++) {
-            var simulationPoint = this.simulationPoints[i];
-            var temp = simulationPoint.temperature;
-
-            var maxTemp = this.outsideTemperature;
-            var minTemp = this.insideTemperature;
-            var halfTemp = (maxTemp - minTemp)/2.0 + minTemp;
-
-            if (temp < halfTemp) {
-                var tempPercent = (temp - minTemp) / (halfTemp - minTemp);
-                var redgreen = (255 * tempPercent);
-                var blue = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",0.5)";
-            } else {
-                var tempPercent = (temp - halfTemp) / (maxTemp - halfTemp);
-                var red = (255 * tempPercent);
-                var yellow = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,0.5)";
-            }
-
-            ctx.beginPath();
-            ctx.arc(simulationPoint.x,simulationPoint.y,this.pointDensity/2.0,0,2*Math.PI);
-            ctx.fill();
-            ctx.stroke();
-        }
-
         ctx.strokeStyle = "rgba(0,0,255,0.5)";
         ctx.beginPath();
         for (var i = 0; i < this.simulationPoints.length; i++) {
@@ -320,14 +293,37 @@ class SimulatorCanvas {
         }
         ctx.stroke();
 
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
         var fontSize = (this.pointDensity / 40.0) * 10 + 5;
         ctx.font = Math.round(fontSize) + "px Helvetica";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "white";
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var simulationPoint = this.simulationPoints[i];
-            ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y);
+            var temp = simulationPoint.temperature;
+
+            var maxTemp = this.outsideTemperature;
+            var minTemp = this.insideTemperature;
+            var halfTemp = (maxTemp - minTemp)/2.0 + minTemp;
+
+            if (temp < halfTemp) {
+                var tempPercent = (temp - minTemp) / (halfTemp - minTemp);
+                var redgreen = (255 * tempPercent);
+                var blue = (255-(255 * tempPercent));
+                ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
+            } else {
+                var tempPercent = (temp - halfTemp) / (maxTemp - halfTemp);
+                var red = (255 * tempPercent);
+                var yellow = (255-(255 * tempPercent));
+                ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
+            }
+
+            ctx.beginPath();
+            ctx.arc(simulationPoint.x,simulationPoint.y,this.pointDensity/2.0,0,2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y - this.pointDensity);
         }
     }
 
