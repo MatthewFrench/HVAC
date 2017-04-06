@@ -1,9 +1,19 @@
 /**
+ * Created by matt on 4/6/17.
+ */
+
+/**
  * Created by matt on 4/5/17.
  */
+
+
+
 /**
- * Created by matt on 2/21/17.
+ * The floats were replaced with a special very precise decimal library, this is a lot
+ * slower in simulation but is a lot more accurate.
  */
+
+
 
 class SimulationPoint {
     constructor({x=0, y=0} = {}) {
@@ -11,10 +21,10 @@ class SimulationPoint {
         this.rightPoint = null;
         this.bottomPoint = null;
         this.topPoint = null;
-        this.x = x;
-        this.y = y;
+        this.x = new Decimal(x);
+        this.y = new Decimal(y);
         this.isInside = true;
-        this.temperature = 0.0;
+        this.temperature = new Decimal(0.0);
     }
 }
 
@@ -76,23 +86,19 @@ class SimulatorCanvas {
         this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
         this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
 
-        this.pointDensity = 40.0; //One point every 100 pixels
+        this.pointDensity = new Decimal(40.0); //One point every 100 pixels
         //Set wall transfer rate and air transfer rate
-        var speedModifier = 5.0;
-        this.wallTransferRate = 0.001666666666667 * speedModifier; // 30 times slower than air
-        this.airTransferRate = 0.05 * speedModifier;
+        this.wallTransferRate = new Decimal(0.005); // 5 times slower than air
+        this.airTransferRate = new Decimal(0.001);
 
         this.setDensityUndo();
-
-        this.simulationStopwatch = new Stopwatch();
     }
 
     setDensityUndo() {
-        this.densityUndo = Math.pow(40.0 / this.pointDensity, 1/3);
-        this.wallTransferRateSqrt = Math.pow(this.wallTransferRate, 1.0/this.densityUndo);
-        this.airTransferRateSqrt = Math.pow(this.airTransferRate, 1.0/this.densityUndo);
+        this.densityUndo = new Decimal(40.0 / this.pointDensity);
+        this.wallTransferRateSqrt = this.wallTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
+        this.airTransferRateSqrt = this.airTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
         console.log("----------------");
-        console.log("Point Density: " + this.pointDensity);
         console.log("New Density Undo: " + this.densityUndo);
         console.log("Original Wall transfer: " + this.wallTransferRate);
         console.log("Wall transfer: " + this.wallTransferRateSqrt);
@@ -118,16 +124,16 @@ class SimulatorCanvas {
             maxY = Math.max(maxY, wall.getPoint1Y(), wall.getPoint2Y());
         }
         //Add a 100 pixel bounding box around the simulation
-        var padding = this.pointDensity;
+        var padding = Number(this.pointDensity);
         minX = minX - padding;
         minY = minY - padding;
         maxX = maxX + padding*2;
         maxY = maxY + padding*2;
         //Now Create the points with density
-        for (var x = minX; x <= maxX; x += this.pointDensity*2) {
-            for (var y = minY; y <= maxY; y += this.pointDensity*2) {
+        for (var x = minX; x <= maxX; x += Number(this.pointDensity*2)) {
+            for (var y = minY; y <= maxY; y += Number(this.pointDensity*2)) {
                 var simulationPoint = new SimulationPoint({x: x, y: y});
-                simulationPoint.temperature = 60.0;
+                simulationPoint.temperature = new Decimal(60.0);
                 this.setPointConnections(simulationPoint);
                 this.simulationPoints.push(simulationPoint);
             }
@@ -137,46 +143,37 @@ class SimulatorCanvas {
 
         this.setOutsideTemperature();
         this.setInsideTemperature();
-
-        this.simulationStopwatch.reset();
     }
 
     increaseDensity() {
-        if (this.pointDensity <= 5.0) {
-            this.pointDensity -= 1.0;
-            if (this.pointDensity == 0.0) this.pointDensity = 1.0;
-        } else {
-            this.pointDensity = this.pointDensity - 5.0;
-        }
+        this.pointDensity = this.pointDensity.minus(5.0);
+        if (this.pointDensity.lte(0.0)) this.pointDensity = new Decimal(1.0);
         this.setDensityUndo();
         this.clearSimulationPoints();
         this.initializeSimulationPoints();
     }
 
     decreaseDensity() {
-        if (this.pointDensity < 5.0) {
-            this.pointDensity += 1.0;
-        } else {
-            this.pointDensity = this.pointDensity + 5.0;
-        }
+        if (this.pointDensity.eq(1.0)) this.pointDensity = new Decimal(0.0);
+        this.pointDensity = this.pointDensity.plus(5.0);
         this.setDensityUndo();
         this.clearSimulationPoints();
         this.initializeSimulationPoints();
     }
 
     setOutsideTemperature() {
-        this.outsideTemperature = 100.0;
+        this.outsideTemperature = new Decimal(100.0);
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
-            if (point.isInside == false) point.temperature = this.outsideTemperature;
+            if (point.isInside == false) point.temperature = new Decimal(this.outsideTemperature);
         }
     }
 
     setInsideTemperature() {
-        this.insideTemperature = 60.0;
+        this.insideTemperature = new Decimal(60.0);
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
-            if (point.isInside) point.temperature = this.insideTemperature;
+            if (point.isInside) point.temperature = new Decimal(this.insideTemperature);
         }
     }
 
@@ -223,8 +220,8 @@ class SimulatorCanvas {
             var wall = this.hvacApplication.getCurrentWallList()[i];
 
             var intersectionPoint = getLineIntersectionPoint(
-                point1.x, point1.y,
-                point2.x, point2.y,
+                Number(point1.x), Number(point1.y),
+                Number(point2.x), Number(point2.y),
                 wall.getPoint1X(), wall.getPoint1Y(),
                 wall.getPoint2X(), wall.getPoint2Y()
             );
@@ -244,30 +241,30 @@ class SimulatorCanvas {
         var minXRightPoint = null;
         var minYTopPoint = null;
         var minYBottomPoint = null;
-        var minXLeft = 1000.0;
-        var minXRight = 1000.0;
-        var minYTop = 1000.0;
-        var minYBottom = 1000.0;
+        var minXLeft = new Decimal(1000.0);
+        var minXRight = new Decimal(1000.0);
+        var minYTop = new Decimal(1000.0);
+        var minYBottom = new Decimal(1000.0);
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var checkPoint = this.simulationPoints[i];
             if (checkPoint == simulationPoint) continue;
-            var xOffLeft = simulationPoint.x - checkPoint.x;
-            var xOffRight = checkPoint.x - simulationPoint.x;
-            var xOffTop = simulationPoint.y - checkPoint.y;
-            var xOffBottom = checkPoint.y - simulationPoint.y;
-            if (xOffLeft < minXLeft && xOffLeft > 0 && checkPoint.y == simulationPoint.y) {
+            var xOffLeft = simulationPoint.x.minus(checkPoint.x);
+            var xOffRight = checkPoint.x.minus(simulationPoint.x);
+            var xOffTop = simulationPoint.y.minus(checkPoint.y);
+            var xOffBottom = checkPoint.y.minus(simulationPoint.y);
+            if (xOffLeft.lt(minXLeft) && xOffLeft.gt(0) && checkPoint.y.eq(simulationPoint.y)) {
                 minXLeft = xOffLeft;
                 minXLeftPoint = checkPoint;
             }
-            if (xOffRight < minXRight && xOffRight > 0 && checkPoint.y == simulationPoint.y) {
+            if (xOffRight.lt(minXRight) && xOffRight.gt(0) && checkPoint.y.eq(simulationPoint.y)) {
                 minXRight = xOffRight;
                 minXRightPoint = checkPoint;
             }
-            if (xOffTop < minYTop && xOffTop > 0 && checkPoint.x == simulationPoint.x) {
+            if (xOffTop.lt(minYTop) && xOffTop.gt(0) && checkPoint.x.eq(simulationPoint.x)) {
                 minYTop = xOffTop;
                 minYTopPoint = checkPoint;
             }
-            if (xOffBottom < minYBottom && xOffBottom > 0 && checkPoint.x == simulationPoint.x) {
+            if (xOffBottom.lt(minYBottom) && xOffBottom.gt(0) && checkPoint.x.eq(simulationPoint.x)) {
                 minYBottom = xOffBottom;
                 minYBottomPoint = checkPoint;
             }
@@ -297,34 +294,32 @@ class SimulatorCanvas {
     drawSimulationPoints() {
         var ctx = this.canvas.getContext("2d");
 
-        if (this.pointDensity > 5.0) {
-            ctx.strokeStyle = "rgba(0,0,255,0.5)";
-            ctx.beginPath();
-            for (var i = 0; i < this.simulationPoints.length; i++) {
-                var simulationPoint = this.simulationPoints[i];
-                var half = 0;//this.pointDensity/2.0;
-                if (simulationPoint.leftPoint != null) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.leftPoint.x - half, simulationPoint.leftPoint.y - half);
-                }
-                if (simulationPoint.rightPoint != null) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.rightPoint.x - half, simulationPoint.rightPoint.y - half);
-                }
-                if (simulationPoint.topPoint != null) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.topPoint.x - half, simulationPoint.topPoint.y - half);
-                }
-                if (simulationPoint.bottomPoint != null) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.bottomPoint.x - half, simulationPoint.bottomPoint.y - half);
-                }
+        ctx.strokeStyle = "rgba(0,0,255,0.5)";
+        ctx.beginPath();
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+            var half = 0;//this.pointDensity/2.0;
+            if (simulationPoint.leftPoint != null) {
+                ctx.moveTo(Number(simulationPoint.x) - half, Number(simulationPoint.y) - half);
+                ctx.lineTo(Number(simulationPoint.leftPoint.x) - half, Number(simulationPoint.leftPoint.y) - half);
             }
-            ctx.stroke();
+            if (simulationPoint.rightPoint != null) {
+                ctx.moveTo(Number(simulationPoint.x) - half, Number(simulationPoint.y) - half);
+                ctx.lineTo(Number(simulationPoint.rightPoint.x) - half, Number(simulationPoint.rightPoint.y) - half);
+            }
+            if (simulationPoint.topPoint != null) {
+                ctx.moveTo(Number(simulationPoint.x) - half, Number(simulationPoint.y) - half);
+                ctx.lineTo(Number(simulationPoint.topPoint.x) - half, Number(simulationPoint.topPoint.y) - half);
+            }
+            if (simulationPoint.bottomPoint != null) {
+                ctx.moveTo(Number(simulationPoint.x) - half, Number(simulationPoint.y) - half);
+                ctx.lineTo(Number(simulationPoint.bottomPoint.x) - half, Number(simulationPoint.bottomPoint.y) - half);
+            }
         }
+        ctx.stroke();
 
         ctx.strokeStyle = "rgba(0,0,0,0.25)";
-        var fontSize = this.pointDensity/40.0*10+5;
+        var fontSize = Number(this.pointDensity.div(40.0).times(10).plus(5));
         ctx.font = Math.round(fontSize) + "px Helvetica";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -334,36 +329,27 @@ class SimulatorCanvas {
 
             var maxTemp = this.outsideTemperature;
             var minTemp = this.insideTemperature;
-            var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
+            var halfTemp = maxTemp.minus(minTemp).div(2.0).plus(minTemp);
 
-            if (temp<halfTemp) {
-                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
-                var redgreen = (255 * tempPercent);
-                var blue = (255-(255 * tempPercent));
+            if (temp.lt(halfTemp)) {
+                var tempPercent = temp.minus(minTemp).div(halfTemp.minus(minTemp));
+                var redgreen = (255 * Number(tempPercent));
+                var blue = (255-(255 * Number(tempPercent)));
                 ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
             } else {
-                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
-                var red = (255 * tempPercent);
-                var yellow = (255-(255 * tempPercent));
+                var tempPercent = temp.minus(halfTemp).div(maxTemp.minus(halfTemp));
+                var red = (255 * Number(tempPercent));
+                var yellow = (255-(255 * Number(tempPercent)));
                 ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
             }
 
-            if (this.pointDensity > 5) {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity / 2.0, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity, 0, 2 * Math.PI);
-                ctx.fill();
-            }
+            ctx.beginPath();
+            ctx.arc(Number(simulationPoint.x),Number(simulationPoint.y),Number(this.pointDensity.div(2.0)),0,2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
 
-            if (this.pointDensity > 2.0) {
-                ctx.stroke();
-            }
-
-            if (this.pointDensity > 5.0) {
-                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y-this.pointDensity);
+            if (this.pointDensity.gt(1.0)) {
+                ctx.fillText("" + Math.round(Number(simulationPoint.temperature)), Number(simulationPoint.x), Number(simulationPoint.y.minus(this.pointDensity)));
             }
         }
     }
@@ -437,34 +423,47 @@ class SimulatorCanvas {
         }
     }
     transferTemperatureBetweenPoints(fromPoint, toPoint) {
+        //Density affects transfer rate, try to undo that
+        //console.log("Number going into pow: " + Number(new Decimal(40.0).div(this.pointDensity)));
+        //var densityUndo = new Decimal(4.0).pow(Number(new Decimal(40.0).div(this.pointDensity)));
+
         if (fromPoint.isInside == false) {
             //Only transfer and assume that there is already a wall between
-            var temperatureDifference = fromPoint.temperature - toPoint.temperature;
-            var tempAdd = temperatureDifference * this.wallTransferRateSqrt;
-            toPoint.temperature = tempAdd + toPoint.temperature;
+            var temperatureDifference = fromPoint.temperature.minus(toPoint.temperature);
+            var tempAdd = temperatureDifference.times(this.wallTransferRateSqrt);
+
+            toPoint.temperature = tempAdd.plus(toPoint.temperature);
+
         } else {
             //Determine if there is a wall between
             var transferRate = this.airTransferRateSqrt;
             if (this.isWallBetweenPoints(fromPoint, toPoint)) {
                 transferRate = this.wallTransferRateSqrt;
             }
-            var temperatureDifference = fromPoint.temperature - toPoint.temperature;
-            var tempAdd = temperatureDifference * transferRate;
+            var temperatureDifference = fromPoint.temperature.minus(toPoint.temperature);
+            var tempAdd = temperatureDifference.times(transferRate);
 
-            toPoint.temperature = toPoint.temperature + tempAdd;
-            fromPoint.temperature = fromPoint.temperature - tempAdd;
+            //var oldCombo = toPoint.temperature.plus(fromPoint.temperature);
+
+            toPoint.temperature = toPoint.temperature.plus(tempAdd);
+            fromPoint.temperature = fromPoint.temperature.minus(tempAdd);
+            /*
+             var newCombo = toPoint.temperature.plus(fromPoint.temperature);
+
+             if (newCombo.eq(oldCombo) == false) {
+             console.log("Temperature combo: " + oldCombo + " vs " + newCombo);
+             console.log("To temp: " + toPoint.temperature);
+             console.log("From temp: " + fromPoint.temperature);
+             console.log("Temperature difference: " + temperatureDifference);
+             console.log("Temp Add: " + tempAdd);
+             console.log(" ------------ ");
+             }
+             */
         }
     }
 
     logic() {
-        var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
-        //Run simulation at 60fps and catch up if missing some simulation
-        var runCount = 0;
-        for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
-            runCount++;
-            this.runSimulation();
-        }
-        this.simulationStopwatch.reset();
+        this.runSimulation();
 
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
@@ -481,7 +480,6 @@ class SimulatorCanvas {
 
     show() {
         this.initializeSimulationPoints();
-        this.simulationStopwatch.reset();
     }
 
     hide() {
