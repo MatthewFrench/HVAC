@@ -1,0 +1,14 @@
+.Simulator_Increase_Button {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Decrease_Button {
+    position: absolute;
+    left: 160px;
+    top: 5px;
+    width: 150px;
+    font-size: 15px;
+}

@@ -20,39 +20,8 @@ class HVACApplication {
     constructor() {
         this.hvacData = null;
         this.applicationDiv = null;
-        //this.shiftPressed = false;
-        //this.currentMouseX = 0.0;
-        //this.currentMouseY = 0.0;
-        //this.previousMouseX = 0.0;
-        //this.previousMouseY = 0.0;
-        //this.mouseMovedX = 0.0;
-        //this.mouseMovedY = 0.0;
-        //this.canvasMouseX = 0.0;
-        //this.canvasMouseY = 0.0;
-        //this.rotatedCanvasMouseX = 0.0;
-        //this.rotatedCanvasMouseY = 0.0;
-        //this.rotatedCanvasMouseMovedX = 0.0;
-//this.rotatedCanvas                    MouseMovedY = 0.0;
-        //this.mouseDown = false;
-        //this.intersectHighlightPoints = [];
-        //this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-        //this.currentEditMode = EDIT_MODE_POINT;
         this.selectedFloor = null;
         this.selectedBuilding = null;
-        //this.viewAngle = 0.0;
-        //this.viewScale = 1.0;
-
-        //this.viewMode3DController = new ViewMode3DController(this);
-
-        //this.initUIVariables();
-        //this.createUI();
-
-        //this.initCreateModeVariables();
-        //this.initDragModeVariables();
-        //this.initEditCornerModeVariables();
-        //this.initEditPointModeVariables();
-        //this.initViewModeVariables();
-        //this.initDeleteModeVariables();
 
         this.viewAngle = 0.0;
         this.viewScale = 1.0;
@@ -84,6 +53,10 @@ class HVACApplication {
                             type: 'div', className: 'HVACApplication_ViewEditorTab',
                             onClick: CreateFunction(this, this.viewEditorTabClick), text: "View"
                         }),
+                        this.simulatorTab = CreateElement({
+                            type: 'div', className: 'HVACApplication_SimulatorTab',
+                            onClick: CreateFunction(this, this.simulatorTabClick), text: "Simulator"
+                        }),
                         //creates AJ Button
                         this.AJsButton = CreateElement({
                             type: 'button',
@@ -104,6 +77,7 @@ class HVACApplication {
         this.wallEditor = new WallEditor(this);
         this.roomEditor = new RoomEditor(this);
         this.viewEditor = new ViewEditor(this);
+        this.simulator = new Simulator(this);
 
         this.currentEditor = null;
 
@@ -111,10 +85,18 @@ class HVACApplication {
         this.wallEditorTabClick();
     }
 
+    hideFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "none";
+    }
+    showFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "";
+    }
+
     wallEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+        this.simulatorTab.className = "HVACApplication_SimulatorTab";
 
         if (this.currentEditor != null) {
             this.currentEditor.hide();
@@ -123,12 +105,15 @@ class HVACApplication {
         this.currentEditor = this.wallEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-    };
+
+        this.showFloorPicker();
+    }
 
     roomEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab selected";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+        this.simulatorTab.className = "HVACApplication_SimulatorTab";
 
         if (this.currentEditor != null) {
             this.currentEditor.hide();
@@ -137,12 +122,15 @@ class HVACApplication {
         this.currentEditor = this.roomEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-    };
+
+        this.showFloorPicker();
+    }
 
     viewEditorTabClick() {
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab selected";
+        this.simulatorTab.className = "HVACApplication_SimulatorTab";
 
         if (this.currentEditor != null) {
             this.currentEditor.hide();
@@ -151,7 +139,26 @@ class HVACApplication {
         this.currentEditor = this.viewEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-    };
+
+        this.showFloorPicker();
+    }
+
+    simulatorTabClick() {
+        this.wallEditorTab.className = "HVACApplication_WallEditorTab";
+        this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
+        this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+        this.simulatorTab.className = "HVACApplication_SimulatorTab selected";
+
+        if (this.currentEditor != null) {
+            this.currentEditor.hide();
+            this.currentEditor.getDiv().remove();
+        }
+        this.currentEditor = this.simulator;
+        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
+        this.currentEditor.show();
+
+        this.hideFloorPicker();
+    }
 
     loadData() {
         this.hvacData = HVACDataLoader.getHVACData();
@@ -160,20 +167,20 @@ class HVACApplication {
 
     saveData() {
         window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
-    };
+    }
 
     selectBuilding(building) {
         this.selectedBuilding = building;
         this.selectFloor(building.getFloorList()[0]);
-    };
+    }
 
     selectFloor(floor) {
         this.selectedFloor = floor;
-    };
+    }
 
     getCurrentWallList() {
         return this.selectedFloor.getWallList();
-    };
+    }
 
     getCurrentFloorPlan() {
         return this.selectedFloor;
@@ -181,7 +188,7 @@ class HVACApplication {
 
     getCurrentBuilding() {
         return this.selectedBuilding;
-    };
+    }
 
     logic() {
         if (this.currentEditor != null) {
