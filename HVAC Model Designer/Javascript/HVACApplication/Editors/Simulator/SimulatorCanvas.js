@@ -8,13 +8,13 @@
 class SimulationPoint {
     constructor({x=0, y=0} = {}) {
         this.leftPoint = null;
-        this.isWallLeft = false;
+        this.numberWallsLeft = 0;
         this.rightPoint = null;
-        this.isWallRight = false;
+        this.numberWallsRight = 0;
         this.bottomPoint = null;
-        this.isWallBottom = false;
+        this.numberWallsBottom = 0;
         this.topPoint = null;
-        this.isWallTop = false;
+        this.numberWallsTop = 0;
         this.x = x;
         this.y = y;
         this.isInside = true;
@@ -23,6 +23,7 @@ class SimulationPoint {
         this.processed = false;
         this.indexX = 0;
         this.indexY = 0;
+        this.addTemperature = 0.0;
     }
 }
 
@@ -74,6 +75,9 @@ class SimulatorCanvas {
         this.mouseDown = false;
         this.mouseIsOnCanvas = true;
 
+        this.dragX = 0.0;
+        this.dragY = 0.0;
+
         // *** Rotating Variables
         this.mouseAngle = 0;
 
@@ -87,7 +91,7 @@ class SimulatorCanvas {
         this.pointDensity = 40.0; //One point every 100 pixels
         //Set wall transfer rate and air transfer rate
         var speedModifier = 5.0;
-        this.wallTransferRate = 0.001666666666667 * speedModifier; // 30 times slower than air
+        this.wallTransferRate = 0.0005 * speedModifier; // 100 times slower than air
         this.airTransferRate = 0.05 * speedModifier;
 
         this.setDensityUndo();
@@ -96,9 +100,17 @@ class SimulatorCanvas {
     }
 
     setDensityUndo() {
-        this.densityUndo = Math.pow(40.0 / this.pointDensity, 1/3);
-        this.wallTransferRateSqrt = Math.pow(this.wallTransferRate, 1.0/this.densityUndo);
-        this.airTransferRateSqrt = Math.pow(this.airTransferRate, 1.0/this.densityUndo);
+        //this.densityUndo = new Decimal(40.0).div(this.pointDensity).pow(0.5);
+        //this.densityUndo = new Decimal(40.0).div(this.pointDensity);
+        //1.0 - ((1.0 - wallTransfer) / density Undo)
+        //this.wallTransferRateSqrt = new Decimal(1.0 - ((1.0 - this.wallTransferRate.toNumber()) / this.densityUndo.toNumber()));
+        //this.wallTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
+        //this.airTransferRateSqrt = new Decimal(1.0 - ((1.0 - this.airTransferRate.toNumber()) / this.densityUndo.toNumber()));
+        //this.airTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
+        //console.log("----------------");
+        //console.log("Density Undo: " + this.densityUndo);
+        //console.log("Wall Transfer: " + this.wallTransferRate + " vs " + this.wallTransferRateSqrt);
+        //console.log("Air Transfer: " + this.airTransferRate + " vs " + this.airTransferRateSqrt);
     }
 
     initializeSimulationPoints() {
@@ -181,16 +193,16 @@ class SimulatorCanvas {
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
             if (point.leftPoint != null) {
-                point.isWallLeft = this.isWallBetweenPoints(point, point.leftPoint);
+                point.numberWallsLeft = this.numberOfWallsBetweenPoints(point, point.leftPoint);
             }
             if (point.rightPoint != null) {
-                point.isWallRight = this.isWallBetweenPoints(point, point.rightPoint);
+                point.numberWallsRight = this.numberOfWallsBetweenPoints(point, point.rightPoint);
             }
             if (point.topPoint != null) {
-                point.isWallTop = this.isWallBetweenPoints(point, point.topPoint);
+                point.numberWallsTop = this.numberOfWallsBetweenPoints(point, point.topPoint);
             }
             if (point.bottomPoint != null) {
-                point.isWallBottom = this.isWallBetweenPoints(point, point.bottomPoint);
+                point.numberWallsBottom = this.numberOfWallsBetweenPoints(point, point.bottomPoint);
             }
         }
     }
@@ -225,33 +237,39 @@ class SimulatorCanvas {
             point.isInside = false;
 
             if (point.leftPoint != null) {
-                if (!point.isWallLeft && point.leftPoint.processed == false) {
+                if (point.numberWallsLeft == 0 && point.leftPoint.processed == false) {
                     processList.push(point.leftPoint);
                     point.leftPoint.processed = true;
                 }
             }
             if (point.rightPoint != null) {
-                if (!point.isWallRight && point.rightPoint.processed == false) {
+                if (point.numberWallsRight == 0 && point.rightPoint.processed == false) {
                     processList.push(point.rightPoint);
                     point.rightPoint.processed = true;
                 }
             }
             if (point.topPoint != null) {
-                if (!point.isWallTop && point.topPoint.processed == false) {
+                if (point.numberWallsTop == 0 && point.topPoint.processed == false) {
                     processList.push(point.topPoint);
                     point.topPoint.processed = true;
                 }
             }
             if (point.bottomPoint != null) {
-                if (!point.isWallBottom && point.bottomPoint.processed == false) {
+                if (point.numberWallsBottom == 0 && point.bottomPoint.processed == false) {
                     processList.push(point.bottomPoint);
                     point.bottomPoint.processed = true;
                 }
             }
         }
+
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+            simulationPoint.processed = false;
+        }
     }
 
-    isWallBetweenPoints(point1, point2) {
+    numberOfWallsBetweenPoints(point1, point2) {
+        var wallCount = 0;
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
             var wall = this.hvacApplication.getCurrentWallList()[i];
 
@@ -264,10 +282,10 @@ class SimulatorCanvas {
 
             //Determine what new lines we have to make from the intersection point
             if (intersectionPoint != null) {
-                return true;
+                wallCount+= 1;
             }
         }
-        return false;
+        return wallCount;
     }
 
     setPointConnections(indexArray) {
@@ -279,15 +297,14 @@ class SimulatorCanvas {
                     simulationPoint.leftPoint = indexArray[simulationPoint.indexX - 1][simulationPoint.indexY];
                 }
             }
-
             if (indexArray[simulationPoint.indexX + 1] != undefined) {
                 if (indexArray[simulationPoint.indexX + 1][simulationPoint.indexY] != undefined) {
                     simulationPoint.rightPoint = indexArray[simulationPoint.indexX + 1][simulationPoint.indexY];
                 }
             }
-                if (indexArray[simulationPoint.indexX][simulationPoint.indexY - 1] != undefined) {
-                    simulationPoint.topPoint = indexArray[simulationPoint.indexX][simulationPoint.indexY - 1];
-                }
+            if (indexArray[simulationPoint.indexX][simulationPoint.indexY - 1] != undefined) {
+                simulationPoint.topPoint = indexArray[simulationPoint.indexX][simulationPoint.indexY - 1];
+            }
             if (indexArray[simulationPoint.indexX][simulationPoint.indexY + 1] != undefined) {
                 simulationPoint.bottomPoint = indexArray[simulationPoint.indexX][simulationPoint.indexY + 1];
             }
@@ -302,24 +319,25 @@ class SimulatorCanvas {
         var ctx = this.canvas.getContext("2d");
 
         if (this.pointDensity > 5.0) {
-            ctx.strokeStyle = "rgba(0,0,255,0.5)";
+            ctx.strokeStyle = "black";//rgba(50,50,255,1.0)
+            ctx.lineWidth = "4";
             ctx.beginPath();
             for (var i = 0; i < this.simulationPoints.length; i++) {
                 var simulationPoint = this.simulationPoints[i];
                 var half = 0;//this.pointDensity/2.0;
-                if (simulationPoint.leftPoint != null) {
+                if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
                     ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
                     ctx.lineTo(simulationPoint.leftPoint.x - half, simulationPoint.leftPoint.y - half);
                 }
-                if (simulationPoint.rightPoint != null) {
+                if (simulationPoint.rightPoint != null && simulationPoint.numberWallsRight == 0) {
                     ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
                     ctx.lineTo(simulationPoint.rightPoint.x - half, simulationPoint.rightPoint.y - half);
                 }
-                if (simulationPoint.topPoint != null) {
+                if (simulationPoint.topPoint != null && simulationPoint.numberWallsTop == 0) {
                     ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
                     ctx.lineTo(simulationPoint.topPoint.x - half, simulationPoint.topPoint.y - half);
                 }
-                if (simulationPoint.bottomPoint != null) {
+                if (simulationPoint.bottomPoint != null && simulationPoint.numberWallsBottom == 0) {
                     ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
                     ctx.lineTo(simulationPoint.bottomPoint.x - half, simulationPoint.bottomPoint.y - half);
                 }
@@ -354,125 +372,86 @@ class SimulatorCanvas {
 
             if (this.pointDensity > 5) {
                 ctx.beginPath();
-                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity / 2.0, 0, 2 * Math.PI);
+                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
                 ctx.fill();
-            } else {
+            } else if (this.pointDensity > 1) {
                 ctx.beginPath();
                 ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity, 0, 2 * Math.PI);
                 ctx.fill();
+            } else {
+                ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5, simulationPoint.y - this.pointDensity - 0.5, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
             }
 
             if (this.pointDensity > 2.0) {
+                ctx.lineWidth = "1";
                 ctx.stroke();
             }
 
             if (this.pointDensity > 5.0) {
-                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y-this.pointDensity);
+                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y-this.pointDensity+1.0);
             }
         }
     }
 
     runSimulation() {
-        var pointsToProcess = [];
-
-        this.simulateHeatPoints(pointsToProcess);
-
-        this.simulateHeatTransfer(pointsToProcess);
+        this.simulateHeatTransfer();
+        this.simulateHeatPoints();
     }
 
-    simulateHeatPoints(pointsToProcess) {
+    simulateHeatPoints() {
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
             point.processed = false;
-            if (point.isInside == false) {
-                point.processed = true;
-                if (point.leftPoint != null && point.leftPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.leftPoint, point.isWallLeft);
-                    pointsToProcess.push(point.leftPoint);
-                    point.leftPoint.processed = true;
-                }
-                if (point.rightPoint != null && point.rightPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.rightPoint, point.isWallRight);
-                    pointsToProcess.push(point.rightPoint);
-                    point.rightPoint.processed = true;
-                }
-                if (point.topPoint != null && point.topPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.topPoint, point.isWallTop);
-                    pointsToProcess.push(point.topPoint);
-                    point.topPoint.processed = true;
-                }
-                if (point.bottomPoint != null && point.bottomPoint.isInside == true) {
-                    this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.isWallBottom);
-                    pointsToProcess.push(point.bottomPoint);
-                    point.bottomPoint.processed = true;
-                }
-            }
+            point.temperature += point.addTemperature;
+            point.addTemperature = 0.0;
         }
     }
 
-    simulateHeatTransfer(pointsToProcess) {
-        //Loop through pointsToProcess
-        while (pointsToProcess.length > 0) {
-            var point = pointsToProcess.shift();
-            if (point.leftPoint != null && point.leftPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.leftPoint, point.isWallLeft);
-                if (point.leftPoint.processed == false) {
-                    pointsToProcess.push(point.leftPoint);
-                    point.leftPoint.processed = true;
-                }
+    simulateHeatTransfer() {
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var point = this.simulationPoints[i];
+            point.processed = true;
+            if (point.leftPoint != null && point.leftPoint.processed == false) {
+                this.transferTemperatureBetweenPoints(point, point.leftPoint, point.numberWallsLeft);
             }
-            if (point.rightPoint != null && point.rightPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.rightPoint, point.isWallRight);
-                if (point.rightPoint.processed == false) {
-                    pointsToProcess.push(point.rightPoint);
-                    point.rightPoint.processed = true;
-                }
+            if (point.rightPoint != null && point.rightPoint.processed == false) {
+                this.transferTemperatureBetweenPoints(point, point.rightPoint, point.numberWallsRight);
             }
-            if (point.topPoint != null && point.topPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.topPoint, point.isWallTop);
-                if (point.topPoint.processed == false) {
-                    pointsToProcess.push(point.topPoint);
-                    point.topPoint.processed = true;
-                }
+            if (point.topPoint != null && point.topPoint.processed == false) {
+                this.transferTemperatureBetweenPoints(point, point.topPoint, point.numberWallsTop);
             }
-            if (point.bottomPoint != null && point.bottomPoint.isInside == true) {
-                this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.isWallBottom);
-                if (point.bottomPoint.processed == false) {
-                    pointsToProcess.push(point.bottomPoint);
-                    point.bottomPoint.processed = true;
-                }
+            if (point.bottomPoint != null && point.bottomPoint.isInside == false) {
+                this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.numberWallsBottom);
             }
         }
     }
 
 
-    transferTemperatureBetweenPoints(fromPoint, toPoint, wallBetween) {
-        if (fromPoint.isInside == false) {
-            //Only transfer and assume that there is already a wall between
-            var temperatureDifference = fromPoint.temperature - toPoint.temperature;
-            var tempAdd = temperatureDifference * this.wallTransferRateSqrt;
-            toPoint.temperature += tempAdd;
-        } else {
-            //Determine if there is a wall between
-            var transferRate = this.airTransferRateSqrt;
-            if (wallBetween) {
-                transferRate = this.wallTransferRateSqrt;
+    transferTemperatureBetweenPoints(fromPoint, toPoint, numberOfWallsBetween) {
+            var transferRate = this.airTransferRate;
+            if (numberOfWallsBetween > 0) {
+                transferRate = Math.pow(this.wallTransferRate, numberOfWallsBetween);
             }
             var temperatureDifference = fromPoint.temperature - toPoint.temperature;
             var tempAdd = temperatureDifference * transferRate;
 
-            toPoint.temperature += tempAdd;
-            fromPoint.temperature -= tempAdd;
-        }
+            if (toPoint.isInside == true) toPoint.addTemperature += tempAdd;
+            if (fromPoint.isInside == true) fromPoint.addTemperature -= tempAdd;
     }
 
     logic() {
         var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
+        this.simulationStopwatch.reset();
         //Run simulation at 60fps and catch up if missing some simulation
-        var runCount = 0;
+        var runPerLoop = 40.0 / this.pointDensity;
         for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
-            runCount++;
-            this.runSimulation();
+            for (var j = 0; j < runPerLoop; j++) {
+                this.runSimulation();
+                if (this.simulationStopwatch.getMilliseconds() >= 14) {
+                    j = runPerLoop;
+                    i = Math.round(millisecondsSinceLastSimulation / (1000.0/60.0));
+                }
+            }
         }
         this.simulationStopwatch.reset();
 
@@ -526,6 +505,7 @@ class SimulatorCanvas {
         ctx.scale(viewScale, viewScale);
 
         ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
+        ctx.translate(-this.dragX, -this.dragY);
 
         return ctx;
     }
@@ -605,6 +585,12 @@ class SimulatorCanvas {
         this.setRotatedCanvasMouse();
         this.rotatedCanvasMouseMovedX = oldRotatedX - this.rotatedCanvasMouseX;
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
+
+        // ***** Dragging Code
+            if (this.mouseDown) {
+                this.dragX += this.rotatedCanvasMouseMovedX;
+                this.dragY += this.rotatedCanvasMouseMovedY;
+            }
 
         if (event.stopPropagation) event.stopPropagation();
         if (event.preventDefault) event.preventDefault();
