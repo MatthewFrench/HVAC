@@ -90,27 +90,25 @@ class SimulatorCanvas {
 
         this.pointDensity = 40.0; //One point every 100 pixels
         //Set wall transfer rate and air transfer rate
-        var speedModifier = 5.0;
-        this.wallTransferRate = 0.0005 * speedModifier; // 100 times slower than air
-        this.airTransferRate = 0.05 * speedModifier;
-
-        this.setDensityUndo();
+        this.wallTransferRate = 0.00075; // 10 times slower than air
+        this.airTransferRate = 0.0075;
 
         this.simulationStopwatch = new Stopwatch();
+
+        this.simulationLogicInterval = null;
+
+        this.logicSpeed = 1;
     }
 
-    setDensityUndo() {
-        //this.densityUndo = new Decimal(40.0).div(this.pointDensity).pow(0.5);
-        //this.densityUndo = new Decimal(40.0).div(this.pointDensity);
-        //1.0 - ((1.0 - wallTransfer) / density Undo)
-        //this.wallTransferRateSqrt = new Decimal(1.0 - ((1.0 - this.wallTransferRate.toNumber()) / this.densityUndo.toNumber()));
-        //this.wallTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
-        //this.airTransferRateSqrt = new Decimal(1.0 - ((1.0 - this.airTransferRate.toNumber()) / this.densityUndo.toNumber()));
-        //this.airTransferRate.pow(new Decimal(1.0).div(this.densityUndo));
-        //console.log("----------------");
-        //console.log("Density Undo: " + this.densityUndo);
-        //console.log("Wall Transfer: " + this.wallTransferRate + " vs " + this.wallTransferRateSqrt);
-        //console.log("Air Transfer: " + this.airTransferRate + " vs " + this.airTransferRateSqrt);
+    increaseLogicSpeed() {
+        this.logicSpeed *= 2;
+    }
+    decreaseLogicSpeed() {
+        this.logicSpeed /= 2;
+        this.logicSpeed = Math.round(this.logicSpeed);
+        if (this.logicSpeed < 0) {
+            this.logicSpeed = 1;
+        }
     }
 
     initializeSimulationPoints() {
@@ -173,7 +171,6 @@ class SimulatorCanvas {
         } else {
             this.pointDensity = this.pointDensity - 5.0;
         }
-        this.setDensityUndo();
         this.clearSimulationPoints();
         this.initializeSimulationPoints();
     }
@@ -184,7 +181,6 @@ class SimulatorCanvas {
         } else {
             this.pointDensity = this.pointDensity + 5.0;
         }
-        this.setDensityUndo();
         this.clearSimulationPoints();
         this.initializeSimulationPoints();
     }
@@ -439,22 +435,32 @@ class SimulatorCanvas {
             if (fromPoint.isInside == true) fromPoint.addTemperature -= tempAdd;
     }
 
-    logic() {
-        var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
-        this.simulationStopwatch.reset();
+    simulationLogic() {
+        //var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
+        //this.simulationStopwatch.reset();
         //Run simulation at 60fps and catch up if missing some simulation
-        var runPerLoop = 40.0 / this.pointDensity;
-        for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
-            for (var j = 0; j < runPerLoop; j++) {
-                this.runSimulation();
-                if (this.simulationStopwatch.getMilliseconds() >= 10) {
-                    j = runPerLoop;
-                    i = Math.round(millisecondsSinceLastSimulation / (1000.0/60.0));
-                }
-            }
+        //var runPerLoop = 40.0 / this.pointDensity * 2.0;
+        //for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
+        //    for (var j = 0; j < runPerLoop; j++) {
+        //var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
+        //console.log("Last simulation execution: " + millisecondsSinceLastSimulation);
+        //this.simulationStopwatch.reset();
+        //while (this.simulationStopwatch.getMilliseconds() < 15.0) {
+        for (var i = 0; i < this.logicSpeed; i++) {
+            this.runSimulation();
         }
-        this.simulationStopwatch.reset();
+        //}
+        //this.simulationStopwatch.reset();
+        //        if (this.simulationStopwatch.getMilliseconds() >= 10) {
+        //            j = runPerLoop;
+        //            i = Math.round(millisecondsSinceLastSimulation / (1000.0/60.0));
+        //        }
+        //    }
+        //}
+        //this.simulationStopwatch.reset();
+    }
 
+    logic() {
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
         this.drawSimulationPoints();
@@ -472,15 +478,26 @@ class SimulatorCanvas {
         ctx.textAlign = "left";
         ctx.textBaseline = "top";
         ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 30);
+
+
+        ctx.fillText("Logic Speed: " + this.logicSpeed, 5, 90);
     }
 
     show() {
         this.initializeSimulationPoints();
         this.simulationStopwatch.reset();
+
+        if (this.simulationLogicInterval == null) {
+            this.simulationLogicInterval = setInterval(CreateFunction(this, this.simulationLogic), 0.0);
+        }
     }
 
     hide() {
         this.clearSimulationPoints();
+        if (this.simulationLogicInterval != null) {
+            clearInterval(this.simulationLogicInterval);
+            this.simulationLogicInterval = null;
+        }
     }
 
     //Begin and End draw are duplicate drawing code for all layout modes

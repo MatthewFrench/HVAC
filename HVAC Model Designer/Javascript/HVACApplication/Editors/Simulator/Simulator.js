@@ -13,6 +13,12 @@ class Simulator {
             })}),
             CreateElement({type: 'button', text: 'Decrease Density', className: 'Simulator_Decrease_Button', onClick: CreateFunction(this, function(){
                 this.simulatorCanvas.decreaseDensity()
+            })}),
+            CreateElement({type: 'button', text: 'Increase Speed', className: 'Simulator_Increase_Speed_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.increaseLogicSpeed()
+            })}),
+            CreateElement({type: 'button', text: 'Decrease Speed', className: 'Simulator_Decrease_Speed_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.decreaseLogicSpeed()
             })})
         ]});
     }
