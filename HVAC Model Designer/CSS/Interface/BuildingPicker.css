@@ -1,0 +1,64 @@
+/**
+This is a CSS Stylesheet that affects the way the Building Picker appears and acts
+ */
+
+.BuildingPicker_Main_Div {
+    width: 125px;
+    height: 300px;
+    border: black 1px solid;
+    border-radius:10px;
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    left: 10px;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.BuildingPicker_Title {
+    width: 100%;
+    text-align: center;
+}
+
+.BuildingPicker_Building_Container {
+    flex: 1;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-top: solid 1px black;
+    overflow-y: scroll;
+}
+
+.BuildingPicker_Building_Row {
+    border-bottom: 1px solid black;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.BuildingPicker_Building_Row.selected {
+    background-color: #9ad5ff;
+}
+
+.BuildingPicker_Bottom_Bar {
+    width: 100%;
+}
+
+.BuildingPicker_Add_Button {
+    float: left;
+}
+
+.BuildingPicker_Edit_Name_Button {
+    position: absolute;
+    bottom: 0px;
+    left: calc(50% - 41px);
+    width: 84px;
+}
+
+.BuildingPicker_Remove_Button {
+    float: right;
+}

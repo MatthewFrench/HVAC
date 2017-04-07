@@ -1,15 +1,15 @@
 /**
-This is a CSS Stylesheet that affects the way the Starting Over Popover appears and acts.
+This is a CSS Stylesheet that affects the way the Edit Name Popover appears and acts.
  */
 
-.EditFloorNamePopover_Block {
+.EditNamePopover_Block {
     background-color: rgba(50,50,50,0.5);
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.EditFloorNamePopover_Div {
+.EditNamePopover_Div {
     position: absolute;
     width: 300px;
     height: 100px;
@@ -27,7 +27,7 @@ This is a CSS Stylesheet that affects the way the Starting Over Popover appears 
     border-radius: 15px;
 }
 
-.EditFloorNamePopover_Label {
+.EditNamePopover_Label {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
@@ -36,7 +36,7 @@ This is a CSS Stylesheet that affects the way the Starting Over Popover appears 
     text-align: center;
 }
 
-.EditFloorNamePopover_TextBox {
+.EditNamePopover_TextBox {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 20px;
@@ -48,13 +48,13 @@ This is a CSS Stylesheet that affects the way the Starting Over Popover appears 
     border: black solid thin;
 }
 
-.EditFloorNamePopover_SaveButton {
+.EditNamePopover_SaveButton {
     position: absolute;
     bottom: 3px;
     right: calc(50% + 10px);
 }
 
-.EditFloorNamePopover_CancelButton {
+.EditNamePopover_CancelButton {
     position: absolute;
     bottom: 3px;
     left: calc(50% + 10px);

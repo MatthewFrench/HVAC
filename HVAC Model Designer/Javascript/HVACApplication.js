@@ -5,11 +5,6 @@
  * plans that are being adjusted/created.
  */
 
-//var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
-//    LAYOUT_MODE_DELETE_WALL = 4;
-//var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
-//var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
-
 class HVACApplication {
     /**
      * Creates the HVACApplication class and initializes set variables.
@@ -19,45 +14,15 @@ class HVACApplication {
     constructor() {
         this.hvacData = null;
         this.applicationDiv = null;
-        //this.shiftPressed = false;
-        //this.currentMouseX = 0.0;
-        //this.currentMouseY = 0.0;
-        //this.previousMouseX = 0.0;
-        //this.previousMouseY = 0.0;
-        //this.mouseMovedX = 0.0;
-        //this.mouseMovedY = 0.0;
-        //this.canvasMouseX = 0.0;
-        //this.canvasMouseY = 0.0;
-        //this.rotatedCanvasMouseX = 0.0;
-        //this.rotatedCanvasMouseY = 0.0;
-        //this.rotatedCanvasMouseMovedX = 0.0;
-//this.rotatedCanvas                    MouseMovedY = 0.0;
-        //this.mouseDown = false;
-        //this.intersectHighlightPoints = [];
-        //this.currentLayoutMode = LAYOUT_MODE_CREATE_WALL;
-        //this.currentEditMode = EDIT_MODE_POINT;
         this.selectedFloor = null;
         this.selectedBuilding = null;
-        //this.viewAngle = 0.0;
-        //this.viewScale = 1.0;
-
-        //this.viewMode3DController = new ViewMode3DController(this);
-
-        //this.initUIVariables();
-        //this.createUI();
-
-        //this.initCreateModeVariables();
-        //this.initDragModeVariables();
-        //this.initEditCornerModeVariables();
-        //this.initEditPointModeVariables();
-        //this.initViewModeVariables();
-        //this.initDeleteModeVariables();
 
         this.viewAngle = 0.0;
         this.viewScale = 1.0;
 
         this.loadData();
 
+        this.buildingPickerWindow = new BuildingPicker(this, this.hvacData);
         this.floorPickerWindow = new FloorPicker(this);
 
         this.applicationDiv = CreateElement({
@@ -125,6 +90,8 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
+        this.mainContentDiv.appendChild(this.buildingPickerWindow.getDiv());
+        this.floorPickerWindow.getDiv().remove();
         this.currentEditor = this.projectEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
@@ -140,6 +107,8 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
+        this.mainContentDiv.appendChild(this.buildingPickerWindow.getDiv());
+        //this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.wallEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
@@ -155,6 +124,8 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
+        this.floorPickerWindow.getDiv().remove();
+        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.roomEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
@@ -170,6 +141,8 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
+        this.mainContentDiv.appendChild(this.floorPickerWindow.getDiv());
+        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.viewEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();

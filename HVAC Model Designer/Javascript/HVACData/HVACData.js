@@ -24,6 +24,23 @@ class HVACData {
         this.buildingList.push(building);
     }
 
+    /**
+     * This function switches the building index of the building that is placed in a different index.
+     *
+     * @param moveBuildingIndex: The current index of the given building.
+     * @param toBuildingIndex: The index that the given building is being moved to.
+     */
+    putBuildingAboveBuilding(moveBuildingIndex, toBuildingIndex) {
+        var putAboveBuilding = this.buildingList[toBuildingIndex];
+        var movingBuilding = this.buildingList[moveBuildingIndex];
+        this.removeBuilding(movingBuilding);
+        this.buildingList.splice(this.buildingList.indexOf(putAboveBuilding)+1, 0, movingBuilding);
+    }
+
+    removeBuilding(building) {
+        this.buildingList.pop(building);
+    }
+
 /**
  * This function returns the current building list.
  *
