@@ -20,6 +20,22 @@ class Simulator {
             CreateElement({type: 'button', text: 'Decrease Speed', className: 'Simulator_Decrease_Speed_Button', onClick: CreateFunction(this, function(){
                 this.simulatorCanvas.decreaseLogicSpeed()
             })})
+
+            ,
+            CreateElement({type: 'button', text: 'Set Outside Hot', className: 'Simulator_Hot_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.setOutsideHot()
+            })}),
+            CreateElement({type: 'button', text: 'Set Outside Cold', className: 'Simulator_Cold_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.setOutsideCold()
+            })})
+
+            ,
+            CreateElement({type: 'button', text: 'Reset Inside Hot', className: 'Simulator_Inside_Hot_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.resetInsideHot()
+            })}),
+            CreateElement({type: 'button', text: 'Reset Inside Cold', className: 'Simulator_Inside_Cold_Button', onClick: CreateFunction(this, function(){
+                this.simulatorCanvas.resetInsideCold()
+            })})
         ]});
     }
 

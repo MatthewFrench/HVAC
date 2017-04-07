@@ -88,16 +88,41 @@ class SimulatorCanvas {
         this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
         this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
 
-        this.pointDensity = 40.0; //One point every 100 pixels
+        this.pointDensity = 40.0;
         //Set wall transfer rate and air transfer rate
-        this.wallTransferRate = 0.00075; // 10 times slower than air
-        this.airTransferRate = 0.0075;
+        this.wallTransferRate = 0.00075; // slower than air
+        this.airTransferRate = 0.1;
 
         this.simulationStopwatch = new Stopwatch();
 
-        this.simulationLogicInterval = null;
+        this.visible = false;
 
-        this.logicSpeed = 1;
+        this.logicSpeed = 32;
+
+        this.outsideTemperature = 100.0;
+        this.insideTemperature = 60.0;
+        this.maxColorTemperature = 100.0;
+        this.minColorTemperature = 60.0;
+    }
+
+    resetInsideHot() {
+        this.insideTemperature = 100.0;
+        this.initializeSimulationPoints();
+    }
+
+    resetInsideCold() {
+        this.insideTemperature = 60.0;
+        this.initializeSimulationPoints();
+    }
+
+    setOutsideHot() {
+        this.outsideTemperature = 100.0;
+        this.setOutsideTemperature();
+    }
+
+    setOutsideCold() {
+        this.outsideTemperature = 60.0;
+        this.setOutsideTemperature();
     }
 
     increaseLogicSpeed() {
@@ -204,7 +229,6 @@ class SimulatorCanvas {
     }
 
     setOutsideTemperature() {
-        this.outsideTemperature = 100.0;
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
             if (point.isInside == false) point.temperature = this.outsideTemperature;
@@ -212,7 +236,6 @@ class SimulatorCanvas {
     }
 
     setInsideTemperature() {
-        this.insideTemperature = 60.0;
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
             if (point.isInside) point.temperature = this.insideTemperature;
@@ -315,12 +338,12 @@ class SimulatorCanvas {
         var ctx = this.canvas.getContext("2d");
 
         if (this.pointDensity > 5.0) {
-            ctx.strokeStyle = "black";//rgba(50,50,255,1.0)
+            ctx.strokeStyle = "black";
             ctx.lineWidth = "4";
             ctx.beginPath();
             for (var i = 0; i < this.simulationPoints.length; i++) {
                 var simulationPoint = this.simulationPoints[i];
-                var half = 0;//this.pointDensity/2.0;
+                var half = 0;
                 if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
                     ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
                     ctx.lineTo(simulationPoint.leftPoint.x - half, simulationPoint.leftPoint.y - half);
@@ -350,8 +373,8 @@ class SimulatorCanvas {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
 
-            var maxTemp = this.outsideTemperature;
-            var minTemp = this.insideTemperature;
+            var maxTemp = this.maxColorTemperature;
+            var minTemp = this.minColorTemperature;
             var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
 
             if (temp<halfTemp) {
@@ -436,28 +459,10 @@ class SimulatorCanvas {
     }
 
     simulationLogic() {
-        //var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
-        //this.simulationStopwatch.reset();
-        //Run simulation at 60fps and catch up if missing some simulation
-        //var runPerLoop = 40.0 / this.pointDensity * 2.0;
-        //for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
-        //    for (var j = 0; j < runPerLoop; j++) {
-        //var millisecondsSinceLastSimulation = this.simulationStopwatch.getMilliseconds();
-        //console.log("Last simulation execution: " + millisecondsSinceLastSimulation);
-        //this.simulationStopwatch.reset();
-        //while (this.simulationStopwatch.getMilliseconds() < 15.0) {
         for (var i = 0; i < this.logicSpeed; i++) {
             this.runSimulation();
         }
-        //}
-        //this.simulationStopwatch.reset();
-        //        if (this.simulationStopwatch.getMilliseconds() >= 10) {
-        //            j = runPerLoop;
-        //            i = Math.round(millisecondsSinceLastSimulation / (1000.0/60.0));
-        //        }
-        //    }
-        //}
-        //this.simulationStopwatch.reset();
+        if (this.visible) setTimeout(CreateFunction(this, this.simulationLogic), 0);
     }
 
     logic() {
@@ -487,17 +492,16 @@ class SimulatorCanvas {
         this.initializeSimulationPoints();
         this.simulationStopwatch.reset();
 
-        if (this.simulationLogicInterval == null) {
-            this.simulationLogicInterval = setInterval(CreateFunction(this, this.simulationLogic), 0.0);
+        if (this.visible == false) {
+            this.visible = true;
+            this.simulationLogic();
         }
     }
 
     hide() {
         this.clearSimulationPoints();
-        if (this.simulationLogicInterval != null) {
-            clearInterval(this.simulationLogicInterval);
-            this.simulationLogicInterval = null;
-        }
+
+        this.visible = false;
     }
 
     //Begin and End draw are duplicate drawing code for all layout modes
