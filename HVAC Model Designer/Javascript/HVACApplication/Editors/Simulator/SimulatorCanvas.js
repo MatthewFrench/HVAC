@@ -420,7 +420,7 @@ class SimulatorCanvas {
             if (point.topPoint != null && point.topPoint.processed == false) {
                 this.transferTemperatureBetweenPoints(point, point.topPoint, point.numberWallsTop);
             }
-            if (point.bottomPoint != null && point.bottomPoint.isInside == false) {
+            if (point.bottomPoint != null && point.bottomPoint.processed == false) {
                 this.transferTemperatureBetweenPoints(point, point.bottomPoint, point.numberWallsBottom);
             }
         }
@@ -447,7 +447,7 @@ class SimulatorCanvas {
         for (var i = 0; i < Math.round(millisecondsSinceLastSimulation / (1000.0/60.0)); i += 1) {
             for (var j = 0; j < runPerLoop; j++) {
                 this.runSimulation();
-                if (this.simulationStopwatch.getMilliseconds() >= 14) {
+                if (this.simulationStopwatch.getMilliseconds() >= 10) {
                     j = runPerLoop;
                     i = Math.round(millisecondsSinceLastSimulation / (1000.0/60.0));
                 }
