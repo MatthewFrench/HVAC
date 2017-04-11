@@ -34,11 +34,14 @@ class HVACData {
         var putAboveBuilding = this.buildingList[toBuildingIndex];
         var movingBuilding = this.buildingList[moveBuildingIndex];
         this.removeBuilding(movingBuilding);
-        this.buildingList.splice(this.buildingList.indexOf(putAboveBuilding)+1, 0, movingBuilding);
+        if (moveBuildingIndex <= toBuildingIndex)
+            this.buildingList.splice(this.buildingList.indexOf(putAboveBuilding)+1, 0, movingBuilding);
+        else
+            this.buildingList.splice(this.buildingList.indexOf(putAboveBuilding), 0, movingBuilding);
     }
 
     removeBuilding(building) {
-        this.buildingList.pop(building);
+        this.buildingList.splice(this.buildingList.indexOf(building), 1);
     }
 
 /**

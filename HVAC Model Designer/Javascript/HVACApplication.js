@@ -1,5 +1,6 @@
 /**
  * Created by Matt on 9/9/16.
+ *
  * This JS file controls our entire HVAC Application, allowing us to do the various functions such as Create, Drag,
  * Edit, and Delete. It also controls the initial rotation of the window and establishes the floor plans and building
  * plans that are being adjusted/created.
@@ -77,7 +78,7 @@ class HVACApplication {
         this.currentEditor = null;
 
         //Load editors
-        this.wallEditorTabClick();
+        this.projectEditorTabClick();
     }
 
     projectEditorTabClick() {

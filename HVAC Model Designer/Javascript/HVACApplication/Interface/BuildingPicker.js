@@ -14,14 +14,14 @@ function BuildingPicker(hvacApplication, hvacData) {
     this.hvacApplication = hvacApplication;
     this.hvacData = hvacData;
     this.mainDiv = new CreateElement({type: 'div', className: 'BuildingPicker_Main_Div', elements: [
-        CreateElement({type: 'div', className: 'BuildingPicker_Title', text: 'Buildings'}),
+        CreateElement({type: 'div', className: 'BuildingPicker_Title', text: 'Building Projects'}),
         this.buildingContainer = CreateElement({type: 'div', className: 'BuildingPicker_Building_Container'}),
         CreateElement({type: 'div', className: 'BuildingPicker_Bottom_Bar', elements: [
-            CreateElement({type: 'button', className: 'BuildingPicker_Add_Button', text: '+',
+            CreateElement({type: 'button', className: 'BuildingPicker_Add_Button', text: 'Add New Project',
                 onClick: CreateFunction(this, this.addBuilding)}),
             CreateElement({type: 'button', className: 'BuildingPicker_Edit_Name_Button', text: 'Edit Name',
                 onClick: CreateFunction(this, this.editBuildingName)}),
-            CreateElement({type: 'button', className: 'BuildingPicker_Remove_Button', text: '-',
+            CreateElement({type: 'button', className: 'BuildingPicker_Remove_Button', text: 'Remove Project',
                 onClick: CreateFunction(this, this.removeBuilding)})
         ]})
     ]});
@@ -148,10 +148,14 @@ BuildingPicker.prototype.editBuildingName = function() {
  */
 BuildingPicker.prototype.removeBuilding = function() {
     if (this.currentBuildingRow == null || this.buildingRows.length <= 1) return;
-    this.hvacData.removeBuilding(this.currentBuildingRow.building);
 
-    this.loadBuildings();
-    this.buildingClicked(this.buildingRows[0]);
+    var newPopover = new StartOverPopover('Are you sure you want to delete "' + this.currentBuildingRow.building.buildingName + '"?',
+        CreateFunction(this, function () {
+            this.hvacData.removeBuilding(this.currentBuildingRow.building);
+            this.loadBuildings();
+            this.buildingClicked(this.buildingRows[0]);
+        }));
+    newPopover.show(this.hvacApplication.applicationDiv);
 };
 
 /**

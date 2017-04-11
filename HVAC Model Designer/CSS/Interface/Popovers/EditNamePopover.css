@@ -39,7 +39,7 @@ This is a CSS Stylesheet that affects the way the Edit Name Popover appears and 
 .EditNamePopover_TextBox {
     margin-left: 5px;
     margin-right: 5px;
-    margin-top: 20px;
+    margin-top: 15px;
     font-weight: 700;
     font-size: 15px;
     width: calc(100% - 20px);

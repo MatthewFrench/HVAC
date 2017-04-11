@@ -37,7 +37,10 @@ class BuildingPlan {
         var putAboveFloor = this.floorList[toFloorIndex];
         var movingFloor = this.floorList[moveFloorIndex];
         this.removeFloor(movingFloor);
-        this.floorList.splice(this.floorList.indexOf(putAboveFloor)+1, 0, movingFloor);
+        if (moveFloorIndex <= toFloorIndex)
+            this.floorList.splice(this.floorList.indexOf(putAboveFloor)+1, 0, movingFloor);
+        else
+            this.floorList.splice(this.floorList.indexOf(putAboveFloor), 0, movingFloor);
     }
 
     /**
