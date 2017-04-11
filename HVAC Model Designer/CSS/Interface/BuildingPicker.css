@@ -22,6 +22,7 @@ This is a CSS Stylesheet that affects the way the Building Picker appears and ac
 
 .BuildingPicker_Title {
     width: 100%;
+    font-size: 400px;
     text-align: center;
 }
 

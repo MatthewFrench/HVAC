@@ -1,5 +1,7 @@
 /**
  * Created by Austin03 on 4/6/17.
+ *
+ * This class controls the window on the canvas that allows you to manage the different buildings project.
  */
 
 /**
@@ -107,7 +109,8 @@ BuildingPicker.prototype.buildingClicked = function(buildingRow) {
  * This function creates a new building in Building Picker.
  */
 BuildingPicker.prototype.addBuilding = function() {
-    new BuildingPlan({hvacData: this.hvacData});
+    var newBuilding = new BuildingPlan({hvacData: this.hvacData});
+    newBuilding.addFloor(new FloorPlan({building: newBuilding}));
 
     this.loadBuildings();
     this.buildingClicked(this.buildingRows[0]);
