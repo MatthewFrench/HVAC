@@ -107,8 +107,8 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.mainContentDiv.appendChild(this.buildingPickerWindow.getDiv());
-        //this.buildingPickerWindow.getDiv().remove();
+        this.mainContentDiv.appendChild(this.floorPickerWindow.getDiv());
+        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.wallEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
