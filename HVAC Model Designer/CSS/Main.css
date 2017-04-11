@@ -23,12 +23,14 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
+    outline: none;
 }
 
 .Canvas3D {
     position: absolute;
     width: 100%;
     height: 100%;
+    outline: none;
 }
 
 .HVACApplication_TitleBar {
@@ -106,9 +108,11 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_RoomEditorTab.selected {
     background-color: rgb(128, 112, 214);
 }
+
 .HVACApplication_ViewEditorTab {
     flex: 1;
     line-height: 30px;
@@ -119,7 +123,23 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_ViewEditorTab.selected {
+    background-color: rgb(128, 112, 214);
+}
+
+.HVACApplication_SimulatorTab {
+    flex: 1;
+    line-height: 30px;
+    max-width: 115px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    font-family:Helvetica;
+}
+
+.HVACApplication_SimulatorTab.selected {
     background-color: rgb(128, 112, 214);
 }
 
@@ -135,7 +155,6 @@ body {
     background-image: linear-gradient(#434343, #282828);
 
     z-index: -1;
-
 }
 
 .ApplicationBackground2 {

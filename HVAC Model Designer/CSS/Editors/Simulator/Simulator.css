@@ -1,0 +1,58 @@
+.Simulator_Increase_Button {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Decrease_Button {
+    position: absolute;
+    left: 160px;
+    top: 5px;
+    width: 150px;
+    font-size: 15px;
+}
+
+.Simulator_Increase_Speed_Button {
+    position: absolute;
+    left: 5px;
+    top: 65px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Decrease_Speed_Button {
+    position: absolute;
+    left: 160px;
+    top: 65px;
+    width: 150px;
+    font-size: 15px;
+}
+
+.Simulator_Hot_Button {
+    position: absolute;
+    left: 5px;
+    top: 125px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Cold_Button {
+    position: absolute;
+    left: 160px;
+    top: 125px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Inside_Hot_Button {
+    position: absolute;
+    left: 5px;
+    top: 155px;
+    width: 150px;
+    font-size: 15px;
+}
+.Simulator_Inside_Cold_Button {
+    position: absolute;
+    left: 160px;
+    top: 155px;
+    width: 150px;
+    font-size: 15px;
+}

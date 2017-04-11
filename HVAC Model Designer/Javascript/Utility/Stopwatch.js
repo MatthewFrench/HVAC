@@ -17,7 +17,7 @@ class Stopwatch {
  * This function resets the milliseconds to the current time.
  */
     reset() {
-        this.startMilliseconds = Date.now();
+        this.startMilliseconds = window.performance.now();
     }
 
 /**
@@ -26,7 +26,7 @@ class Stopwatch {
  * @return: Length of time passed in milliseconds.
  */
     getMilliseconds() {
-        let currentMilliseconds = Date.now();
+        let currentMilliseconds = window.performance.now();
         return currentMilliseconds - this.startMilliseconds;
     }
 
@@ -36,7 +36,7 @@ class Stopwatch {
  * @return: Length of time passed in seconds.
  */
     getSeconds() {
-        let currentMilliseconds = Date.now();
+        let currentMilliseconds = window.performance.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0;
     }
 
@@ -46,7 +46,7 @@ class Stopwatch {
  * @return: Length of time passed in minutes.
  */
     getMinutes() {
-        let currentMilliseconds = Date.now();
+        let currentMilliseconds = window.performance.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0 / 60.0;
     }
     
@@ -56,7 +56,7 @@ class Stopwatch {
  * @return: Length of time passed in hours.
  */
     getHours() {
-        let currentMilliseconds = Date.now();
+        let currentMilliseconds = window.performance.now();
         return (currentMilliseconds - this.startMilliseconds) / 1000.0 / 60.0 / 60.0;
     }
 }

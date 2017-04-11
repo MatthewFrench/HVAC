@@ -10,8 +10,8 @@
  * @param context: The canvas on which the lines will be drawn on.
  * @param showHandles: Determine if show wall endpoints.
  */
-Wall.prototype.draw = function(context, showHandles) {
-    context.strokeStyle = "white";
+Wall.prototype.draw = function(context, showHandles, stroke = "white") {
+    context.strokeStyle = stroke;
 
     context.lineWidth = 5;
     context.beginPath();
