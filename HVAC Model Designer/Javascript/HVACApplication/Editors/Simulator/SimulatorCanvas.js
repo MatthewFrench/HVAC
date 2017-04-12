@@ -27,6 +27,15 @@ class SimulationPoint {
     }
 }
 
+class SimulationVent {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.temperature = 0.0;
+        this.radius = 35.0;
+    }
+}
+
 var scaleFactor = 1.1;
 //Allows the handling of Scrolling in View Mode
 var handleScroll = function(evt) {
@@ -77,6 +86,7 @@ class SimulatorCanvas {
 
         this.dragX = 0.0;
         this.dragY = 0.0;
+        this.dragVent = null;
 
         // *** Rotating Variables
         this.mouseAngle = 0;
@@ -88,21 +98,42 @@ class SimulatorCanvas {
         this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
         this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
 
+        this.canvas.oncontextmenu = CreateFunction(this, this.layoutCanvasRightClick);
+
         this.pointDensity = 40.0;
         //Set wall transfer rate and air transfer rate
         this.wallTransferRate = 0.00075; // slower than air
         this.airTransferRate = 0.1;
+        this.outsideAirTransferRate = this.airTransferRate * 0.05;
 
         this.simulationStopwatch = new Stopwatch();
 
         this.visible = false;
 
-        this.logicSpeed = 32;
+        this.logicSpeed = 1;
 
         this.outsideTemperature = 100.0;
         this.insideTemperature = 60.0;
         this.maxColorTemperature = 100.0;
         this.minColorTemperature = 60.0;
+
+        this.simulationVents = [];
+    }
+
+    addHotVent() {
+        var vent = new SimulationVent();
+        vent.temperature = this.outsideTemperature;
+        vent.x = this.getCanvasWidth() / 2 + this.dragX;
+        vent.y = this.getCanvasHeight() / 2 + this.dragY;
+        this.simulationVents.push(vent);
+    }
+
+    addColdVent() {
+        var vent = new SimulationVent();
+        vent.temperature = this.insideTemperature;
+        vent.x = this.getCanvasWidth() / 2 + this.dragX;
+        vent.y = this.getCanvasHeight() / 2 + this.dragY;
+        this.simulationVents.push(vent);
     }
 
     resetInsideHot() {
@@ -136,6 +167,15 @@ class SimulatorCanvas {
         }
     }
 
+    getCanvasWidth() {
+        //Take resolution into account
+        return this.canvas.width / 2.0;
+    }
+    getCanvasHeight() {
+        //Take resolution into account
+        return this.canvas.height / 2.0;
+    }
+
     initializeSimulationPoints() {
         this.simulationPoints = [];
         if (this.hvacApplication.getCurrentWallList().length == 0) return;
@@ -154,7 +194,7 @@ class SimulatorCanvas {
             maxY = Math.max(maxY, wall.getPoint1Y(), wall.getPoint2Y());
         }
         //Add a 100 pixel bounding box around the simulation
-        var padding = this.pointDensity;
+        var padding = this.pointDensity * 2;
         minX = minX - padding;
         minY = minY - padding;
         maxX = maxX + padding*2;
@@ -187,6 +227,20 @@ class SimulatorCanvas {
         this.setInsideTemperature();
 
         this.simulationStopwatch.reset();
+
+        this.minimumX = minX;
+        this.minimumY = minY;
+        this.maximumX = maxX;
+        this.maximumY = maxY;
+        this.backgroundCanvas = CreateElement({type: "canvas"});
+        this.backgroundCanvas.width = this.maximumX - this.minimumX;
+        this.backgroundCanvas.height = this.maximumY - this.minimumY;
+        //Set canvas scale
+        this.backgroundCanvas.width = this.backgroundCanvas.width * 2;
+        this.backgroundCanvas.height = this.backgroundCanvas.height * 2;
+        this.backgroundCanvas.getContext("2d").scale(2, 2);
+
+        this.drawBackgroundOutlines();
     }
 
     increaseDensity() {
@@ -334,87 +388,38 @@ class SimulatorCanvas {
         this.simulationPoints = [];
     }
 
-    drawSimulationPoints() {
-        var ctx = this.canvas.getContext("2d");
+    runSimulation() {
+        this.heatOutsidePoints();
+        this.runVents();
 
-        if (this.pointDensity > 5.0) {
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = "4";
-            ctx.beginPath();
-            for (var i = 0; i < this.simulationPoints.length; i++) {
-                var simulationPoint = this.simulationPoints[i];
-                var half = 0;
-                if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.leftPoint.x - half, simulationPoint.leftPoint.y - half);
+        this.simulateHeatTransfer();
+        this.simulateHeatPoints();
+    }
+
+    runVents() {
+        for (var i = 0; i < this.simulationVents.length; i++) {
+            var vent = this.simulationVents[i];
+
+            //Heat all air pockets in the radius
+            for (var pointIndex = 0; pointIndex < this.simulationPoints.length; pointIndex++) {
+                var point = this.simulationPoints[pointIndex];
+                if (Math.hypot(point.x - vent.x, point.y - vent.y) <= vent.radius + this.pointDensity) {
+                    this.transferTemperatureToPoint(vent.temperature, point, this.airTransferRate);
                 }
-                if (simulationPoint.rightPoint != null && simulationPoint.numberWallsRight == 0) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.rightPoint.x - half, simulationPoint.rightPoint.y - half);
-                }
-                if (simulationPoint.topPoint != null && simulationPoint.numberWallsTop == 0) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.topPoint.x - half, simulationPoint.topPoint.y - half);
-                }
-                if (simulationPoint.bottomPoint != null && simulationPoint.numberWallsBottom == 0) {
-                    ctx.moveTo(simulationPoint.x - half, simulationPoint.y - half);
-                    ctx.lineTo(simulationPoint.bottomPoint.x - half, simulationPoint.bottomPoint.y - half);
-                }
-            }
-            ctx.stroke();
-        }
-
-        ctx.strokeStyle = "rgba(0,0,0,0.25)";
-        var fontSize = this.pointDensity/40.0*10+5;
-        ctx.font = Math.round(fontSize) + "px Helvetica";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        for (var i = 0; i < this.simulationPoints.length; i++) {
-            var simulationPoint = this.simulationPoints[i];
-            var temp = simulationPoint.temperature;
-
-            var maxTemp = this.maxColorTemperature;
-            var minTemp = this.minColorTemperature;
-            var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
-
-            if (temp<halfTemp) {
-                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
-                var redgreen = (255 * tempPercent);
-                var blue = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
-            } else {
-                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
-                var red = (255 * tempPercent);
-                var yellow = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
-            }
-
-            if (this.pointDensity > 5) {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
-                ctx.fill();
-            } else if (this.pointDensity > 1) {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x, simulationPoint.y, this.pointDensity, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
-                ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5, simulationPoint.y - this.pointDensity - 0.5, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
-            }
-
-            if (this.pointDensity > 2.0) {
-                ctx.lineWidth = "1";
-                ctx.stroke();
-            }
-
-            if (this.pointDensity > 5.0) {
-                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x, simulationPoint.y-this.pointDensity+1.0);
             }
         }
     }
 
-    runSimulation() {
-        this.simulateHeatTransfer();
-        this.simulateHeatPoints();
+
+
+    heatOutsidePoints() {
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var point = this.simulationPoints[i];
+
+            if (point.isInside == false) {
+                this.transferTemperatureToPoint(this.outsideTemperature, point, this.outsideAirTransferRate);
+            }
+        }
     }
 
     simulateHeatPoints() {
@@ -454,8 +459,15 @@ class SimulatorCanvas {
             var temperatureDifference = fromPoint.temperature - toPoint.temperature;
             var tempAdd = temperatureDifference * transferRate;
 
-            if (toPoint.isInside == true) toPoint.addTemperature += tempAdd;
-            if (fromPoint.isInside == true) fromPoint.addTemperature -= tempAdd;
+                toPoint.addTemperature += tempAdd;
+                fromPoint.addTemperature -= tempAdd;
+    }
+
+    transferTemperatureToPoint(temperature, toPoint, transferRate) {
+        var temperatureDifference = temperature - toPoint.temperature;
+        var tempAdd = temperatureDifference * transferRate;
+
+        toPoint.addTemperature += tempAdd;
     }
 
     simulationLogic() {
@@ -468,7 +480,13 @@ class SimulatorCanvas {
     logic() {
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 10;
+
         this.drawSimulationPoints();
+
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 10;
 
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
             var wall = this.hvacApplication.getCurrentWallList()[i];
@@ -476,16 +494,183 @@ class SimulatorCanvas {
             wall.draw(ctx, false);
         }
 
+        this.drawSimulationVents();
+
         this.endDraw(ctx);
 
-        ctx.fillStyle = "white";
-        ctx.font = "25px Helvetica";
-        ctx.textAlign = "left";
-        ctx.textBaseline = "top";
-        ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 30);
+                ctx.fillStyle = "white";
+                ctx.font = "25px Helvetica";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 10;
+
+            ctx.fillText("Density", 5, 5);
+            ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 34);
+            ctx.fillText("Logic Loops: " + this.logicSpeed, 65, 64);
+            ctx.fillText("Outside", 5, 94);
+            ctx.fillText("Inside", 5, 124);
+            ctx.fillText("Add Vent", 5, 154);
+    }
+    drawBackgroundOutlines() {
+
+        var ctx = this.backgroundCanvas.getContext("2d");
+
+        ctx.clearRect(0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
+
+        var offsetX = this.minimumX;
+        var offsetY = this.minimumY;
+
+        if (this.pointDensity > 5.0) {
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            for (var i = 0; i < this.simulationPoints.length; i++) {
+                var simulationPoint = this.simulationPoints[i];
+                if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.lineTo(simulationPoint.leftPoint.x - offsetX, simulationPoint.leftPoint.y - offsetY);
+                }
+                if (simulationPoint.rightPoint != null && simulationPoint.numberWallsRight == 0) {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.lineTo(simulationPoint.rightPoint.x - offsetX, simulationPoint.rightPoint.y - offsetY);
+                }
+                if (simulationPoint.topPoint != null && simulationPoint.numberWallsTop == 0) {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.lineTo(simulationPoint.topPoint.x - offsetX, simulationPoint.topPoint.y - offsetY);
+                }
+                if (simulationPoint.bottomPoint != null && simulationPoint.numberWallsBottom == 0) {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.lineTo(simulationPoint.bottomPoint.x - offsetX, simulationPoint.bottomPoint.y - offsetY);
+                }
+            }
+            ctx.stroke();
+        }
 
 
-        ctx.fillText("Logic Speed: " + this.logicSpeed, 5, 90);
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 30;
+
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+
+            if (this.pointDensity > 5) {
+                ctx.beginPath();
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
+                ctx.fill();
+            } else if (this.pointDensity > 1) {
+                ctx.beginPath();
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
+                ctx.fill();
+            } else {
+            }
+
+            if (this.pointDensity > 2.0) {
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
+    drawSimulationPoints() {
+        var ctx = this.canvas.getContext("2d");
+
+        this.canvas.getContext("2d").drawImage(this.backgroundCanvas,
+            0, 0,
+            this.backgroundCanvas.width, this.backgroundCanvas.height
+            ,this.minimumX, this.minimumY,
+            this.backgroundCanvas.width/2, this.backgroundCanvas.height/2);
+
+        var offsetX = 0;
+        var offsetY = 0;
+
+        var fontSize = this.pointDensity/40.0*10+5;
+        ctx.font = Math.round(fontSize) + "px Helvetica";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+            var temp = simulationPoint.temperature;
+
+            var maxTemp = this.maxColorTemperature;
+            var minTemp = this.minColorTemperature;
+            var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
+
+            ctx.shadowColor = "";
+            ctx.shadowBlur = 0;
+
+            if (temp<halfTemp) {
+                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
+                var redgreen = (255 * tempPercent);
+                var blue = (255-(255 * tempPercent));
+                ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
+            } else {
+                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
+                var red = (255 * tempPercent);
+                var yellow = (255-(255 * tempPercent));
+                ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
+            }
+
+            if (this.pointDensity > 5) {
+                ctx.beginPath();
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
+                ctx.fill();
+            } else if (this.pointDensity > 1) {
+                ctx.beginPath();
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
+                ctx.fill();
+            } else {
+                ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
+            }
+
+            if (this.pointDensity > 5.0) {
+
+                ctx.shadowColor = "black";
+                ctx.shadowBlur = 10;
+
+                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x - offsetX, simulationPoint.y-this.pointDensity+1.0 - offsetY);
+            }
+        }
+    }
+
+    drawSimulationVents() {
+        var ctx = this.canvas.getContext("2d");
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+
+        ctx.lineWidth = 2.0;
+
+        for (var i = 0; i < this.simulationVents.length; i++) {
+            var vent = this.simulationVents[i];
+            var temp = vent.temperature;
+
+            var maxTemp = this.maxColorTemperature;
+            var minTemp = this.minColorTemperature;
+            var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
+
+            if (temp<halfTemp) {
+                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
+                var redgreen = (255 * tempPercent);
+                var blue = (255-(255 * tempPercent));
+                ctx.strokeStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
+            } else {
+                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
+                var red = (255 * tempPercent);
+                var yellow = (255-(255 * tempPercent));
+                ctx.strokeStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
+            }
+
+            ctx.beginPath();
+            ctx.arc(vent.x, vent.y, vent.radius, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.beginPath();
+            for (var j = 0; j < vent.radius; j+= 10) {
+                ctx.arc(vent.x, vent.y, j, 0, 2 * Math.PI);
+            }
+            ctx.arc(vent.x, vent.y, vent.radius, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
     }
 
     show() {
@@ -506,9 +691,9 @@ class SimulatorCanvas {
 
     //Begin and End draw are duplicate drawing code for all layout modes
     beginDraw(canvas, viewAngle, viewScale) {
-        if (this.canvas.width != this.canvas.clientWidth || this.canvas.height != this.canvas.clientHeight) {
-            this.canvas.width = this.canvas.clientWidth;
-            this.canvas.height = this.canvas.clientHeight;
+        if (this.canvas.width * 2 != this.canvas.clientWidth || this.canvas.height * 2 != this.canvas.clientHeight) {
+            this.canvas.width = this.canvas.clientWidth * 2;
+            this.canvas.height = this.canvas.clientHeight * 2;
         }
 
         var ctx = canvas.getContext("2d");
@@ -517,15 +702,17 @@ class SimulatorCanvas {
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+        ctx.scale(2, 2);
+
         ctx.save();
 
-        ctx.translate(canvasWidth / 2, canvasHeight / 2);
+        ctx.translate(canvasWidth / 4, canvasHeight / 4);
 
         ctx.rotate(viewAngle); //convertToRadians(this.hvacApplication.viewAngle)
 
         ctx.scale(viewScale, viewScale);
 
-        ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
+        ctx.translate(-canvasWidth / 4, -canvasHeight / 4);
         ctx.translate(-this.dragX, -this.dragY);
 
         return ctx;
@@ -555,19 +742,31 @@ class SimulatorCanvas {
     }
 
     resizeCanvas() {
-        this.canvas.width = this.canvas.clientWidth;
-        this.canvas.height = this.canvas.clientHeight;
+        this.canvas.width = this.canvas.clientWidth * 2;
+        this.canvas.height = this.canvas.clientHeight * 2;
     }
 
     setRotatedCanvasMouse() {
-        var canvasWidth = this.canvas.width;
-        var canvasHeight = this.canvas.height;
+        var canvasWidth = this.getCanvasWidth();
+        var canvasHeight = this.getCanvasHeight();
         var p = convertToTransform(new Point2D({x: this.canvasMouseX, y: this.canvasMouseY}),
             new Point2D({x: canvasWidth / 2, y: canvasHeight / 2}),
             this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
         this.rotatedCanvasMouseX = p.getX();
         this.rotatedCanvasMouseY = p.getY();
+    }
+
+    layoutCanvasRightClick(event) {
+        for (var i = 0; i < this.simulationVents.length; i++) {
+            var vent = this.simulationVents[i];
+            if (Math.hypot(vent.x - (this.rotatedCanvasMouseX + this.dragX), vent.y - (this.rotatedCanvasMouseY + this.dragY)) <= vent.radius) {
+                this.simulationVents.splice(i, 1);
+                break;
+            }
+        }
+
+        event.preventDefault();
     }
 
     layoutCanvasMousePressed(event) {
@@ -585,6 +784,13 @@ class SimulatorCanvas {
         this.canvasMouseY = this.currentMouseY;
 
         this.setRotatedCanvasMouse();
+
+        for (var i = 0; i < this.simulationVents.length; i++) {
+            var vent = this.simulationVents[i];
+            if (Math.hypot(vent.x - (this.rotatedCanvasMouseX + this.dragX), vent.y - (this.rotatedCanvasMouseY + this.dragY)) <= vent.radius) {
+                this.dragVent = vent;
+            }
+        }
     }
 
     layoutCanvasMouseMoved(event) {
@@ -609,8 +815,13 @@ class SimulatorCanvas {
 
         // ***** Dragging Code
             if (this.mouseDown) {
-                this.dragX += this.rotatedCanvasMouseMovedX;
-                this.dragY += this.rotatedCanvasMouseMovedY;
+                if (this.dragVent == null) {
+                    this.dragX += this.rotatedCanvasMouseMovedX;
+                    this.dragY += this.rotatedCanvasMouseMovedY;
+                } else {
+                    this.dragVent.x -= this.rotatedCanvasMouseMovedX;
+                    this.dragVent.y -= this.rotatedCanvasMouseMovedY;
+                }
             }
 
         if (event.stopPropagation) event.stopPropagation();
@@ -635,6 +846,8 @@ class SimulatorCanvas {
         this.canvasMouseY = this.currentMouseY;
 
         this.setRotatedCanvasMouse();
+
+        this.dragVent = null;
     }
 
     layoutCanvasMouseOut(event) {
