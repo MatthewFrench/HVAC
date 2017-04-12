@@ -591,6 +591,9 @@ class SimulatorCanvas {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
+        ctx.shadowColor = "";
+        ctx.shadowBlur = 0;
+
         var maxTemp = this.maxColorTemperature;
         var minTemp = this.minColorTemperature;
         var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
