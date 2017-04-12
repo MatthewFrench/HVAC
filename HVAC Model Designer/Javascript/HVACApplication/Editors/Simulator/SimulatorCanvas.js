@@ -595,9 +595,6 @@ class SimulatorCanvas {
         var minTemp = this.minColorTemperature;
         var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
 
-        ctx.shadowColor = "";
-        ctx.shadowBlur = 0;
-
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
@@ -625,18 +622,15 @@ class SimulatorCanvas {
             } else {
                 ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
             }
-        }
-
-
-        if (this.pointDensity > 5.0) {
-            ctx.shadowColor = "black";
-            ctx.shadowBlur = 10;
-
-        for (var i = 0; i < this.simulationPoints.length; i++) {
-            var simulationPoint = this.simulationPoints[i];
+            if (this.pointDensity > 5.0) {
+                ctx.shadowColor = "black";
+                ctx.shadowBlur = 10;
 
                 ctx.fillText("" + Math.round(simulationPoint.temperature),
-                    simulationPoint.x - offsetX, simulationPoint.y-this.pointDensity+1.0 - offsetY);
+                    simulationPoint.x - offsetX, simulationPoint.y - this.pointDensity + 1.0 - offsetY);
+
+                ctx.shadowColor = "";
+                ctx.shadowBlur = 0;
             }
         }
     }
