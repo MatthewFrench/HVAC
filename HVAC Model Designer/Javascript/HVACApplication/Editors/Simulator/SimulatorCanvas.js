@@ -67,7 +67,12 @@ class SimulatorCanvas {
             onMouseOver: CreateFunction(this, this.layoutCanvasMouseOver)
         });
         this.canvas.tabIndex = "1";
-        this.canvasResolution = 2.0;
+        this.canvasResolution = 1.0;
+        var ctx = this.canvas.getContext("2d");
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = false;
 
         this.shiftPressed = false;
         this.currentMouseX = 0.0;
@@ -121,6 +126,7 @@ class SimulatorCanvas {
         this.simulationVents = [];
 
         this.backgroundCanvas = CreateElement({type: "canvas"});
+        this.maskCanvas = CreateElement({type: "canvas"});
     }
 
     addHotVent() {
@@ -210,6 +216,8 @@ class SimulatorCanvas {
         var indexArray = {};
         this.pointWidth = 0;
         this.pointHeight = 0;
+        this.pointLeft = minX;
+        this.pointTop = minY;
         for (var x = minX; x <= maxX; x += this.pointDensity * 2) {
             indexArray[indexX] = {};
             for (var y = minY; y <= maxY; y += this.pointDensity * 2) {
@@ -227,6 +235,8 @@ class SimulatorCanvas {
             indexX += 1;
             indexY = 0;
         }
+        this.pointWidth += 1;
+        this.pointHeight += 1;
         this.setPointConnections(indexArray);
         this.setPointWalls();
         //Now mark inside and outside points
@@ -246,25 +256,24 @@ class SimulatorCanvas {
         this.backgroundCanvas.height = (this.maximumY - this.minimumY) * this.canvasResolution;
         this.backgroundCanvas.getContext("2d").scale(this.canvasResolution, this.canvasResolution);
 
+        this.maskCanvas.width = (this.maximumX - this.minimumX) * this.canvasResolution;
+        this.maskCanvas.height = (this.maximumY - this.minimumY) * this.canvasResolution;
+        this.maskCanvas.getContext("2d").scale(this.canvasResolution, this.canvasResolution);
+
         this.drawBackgroundOutlines();
+        this.drawMaskCanvas();
 
+        this.pixelDataWidth = this.pointWidth;
+        this.pixelDataHeight = this.pointHeight;
 
-        //if (this.pointDensity <= 5.0) {
-            this.pixelDataWidth = this.pointWidth + 1;
-            this.pixelDataHeight = this.pointHeight + 1;
+        this.pixelCanvas = CreateElement({type: "canvas"});
+        this.pixelCanvas.width = this.pixelDataWidth;
+        this.pixelCanvas.height = this.pixelDataHeight;
 
-            this.pixelCanvas = CreateElement({type: "canvas"});
-            this.pixelCanvas.width = this.pixelDataWidth;
-            this.pixelCanvas.height = this.pixelDataHeight;
-
-            this.pixelData = this.pixelCanvas.getContext("2d").createImageData(this.pixelDataWidth,this.pixelDataHeight);
-            for (var i=0;i<this.pixelData.data.length;i+=4)
-            {
-                this.pixelData.data[i+3]=255;
-            }
-        //}
-
-
+        this.pixelData = this.pixelCanvas.getContext("2d").createImageData(this.pixelDataWidth, this.pixelDataHeight);
+        for (var i = 0; i < this.pixelData.data.length; i += 4) {
+            this.pixelData.data[i + 3] = 255;
+        }
     }
 
     increaseDensity() {
@@ -503,13 +512,7 @@ class SimulatorCanvas {
     logic() {
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 10;
-
         this.drawSimulationPoints();
-
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 10;
 
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
             var wall = this.hvacApplication.getCurrentWallList()[i];
@@ -526,19 +529,12 @@ class SimulatorCanvas {
         ctx.textAlign = "left";
         ctx.textBaseline = "top";
 
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 10;
-
         ctx.fillText("Density", 5, 5);
         ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 34);
         ctx.fillText("Logic Loops: " + this.logicSpeed, 65, 64);
         ctx.fillText("Outside", 5, 94);
         ctx.fillText("Inside", 5, 124);
         ctx.fillText("Add Vent", 5, 154);
-    }
-
-    drawCircleOverloay() {
-
     }
 
     drawBackgroundOutlines() {
@@ -548,6 +544,9 @@ class SimulatorCanvas {
 
         var offsetX = this.minimumX;
         var offsetY = this.minimumY;
+
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 30;
 
         if (this.pointDensity > 5.0) {
             ctx.strokeStyle = "black";
@@ -577,8 +576,7 @@ class SimulatorCanvas {
 
 
         if (this.pointDensity > 1) {
-            ctx.shadowColor = "black";
-            ctx.shadowBlur = 30;
+
             ctx.strokeStyle = "rgba(0,0,0,0.25)";
 
             ctx.beginPath();
@@ -604,35 +602,52 @@ class SimulatorCanvas {
                 ctx.stroke();
             }
         }
+
+        ctx.shadowColor = "";
+        ctx.shadowBlur = 0;
+    }
+
+    drawMaskCanvas() {
+        var ctx = this.maskCanvas.getContext("2d");
+
+        ctx.clearRect(0, 0, this.maskCanvas.width / this.canvasResolution, this.maskCanvas.height / this.canvasResolution);
+
+        var offsetX = this.minimumX;
+        var offsetY = this.minimumY;
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+
+            if (this.pointDensity > 5) {
+                ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
+            }
+            else
+                if (this.pointDensity > 1) {
+                ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
+            }
+        }
+
+        ctx.fill();
     }
 
     drawSimulationPoints() {
         var ctx = this.canvas.getContext("2d");
 
-        //Draw background
-        if (this.pointDensity > 1) {
-            this.canvas.getContext("2d").drawImage(this.backgroundCanvas,
-                0, 0,
-                this.backgroundCanvas.width, this.backgroundCanvas.height
-                , this.minimumX, this.minimumY,
-                this.backgroundCanvas.width / this.canvasResolution, this.backgroundCanvas.height / this.canvasResolution);
-        }
-
         var offsetX = 0;
         var offsetY = 0;
-
-        var fontSize = this.pointDensity / 40.0 * 10 + 5;
-        ctx.font = Math.round(fontSize) + "px Helvetica";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        ctx.shadowColor = "";
-        ctx.shadowBlur = 0;
 
         var maxTemp = this.maxColorTemperature;
         var minTemp = this.minColorTemperature;
         var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
 
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 10;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font= (25 * this.pointDensity / 40.0)+"px Arial";
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
@@ -654,51 +669,58 @@ class SimulatorCanvas {
                 g = Math.round(yellow);
                 b = 0;
             }
-            /*
-            if (this.pointDensity > 5) {
-                ctx.beginPath();
-                ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
-                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
-                ctx.fill();
-            }
-            */
-            /*else if (this.pointDensity > 1) {
-                ctx.beginPath();
-                ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
-                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
-                ctx.fill();
-            }*/
-            //else {
-                /*
-                ctx.rect(Math.round(simulationPoint.x),
-                    Math.round(simulationPoint.y),
-                    3, 3);
-                    */
-                var index = (simulationPoint.indexY * this.pixelDataWidth + simulationPoint.indexX) * 4;
-                this.pixelData.data[index] = r;
-                this.pixelData.data[index+1] = g;
-                this.pixelData.data[index+2] = b;
-            //}
+            var index = (simulationPoint.indexY * this.pixelDataWidth + simulationPoint.indexX) * 4;
+            this.pixelData.data[index] = r;
+            this.pixelData.data[index + 1] = g;
+            this.pixelData.data[index + 2] = b;
 
             if (this.pointDensity > 5.0) {
-                ctx.shadowColor = "black";
-                ctx.shadowBlur = 10;
+                ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
 
                 ctx.fillText("" + Math.round(simulationPoint.temperature),
-                    simulationPoint.x - offsetX, simulationPoint.y - this.pointDensity + 1.0 - offsetY);
-
-                ctx.shadowColor = "";
-                ctx.shadowBlur = 0;
+                    simulationPoint.x - offsetX, simulationPoint.y - this.pointDensity - offsetY);
             }
         }
-        //if (this.pointDensity <= 5.0) {
-            this.pixelCanvas.getContext("2d").putImageData(this.pixelData,0,0);
-            ctx.drawImage(this.pixelCanvas,
-            0, 0,
+        ctx.shadowColor = "";
+        ctx.shadowBlur = 0;
+
+        this.pixelCanvas.getContext("2d").putImageData(this.pixelData, 0, 0);
+
+        var maskCtx = this.maskCanvas.getContext("2d");
+
+        if (this.pointDensity > 1) {
+            maskCtx.globalCompositeOperation = "source-in";
+
+            maskCtx.drawImage(this.pixelCanvas,
+                0, 0,
                 this.pixelCanvas.width, this.pixelCanvas.height
+                , 0, 0,
+                this.pointWidth * this.pointDensity * 2, this.pointHeight * this.pointDensity * 2);
+
+            ctx.globalCompositeOperation = "destination-over";
+            ctx.drawImage(this.maskCanvas,
+                0, 0,
+                this.maskCanvas.width, this.maskCanvas.height
                 , this.minimumX, this.minimumY,
-                (this.maximumX - this.minimumX), (this.maximumY - this.minimumY));
-        //}
+                this.maskCanvas.width / this.canvasResolution, this.maskCanvas.height / this.canvasResolution);
+        } else {
+            ctx.drawImage(this.pixelCanvas,
+                0, 0,
+                this.pixelCanvas.width, this.pixelCanvas.height
+                , this.pointLeft - this.pointDensity, this.pointTop - this.pointDensity,
+                this.pointWidth * this.pointDensity * 2, this.pointHeight * this.pointDensity * 2);
+        }
+
+        if (this.pointDensity > 1) {
+            ctx.globalCompositeOperation = "destination-over";
+
+            this.canvas.getContext("2d").drawImage(this.backgroundCanvas,
+                0, 0,
+                this.maskCanvas.width, this.maskCanvas.height
+                , this.minimumX, this.minimumY,
+                this.maskCanvas.width / this.canvasResolution, this.maskCanvas.height / this.canvasResolution);
+            ctx.globalCompositeOperation = "source-over";
+        }
     }
 
     drawSimulationVents() {
