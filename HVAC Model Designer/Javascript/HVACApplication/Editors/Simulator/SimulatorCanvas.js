@@ -230,15 +230,15 @@ class SimulatorCanvas {
 
         this.simulationStopwatch.reset();
 
-        this.minimumX = minX;
-        this.minimumY = minY;
-        this.maximumX = maxX;
-        this.maximumY = maxY;
-        this.backgroundCanvas.width = this.maximumX - this.minimumX;
-        this.backgroundCanvas.height = this.maximumY - this.minimumY;
-        //Set canvas scale
-        this.backgroundCanvas.width = this.backgroundCanvas.width * 2;
-        this.backgroundCanvas.height = this.backgroundCanvas.height * 2;
+        console.log("Old size: " + (this.maximumX - this.minimumX) + ", " + (this.maximumY - this.minimumY));
+
+        this.minimumX = Math.floor(minX) - this.pointDensity;
+        this.minimumY = Math.floor(minY) - this.pointDensity;
+        this.maximumX = Math.ceil(maxX) + this.pointDensity;
+        this.maximumY = Math.ceil(maxY) + this.pointDensity;
+
+        this.backgroundCanvas.width = (this.maximumX - this.minimumX) * 2;
+        this.backgroundCanvas.height = (this.maximumY - this.minimumY) * 2;
         this.backgroundCanvas.getContext("2d").scale(2, 2);
 
         this.drawBackgroundOutlines();
@@ -516,9 +516,11 @@ class SimulatorCanvas {
     }
     drawBackgroundOutlines() {
 
+        console.log("Drawing background outlines");
+
         var ctx = this.backgroundCanvas.getContext("2d");
 
-        ctx.clearRect(0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
+        ctx.clearRect(0, 0, this.backgroundCanvas.width / 2.0, this.backgroundCanvas.height / 2.0);
 
         var offsetX = this.minimumX;
         var offsetY = this.minimumY;
@@ -550,24 +552,30 @@ class SimulatorCanvas {
         }
 
 
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 30;
 
-        ctx.strokeStyle = "rgba(0,0,0,0.25)";
-        for (var i = 0; i < this.simulationPoints.length; i++) {
-            var simulationPoint = this.simulationPoints[i];
+        if (this.pointDensity > 1) {
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 30;
+            ctx.strokeStyle = "rgba(0,0,0,0.25)";
 
+            ctx.beginPath();
+            var size = this.pointDensity;
+            var circumference = 2 * Math.PI;
             if (this.pointDensity > 5) {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
-                ctx.fill();
-            } else if (this.pointDensity > 1) {
-                ctx.beginPath();
-                ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
-                ctx.fill();
-            } else {
+                size = this.pointDensity * 2.0 / 3.0;
             }
+            for (var i = 0; i < this.simulationPoints.length; i++) {
+                var simulationPoint = this.simulationPoints[i];
 
+                if (this.pointDensity > 5) {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, size, 0, circumference);
+                } else {
+                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                    ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, size, 0, circumference);
+                }
+            }
+            ctx.fill();
             if (this.pointDensity > 2.0) {
                 ctx.lineWidth = 1;
                 ctx.stroke();
