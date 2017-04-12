@@ -220,9 +220,9 @@ class SimulatorCanvas {
                 simulationPoint.indexY = indexY;
                 simulationPoint.temperature = 60.0;
                 this.simulationPoints.push(simulationPoint);
-                indexY += 1;
                 this.pointWidth = Math.max(this.pointWidth, indexX);
                 this.pointHeight = Math.max(this.pointHeight, indexY);
+                indexY += 1;
             }
             indexX += 1;
             indexY = 0;
@@ -249,9 +249,9 @@ class SimulatorCanvas {
         this.drawBackgroundOutlines();
 
 
-        if (this.pointDensity == 1.0) {
-            this.pixelDataWidth = this.pointWidth;
-            this.pixelDataHeight = this.pointHeight;
+        //if (this.pointDensity <= 5.0) {
+            this.pixelDataWidth = this.pointWidth + 1;
+            this.pixelDataHeight = this.pointHeight + 1;
 
             this.pixelCanvas = CreateElement({type: "canvas"});
             this.pixelCanvas.width = this.pixelDataWidth;
@@ -262,7 +262,9 @@ class SimulatorCanvas {
             {
                 this.pixelData.data[i+3]=255;
             }
-        }
+        //}
+
+
     }
 
     increaseDensity() {
@@ -535,6 +537,10 @@ class SimulatorCanvas {
         ctx.fillText("Add Vent", 5, 154);
     }
 
+    drawCircleOverloay() {
+
+    }
+
     drawBackgroundOutlines() {
         var ctx = this.backgroundCanvas.getContext("2d");
 
@@ -648,17 +654,21 @@ class SimulatorCanvas {
                 g = Math.round(yellow);
                 b = 0;
             }
+            /*
             if (this.pointDensity > 5) {
                 ctx.beginPath();
                 ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
                 ctx.fill();
-            } else if (this.pointDensity > 1) {
+            }
+            */
+            /*else if (this.pointDensity > 1) {
                 ctx.beginPath();
                 ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
                 ctx.fill();
-            } else {
+            }*/
+            //else {
                 /*
                 ctx.rect(Math.round(simulationPoint.x),
                     Math.round(simulationPoint.y),
@@ -668,7 +678,7 @@ class SimulatorCanvas {
                 this.pixelData.data[index] = r;
                 this.pixelData.data[index+1] = g;
                 this.pixelData.data[index+2] = b;
-            }
+            //}
 
             if (this.pointDensity > 5.0) {
                 ctx.shadowColor = "black";
@@ -681,14 +691,14 @@ class SimulatorCanvas {
                 ctx.shadowBlur = 0;
             }
         }
-        if (this.pointDensity == 1.0) {
+        //if (this.pointDensity <= 5.0) {
             this.pixelCanvas.getContext("2d").putImageData(this.pixelData,0,0);
             ctx.drawImage(this.pixelCanvas,
             0, 0,
                 this.pixelCanvas.width, this.pixelCanvas.height
                 , this.minimumX, this.minimumY,
                 (this.maximumX - this.minimumX), (this.maximumY - this.minimumY));
-        }
+        //}
     }
 
     drawSimulationVents() {
