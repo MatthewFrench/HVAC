@@ -6,7 +6,7 @@
  */
 
 class SimulationPoint {
-    constructor({x=0, y=0} = {}) {
+    constructor({x = 0, y = 0} = {}) {
         this.leftPoint = null;
         this.numberWallsLeft = 0;
         this.rightPoint = null;
@@ -38,7 +38,7 @@ class SimulationVent {
 
 var scaleFactor = 1.1;
 //Allows the handling of Scrolling in View Mode
-var handleScroll = function(evt) {
+var handleScroll = function (evt) {
     var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
     if (delta) {
         var factor = Math.pow(scaleFactor, delta);
@@ -96,8 +96,8 @@ class SimulatorCanvas {
 
         this.canvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
 
-        this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
-        this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
+        this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false);
+        this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false);
 
         this.canvas.oncontextmenu = CreateFunction(this, this.layoutCanvasRightClick);
 
@@ -162,6 +162,7 @@ class SimulatorCanvas {
     increaseLogicSpeed() {
         this.logicSpeed *= 2;
     }
+
     decreaseLogicSpeed() {
         this.logicSpeed /= 2;
         this.logicSpeed = Math.round(this.logicSpeed);
@@ -174,6 +175,7 @@ class SimulatorCanvas {
         //Take resolution into account
         return this.canvas.width / this.canvasResolution;
     }
+
     getCanvasHeight() {
         //Take resolution into account
         return this.canvas.height / this.canvasResolution;
@@ -200,15 +202,17 @@ class SimulatorCanvas {
         var padding = this.pointDensity * 2;
         minX = minX - padding;
         minY = minY - padding;
-        maxX = maxX + padding*2;
-        maxY = maxY + padding*2;
+        maxX = maxX + padding * 2;
+        maxY = maxY + padding * 2;
         //Now Create the points with density
         var indexX = 0;
         var indexY = 0;
         var indexArray = {};
-        for (var x = minX; x <= maxX; x += this.pointDensity*2) {
+        this.pointWidth = 0;
+        this.pointHeight = 0;
+        for (var x = minX; x <= maxX; x += this.pointDensity * 2) {
             indexArray[indexX] = {};
-            for (var y = minY; y <= maxY; y += this.pointDensity*2) {
+            for (var y = minY; y <= maxY; y += this.pointDensity * 2) {
                 var simulationPoint = new SimulationPoint({x: x, y: y});
                 indexArray[indexX][indexY] = simulationPoint;
                 simulationPoint.processed = false;
@@ -217,6 +221,8 @@ class SimulatorCanvas {
                 simulationPoint.temperature = 60.0;
                 this.simulationPoints.push(simulationPoint);
                 indexY += 1;
+                this.pointWidth = Math.max(this.pointWidth, indexX);
+                this.pointHeight = Math.max(this.pointHeight, indexY);
             }
             indexX += 1;
             indexY = 0;
@@ -241,6 +247,22 @@ class SimulatorCanvas {
         this.backgroundCanvas.getContext("2d").scale(this.canvasResolution, this.canvasResolution);
 
         this.drawBackgroundOutlines();
+
+
+        if (this.pointDensity == 1.0) {
+            this.pixelDataWidth = this.pointWidth;
+            this.pixelDataHeight = this.pointHeight;
+
+            this.pixelCanvas = CreateElement({type: "canvas"});
+            this.pixelCanvas.width = this.pixelDataWidth;
+            this.pixelCanvas.height = this.pixelDataHeight;
+
+            this.pixelData = this.pixelCanvas.getContext("2d").createImageData(this.pixelDataWidth,this.pixelDataHeight);
+            for (var i=0;i<this.pixelData.data.length;i+=4)
+            {
+                this.pixelData.data[i+3]=255;
+            }
+        }
     }
 
     increaseDensity() {
@@ -355,7 +377,7 @@ class SimulatorCanvas {
 
             //Determine what new lines we have to make from the intersection point
             if (intersectionPoint != null) {
-                wallCount+= 1;
+                wallCount += 1;
             }
         }
         return wallCount;
@@ -411,7 +433,6 @@ class SimulatorCanvas {
     }
 
 
-
     heatOutsidePoints() {
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var point = this.simulationPoints[i];
@@ -452,15 +473,15 @@ class SimulatorCanvas {
 
 
     transferTemperatureBetweenPoints(fromPoint, toPoint, numberOfWallsBetween) {
-            var transferRate = this.airTransferRate;
-            if (numberOfWallsBetween > 0) {
-                transferRate = Math.pow(this.wallTransferRate, numberOfWallsBetween);
-            }
-            var temperatureDifference = fromPoint.temperature - toPoint.temperature;
-            var tempAdd = temperatureDifference * transferRate;
+        var transferRate = this.airTransferRate;
+        if (numberOfWallsBetween > 0) {
+            transferRate = Math.pow(this.wallTransferRate, numberOfWallsBetween);
+        }
+        var temperatureDifference = fromPoint.temperature - toPoint.temperature;
+        var tempAdd = temperatureDifference * transferRate;
 
-                toPoint.addTemperature += tempAdd;
-                fromPoint.addTemperature -= tempAdd;
+        toPoint.addTemperature += tempAdd;
+        fromPoint.addTemperature -= tempAdd;
     }
 
     transferTemperatureToPoint(temperature, toPoint, transferRate) {
@@ -498,21 +519,22 @@ class SimulatorCanvas {
 
         this.endDraw(ctx);
 
-                ctx.fillStyle = "white";
-                ctx.font = "25px Helvetica";
-            ctx.textAlign = "left";
-            ctx.textBaseline = "top";
+        ctx.fillStyle = "white";
+        ctx.font = "25px Helvetica";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
 
         ctx.shadowColor = "black";
         ctx.shadowBlur = 10;
 
-            ctx.fillText("Density", 5, 5);
-            ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 34);
-            ctx.fillText("Logic Loops: " + this.logicSpeed, 65, 64);
-            ctx.fillText("Outside", 5, 94);
-            ctx.fillText("Inside", 5, 124);
-            ctx.fillText("Add Vent", 5, 154);
+        ctx.fillText("Density", 5, 5);
+        ctx.fillText("Space Between: " + this.pointDensity + "px", 5, 34);
+        ctx.fillText("Logic Loops: " + this.logicSpeed, 65, 64);
+        ctx.fillText("Outside", 5, 94);
+        ctx.fillText("Inside", 5, 124);
+        ctx.fillText("Add Vent", 5, 154);
     }
+
     drawBackgroundOutlines() {
         var ctx = this.backgroundCanvas.getContext("2d");
 
@@ -548,7 +570,6 @@ class SimulatorCanvas {
         }
 
 
-
         if (this.pointDensity > 1) {
             ctx.shadowColor = "black";
             ctx.shadowBlur = 30;
@@ -578,6 +599,7 @@ class SimulatorCanvas {
             }
         }
     }
+
     drawSimulationPoints() {
         var ctx = this.canvas.getContext("2d");
 
@@ -593,7 +615,7 @@ class SimulatorCanvas {
         var offsetX = 0;
         var offsetY = 0;
 
-        var fontSize = this.pointDensity/40.0*10+5;
+        var fontSize = this.pointDensity / 40.0 * 10 + 5;
         ctx.font = Math.round(fontSize) + "px Helvetica";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -611,34 +633,42 @@ class SimulatorCanvas {
 
             var r = 0, g = 0, b = 0;
 
-            if (temp<halfTemp) {
-                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
+            if (temp < halfTemp) {
+                var tempPercent = (temp - minTemp) / (halfTemp - minTemp);
                 var redgreen = (255 * tempPercent);
-                var blue = (255-(255 * tempPercent));
+                var blue = (255 - (255 * tempPercent));
                 r = Math.round(redgreen);
                 g = Math.round(redgreen);
                 b = Math.round(blue);
             } else {
-                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
+                var tempPercent = (temp - halfTemp) / (maxTemp - halfTemp);
                 var red = (255 * tempPercent);
-                var yellow = (255-(255 * tempPercent));
-                r = Math.round(yellow+red);
+                var yellow = (255 - (255 * tempPercent));
+                r = Math.round(yellow + red);
                 g = Math.round(yellow);
                 b = 0;
             }
-
-            ctx.beginPath();
-            ctx.fillStyle = "rgba("+r+","+g+","+b+",1.0)";
             if (this.pointDensity > 5) {
+                ctx.beginPath();
+                ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
+                ctx.fill();
             } else if (this.pointDensity > 1) {
+                ctx.beginPath();
+                ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1.0)";
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
+                ctx.fill();
             } else {
-                ctx.rect(Math.round(simulationPoint.x - this.pointDensity - offsetX),
-                    Math.round(simulationPoint.y - this.pointDensity - offsetY),
+                /*
+                ctx.rect(Math.round(simulationPoint.x),
+                    Math.round(simulationPoint.y),
                     3, 3);
+                    */
+                var index = (simulationPoint.indexY * this.pixelDataWidth + simulationPoint.indexX) * 4;
+                this.pixelData.data[index] = r;
+                this.pixelData.data[index+1] = g;
+                this.pixelData.data[index+2] = b;
             }
-            ctx.fill();
 
             if (this.pointDensity > 5.0) {
                 ctx.shadowColor = "black";
@@ -650,6 +680,14 @@ class SimulatorCanvas {
                 ctx.shadowColor = "";
                 ctx.shadowBlur = 0;
             }
+        }
+        if (this.pointDensity == 1.0) {
+            this.pixelCanvas.getContext("2d").putImageData(this.pixelData,0,0);
+            ctx.drawImage(this.pixelCanvas,
+            0, 0,
+                this.pixelCanvas.width, this.pixelCanvas.height
+                , this.minimumX, this.minimumY,
+                (this.maximumX - this.minimumX), (this.maximumY - this.minimumY));
         }
     }
 
@@ -667,16 +705,16 @@ class SimulatorCanvas {
             var minTemp = this.minColorTemperature;
             var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
 
-            if (temp<halfTemp) {
-                var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
+            if (temp < halfTemp) {
+                var tempPercent = (temp - minTemp) / (halfTemp - minTemp);
                 var redgreen = (255 * tempPercent);
-                var blue = (255-(255 * tempPercent));
-                ctx.strokeStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
+                var blue = (255 - (255 * tempPercent));
+                ctx.strokeStyle = "rgba(" + Math.round(redgreen) + "," + Math.round(redgreen) + "," + Math.round(blue) + ",1.0)";
             } else {
-                var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
+                var tempPercent = (temp - halfTemp) / (maxTemp - halfTemp);
                 var red = (255 * tempPercent);
-                var yellow = (255-(255 * tempPercent));
-                ctx.strokeStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
+                var yellow = (255 - (255 * tempPercent));
+                ctx.strokeStyle = "rgba(" + Math.round(yellow + red) + "," + Math.round(yellow) + ",0,1.0)";
             }
 
             ctx.beginPath();
@@ -684,7 +722,7 @@ class SimulatorCanvas {
             ctx.fill();
 
             ctx.beginPath();
-            for (var j = 0; j < vent.radius; j+= 10) {
+            for (var j = 0; j < vent.radius; j += 10) {
                 ctx.arc(vent.x, vent.y, j, 0, 2 * Math.PI);
             }
             ctx.arc(vent.x, vent.y, vent.radius, 0, 2 * Math.PI);
@@ -814,15 +852,15 @@ class SimulatorCanvas {
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
 
         // ***** Dragging Code
-            if (this.mouseDown) {
-                if (this.dragVent == null) {
-                    this.dragX += this.rotatedCanvasMouseMovedX;
-                    this.dragY += this.rotatedCanvasMouseMovedY;
-                } else {
-                    this.dragVent.x -= this.rotatedCanvasMouseMovedX;
-                    this.dragVent.y -= this.rotatedCanvasMouseMovedY;
-                }
+        if (this.mouseDown) {
+            if (this.dragVent == null) {
+                this.dragX += this.rotatedCanvasMouseMovedX;
+                this.dragY += this.rotatedCanvasMouseMovedY;
+            } else {
+                this.dragVent.x -= this.rotatedCanvasMouseMovedX;
+                this.dragVent.y -= this.rotatedCanvasMouseMovedY;
             }
+        }
 
         if (event.stopPropagation) event.stopPropagation();
         if (event.preventDefault) event.preventDefault();
