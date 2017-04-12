@@ -118,6 +118,8 @@ class SimulatorCanvas {
         this.minColorTemperature = 60.0;
 
         this.simulationVents = [];
+
+        this.backgroundCanvas = CreateElement({type: "canvas"});
     }
 
     addHotVent() {
@@ -232,7 +234,6 @@ class SimulatorCanvas {
         this.minimumY = minY;
         this.maximumX = maxX;
         this.maximumY = maxY;
-        this.backgroundCanvas = CreateElement({type: "canvas"});
         this.backgroundCanvas.width = this.maximumX - this.minimumX;
         this.backgroundCanvas.height = this.maximumY - this.minimumY;
         //Set canvas scale
@@ -589,16 +590,17 @@ class SimulatorCanvas {
         ctx.font = Math.round(fontSize) + "px Helvetica";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+
+        var maxTemp = this.maxColorTemperature;
+        var minTemp = this.minColorTemperature;
+        var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
+
+        ctx.shadowColor = "";
+        ctx.shadowBlur = 0;
+
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
-
-            var maxTemp = this.maxColorTemperature;
-            var minTemp = this.minColorTemperature;
-            var halfTemp = (maxTemp - minTemp) / 2.0 + minTemp;
-
-            ctx.shadowColor = "";
-            ctx.shadowBlur = 0;
 
             if (temp<halfTemp) {
                 var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
@@ -623,13 +625,18 @@ class SimulatorCanvas {
             } else {
                 ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
             }
+        }
 
-            if (this.pointDensity > 5.0) {
 
-                ctx.shadowColor = "black";
-                ctx.shadowBlur = 10;
+        if (this.pointDensity > 5.0) {
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 10;
 
-                ctx.fillText("" + Math.round(simulationPoint.temperature), simulationPoint.x - offsetX, simulationPoint.y-this.pointDensity+1.0 - offsetY);
+        for (var i = 0; i < this.simulationPoints.length; i++) {
+            var simulationPoint = this.simulationPoints[i];
+
+                ctx.fillText("" + Math.round(simulationPoint.temperature),
+                    simulationPoint.x - offsetX, simulationPoint.y-this.pointDensity+1.0 - offsetY);
             }
         }
     }
