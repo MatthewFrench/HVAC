@@ -23,7 +23,6 @@ class HVACApplication {
 
         this.loadData();
 
-        this.buildingPickerWindow = new BuildingPicker(this, this.hvacData);
         this.floorPickerWindow = new FloorPicker(this);
 
         this.applicationDiv = CreateElement({
@@ -96,12 +95,17 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.floorPickerWindow.getDiv().remove();
-        this.mainContentDiv.appendChild(this.buildingPickerWindow.getDiv());
         this.currentEditor = this.projectEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
+        this.hideFloorPicker();
     };
+    hideFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "none";
+    }
+    showFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "";
+    }
 
     wallEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
@@ -114,11 +118,11 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.mainContentDiv.appendChild(this.floorPickerWindow.getDiv());
-        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.wallEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
+
+        this.showFloorPicker();
     }
 
     roomEditorTabClick() {
@@ -132,11 +136,11 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.floorPickerWindow.getDiv().remove();
-        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.roomEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
+
+        this.showFloorPicker();
     }
 
     viewEditorTabClick() {
@@ -150,11 +154,11 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.mainContentDiv.appendChild(this.floorPickerWindow.getDiv());
-        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.viewEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
+
+        this.showFloorPicker();
     }
 
     simulatorTabClick() {
@@ -168,11 +172,11 @@ class HVACApplication {
             this.currentEditor.hide();
             this.currentEditor.getDiv().remove();
         }
-        this.floorPickerWindow.getDiv().remove();
-        this.buildingPickerWindow.getDiv().remove();
         this.currentEditor = this.simulator;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
+
+        this.hideFloorPicker();
     }
 
     loadData() {
