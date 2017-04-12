@@ -67,6 +67,7 @@ class SimulatorCanvas {
             onMouseOver: CreateFunction(this, this.layoutCanvasMouseOver)
         });
         this.canvas.tabIndex = "1";
+        this.canvasResolution = 2.0;
 
         this.shiftPressed = false;
         this.currentMouseX = 0.0;
@@ -171,11 +172,11 @@ class SimulatorCanvas {
 
     getCanvasWidth() {
         //Take resolution into account
-        return this.canvas.width / 2.0;
+        return this.canvas.width / this.canvasResolution;
     }
     getCanvasHeight() {
         //Take resolution into account
-        return this.canvas.height / 2.0;
+        return this.canvas.height / this.canvasResolution;
     }
 
     initializeSimulationPoints() {
@@ -235,9 +236,9 @@ class SimulatorCanvas {
         this.maximumX = Math.ceil(maxX) + this.pointDensity;
         this.maximumY = Math.ceil(maxY) + this.pointDensity;
 
-        this.backgroundCanvas.width = (this.maximumX - this.minimumX) * 2;
-        this.backgroundCanvas.height = (this.maximumY - this.minimumY) * 2;
-        this.backgroundCanvas.getContext("2d").scale(2, 2);
+        this.backgroundCanvas.width = (this.maximumX - this.minimumX) * this.canvasResolution;
+        this.backgroundCanvas.height = (this.maximumY - this.minimumY) * this.canvasResolution;
+        this.backgroundCanvas.getContext("2d").scale(this.canvasResolution, this.canvasResolution);
 
         this.drawBackgroundOutlines();
     }
@@ -515,7 +516,7 @@ class SimulatorCanvas {
     drawBackgroundOutlines() {
         var ctx = this.backgroundCanvas.getContext("2d");
 
-        ctx.clearRect(0, 0, this.backgroundCanvas.width / 2.0, this.backgroundCanvas.height / 2.0);
+        ctx.clearRect(0, 0, this.backgroundCanvas.width / this.canvasResolution, this.backgroundCanvas.height / this.canvasResolution);
 
         var offsetX = this.minimumX;
         var offsetY = this.minimumY;
@@ -586,7 +587,7 @@ class SimulatorCanvas {
                 0, 0,
                 this.backgroundCanvas.width, this.backgroundCanvas.height
                 , this.minimumX, this.minimumY,
-                this.backgroundCanvas.width / 2, this.backgroundCanvas.height / 2);
+                this.backgroundCanvas.width / this.canvasResolution, this.backgroundCanvas.height / this.canvasResolution);
         }
 
         var offsetX = 0;
@@ -628,13 +629,14 @@ class SimulatorCanvas {
 
             ctx.beginPath();
             ctx.fillStyle = "rgba("+r+","+g+","+b+",1.0)";
-
             if (this.pointDensity > 5) {
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
             } else if (this.pointDensity > 1) {
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
             } else {
-                ctx.rect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
+                ctx.rect(Math.round(simulationPoint.x - this.pointDensity - offsetX),
+                    Math.round(simulationPoint.y - this.pointDensity - offsetY),
+                    3, 3);
             }
             ctx.fill();
 
@@ -708,9 +710,9 @@ class SimulatorCanvas {
 
     //Begin and End draw are duplicate drawing code for all layout modes
     beginDraw(canvas, viewAngle, viewScale) {
-        if (this.canvas.width * 2 != this.canvas.clientWidth || this.canvas.height * 2 != this.canvas.clientHeight) {
-            this.canvas.width = this.canvas.clientWidth * 2;
-            this.canvas.height = this.canvas.clientHeight * 2;
+        if (this.canvas.width * this.canvasResolution != this.canvas.clientWidth || this.canvas.height * this.canvasResolution != this.canvas.clientHeight) {
+            this.canvas.width = this.canvas.clientWidth * this.canvasResolution;
+            this.canvas.height = this.canvas.clientHeight * this.canvasResolution;
         }
 
         var ctx = canvas.getContext("2d");
@@ -719,39 +721,20 @@ class SimulatorCanvas {
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        ctx.scale(2, 2);
+        ctx.scale(this.canvasResolution, this.canvasResolution);
 
         ctx.save();
 
-        ctx.translate(canvasWidth / 4, canvasHeight / 4);
+        ctx.translate(canvasWidth / 2 / this.canvasResolution, canvasHeight / 2 / this.canvasResolution);
 
         ctx.rotate(viewAngle); //convertToRadians(this.hvacApplication.viewAngle)
 
         ctx.scale(viewScale, viewScale);
 
-        ctx.translate(-canvasWidth / 4, -canvasHeight / 4);
+        ctx.translate(-canvasWidth / 2 / this.canvasResolution, -canvasHeight / 2 / this.canvasResolution);
         ctx.translate(-this.dragX, -this.dragY);
 
         return ctx;
-    }
-
-    drawSlicePoints(canvas, viewAngle, viewScale, intersectHighlightPoints) {
-        //Draw slice intersection points
-        var ctx = canvas.getContext("2d");
-        var canvasWidth = canvas.width;
-        var canvasHeight = canvas.height;
-        ctx.save();
-        ctx.translate(canvasWidth / 2, canvasHeight / 2);
-        ctx.rotate(viewAngle); //convertToRadians(this.hvacApplication.viewAngle)
-        ctx.scale(viewScale, viewScale); //convertToRadians(this.hvacApplication.viewAngle)
-        ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
-        for (var i in intersectHighlightPoints) {
-            var intersectPoint = intersectHighlightPoints[i];
-            ctx.strokeStyle = "blue";
-            ctx.lineWidth = 4.0;
-            ctx.strokeRect(intersectPoint.getX() - 5, intersectPoint.getY() - 5, 10, 10);
-        }
-        ctx.restore();
     }
 
     endDraw(ctx) {
@@ -759,8 +742,8 @@ class SimulatorCanvas {
     }
 
     resizeCanvas() {
-        this.canvas.width = this.canvas.clientWidth * 2;
-        this.canvas.height = this.canvas.clientHeight * 2;
+        this.canvas.width = this.canvas.clientWidth * this.canvasResolution;
+        this.canvas.height = this.canvas.clientHeight * this.canvasResolution;
     }
 
     setRotatedCanvasMouse() {
