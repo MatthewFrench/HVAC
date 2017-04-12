@@ -230,8 +230,6 @@ class SimulatorCanvas {
 
         this.simulationStopwatch.reset();
 
-        console.log("Old size: " + (this.maximumX - this.minimumX) + ", " + (this.maximumY - this.minimumY));
-
         this.minimumX = Math.floor(minX) - this.pointDensity;
         this.minimumY = Math.floor(minY) - this.pointDensity;
         this.maximumX = Math.ceil(maxX) + this.pointDensity;
@@ -475,7 +473,7 @@ class SimulatorCanvas {
         for (var i = 0; i < this.logicSpeed; i++) {
             this.runSimulation();
         }
-        if (this.visible) setTimeout(CreateFunction(this, this.simulationLogic), 0);
+        if (this.visible) setTimeout(CreateFunction(this, this.simulationLogic), 1);
     }
 
     logic() {
@@ -515,9 +513,6 @@ class SimulatorCanvas {
             ctx.fillText("Add Vent", 5, 154);
     }
     drawBackgroundOutlines() {
-
-        console.log("Drawing background outlines");
-
         var ctx = this.backgroundCanvas.getContext("2d");
 
         ctx.clearRect(0, 0, this.backgroundCanvas.width / 2.0, this.backgroundCanvas.height / 2.0);
@@ -585,11 +580,14 @@ class SimulatorCanvas {
     drawSimulationPoints() {
         var ctx = this.canvas.getContext("2d");
 
-        this.canvas.getContext("2d").drawImage(this.backgroundCanvas,
-            0, 0,
-            this.backgroundCanvas.width, this.backgroundCanvas.height
-            ,this.minimumX, this.minimumY,
-            this.backgroundCanvas.width/2, this.backgroundCanvas.height/2);
+        //Draw background
+        if (this.pointDensity > 1) {
+            this.canvas.getContext("2d").drawImage(this.backgroundCanvas,
+                0, 0,
+                this.backgroundCanvas.width, this.backgroundCanvas.height
+                , this.minimumX, this.minimumY,
+                this.backgroundCanvas.width / 2, this.backgroundCanvas.height / 2);
+        }
 
         var offsetX = 0;
         var offsetY = 0;
@@ -610,29 +608,36 @@ class SimulatorCanvas {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
 
+            var r = 0, g = 0, b = 0;
+
             if (temp<halfTemp) {
                 var tempPercent = (temp-minTemp)/(halfTemp - minTemp);
                 var redgreen = (255 * tempPercent);
                 var blue = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(redgreen)+","+Math.round(redgreen)+","+Math.round(blue)+",1.0)";
+                r = Math.round(redgreen);
+                g = Math.round(redgreen);
+                b = Math.round(blue);
             } else {
                 var tempPercent = (temp-halfTemp)/(maxTemp-halfTemp);
                 var red = (255 * tempPercent);
                 var yellow = (255-(255 * tempPercent));
-                ctx.fillStyle = "rgba("+Math.round(yellow+red)+","+Math.round(yellow)+",0,1.0)";
+                r = Math.round(yellow+red);
+                g = Math.round(yellow);
+                b = 0;
             }
 
+            ctx.beginPath();
+            ctx.fillStyle = "rgba("+r+","+g+","+b+",1.0)";
+
             if (this.pointDensity > 5) {
-                ctx.beginPath();
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
-                ctx.fill();
             } else if (this.pointDensity > 1) {
-                ctx.beginPath();
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
-                ctx.fill();
             } else {
-                ctx.fillRect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
+                ctx.rect(simulationPoint.x - this.pointDensity - 0.5 - offsetX, simulationPoint.y - this.pointDensity - 0.5 - offsetY, this.pointDensity*2 + 1, this.pointDensity*2 + 1);
             }
+            ctx.fill();
+
             if (this.pointDensity > 5.0) {
                 ctx.shadowColor = "black";
                 ctx.shadowBlur = 10;
