@@ -127,6 +127,8 @@ class SimulatorCanvas {
 
         this.backgroundCanvas = CreateElement({type: "canvas"});
         this.maskCanvas = CreateElement({type: "canvas"});
+
+        this.pixelCanvas = CreateElement({type: "canvas"});
     }
 
     addHotVent() {
@@ -270,7 +272,6 @@ class SimulatorCanvas {
         this.pixelDataWidth = this.pointWidth;
         this.pixelDataHeight = this.pointHeight;
 
-        this.pixelCanvas = CreateElement({type: "canvas"});
         this.pixelCanvas.width = this.pixelDataWidth;
         this.pixelCanvas.height = this.pixelDataHeight;
 
@@ -641,6 +642,8 @@ class SimulatorCanvas {
     }
 
     drawSimulationPoints() {
+        if (this.simulationPoints.length == 0) return;
+
         var ctx = this.canvas.getContext("2d");
 
         var offsetX = 0;
