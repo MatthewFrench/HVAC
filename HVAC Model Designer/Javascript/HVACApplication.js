@@ -34,6 +34,11 @@ class HVACApplication {
                     className: 'HVACApplication_TitleBar',
                     text: "HVAC Model Designer"
                 }),
+                this.currentProjectLabel = CreateElement({
+                    type: 'label',
+                    className: 'CurrentProjectLabel',
+                    text: 'Current Project: ' + this.getCurrentBuilding().buildingName
+                }),
                 this.topBarDiv = CreateElement({
                     type: 'div', className: 'HVACApplication_TopBar', elements: [
                         this.projectEditorTab = CreateElement({
@@ -191,6 +196,8 @@ class HVACApplication {
     selectBuilding(building) {
         this.selectedBuilding = building;
         this.selectFloor(building.getFloorList()[0]);
+        if (this.currentProjectLabel != null)
+            this.currentProjectLabel.innerHTML = "Current Project: " + building.buildingName;
     }
 
     selectFloor(floor) {

@@ -55,6 +55,7 @@ BuildingPicker.prototype.loadBuildings = function() {
             var buildingRow = new BuildingRow(row, building);
             if (building == this.hvacApplication.getCurrentBuilding()) {
                 row.className = "BuildingPicker_Building_Row selected";
+                this.hvacApplication.currentProjectLabel.innerHTML = "Current Project: " + building.buildingName;
                 this.currentBuildingRow = buildingRow;
             }
             this.buildingRows.push(buildingRow);
