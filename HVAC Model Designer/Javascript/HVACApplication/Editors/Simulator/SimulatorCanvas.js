@@ -67,7 +67,7 @@ class SimulatorCanvas {
             onMouseOver: CreateFunction(this, this.layoutCanvasMouseOver)
         });
         this.canvas.tabIndex = "1";
-        this.canvasResolution = 1.0;
+        this.canvasResolution = 2.0;
         var ctx = this.canvas.getContext("2d");
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
@@ -218,7 +218,9 @@ class SimulatorCanvas {
         this.pointHeight = 0;
         this.pointLeft = minX;
         this.pointTop = minY;
+        this.pointArray = [];
         for (var x = minX; x <= maxX; x += this.pointDensity * 2) {
+            var secondArray = [];
             indexArray[indexX] = {};
             for (var y = minY; y <= maxY; y += this.pointDensity * 2) {
                 var simulationPoint = new SimulationPoint({x: x, y: y});
@@ -230,8 +232,10 @@ class SimulatorCanvas {
                 this.simulationPoints.push(simulationPoint);
                 this.pointWidth = Math.max(this.pointWidth, indexX);
                 this.pointHeight = Math.max(this.pointHeight, indexY);
+                secondArray.push(simulationPoint);
                 indexY += 1;
             }
+            this.pointArray.push(secondArray);
             indexX += 1;
             indexY = 0;
         }
@@ -433,13 +437,23 @@ class SimulatorCanvas {
         for (var i = 0; i < this.simulationVents.length; i++) {
             var vent = this.simulationVents[i];
 
-            //Heat all air pockets in the radius
-            for (var pointIndex = 0; pointIndex < this.simulationPoints.length; pointIndex++) {
-                var point = this.simulationPoints[pointIndex];
-                if (Math.hypot(point.x - vent.x, point.y - vent.y) <= vent.radius + this.pointDensity) {
-                    this.transferTemperatureToPoint(vent.temperature, point, this.airTransferRate);
+            //Calculate approximate grid position
+            var gridX = (vent.x - this.pointLeft) / (this.pointDensity * 2);
+            var gridY = (vent.y - this.pointTop) / (this.pointDensity * 2);
+            var gridXMin = Math.ceil(Math.max(gridX - vent.radius / this.pointDensity, 0));
+            var gridYMin = Math.ceil(Math.max(gridY - vent.radius / this.pointDensity, 0));
+            var gridXMax = Math.floor(Math.min(gridX + vent.radius / this.pointDensity, this.pointWidth - 1));
+            var gridYMax = Math.floor(Math.min(gridY + vent.radius / this.pointDensity, this.pointHeight - 1));
+
+            for (var x = gridXMin; x <= gridXMax; x++) {
+                for (var y = gridYMin; y <= gridYMax; y++) {
+                    var point = this.pointArray[x][y];
+                    if ((point.x - vent.x) * (point.x - vent.x) + (point.y - vent.y) * (point.y - vent.y) <= (vent.radius + this.pointDensity) * (vent.radius + this.pointDensity)) {
+                        this.transferTemperatureToPoint(vent.temperature, point, this.airTransferRate);
+                    }
                 }
             }
+
         }
     }
 
@@ -542,65 +556,59 @@ class SimulatorCanvas {
 
         ctx.clearRect(0, 0, this.backgroundCanvas.width / this.canvasResolution, this.backgroundCanvas.height / this.canvasResolution);
 
+        if (this.pointDensity == 1) return;
+
         var offsetX = this.minimumX;
         var offsetY = this.minimumY;
 
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 30;
-
-        if (this.pointDensity > 5.0) {
+        if (this.pointDensity > 1) {
             ctx.strokeStyle = "black";
             ctx.lineWidth = 4;
-            ctx.beginPath();
-            for (var i = 0; i < this.simulationPoints.length; i++) {
-                var simulationPoint = this.simulationPoints[i];
-                if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
-                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
-                    ctx.lineTo(simulationPoint.leftPoint.x - offsetX, simulationPoint.leftPoint.y - offsetY);
-                }
-                if (simulationPoint.rightPoint != null && simulationPoint.numberWallsRight == 0) {
-                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
-                    ctx.lineTo(simulationPoint.rightPoint.x - offsetX, simulationPoint.rightPoint.y - offsetY);
-                }
-                if (simulationPoint.topPoint != null && simulationPoint.numberWallsTop == 0) {
-                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
-                    ctx.lineTo(simulationPoint.topPoint.x - offsetX, simulationPoint.topPoint.y - offsetY);
-                }
-                if (simulationPoint.bottomPoint != null && simulationPoint.numberWallsBottom == 0) {
-                    ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
-                    ctx.lineTo(simulationPoint.bottomPoint.x - offsetX, simulationPoint.bottomPoint.y - offsetY);
-                }
-            }
-            ctx.stroke();
-        }
-
-
-        if (this.pointDensity > 1) {
-
-            ctx.strokeStyle = "rgba(0,0,0,0.25)";
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 30 * this.pointDensity / 40.0;
 
             ctx.beginPath();
+
             var size = this.pointDensity;
             var circumference = 2 * Math.PI;
             if (this.pointDensity > 5) {
                 size = this.pointDensity * 2.0 / 3.0;
             }
+
             for (var i = 0; i < this.simulationPoints.length; i++) {
                 var simulationPoint = this.simulationPoints[i];
 
                 if (this.pointDensity > 5) {
                     ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
                     ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, size, 0, circumference);
+
+                    if (simulationPoint.leftPoint != null && simulationPoint.numberWallsLeft == 0) {
+                        ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                        ctx.lineTo(simulationPoint.leftPoint.x - offsetX, simulationPoint.leftPoint.y - offsetY);
+                    }
+                    if (simulationPoint.rightPoint != null && simulationPoint.numberWallsRight == 0) {
+                        ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                        ctx.lineTo(simulationPoint.rightPoint.x - offsetX, simulationPoint.rightPoint.y - offsetY);
+                    }
+                    if (simulationPoint.topPoint != null && simulationPoint.numberWallsTop == 0) {
+                        ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                        ctx.lineTo(simulationPoint.topPoint.x - offsetX, simulationPoint.topPoint.y - offsetY);
+                    }
+                    if (simulationPoint.bottomPoint != null && simulationPoint.numberWallsBottom == 0) {
+                        ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
+                        ctx.lineTo(simulationPoint.bottomPoint.x - offsetX, simulationPoint.bottomPoint.y - offsetY);
+                    }
                 } else {
                     ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
                     ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, size, 0, circumference);
                 }
             }
+
             ctx.fill();
             if (this.pointDensity > 2.0) {
-                ctx.lineWidth = 1;
                 ctx.stroke();
             }
+
         }
 
         ctx.shadowColor = "";
@@ -623,8 +631,7 @@ class SimulatorCanvas {
                 ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity * 2.0 / 3.0, 0, 2 * Math.PI);
             }
-            else
-                if (this.pointDensity > 1) {
+            else if (this.pointDensity > 1) {
                 ctx.moveTo(simulationPoint.x - offsetX, simulationPoint.y - offsetY);
                 ctx.arc(simulationPoint.x - offsetX, simulationPoint.y - offsetY, this.pointDensity, 0, 2 * Math.PI);
             }
@@ -647,7 +654,7 @@ class SimulatorCanvas {
         ctx.shadowBlur = 10;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font= (25 * this.pointDensity / 40.0)+"px Arial";
+        ctx.font = (25 * this.pointDensity / 40.0) + "px Arial";
         for (var i = 0; i < this.simulationPoints.length; i++) {
             var simulationPoint = this.simulationPoints[i];
             var temp = simulationPoint.temperature;
