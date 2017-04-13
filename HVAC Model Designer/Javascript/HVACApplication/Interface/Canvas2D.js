@@ -2,10 +2,6 @@
  * Created by matt on 2/21/17.
  */
 
-// ******* MESSY
-// ******* NEEDS
-// ******* CLEANED
-
 var WALL_POINT_ONE = 1, WALL_POINT_TWO = 2;
 //Creates and initializes the variables for Wall Connecting for Corner Editing
 class WallConnection {

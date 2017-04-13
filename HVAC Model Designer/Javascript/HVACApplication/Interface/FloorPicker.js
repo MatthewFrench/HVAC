@@ -83,7 +83,6 @@ FloorPicker.prototype.loadFloors = function() {
 };
 
 FloorPicker.prototype.droppedOnFloor = function(ev, index) {
-    console.log("Row was dropped on row: " + index);
     var moveFloor = ev.dataTransfer.getData("Floor ID");
 
     var building = this.hvacApplication.getCurrentBuilding();
@@ -119,27 +118,29 @@ FloorPicker.prototype.addFloor = function() {
     this.floorClicked(this.floorRows[0]);
 
     //Create and display EditFloorNamePopover to allow user to change name of the floor
-    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
+    var newEditNamePopover = new EditNamePopover(this.currentFloorRow.floor.floorName,
         CreateFunction(this, function (newFloorName) {
             this.currentFloorRow.floor.floorName = newFloorName;
             this.loadFloors();
             this.floorClicked(this.floorRows[0]);
-        }));
+        }),
+        "What would you like to name your floor?");
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 };
 
 /**
- * This function displays the EditFloorNamePopover.js to be able to change the name of the floor.
+ * This function displays the EditNamePopover.js to be able to change the name of the floor.
  */
 FloorPicker.prototype.editFloorName = function() {
     //Create and display EditFloorNamePopover to allow user to change name of the floor
-    var newEditNamePopover = new EditFloorNamePopover(this.currentFloorRow.floor.floorName,
+    var newEditNamePopover = new EditNamePopover(this.currentFloorRow.floor.floorName,
         CreateFunction(this, function (newFloorName) {
             this.currentFloorRow.floor.floorName = newFloorName;
             this.loadFloors();
             this.floorClicked(this.floorRows[0]);
-        }));
+        }),
+        "What would you like to name your floor?");
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 }

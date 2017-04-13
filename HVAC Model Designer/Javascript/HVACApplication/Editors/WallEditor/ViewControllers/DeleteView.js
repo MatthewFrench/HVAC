@@ -21,7 +21,7 @@ class DeleteView {
         var newPopover = new StartOverPopover('Are you sure you want to start this floor from scratch?',
             CreateFunction(this, function () {
                 this.hvacApplication.getCurrentFloorPlan().clearWalls();
-            }), CreateFunction(this, function () {}));
+            }));
         newPopover.show(this.hvacApplication.applicationDiv);
     }
 

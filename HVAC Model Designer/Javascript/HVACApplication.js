@@ -1,15 +1,10 @@
 /**
  * Created by Matt on 9/9/16.
+ *
  * This JS file controls our entire HVAC Application, allowing us to do the various functions such as Create, Drag,
  * Edit, and Delete. It also controls the initial rotation of the window and establishes the floor plans and building
  * plans that are being adjusted/created.
  */
-
-//var LAYOUT_MODE_CREATE_WALL = 0, LAYOUT_MODE_EDIT = 1, LAYOUT_MODE_DRAG = 2, LAYOUT_MODE_VIEW = 3,
-//    LAYOUT_MODE_DELETE_WALL = 4;
-//var WALL_POINT_ONE = 1, WALL_POINT_CENTER = 2, WALL_POINT_TWO = 2;
-//var EDIT_MODE_POINT = 0, EDIT_MODE_CORNER = 1;
-
 
 class HVACApplication {
     /**
@@ -41,6 +36,10 @@ class HVACApplication {
                 }),
                 this.topBarDiv = CreateElement({
                     type: 'div', className: 'HVACApplication_TopBar', elements: [
+                        this.projectEditorTab = CreateElement({
+                            type: 'div', className: 'HVACApplication_ProjectEditorTab',
+                            onClick: CreateFunction(this, this.projectEditorTabClick), text: "Project Editor"
+                        }),
                         this.wallEditorTab = CreateElement({
                             type: 'div', className: 'HVACApplication_WallEditorTab',
                             onClick: CreateFunction(this, this.wallEditorTabClick), text: "Wall Editor"
@@ -74,6 +73,7 @@ class HVACApplication {
             ]
         });
 
+        this.projectEditor = new ProjectEditor(this);
         this.wallEditor = new WallEditor(this);
         this.roomEditor = new RoomEditor(this);
         this.viewEditor = new ViewEditor(this);
@@ -82,9 +82,24 @@ class HVACApplication {
         this.currentEditor = null;
 
         //Load editors
-        this.wallEditorTabClick();
+        this.projectEditorTabClick();
     }
 
+    projectEditorTabClick() {
+        this.projectEditorTab.className = "HVACApplication_ProjectEditorTab selected";
+        this.wallEditorTab.className = "HVACApplication_WallEditorTab";
+        this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
+        this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
+
+        if (this.currentEditor != null) {
+            this.currentEditor.hide();
+            this.currentEditor.getDiv().remove();
+        }
+        this.currentEditor = this.projectEditor;
+        this.mainContentDiv.appendChild(this.currentEditor.getDiv());
+        this.currentEditor.show();
+        this.hideFloorPicker();
+    };
     hideFloorPicker() {
         this.floorPickerWindow.getDiv().style.display = "none";
     }
@@ -93,6 +108,7 @@ class HVACApplication {
     }
 
     wallEditorTabClick() {
+        this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
@@ -110,6 +126,7 @@ class HVACApplication {
     }
 
     roomEditorTabClick() {
+        this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab selected";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";
@@ -127,6 +144,7 @@ class HVACApplication {
     }
 
     viewEditorTabClick() {
+        this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab selected";
@@ -144,6 +162,7 @@ class HVACApplication {
     }
 
     simulatorTabClick() {
+        this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
         this.roomEditorTab.className = "HVACApplication_RoomEditorTab";
         this.viewEditorTab.className = "HVACApplication_ViewEditorTab";

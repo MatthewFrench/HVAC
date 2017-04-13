@@ -8,7 +8,7 @@
  * This function creates the Start Over Popover.
  *
  * @param question: The question that is being asked and placed as a Lable in the form.
- * @param yesCallback: The function that would clear all walls on the current floor.
+ * @param yesCallback: The function that is called if 'Yes' is clicked on.
  * @constructor
  */
 function StartOverPopover(question, yesCallback) {

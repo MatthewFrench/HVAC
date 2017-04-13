@@ -68,6 +68,21 @@ body {
     height: calc(100% - 60px);
 }
 
+.HVACApplication_ProjectEditorTab {
+    flex: 1;
+    line-height: 30px;
+    max-width: 115px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    font-family:Helvetica;
+}
+
+.HVACApplication_ProjectEditorTab.selected {
+    background-color: rgb(128, 112, 214);
+}
+
 .HVACApplication_WallEditorTab {
     flex: 1;
     line-height: 30px;
@@ -78,9 +93,11 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_WallEditorTab.selected {
     background-color: rgb(128, 112, 214);
 }
+
 .HVACApplication_RoomEditorTab {
     flex: 1;
     line-height: 30px;
@@ -91,9 +108,11 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_RoomEditorTab.selected {
     background-color: rgb(128, 112, 214);
 }
+
 .HVACApplication_ViewEditorTab {
     flex: 1;
     line-height: 30px;
@@ -104,6 +123,7 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_ViewEditorTab.selected {
     background-color: rgb(128, 112, 214);
 }
@@ -118,6 +138,7 @@ body {
     cursor: pointer;
     font-family:Helvetica;
 }
+
 .HVACApplication_SimulatorTab.selected {
     background-color: rgb(128, 112, 214);
 }
@@ -134,7 +155,6 @@ body {
     background-image: linear-gradient(#434343, #282828);
 
     z-index: -1;
-
 }
 
 .ApplicationBackground2 {
@@ -222,10 +242,24 @@ body {
     outline: black solid thin;
 }
 
+.ProjectEditorButtonDiv {
+    position: absolute;
+    width: 100px;
+    top: 20px;
+    height: 30px;
+    background: #8070D6;
+    text-align: center;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    border: #c9d7e0;
+}
+
 .WallEditorButtonDiv {
     position: absolute;
     width: 100px;
     top: 20px;
+    left: 100px;
     height: 30px;
     background: #8070D6;
     text-align: center;
@@ -239,7 +273,7 @@ body {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 100px;
+    left: 200px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
@@ -265,7 +299,7 @@ body {
     position: absolute;
     width: 100px;
     top: 20px;
-    left: 200px;
+    left: 300px;
     height: 30px;
     background: #c9d7e0;
     text-align: center;
