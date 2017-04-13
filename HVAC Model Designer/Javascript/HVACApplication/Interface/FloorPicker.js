@@ -123,7 +123,8 @@ FloorPicker.prototype.addFloor = function() {
             this.currentFloorRow.floor.floorName = newFloorName;
             this.loadFloors();
             this.floorClicked(this.floorRows[0]);
-        }));
+        }),
+        "What would you like to name your floor?");
 
     newEditNamePopover.show(this.hvacApplication.applicationDiv);
 };
