@@ -1,5 +1,5 @@
 /**
-This contains a series of unit tests to ensure the visual interface works correctly
+This contains a series of unit tests to ensure the visual interface works correctly.
  */
 
 body {
@@ -22,7 +22,6 @@ body {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 
-    /*font-size: 28vw;*/
     font-size: calc(50vh - 100px);
     font-weight: bold;
     text-align: center;
@@ -34,9 +33,7 @@ body {
 .UnitTest_TestHolderDiv {
     position: absolute;
     left: 20px;
-    /*top: font-size: calc(50vh + 100px);;*/
     width: calc(100% - 40px);
-    /*height: 1000px;*/
     color: white;
     text-align: center;
     text-shadow: 1px 1px black;
