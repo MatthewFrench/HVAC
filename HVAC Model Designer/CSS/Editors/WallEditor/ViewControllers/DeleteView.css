@@ -1,3 +1,7 @@
+/**
+This is a CSS Stylesheet that affects the way the Canvas appears and acts while in Delete mode.
+ */
+
 .DeleteView_deleteWallsButton {
     position: absolute;
     top: 5px;

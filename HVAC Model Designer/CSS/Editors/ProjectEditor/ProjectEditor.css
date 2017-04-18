@@ -1,3 +1,7 @@
+/**
+This is a CSS Stylesheet that affects the way the Project Editor tab appears and acts.
+ */
+
 .ProjectEditor_mainDiv {
     position: absolute;
     width: 100%;

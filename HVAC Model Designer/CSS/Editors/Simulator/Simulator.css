@@ -1,11 +1,16 @@
-.Simulator_Increase_Button {
+/**
+This is a CSS Stylesheet that affects the way the Simulator tab appears and acts.
+ */
+
+.Simulator_Increase_Density_Button {
     position: absolute;
     left: 100px;
     top: 5px;
     width: 25px;
     font-size: 15px;
 }
-.Simulator_Decrease_Button {
+
+.Simulator_Decrease_Density_Button {
     position: absolute;
     left: 130px;
     top: 5px;
@@ -20,6 +25,7 @@
     width: 25px;
     font-size: 15px;
 }
+
 .Simulator_Decrease_Speed_Button {
     position: absolute;
     left: 35px;
@@ -35,6 +41,7 @@
     width: 50px;
     font-size: 15px;
 }
+
 .Simulator_Cold_Button {
     position: absolute;
     left: 170px;
@@ -42,6 +49,7 @@
     width: 50px;
     font-size: 15px;
 }
+
 .Simulator_Inside_Hot_Button {
     position: absolute;
     left: 115px;
@@ -49,6 +57,7 @@
     width: 50px;
     font-size: 15px;
 }
+
 .Simulator_Inside_Cold_Button {
     position: absolute;
     left: 170px;
@@ -64,6 +73,7 @@
     width: 50px;
     font-size: 15px;
 }
+
 .Simulator_Vent_Cold_Button {
     position: absolute;
     left: 170px;

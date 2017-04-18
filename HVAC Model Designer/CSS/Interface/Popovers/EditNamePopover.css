@@ -19,10 +19,15 @@ This is a CSS Stylesheet that affects the way the Edit Name Popover appears and 
 
     /* Permalink - use to edit and share this gradient:
         http://colorzilla.com/gradient-editor/#d6e9f8+0,b5d6f3+72,bddbf3+73,aacaee+100 */
-    background: #d6e9f8; /* Old browsers */
-    background: -moz-linear-gradient(top, #d6e9f8 0%, #b5d6f3 72%, #bddbf3 73%, #aacaee 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    /* Old browsers */
+    background: #d6e9f8;
+    /* FF3.6-15 */
+    background: -moz-linear-gradient(top, #d6e9f8 0%, #b5d6f3 72%, #bddbf3 73%, #aacaee 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: -webkit-linear-gradient(top, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to bottom, #d6e9f8 0%,#b5d6f3 72%,#bddbf3 73%,#aacaee 100%);
 
     border-radius: 15px;
 }

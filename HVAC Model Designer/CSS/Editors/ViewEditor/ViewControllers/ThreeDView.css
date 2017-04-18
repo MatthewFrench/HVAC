@@ -1,3 +1,7 @@
+/**
+This is a CSS Stylesheet that affects the way the Canvas appears and acts while in 3D View mode.
+ */
+
 .ThreeDView_DragButton {
     position:absolute;
     left:5px;
