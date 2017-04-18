@@ -106,14 +106,6 @@ class HVACApplication {
         this.hideFloorPicker();
     };
 
-    hideFloorPicker() {
-        this.floorPickerWindow.getDiv().style.display = "none";
-    }
-
-    showFloorPicker() {
-        this.floorPickerWindow.getDiv().style.display = "";
-    }
-
     wallEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
@@ -200,6 +192,15 @@ class HVACApplication {
 
     selectFloor(floor) {
         this.selectedFloor = floor;
+    }
+
+    hideFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "none";
+    }
+
+    showFloorPicker() {
+        this.floorPickerWindow.getDiv().style.display = "";
+        this.floorPickerWindow.loadFloors();
     }
 
     getCurrentWallList() {
