@@ -105,9 +105,11 @@ class HVACApplication {
         this.currentEditor.show();
         this.hideFloorPicker();
     };
+
     hideFloorPicker() {
         this.floorPickerWindow.getDiv().style.display = "none";
     }
+
     showFloorPicker() {
         this.floorPickerWindow.getDiv().style.display = "";
     }
@@ -126,7 +128,6 @@ class HVACApplication {
         this.currentEditor = this.wallEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-
         this.showFloorPicker();
     }
 
@@ -144,7 +145,6 @@ class HVACApplication {
         this.currentEditor = this.roomEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-
         this.showFloorPicker();
     }
 
@@ -162,7 +162,6 @@ class HVACApplication {
         this.currentEditor = this.viewEditor;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-
         this.showFloorPicker();
     }
 
@@ -180,7 +179,6 @@ class HVACApplication {
         this.currentEditor = this.simulator;
         this.mainContentDiv.appendChild(this.currentEditor.getDiv());
         this.currentEditor.show();
-
         this.hideFloorPicker();
     }
 
@@ -194,10 +192,10 @@ class HVACApplication {
     }
 
     selectBuilding(building) {
-        this.selectedBuilding = building;
-        this.selectFloor(building.getFloorList()[0]);
         if (this.currentProjectLabel != null)
             this.currentProjectLabel.innerHTML = "Current Project: " + building.buildingName;
+        this.selectedBuilding = building;
+        this.selectFloor(building.getFloorList()[0]);
     }
 
     selectFloor(floor) {
