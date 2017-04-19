@@ -1,7 +1,7 @@
 /**
  * Created by personal on 10/21/16.
  *
- * This classes keeps track of the different building projects and the current version of the program.
+ * Keeps track of the different building projects and the current version of the program.
  */
 
 class HVACData {

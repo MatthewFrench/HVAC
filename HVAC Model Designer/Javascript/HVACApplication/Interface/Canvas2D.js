@@ -2,6 +2,35 @@
  * Created by matt on 2/21/17.
  */
 
+var scaleFactor = 1.1; //Scale for how much the canvas zooms in/out
+
+//Allows for zooming in/out of the canvas by scrolling
+var handleScroll = function (evt) {
+    var delta;
+    if (evt.wheelDelta) {
+        delta = evt.wheelDelta / 40;
+    }
+    else if (evt.detail) {
+        delta = -evt.detail;
+    }
+    else {
+        delta = 0;
+    }
+
+    if (delta) {
+        var factor = Math.pow(scaleFactor, delta);
+        this.hvacApplication.viewScale = factor * this.hvacApplication.viewScale;
+
+        if (this.hvacApplication.viewScale > 2) {
+            this.hvacApplication.viewScale = 2;
+        }
+        else if (this.hvacApplication.viewScale < 0.25) {
+            this.hvacApplication.viewScale = 0.25;
+        }
+    }
+    evt.preventDefault();
+};
+
 var WALL_POINT_ONE = 1, WALL_POINT_TWO = 2;
 //Creates and initializes the variables for Wall Connecting for Corner Editing
 class WallConnection {
@@ -24,24 +53,6 @@ class WallConnection {
         this.cornerPoint.setY(newY);
     }
 }
-
-var scaleFactor = 1.1;
-//Allows the handling of Scrolling in View Mode
-var handleScroll = function(evt) {
-    var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
-    if (delta) {
-        var factor = Math.pow(scaleFactor, delta);
-        this.hvacApplication.viewScale = factor * this.hvacApplication.viewScale;
-
-        if (this.hvacApplication.viewScale > 2) {
-            this.hvacApplication.viewScale = 2;
-        }
-        else if (this.hvacApplication.viewScale < 0.25) {
-            this.hvacApplication.viewScale = 0.25;
-        }
-    }
-    evt.preventDefault();
-};
 
 class Canvas2D {
     constructor({hvacApplication, allowCreatingWalls = false, allowEditingPoints = false, allowCornerEditing = false,
