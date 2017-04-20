@@ -93,7 +93,7 @@ class WallEditor {
     /**
      * Highlights the Create tab and displays its ViewController when clicked.
      */
-    createViewTabClick () {
+    createViewTabClick() {
         this.deselectAllTabs();
 
         this.createViewTab.className = "WallEditor_CreateViewTab selected";
@@ -105,7 +105,7 @@ class WallEditor {
     /**
      * Highlights the Edit Point tab and displays its ViewController when clicked.
      */
-    editPointViewClick () {
+    editPointViewClick() {
         this.deselectAllTabs();
 
         this.editPointViewTab.className = "WallEditor_EditPointViewTab selected";
@@ -141,12 +141,12 @@ class WallEditor {
     /**
      * Displays the Wall Editor on the Canvas.
      */
-    show () {}
+    show() {}
 
     /**
      * Hides the Wall Editor from the Canvas.
      */
-    hide () {}
+    hide() {}
 
     /**
      * Basic boolean logic operations.

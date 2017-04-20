@@ -1,17 +1,16 @@
 /**
  * Created by AJ Massey on 10/26/2016.
- *
- * This Code is the Wall Popover code that will allow a user to input Information about walls for calculating
- * the U Value.
  */
 
 /**
- * This function creates the Wall Popover.
- *
- * @constructor
+ * This Code is the Wall Popover code that will allow a user to input Information about walls for calculating
+ * the U Value.
  */
 class WallPopover {
 
+    /**
+     * This function creates the Wall Popover.
+     */
     constructor() {
         this.backgroundDiv = CreateElement({
             type: 'div',
@@ -740,6 +739,7 @@ class WallPopover {
         this.InsulationMaterialsButton.selectedIndex = 0;
         this.InsulationMaterialsButton.onchange();
     }
+
     /**
      * This function shows the Wall Popover.
      *
