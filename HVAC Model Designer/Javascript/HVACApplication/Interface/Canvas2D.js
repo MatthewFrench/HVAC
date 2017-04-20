@@ -2,6 +2,7 @@
  * Created by matt on 2/21/17.
  */
 
+var WALL_POINT_ONE = 1, WALL_POINT_TWO = 2;
 var scaleFactor = 1.1; //Scale for how much the canvas zooms in/out
 
 //Allows for zooming in/out of the canvas by scrolling
@@ -31,9 +32,17 @@ var handleScroll = function (evt) {
     evt.preventDefault();
 };
 
-var WALL_POINT_ONE = 1, WALL_POINT_TWO = 2;
-//Creates and initializes the variables for Wall Connecting for Corner Editing
+/**
+ * Creates the variables for Wall Connecting for Corner Editing.
+ */
 class WallConnection {
+
+    /**
+     * Initializes the WallConnection class and its properties.
+     *
+     * @param cornerPoint: Coordinate point that connects two walls.
+     * @param connectedWall: The wall that is connected to the cornerPoint.
+     */
     constructor(cornerPoint, connectedWall) {
         this.cornerPoint = cornerPoint;
         this.connectedWall = connectedWall;
@@ -43,7 +52,9 @@ class WallConnection {
                 cornerPoint.getY() - connectedWall.getPoint1Y()) / lengthOfWall;
     }
 
-    //This function reattaches two walls that were previously split
+    /**
+     * This function reattaches two walls that were previously split.
+     */
     reattach() {
         var newX = (this.connectedWall.getPoint2X() - this.connectedWall.getPoint1X())
             * this.percentageOnWallLine + this.connectedWall.getPoint1X();
@@ -54,7 +65,22 @@ class WallConnection {
     }
 }
 
+/**
+ * The part of the interface that holds all of the 2D drawing effects and floor designs.
+ */
 class Canvas2D {
+
+    /**
+     * Initializes the canvas2D class and sets its properties.
+     *
+     * @param hvacApplication: The overall control that the Canvas2D is a part of.
+     * @param allowCreatingWalls: Determines if the current mode allows creating new walls.
+     * @param allowEditingPoints: Determines if the current mode allows editing current wall endpoints.
+     * @param allowCornerEditing: Determines if the current mode allows editing current corner points between walls.
+     * @param allowDeletingWalls: Determines if the current mode allows deleting existing walls.
+     * @param allowDragging: Determines if the mouse is able to drag the canvas.
+     * @param allowRotating: Determines if the mouse is able to rotate the canvas.
+     */
     constructor({hvacApplication, allowCreatingWalls = false, allowEditingPoints = false, allowCornerEditing = false,
                 allowDeletingWalls = false, allowDragging = false, allowRotating = false} = {}) {
         this.hvacApplication = hvacApplication;
@@ -111,13 +137,14 @@ class Canvas2D {
         this.mouseAngle = 0;
 
         window.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
-
         this.canvas.addEventListener('mousewheel', CreateFunction(this, handleScroll), false);
-
         this.canvas.addEventListener('keydown', CreateFunction(this, this.onKeydown), false );
         this.canvas.addEventListener('keyup', CreateFunction(this, this.onKeyup), false );
     }
 
+    /**
+     * Repeated process for refreshing the layout of the canvas.
+     */
     logic() {
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
@@ -217,7 +244,14 @@ class Canvas2D {
         this.endDraw(ctx);
     }
 
-    //Begin and End draw are duplicate drawing code for all layout modes
+    /**
+     * Begin and End draw are duplicate drawing code for all layout modes
+     *
+     * @param canvas: The current drawing layout of the interface.
+     * @param viewAngle: The degree in rotation of the canvas.
+     * @param viewScale: The zoom in/out scale of the canvas.
+     * @return: The canvas after scale and rotation modification.
+     */
     beginDraw(canvas, viewAngle, viewScale) {
         if (this.canvas.width != this.canvas.clientWidth || this.canvas.height != this.canvas.clientHeight) {
             this.canvas.width = this.canvas.clientWidth;
@@ -243,6 +277,14 @@ class Canvas2D {
         return ctx;
     }
 
+    /**
+     * Redraws the canvas while including recent intersecting points.
+     *
+     * @param canvas: The current drawing layout of the interface.
+     * @param viewAngle: The degree in rotation of the canvas.
+     * @param viewScale: The zoom in/out scale of the canvas.
+     * @param intersectHighlightPoints: The intersection points that were recently added to the canvas.
+     */
     drawSlicePoints(canvas, viewAngle, viewScale, intersectHighlightPoints) {
         //Draw slice intersection points
         var ctx = canvas.getContext("2d");
@@ -262,15 +304,26 @@ class Canvas2D {
         ctx.restore();
     }
 
+    /**
+     * Restores the interface of the canvas.
+     *
+     * @param ctx: The context of the canvas2D.
+     */
     endDraw(ctx) {
         ctx.restore();
     }
 
+    /**
+     * Adjust the dimensions of the canvas.
+     */
     resizeCanvas() {
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
     }
 
+    /**
+     * Resets the mouse position based on the degree of the rotated canvas.
+     */
     setRotatedCanvasMouse() {
         var canvasWidth = this.canvas.width;
         var canvasHeight = this.canvas.height;
@@ -282,6 +335,11 @@ class Canvas2D {
         this.rotatedCanvasMouseY = p.getY();
     }
 
+    /**
+     * Handles different events when the mouse is pressed down, depending on the current mode.
+     *
+     * @param event: The mouse being pressed down.
+     */
     layoutCanvasMousePressed(event) {
         "use strict";
         var mouseX = event.offsetX - this.canvas.clientLeft;
@@ -298,27 +356,31 @@ class Canvas2D {
 
         this.setRotatedCanvasMouse();
 
-        // ********** WALL CREATION CODE
+        //Wall Creation Mode
         if (this.allowCreatingWalls && this.currentCreateWall == null) {
             this.currentCreateWall = new Wall({
                 point1: new CornerPoint({x: this.rotatedCanvasMouseX, y: this.rotatedCanvasMouseY}),
                 point2: new CornerPoint({x: this.rotatedCanvasMouseX, y: this.rotatedCanvasMouseY}),
                 floor: this.hvacApplication.getCurrentFloorPlan()
             });
-            var point = snapPointToWalls(this.currentCreateWall.getPoint1X(),
-                this.currentCreateWall.getPoint1Y(), this.hvacApplication.getCurrentWallList(), [this.currentCreateWall]);
+            var point = snapPointToWalls(this.currentCreateWall.getPoint1X(), this.currentCreateWall.getPoint1Y(),
+                this.hvacApplication.getCurrentWallList(), [this.currentCreateWall]);
             this.currentCreateWall.getCornerPoint1().setX(point.getX());
             this.currentCreateWall.getCornerPoint1().setY(point.getY());
             this.currentCreateWall.getCornerPoint2().setX(point.getX());
             this.currentCreateWall.getCornerPoint2().setY(point.getY());
         }
 
-        // ********* POINT EDITING CODE
+        //Edit Point Mode
         if (this.allowEditingPoints) {
             var closest = 25;
             var wallCloseness = closest;
+
+            //Iterate through all of the walls of the given floor
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
+
+                //Check if mouse is in radius of one of the endpoints of the wall
                 if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
                         wall.getPoint1X(), wall.getPoint1Y(), closest)) {
                     var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint1X(),
@@ -327,8 +389,9 @@ class Canvas2D {
                     if (Math.round(closest) == Math.round(newClosest)) {
                         var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
                             wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX,
+                            point.getY() - this.rotatedCanvasMouseY);
 
-                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                         if (dist < wallCloseness) {
                             wallCloseness = dist;
                             closest = newClosest;
@@ -339,13 +402,16 @@ class Canvas2D {
                         var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
                             wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
 
-                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
+                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX,
+                            point.getY() - this.rotatedCanvasMouseY);
                         wallCloseness = dist;
                         closest = newClosest;
                         this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
                         this.currentEditPointSelectedWall = wall;
                     }
                 }
+
+                //Check if mouse is in radius of the other endpoint of the wall
                 if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
                         wall.getPoint2X(), wall.getPoint2Y(), closest)) {
                     var newClosest = Math.hypot(this.rotatedCanvasMouseX - wall.getPoint2X(),
@@ -355,7 +421,8 @@ class Canvas2D {
                         var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
                             wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
 
-                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
+                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX,
+                            point.getY() - this.rotatedCanvasMouseY);
                         if (dist < wallCloseness) {
                             wallCloseness = dist;
                             closest = newClosest;
@@ -366,7 +433,8 @@ class Canvas2D {
                         var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(),
                             wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
 
-                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
+                        var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX,
+                            point.getY() - this.rotatedCanvasMouseY);
                         wallCloseness = dist;
                         closest = newClosest;
                         this.currentEditPointSelectedWallPoint = WALL_POINT_TWO;
@@ -376,13 +444,13 @@ class Canvas2D {
             }
         }
 
-        // **** Edit Corner Code
+        //Edit Corner Mode
         if (this.allowCornerEditing) {
             this.currentEditCornerSelectedCornerPoints = [];
             var searchArea = 15;
             var closestCornerPoint = null;
 
-            //Select closest points at location
+            //Iterates through walls and select closest points at location
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
                 if (pointInCircle(this.rotatedCanvasMouseX, this.rotatedCanvasMouseY,
@@ -796,19 +864,19 @@ class Canvas2D {
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        // ********** EDIT WALL CODE
+        //EDIT WALL CODE
         if (this.allowEditingPoints) {
             this.currentEditPointSelectedWall = null;
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        // ********** Edit Corner Code
+        //Edit Corner Code
         if (this.allowCornerEditing) {
             this.currentEditCornerSelectedCornerPoints = [];
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        // ********** Delete Wall Code
+        //Delete Wall Code
         if (this.allowDeletingWalls) {
             if (this.highlightedDeleteWall != null) {
                 this.hvacApplication.getCurrentFloorPlan().removeWall(this.highlightedDeleteWall);
