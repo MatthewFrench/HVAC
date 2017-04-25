@@ -118,22 +118,22 @@ class Canvas2D {
         this.intersectHighlightPoints = [];
         this.mouseIsOnCanvas = true;
 
-        // **** Create Wall Variables
+        //Create Wall Variables
         this.currentCreateWall = null;
 
-        // **** Edit Point Variables
+        //Edit Point Variables
         this.currentEditPointSelectedWall = null;
         this.currentEditPointSelectedWallPoint = WALL_POINT_ONE;
         this.highlightedPoint = null;
 
-        // **** Edit Corner Variables
+        //Edit Corner Variables
         this.currentEditCornerSelectedCornerPoints = [];
         this.highlightedCorners = [];
 
-        // **** Delete Wall Variables
+        //Delete Wall Variables
         this.highlightedDeleteWall = null;
 
-        // *** Rotating Variables
+        //Rotating Variables
         this.mouseAngle = 0;
 
         window.addEventListener("resize", CreateFunction(this, this.resizeCanvas));
@@ -153,6 +153,7 @@ class Canvas2D {
         var currentFloor = this.hvacApplication.getCurrentFloorPlan();
         var currentFloorIndex = floorList.indexOf(currentFloor);
 
+        //Checks if there exists a floor underneath the current floor. If so, show it on the canvas.
         if (currentFloorIndex > 0) {
             var underneathFloor = floorList[currentFloorIndex - 1];
             for (var j = 0; j < underneathFloor.getWallList().length; j++) {
@@ -161,6 +162,7 @@ class Canvas2D {
             }
         }
 
+        //Checks if there exists a floor above the current floor. If so, show it on the canvas.
         if (currentFloorIndex < floorList.length - 1) {
             var aboveFloor = floorList[currentFloorIndex + 1];
             for (var j = 0; j < aboveFloor.getWallList().length; j++) {
@@ -170,10 +172,13 @@ class Canvas2D {
         }
 
         var closePointArray = [];
+
+        //Checks if in Create Wall mode and mouse is on the canvas to see if the mouse is close to a wall to snap to it
         if (this.allowCreatingWalls && this.mouseIsOnCanvas) {
             closePointArray.push(new Point2D({x: this.rotatedCanvasMouseX, y: this.rotatedCanvasMouseY}));
         }
 
+        //Checks if in Edit Point mode and mouse is on the canvas to see if the mouse is close to a wall to snap to it
         if (this.allowEditingPoints && this.mouseIsOnCanvas) {
             if (this.currentEditPointSelectedWall != null) {
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
@@ -187,11 +192,19 @@ class Canvas2D {
             }
         }
 
+        /**
+         * Iterates through the wall list and draws the perpendicular ones while also checking if the mouse is close to
+         * one.
+         */
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
             var wall = this.hvacApplication.getCurrentWallList()[i];
             wall.drawPerpendicular(ctx, closePointArray);
         }
 
+        /**
+         * Iterates through the rest of the walls to draw them and determines if the mouse is close enough to highlight
+         * each wall.
+         */
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
             var wall = this.hvacApplication.getCurrentWallList()[i];
 
@@ -268,7 +281,7 @@ class Canvas2D {
 
         ctx.translate(canvasWidth / 2, canvasHeight / 2);
 
-        ctx.rotate(viewAngle); //convertToRadians(this.hvacApplication.viewAngle)
+        ctx.rotate(viewAngle);
 
         ctx.scale(viewScale, viewScale);
 
@@ -292,8 +305,8 @@ class Canvas2D {
         var canvasHeight = canvas.height;
         ctx.save();
         ctx.translate(canvasWidth / 2, canvasHeight / 2);
-        ctx.rotate(viewAngle); //convertToRadians(this.hvacApplication.viewAngle)
-        ctx.scale(viewScale, viewScale); //convertToRadians(this.hvacApplication.viewAngle)
+        ctx.rotate(viewAngle);
+        ctx.scale(viewScale, viewScale);
         ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
         for (var i in intersectHighlightPoints) {
             var intersectPoint = intersectHighlightPoints[i];
@@ -341,7 +354,6 @@ class Canvas2D {
      * @param event: The mouse being pressed down.
      */
     layoutCanvasMousePressed(event) {
-        "use strict";
         var mouseX = event.offsetX - this.canvas.clientLeft;
         var mouseY = event.offsetY - this.canvas.clientTop;
         if (event.which == 3) return;
@@ -471,19 +483,14 @@ class Canvas2D {
 
             //Store all wall connections
             this.wallConnections = [];
+
+            //Iterate through list of walls twice to check if the two walls are connected together
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var firstWall = this.hvacApplication.getCurrentWallList()[i];
                 for (var j = i+1; j < this.hvacApplication.getCurrentWallList().length; j++) {
                     var secondWall = this.hvacApplication.getCurrentWallList()[j];
                     if (firstWall == secondWall) continue;
 
-                    //If second wall is connected to first wall but not on an end point, add it
-                    //If first will is connected to second wall but not on an end point, add it
-
-                    //Second wall point 1 to first wall
-                    //Second wall point 2 to first wall
-                    //First wall point 1 to second wall
-                    //First wall point 2 to second wall
                     var secondWallPoint1Connection = null;
                     var secondWallPoint2Connection = null;
                     var firstWallPoint1Connection = null;
@@ -494,21 +501,31 @@ class Canvas2D {
                     var secondWallPoint1 = secondWall.getCornerPoint1();
                     var secondWallPoint2 = secondWall.getCornerPoint2();
 
+                    /**
+                     * Checks if the the two endpoints on different walls are connected together
+                     *
+                     * @param checkWallPoint: The coordinate point on the walls that determines if the walls are
+                     * connected.
+                     * @param targetWallPoint1: The target endpoint of the first wall.
+                     * @param targetWallPoint2: The target endpoint of the second wall.
+                     * @return: Either a wall connection or null.
+                     */
                     var checkConnection = function(checkWallPoint, targetWallPoint1, targetWallPoint2) {
                         var pointOnLine = nearestPointOnLine(targetWallPoint1.getX(), targetWallPoint1.getY(),
-                            targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(), checkWallPoint.getY());
+                            targetWallPoint2.getX(), targetWallPoint2.getY(), checkWallPoint.getX(),
+                            checkWallPoint.getY());
                         var distBetweenConnection = Math.hypot(pointOnLine.getX() - checkWallPoint.getX(),
                             pointOnLine.getY() - checkWallPoint.getY());
 
-                        if (distBetweenConnection <= 1.0) { //If within 1 pixel, be connected to wall
-                            //Check if an end point
+                        //If within 1 pixel, be connected to wall
+                        if (distBetweenConnection <= 1.0) {
+
+                            //Check if its an endpoint, if not, add it as a corner between two walls
                             if (Math.hypot(checkWallPoint.getX() - targetWallPoint1.getX(),
                                     checkWallPoint.getY() - targetWallPoint1.getY()) <= 1.0 ||
                                 Math.hypot(checkWallPoint.getX() - targetWallPoint2.getX(),
                                     checkWallPoint.getY() - targetWallPoint2.getY()) <= 1.0) {
-                                //End point do nothing
                             } else {
-                                //Not an end point, add
                                 var connection = new WallConnection(checkWallPoint, targetWallPoint1.getWall());
                                 return connection;
                             }
@@ -516,7 +533,10 @@ class Canvas2D {
                         return null;
                     };
 
-                    //Second wall point 1 to first wall
+                    /**
+                     * Checks if either of the endpoints of the first wall are connected with either of the endpoints
+                     * of the second wall.
+                     */
                     secondWallPoint1Connection = checkConnection(secondWallPoint1, firstWallPoint1, firstWallPoint2);
                     secondWallPoint2Connection = checkConnection(secondWallPoint2, firstWallPoint1, firstWallPoint2);
                     firstWallPoint1Connection = checkConnection(firstWallPoint1, secondWallPoint1, secondWallPoint2);
@@ -553,14 +573,24 @@ class Canvas2D {
 
             //Add any walls that the selected points may be connected to
             var currentEditCornerSelectedCornerPointsClone = this.currentEditCornerSelectedCornerPoints.slice(0);
+
+            //Iterate through the list of possible corner points
             for (var i = 0; i < currentEditCornerSelectedCornerPointsClone.length; i++) {
                 var cornerPoint = currentEditCornerSelectedCornerPointsClone[i];
                 var wall = cornerPoint.getWall();
 
+                //Iterate through the list of walls of the current floor
                 for (var k = 0; k < this.hvacApplication.getCurrentWallList().length; k++) {
                     var checkWall = this.hvacApplication.getCurrentWallList()[k];
+
+                    //Check to make sure current wall doesn't equal the first wall in the corner
                     if (checkWall != wall) {
                         var containsWall = false;
+
+                        /**
+                         * Iterate through the rest of possible corner points and check that the wall is connected to
+                         * the first wall
+                         */
                         for (var j = 0; j < currentEditCornerSelectedCornerPointsClone.length; j++) {
                             var checkCorner = currentEditCornerSelectedCornerPointsClone[j];
                             if (checkCorner.getWall() == checkWall) containsWall = true;
@@ -573,6 +603,7 @@ class Canvas2D {
 
                         if (Math.hypot(cornerPoint.getX() - pointOnLine.getX(),
                                 cornerPoint.getY() - pointOnLine.getY()) <= 1.0) {
+
                             //Check if points are added, if not add them to corner points
                             var wallCorner1 = checkWall.getCornerPoint1();
                             var wallCorner2 = checkWall.getCornerPoint2();
@@ -592,21 +623,25 @@ class Canvas2D {
                 }
             }
 
-            //If no points or corners were selected, grab a wall
+            //If no points or corners were selected, grab current whole wall
             if (this.currentEditCornerSelectedCornerPoints.length == 0) {
                 var closestWall = null;
                 var closest = 15.0;
+
+                //Iterate through the wall list to determine which wall is currently selected
                 for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                     var wall = this.hvacApplication.getCurrentWallList()[i];
                     var point = nearestPointOnLine( wall.getPoint1X(),  wall.getPoint1Y(),
                         wall.getPoint2X(), wall.getPoint2Y(),  this.rotatedCanvasMouseX,  this.rotatedCanvasMouseY);
 
-                    var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
+                    var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX,
+                        point.getY() - this.rotatedCanvasMouseY);
                     if (dist <= closest) {
                         closestWall = wall;
                         closest = dist;
                     }
                 }
+
                 if (closestWall != null) {
                     this.currentEditCornerSelectedCornerPoints.push(closestWall.getCornerPoint1());
                     this.currentEditCornerSelectedCornerPoints.push(closestWall.getCornerPoint2());
@@ -614,7 +649,7 @@ class Canvas2D {
             }
         }
 
-        // *** Rotate View mode
+        //Rotate View mode
         if (this.allowRotating) {
             var canvasWidth = this.canvas.width;
             var canvasHeight = this.canvas.height;
@@ -622,9 +657,17 @@ class Canvas2D {
         }
     }
 
+    /**
+     * Handles different events when the mouse is moving, depending on the current mode.
+     *
+     * @param event: The mouse being moved around the screen.
+     */
     layoutCanvasMouseMoved(event) {
-        var mouseX = event.offsetX - this.hvacApplication.applicationDiv.offsetLeft - this.hvacApplication.applicationDiv.clientLeft;
-        var mouseY = event.offsetY - this.hvacApplication.applicationDiv.offsetTop - this.hvacApplication.applicationDiv.clientTop;
+        //Initially calculating the mouse position of the canvas
+        var mouseX = event.offsetX - this.hvacApplication.applicationDiv.offsetLeft
+            - this.hvacApplication.applicationDiv.clientLeft;
+        var mouseY = event.offsetY - this.hvacApplication.applicationDiv.offsetTop
+            - this.hvacApplication.applicationDiv.clientTop;
         this.previousMouseX = this.currentMouseX;
         this.currentMouseX = mouseX;
         this.previousMouseY = this.currentMouseY;
@@ -642,16 +685,17 @@ class Canvas2D {
         this.rotatedCanvasMouseMovedX = oldRotatedX - this.rotatedCanvasMouseX;
         this.rotatedCanvasMouseMovedY = oldRotatedY - this.rotatedCanvasMouseY;
 
-        // ******** Allow Creating Walls
+        //Allow Creating Walls
         if (this.allowCreatingWalls && this.currentCreateWall != null) {
             this.currentCreateWall.setPoint2X(this.rotatedCanvasMouseX);
             this.currentCreateWall.setPoint2Y(this.rotatedCanvasMouseY);
 
-            var point = snapPointToWalls(this.currentCreateWall.getPoint2X(),
-                this.currentCreateWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(), [this.currentCreateWall]);
+            var point = snapPointToWalls(this.currentCreateWall.getPoint2X(), this.currentCreateWall.getPoint2Y(),
+                this.hvacApplication.getCurrentWallList(), [this.currentCreateWall]);
             this.currentCreateWall.setPoint2X(point.getX());
             this.currentCreateWall.setPoint2Y(point.getY());
 
+            //While the Shift key is held down, the created walls will be drawn perpendicular
             if (this.shiftPressed) {
                 var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(),
                     this.currentCreateWall.getPoint1Y(), this.currentCreateWall.getPoint2X(),
@@ -662,27 +706,32 @@ class Canvas2D {
             }
         }
 
-        // ******** Allow Editing Points
+        //Allow Editing Points
         if (this.allowEditingPoints) {
             this.highlightedPoint = null;
             var closest = 15;
+
+            //Iterate through the list of walls and determine which wall is closest to the mouse
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
-                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
+                var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(),
+                    wall.getPoint2Y(), this.rotatedCanvasMouseX, this.rotatedCanvasMouseY);
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
+
                 if (Math.round(dist) < Math.round(closest)) {
                     closest = dist;
                     this.highlightedPoint = wall;
                 }
             }
 
+            //If an endpoint of a wall is selected, that endpoint will be moving with the mouse and modifying the wall
             if (this.currentEditPointSelectedWall != null) {
                 this.highlightedPoint = this.currentEditPointSelectedWall;
+
+                //Checks which endpoint is selected
                 if (this.currentEditPointSelectedWallPoint == WALL_POINT_ONE) {
                     this.currentEditPointSelectedWall.setPoint1X( this.rotatedCanvasMouseX );
                     this.currentEditPointSelectedWall.setPoint1Y( this.rotatedCanvasMouseY );
-
-                    //snapWallToDecimalFromPoint2(this.currentEditPointSelectedWall);
 
                     //Auto snap
                     var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint1X(),
@@ -692,6 +741,7 @@ class Canvas2D {
                     this.currentEditPointSelectedWall.setPoint1X( point.getX() );
                     this.currentEditPointSelectedWall.setPoint1Y( point.getY() );
 
+                    //While the Shift key is held down, the edited endpoint will draw the wall perpendicular
                     if (this.shiftPressed) {
                         var line = getLinePoint1SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
                             this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
@@ -706,8 +756,6 @@ class Canvas2D {
                     this.currentEditPointSelectedWall.setPoint2X( this.rotatedCanvasMouseX );
                     this.currentEditPointSelectedWall.setPoint2Y( this.rotatedCanvasMouseY );
 
-                    //snapWallToDecimalFromPoint1(this.currentEditPointSelectedWall);
-
                     //Auto snap
                     var point = snapPointToWalls(this.currentEditPointSelectedWall.getPoint2X(),
                         this.currentEditPointSelectedWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(),
@@ -716,6 +764,7 @@ class Canvas2D {
                     this.currentEditPointSelectedWall.setPoint2X( point.getX() );
                     this.currentEditPointSelectedWall.setPoint2Y( point.getY() );
 
+                    //While the Shift key is held down, the edited endpoint will draw the wall perpendicular
                     if (this.shiftPressed) {
                         var line = getLinePoint2SnappedToNearestRotation(this.currentEditPointSelectedWall.getPoint1X(),
                             this.currentEditPointSelectedWall.getPoint1Y(), this.currentEditPointSelectedWall.getPoint2X(),
@@ -726,6 +775,10 @@ class Canvas2D {
                     }
                 }
             } else {
+                /**
+                 * If no endpoints were selected and the mouse is pressed down, change the location of the mouse based
+                 * on the change of the drag of the canvas
+                 */
                 if (this.mouseDown) {
                     this.dragPositionX -= this.rotatedCanvasMouseMovedX;
                     this.dragPositionY -= this.rotatedCanvasMouseMovedY;
@@ -733,10 +786,12 @@ class Canvas2D {
             }
         }
 
-        // **** Mouse Edit Corner Code
+        //Allow Edit Corner
         if (this.allowCornerEditing) {
             this.highlightedCorners = [];
             var closest = 15;
+
+            //Iterate through wall list and check to see if mouse position is closest to certain wall corner
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
                 var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),
@@ -744,18 +799,18 @@ class Canvas2D {
 
                 var dist = Math.hypot(point.getX() - this.rotatedCanvasMouseX, point.getY() - this.rotatedCanvasMouseY);
                 if (dist < closest) {
-                    //closest = dist;
-                    //this.highlightedCorner = wall;
                     this.highlightedCorners.push(wall);
                 }
             }
 
+            //If mouse is down, change location of the corner point
             if (this.mouseDown) {
                 for (var i = 0; i < this.currentEditCornerSelectedCornerPoints.length; i++) {
                     var cornerPoint = this.currentEditCornerSelectedCornerPoints[i];
                     cornerPoint.setX(cornerPoint.getX() - this.rotatedCanvasMouseMovedX);
                     cornerPoint.setY(cornerPoint.getY() - this.rotatedCanvasMouseMovedY);
                 }
+
                 //Re-align walls
                 for (var i = 0; i < this.wallConnections.length; i++) {
                     var wallConnection = this.wallConnections[i];
@@ -763,8 +818,6 @@ class Canvas2D {
                     for (var j in this.currentEditCornerSelectedCornerPoints) {
                         var cornerPoint = this.currentEditCornerSelectedCornerPoints[j];
                         if (wallConnection.cornerPoint.getWall() == cornerPoint.getWall()) containsWall = false;
-                        //if (cornerPoint.getWall() == wallConnection.cornerPoint.getWall()) containsWall = true;
-                        //if (cornerPoint.getWall() == wallConnection.connectedWall) containsWall = true;
                     }
                     if (!containsWall) {
                         wallConnection.reattach();
@@ -773,9 +826,14 @@ class Canvas2D {
             }
         }
 
-        // **** Mouse Delete Wall Code
+        //Allow Delete Wall
         if (this.allowDeletingWalls) {
             this.highlightedDeleteWall = null;
+
+            /**
+             * Iterate through wall list and if mouse is close enough to a wall, the wall will be highlighted for
+             * deletion
+             */
             for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                 var wall = this.hvacApplication.getCurrentWallList()[i];
                 var point = nearestPointOnLine(wall.getPoint1X(), wall.getPoint1Y(), wall.getPoint2X(), wall.getPoint2Y(),
@@ -787,8 +845,13 @@ class Canvas2D {
             }
         }
 
-        // ***** Dragging Code
+        //Allow Dragging of canvas
         if (this.allowDragging) {
+
+            /**
+             * Check if the mouse is down, if so, iterate through the wall list to adjust the coordinate points of each
+             * wall on the canvas based on how the canvas is dragged
+             */
             if (this.mouseDown) {
                 for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
                     var wall = this.hvacApplication.getCurrentWallList()[i];
@@ -800,13 +863,18 @@ class Canvas2D {
             }
         }
 
-        // ***** Rotating Code
+        //Allow Rotating of canvas
         if (this.allowRotating) {
+
+            /**
+             * Check if the mouse is down, if so, calculate the degree of rotation of the canvas and adjust the
+             * coordinate points of the mouse and the canvas.
+             */
             if (this.mouseDown) {
                 var canvasWidth = this.canvas.width;
                 var canvasHeight = this.canvas.height;
                 var newMouseAngle = Math.atan2(this.canvasMouseX - canvasWidth/2, this.canvasMouseY - canvasHeight/2);
-                this.hvacApplication.viewAngle -= (newMouseAngle - this.mouseAngle);// * 180 / Math.PI;;
+                this.hvacApplication.viewAngle -= (newMouseAngle - this.mouseAngle);
                 this.mouseAngle = newMouseAngle;
             }
         }
@@ -818,8 +886,13 @@ class Canvas2D {
         return false;
     }
 
+    /**
+     * Handles different events when the mouse is released, depending on the current mode.
+     *
+     * @param event: The mouse being released from pressed down.
+     */
     layoutCanvasMouseReleased(event) {
-        "use strict";
+        //Calculate the new mouse location
         var mouseX = event.offsetX - this.canvas.clientLeft;
         var mouseY = event.offsetY - this.canvas.clientTop;
         if (event.which == 3) return;
@@ -834,18 +907,17 @@ class Canvas2D {
 
         this.setRotatedCanvasMouse();
 
-        // *********** CREATE WALL CODE
+        //Allow creating walls
         if (this.allowCreatingWalls && this.currentCreateWall != null) {
             this.currentCreateWall.setPoint2X(this.rotatedCanvasMouseX);
             this.currentCreateWall.setPoint2Y(this.rotatedCanvasMouseY);
-
-            //snapWallToDecimalFromPoint1(this.currentCreateWall);
 
             var point = snapPointToWalls(this.currentCreateWall.getPoint2X(),
                 this.currentCreateWall.getPoint2Y(), this.hvacApplication.getCurrentWallList(), [this.currentCreateWall]);
             this.currentCreateWall.setPoint2X(point.getX());
             this.currentCreateWall.setPoint2Y(point.getY());
 
+            //Determines if the wall being created is in perpendicular mode when Shift key is pressed down
             if (this.shiftPressed) {
                 var line = getLinePoint2SnappedToNearestRotation(this.currentCreateWall.getPoint1X(),
                     this.currentCreateWall.getPoint1Y(), this.currentCreateWall.getPoint2X(),
@@ -855,29 +927,39 @@ class Canvas2D {
                 this.currentCreateWall.setPoint2Y(line.getPoint2Y());
             }
 
+            //Adds newly created wall to the current list of walls
             if (this.currentCreateWall.getPoint1X() == this.currentCreateWall.getPoint2X() &&
                 this.currentCreateWall.getPoint1Y() == this.currentCreateWall.getPoint2Y()) {
-                this.hvacApplication.getCurrentWallList().splice(this.hvacApplication.getCurrentWallList().indexOf(this.currentCreateWall), 1);
+                this.hvacApplication.getCurrentWallList().splice(
+                    this.hvacApplication.getCurrentWallList().indexOf(this.currentCreateWall), 1);
             }
 
             this.currentCreateWall = null;
+
+            //Checks if the newly created wall sliced into other walls
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        //EDIT WALL CODE
+        //Allow edit walls
         if (this.allowEditingPoints) {
-            this.currentEditPointSelectedWall = null;
+            this.currentEditPointSelectedWall = null
+
+            //Checks if the edited wall sliced into other walls
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        //Edit Corner Code
+        //Allow edit wall corners
         if (this.allowCornerEditing) {
             this.currentEditCornerSelectedCornerPoints = [];
+
+            //Checks if the edited wall corner sliced into other walls
             wallSlicer.call(this, this.hvacApplication.getCurrentWallList(), this.intersectHighlightPoints);
         }
 
-        //Delete Wall Code
+        //Allow deletion of walls
         if (this.allowDeletingWalls) {
+
+            //Checks if there was a highlighted wall that was clicked on, if so, delete it from the wall list
             if (this.highlightedDeleteWall != null) {
                 this.hvacApplication.getCurrentFloorPlan().removeWall(this.highlightedDeleteWall);
                 this.highlightedDeleteWall = null;
@@ -885,27 +967,54 @@ class Canvas2D {
         }
     }
 
+    /**
+     * Handles the event when the mouse leaves the canvas.
+     *
+     * @param event: The mouse moved off the canvas.
+     */
     layoutCanvasMouseOut(event) {
         this.mouseIsOnCanvas = false;
+
+        //This automatically finishes current actions of the given mode
         this.layoutCanvasMouseReleased(event);
     }
 
+    /**
+     * Handles the event when the mouse re-enters the canvas.
+     *
+     * @param event: The mouse moved onto the canvas.
+     */
     layoutCanvasMouseOver(event) {
         this.mouseIsOnCanvas = true;
     }
 
+    /**
+     * Handles the event when the Shift key is pressed down.
+     *
+     * @param event: The Shift key being pressed down.
+     */
     onKeydown(event) {
         if (event.shiftKey) {
             this.shiftPressed = true;
         }
     }
 
+    /**
+     * Handles the event when the Shift key is released.
+     *
+     * @param event: The Shift key being released.
+     */
     onKeyup(event) {
         if (!event.shiftKey) {
             this.shiftPressed = false;
         }
     }
 
+    /**
+     * Retrieves this canvas in the current state.
+     *
+     * @return: The given canvas on the interface.
+     */
     getCanvas() {
         return this.canvas;
     }
