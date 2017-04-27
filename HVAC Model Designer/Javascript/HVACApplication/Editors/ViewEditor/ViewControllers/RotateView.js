@@ -1,5 +1,7 @@
 /**
  * Created by matt on 2/23/17.
+ *
+ * Creates the Rotate Mode of the canvas when the Drag View tab is selected.
  */
 
 /**

@@ -1,5 +1,7 @@
 /**
  * Created by matt on 4/5/17.
+ *
+ * Handles the calculations and functionality of the canvas2D when the Simulator tab is selected.
  */
 
 var scaleFactor = 1.1; //Scale for how much the canvas zooms in/out

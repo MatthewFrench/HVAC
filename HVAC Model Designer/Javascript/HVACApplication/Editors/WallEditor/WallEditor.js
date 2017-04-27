@@ -1,5 +1,7 @@
 /**
  * Created by matt on 2/6/17.
+ *
+ * Creates the WallEditor tab for the interface.
  */
 
 /**

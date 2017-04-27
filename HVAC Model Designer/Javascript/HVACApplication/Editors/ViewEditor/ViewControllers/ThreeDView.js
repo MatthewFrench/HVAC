@@ -1,5 +1,7 @@
 /**
  * Created by matt on 2/6/17.
+ *
+ * Creates the 3D Mode of the canvas when the Drag View tab is selected.
  */
 
 /**

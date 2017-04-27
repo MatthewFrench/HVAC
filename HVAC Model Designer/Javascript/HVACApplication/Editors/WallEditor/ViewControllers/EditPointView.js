@@ -1,5 +1,7 @@
 /**
  * Created by matt on 2/6/17.
+ *
+ * Creates the EditPoint Mode of the canvas when the Create View tab is selected.
  */
 
 /**

@@ -1,5 +1,7 @@
 /**
  * Created by Austin03 on 4/4/17.
+ *
+ * Creates the ProjectEditor tab for the interface.
  */
 
 /**

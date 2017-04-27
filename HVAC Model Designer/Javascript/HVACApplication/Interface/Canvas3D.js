@@ -2,6 +2,8 @@
  * Created by matt on 2/28/17.
  */
 
+
+
 var Mode3DTypeEnum = {
     DRAG: 0,
     ROTATE: 1,

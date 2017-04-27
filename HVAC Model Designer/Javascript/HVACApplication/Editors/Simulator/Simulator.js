@@ -1,5 +1,7 @@
 /**
  * Created by matt on 4/5/17.
+ *
+ * Creates the Simulator tab for the interface.
  */
 
 /**
@@ -22,7 +24,7 @@ class Simulator {
             className: 'Simulator_mainDiv',
             elements: [
                 this.simulatorCanvas.getCanvas(),
-                //Density Increase/Decrease Buttons
+                //Density Increase Button
                 CreateElement({
                     type: 'button',
                     text: '+',
@@ -31,6 +33,7 @@ class Simulator {
                         this.simulatorCanvas.increaseDensity()
                     })
                 }),
+                //Density Decrease Button
                 CreateElement({
                     type: 'button',
                     text: '-',
@@ -39,7 +42,7 @@ class Simulator {
                         this.simulatorCanvas.decreaseDensity()
                     })
                 }),
-                //Logic Speed Increase/Decrease Buttons
+                //Logic Speed Increase Button
                 CreateElement({
                     type: 'button',
                     text: '+',
@@ -48,6 +51,7 @@ class Simulator {
                         this.simulatorCanvas.increaseLogicSpeed()
                     })
                 }),
+                //Logic Speed Decrease Button
                 CreateElement({
                     type: 'button',
                     text: '-',
@@ -56,7 +60,7 @@ class Simulator {
                         this.simulatorCanvas.decreaseLogicSpeed()
                     })
                 }),
-                //Outside Hot/Cold Buttons
+                //Outside Hot Button
                 CreateElement({
                     type: 'button',
                     text: 'Hot',
@@ -65,6 +69,7 @@ class Simulator {
                         this.simulatorCanvas.setOutsideHot()
                     })
                 }),
+                //Outside Cold Button
                 CreateElement({
                     type: 'button',
                     text: 'Cold',
@@ -73,7 +78,7 @@ class Simulator {
                         this.simulatorCanvas.setOutsideCold()
                     })
                 }),
-                //Inside Hot/Cold Buttons
+                //Inside Hot Button
                 CreateElement({
                     type: 'button',
                     text: 'Hot',
@@ -82,6 +87,7 @@ class Simulator {
                         this.simulatorCanvas.resetInsideHot()
                     })
                 }),
+                //Inside Cold Button
                 CreateElement({
                     type: 'button',
                     text: 'Cold',
@@ -90,7 +96,7 @@ class Simulator {
                         this.simulatorCanvas.resetInsideCold()
                     })
                 }),
-                //Vent buttons
+                //Vent Hot Button
                 CreateElement({
                     type: 'button',
                     text: 'Hot',
@@ -99,6 +105,7 @@ class Simulator {
                         this.simulatorCanvas.addHotVent()
                     })
                 }),
+                //Vent Cold Button
                 CreateElement({
                     type: 'button',
                     text: 'Cold',
