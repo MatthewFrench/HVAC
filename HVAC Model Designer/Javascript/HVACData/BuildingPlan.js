@@ -44,7 +44,7 @@ class BuildingPlan {
     }
 
     /**
-     * This function obtain the list of floors.
+     * This function obtains the list of floors.
      */
     getFloorList() {
         return this.floorList;

@@ -25,7 +25,6 @@ function FloorPicker(hvacApplication) {
                 onClick: CreateFunction(this, this.removeFloor)})
         ]})
     ]});
-
     this.floorRows = [];
     this.currentFloorRow = null;
     this.loadFloors();
@@ -82,6 +81,9 @@ FloorPicker.prototype.loadFloors = function() {
     }
 };
 
+/**
+ * This function moves the floor around as needed
+ */
 FloorPicker.prototype.droppedOnFloor = function(ev, index) {
     var moveFloor = ev.dataTransfer.getData("Floor ID");
 

@@ -8,7 +8,6 @@ class Point2D {
 /**
  * This function loads the options (if any) and sets the 2D point (X and Y values)
  *
- * @param options: The previous option settings
  * @constructor
  */
     constructor({x = 0.0, y = 0.0, point = null} = {}) {
@@ -22,7 +21,6 @@ class Point2D {
 /**
  * This function sets X and Y values based on options.
  *
- * @param options: The previous option settings
  */
     set({x = 0.0, y = 0.0, point = null} = {}) {
         this.x = x;

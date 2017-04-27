@@ -126,13 +126,21 @@ class Line2D {
         return this.point2;
     }
 
-//This function sets the X value of first point
+/**
+ * This function sets the X value of first point
+ *
+ * @param point1: This is the first point being edited
+ */
     setPoint1(point1) {
 
         this.point1.setX(point1.getX());
     }
 
-//This function sets the X value of second point
+/**
+ * This function sets the X value of second point
+ *
+ * @param point2: This is the second point being edited
+ */
     setPoint2(point2) {
 
         this.point2.setX(point2.getX());

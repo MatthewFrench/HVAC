@@ -16,15 +16,6 @@ class HVACDataLoader {
             if ("Version" in hvacDataMap) hvacDataMap["version"] = hvacDataMap["Version"];
             switch (hvacDataMap["version"]) {
                 case "1": {
-                    //Format
-                    //  Hashmap
-                    //      "Version" => number
-                    //      "Walls" => array
-                    //          [Hashmap]
-                    //              "x1" => number
-                    //              "y1" => number
-                    //              "x2" => number
-                    //              "y2" => number
                     var hvacData = new HVACData();
                     var building = new BuildingPlan({hvacData: hvacData});
                     var floor = new FloorPlan({building: building});
@@ -46,18 +37,6 @@ class HVACDataLoader {
                 }
                     break;
                 case "2": {
-                    //Format
-                    //  Hashmap
-                    //      "version" => number
-                    //      "buildings" => array map
-                    //          "floors" => array map
-                    //              "walls" => array map
-                    //                  "point1" => map
-                    //                      "x" => number
-                    //                      "y" => number
-                    //                  "point2" => map
-                    //                      "x" => number
-                    //                      "y" => number
                     var hvacData = new HVACData();
                     for (var buildingIndex in hvacDataMap['buildings']) {
                         var buildingMap = hvacDataMap['buildings'][buildingIndex];

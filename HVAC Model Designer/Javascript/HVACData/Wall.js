@@ -8,7 +8,6 @@ class Wall {
 /**
  * This function loads options (if any) and creates corners and floor plans from it.
  *
- * @param options: Previous option settings
  * @constructor
  */
     constructor({point1 = null, point2 = null, floor = null} = {}) {

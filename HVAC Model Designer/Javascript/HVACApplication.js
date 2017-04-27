@@ -65,7 +65,7 @@ class HVACApplication {
                         this.AJsButton = CreateElement({
                             type: 'button',
                             className: 'AJsButton',
-                            text: 'AJs Button',
+                            text: 'Wall Properties Button',
                             onClick: CreateFunction(this, function(){
                                 var newWallPopover = new WallPopover();
                                 newWallPopover.show(this.applicationDiv);
@@ -90,6 +90,7 @@ class HVACApplication {
         this.projectEditorTabClick();
     }
 
+    //What happens when "Project Editor" is clicked on
     projectEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab selected";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
@@ -106,6 +107,7 @@ class HVACApplication {
         this.hideFloorPicker();
     };
 
+    //What happens when "Wall Editor" is clicked on
     wallEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab selected";
@@ -123,6 +125,7 @@ class HVACApplication {
         this.showFloorPicker();
     }
 
+    //What happens when "Room Editor" is clicked on
     roomEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
@@ -140,6 +143,7 @@ class HVACApplication {
         this.showFloorPicker();
     }
 
+    //What happens when "View Editor" is clicked on
     viewEditorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
@@ -157,6 +161,7 @@ class HVACApplication {
         this.showFloorPicker();
     }
 
+    //What happens when "Simulator" is clicked on
     simulatorTabClick() {
         this.projectEditorTab.className = "HVACApplication_ProjectEditorTab";
         this.wallEditorTab.className = "HVACApplication_WallEditorTab";
@@ -174,15 +179,19 @@ class HVACApplication {
         this.hideFloorPicker();
     }
 
+    //Loads in the HVACData and gets a list of all current buildings
     loadData() {
         this.hvacData = HVACDataLoader.getHVACData();
         this.selectBuilding(this.hvacData.getBuildingList()[0]);
     };
 
+    //Saves the HVACData to a JSON object for mapping
     saveData() {
         window.localStorage.setItem("HVACData", JSON.stringify(this.hvacData.getHashmap()));
     }
 
+    //Opens up the project involving the building you have selected
+    //@param building: Currently selected building in Project Editor
     selectBuilding(building) {
         if (this.currentProjectLabel != null)
             this.currentProjectLabel.innerHTML = "Current Project: " + building.buildingName;
@@ -190,37 +199,46 @@ class HVACApplication {
         this.selectFloor(building.getFloorList()[0]);
     }
 
+    //Opens the canvas to the floor that you have selected
+    //@param floor: Currently selected floor in Floor Picker
     selectFloor(floor) {
         this.selectedFloor = floor;
     }
 
+    //Hides the Floor Picker when Project Editor/Simulator are selected
     hideFloorPicker() {
         this.floorPickerWindow.getDiv().style.display = "none";
     }
 
+    //Shows the Floor Picker when Wall Editor, Room Editor, or View are selected
     showFloorPicker() {
         this.floorPickerWindow.getDiv().style.display = "";
         this.floorPickerWindow.loadFloors();
     }
 
+    //Gets a list of the current walls that have been created
     getCurrentWallList() {
         return this.selectedFloor.getWallList();
     }
 
+    //Accesses the current Floor Plan
     getCurrentFloorPlan() {
         return this.selectedFloor;
     };
 
+    //Accesses the current Building
     getCurrentBuilding() {
         return this.selectedBuilding;
     }
 
+    //Accesses the Logic function inside of the current Editor
     logic() {
         if (this.currentEditor != null) {
             this.currentEditor.logic();
         }
     }
 
+    //This shows the HVAC Application Canvas and Divs
     getApplicationDiv() {
         return this.applicationDiv;
     }
