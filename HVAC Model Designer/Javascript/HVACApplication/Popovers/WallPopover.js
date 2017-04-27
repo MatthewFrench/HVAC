@@ -16,8 +16,10 @@ class WallPopover {
             type: 'div',
             className: 'WallBGCover'
         });
-        
-        /* Time to create the Wall's Division and all the needed buttons! */
+
+        /**
+         * This function creates all of the buttons for the Wall Properties
+         */
         this.WallDiv = CreateElement({
             type: 'div',
             className: 'WallDiv',
@@ -106,8 +108,10 @@ class WallPopover {
                 })
             ]
         });
-        
-        /* Now let's talk about those Insulation Options! */
+
+        /**
+         * Creating the options for the Insulation Materials
+         */
         var InsulationOption = CreateElement({
             type: 'option',
             value: 'Fiberglass Batts',
@@ -214,7 +218,9 @@ class WallPopover {
         });
         this.InsulationMaterialsButton.selectedIndex = -1;
 
-        //This function reveals the Insulation Thickness options
+        /**
+         * Creating the options for the Insulation Materials Thickness
+         */
         this.InsulationMaterialsButton.onchange = CreateFunction(this, function () {
             var sel = this.InsulationMaterialsButton
             var first = sel.options[sel.selectedIndex];
@@ -306,8 +312,10 @@ class WallPopover {
             }
             this.InsulationDetailsButton.selectedIndex = -1;
         });
-        
-        // Once the user has changed their Insulation Details, this pops up to show them Construction Materials
+
+        /**
+         * Creating the options for the Construction Materials
+         */
         this.InsulationDetailsButton.onchange = CreateFunction(this, function () {
             var i;
             for (i = this.ConstructionMaterialsButton.options.length - 1; i >= 0; i--) {
@@ -408,8 +416,10 @@ class WallPopover {
             });
             this.ConstructionMaterialsButton.selectedIndex = -1;
         });
-        
-        //Now that they have chosen a Construction Material, bring on the Sheathing Material options!
+
+        /**
+         * Creating the options for the Sheathing Materials
+         */
         this.ConstructionMaterialsButton.onchange = CreateFunction(this, function () {
             var i;
             for (i = this.SheathingMaterialsButton.options.length - 1; i >= 0; i--) {
@@ -459,8 +469,10 @@ class WallPopover {
             });
             this.SheathingMaterialsButton.selectedIndex = -1;
         });
-        
-        // Whew! Sheathing Materials are hard, but now we gotta select what thickness of Sheating Material to use!
+
+        /**
+         * Creating the options for the Sheathing Materials Thickness
+         */
         this.SheathingMaterialsButton.onchange = CreateFunction(this, function () {
             var sel = this.SheathingMaterialsButton;
             var first = sel.options[sel.selectedIndex];
@@ -629,8 +641,10 @@ class WallPopover {
             }
             this.SheathingDetailsButton.selectedIndex = -1;
         });
-        
-        // Almost done! Siding Materials options below after selecting some Sheathing Thickness
+
+        /**
+         * Creating the options for the Siding Materials
+         */
         this.SheathingDetailsButton.onchange = CreateFunction(this, function () {
             var i;
             for (i = this.SidingMaterialsButton.options.length - 1; i >= 0; i--) {
@@ -699,8 +713,10 @@ class WallPopover {
             });
             this.SidingMaterialsButton.selectedIndex = -1;
         });
-        
-        // Finally! Interior Finishes are important! But only after choosing some siding
+
+        /**
+         * Creating the options for the Interior Finish Materials
+         */
         this.SidingMaterialsButton.onchange = CreateFunction(this, function () {
             var i;
             for (i = this.InteriorFinishButton.options.length - 1; i >= 0; i--) {

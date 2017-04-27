@@ -61,10 +61,10 @@ class HVACApplication {
                             type: 'div', className: 'HVACApplication_SimulatorTab',
                             onClick: CreateFunction(this, this.simulatorTabClick), text: "Simulator"
                         }),
-                        //creates AJ Button
-                        this.AJsButton = CreateElement({
+                        //creates Wall Properties Button
+                        this.wallPropertiesButton = CreateElement({
                             type: 'button',
-                            className: 'AJsButton',
+                            className: 'wallPropertiesButton',
                             text: 'Wall Properties Button',
                             onClick: CreateFunction(this, function(){
                                 var newWallPopover = new WallPopover();

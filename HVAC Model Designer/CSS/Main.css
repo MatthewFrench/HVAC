@@ -457,9 +457,9 @@ body {
     opacity: 0;
 }
 
-.AJsButton {
+.wallPropertiesButton {
     position: absolute;
-    width: 100px;
+    width: 200px;
     right: 100px;
     height: 30px;
     background: #c9d7e0;
