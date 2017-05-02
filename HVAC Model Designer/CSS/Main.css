@@ -70,6 +70,8 @@ body {
     border-bottom-color: black;
     border-bottom-style: solid;
     border-bottom-width: 1px;
+
+    overflow: hidden;
 }
 
 .HVACApplication_MainContent {
@@ -77,6 +79,7 @@ body {
     top: 60px;
     width: 100%;
     height: calc(100% - 60px);
+    overflow: hidden;
 }
 
 .HVACApplication_ProjectEditorTab {

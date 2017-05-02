@@ -9,8 +9,8 @@ This is a CSS Stylesheet that affects the way the Building Picker appears and ac
     border-radius:10px;
     background-color: rgba(255, 255, 255, 0.6);
     position: absolute;
-    left: 40%;
-    top: 120px;
+    left: calc(50% - 150px);
+    top: calc(50% - 200px);
     display: flex;
     flex-direction: column;
     -webkit-user-select: none;
