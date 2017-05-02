@@ -12,6 +12,7 @@ class StartOverPopover {
      *
      * @param question: The question that is being asked and placed as a Label in the form.
      * @param yesCallback: The function that is called if 'Yes' is clicked on.
+     * @constructor
      */
     constructor(question, yesCallback) {
         this.StartOverPopoverBlock = CreateElement({

@@ -1,5 +1,8 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Location Popover code that will allow a user to input Information about their Location
+ * for calculating the U Value.
  */
 
 var stateData = {"Alabama":{"name":"Alabama","cities":["Alexander City","Anniston AP","Auburn","Birmingham AP","Decatur",
@@ -132,12 +135,14 @@ var stateData = {"Alabama":{"name":"Alabama","cities":["Alexander City","Annisto
         "Gillette","Lander AP","Laramie AP","Newcastle","Rawlins","Rock Springs AP","Sheridan AP","Torrington","Worland"]}};
 
 /**
- * This Code is the Location Popover code that will allow a user to input Information about their Location
- * for calculating the U Value.
+ * Creates a new Location Popover and handles the functionality of it.
  */
 class LocationPopover {
+
     /**
      * This function creates the Location Popover.
+     *
+     * @constructor
      */
     constructor() {
         this.optionArray = [];

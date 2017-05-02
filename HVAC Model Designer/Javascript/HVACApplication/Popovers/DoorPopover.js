@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Door Popover code that will allow a user to input Information about Doors for calculating
+ * the U Value.
  */
 
 /**
- * This Code is the Door Popover code that will allow a user to input Information about Doors for calculating
- * the U Value.
+ * Creates a new Door Popover and handles the functionality of it.
  */
 class DoorPopover {
 
     /**
      * This function creates the Door Popover.
+     *
+     * @constructor
      */
     constructor() {
         var Doortext;
