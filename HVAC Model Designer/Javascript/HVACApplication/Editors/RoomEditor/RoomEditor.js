@@ -22,7 +22,10 @@ class RoomEditor {
             type: 'div',
             className: 'RoomEditor_mainDiv',
             text:"The purpose of the room editor is to allow setting wall properities and defining floors and" +
-                "ceilings for walls. This did not get completed."
+                "ceilings for walls. This did not get completed.",
+            elements: [
+                CreateElement({type: 'label', className: 'RoomEditor_NotCompleted', text: 'Not-Completed'})
+            ]
         });
     }
 

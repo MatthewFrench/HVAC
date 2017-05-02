@@ -33,24 +33,40 @@ class BuildingPicker {
                     type: 'div',
                     className: 'BuildingPicker_Bottom_Bar',
                     elements: [
-                        CreateElement({
-                            type: 'button',
-                            className: 'BuildingPicker_Add_Button',
-                            text: 'Add New Project',
-                            onClick: CreateFunction(this, this.addBuilding)
-                        }),
-                        CreateElement({
-                            type: 'button',
-                            className: 'BuildingPicker_Edit_Name_Button',
-                            text: 'Edit Name',
-                            onClick: CreateFunction(this, this.editBuildingName)
-                        }),
-                        CreateElement({
-                            type: 'button',
-                            className: 'BuildingPicker_Remove_Button',
-                            text: 'Remove Project',
-                            onClick: CreateFunction(this, this.removeBuilding)
-                        })
+                        CreateElement({type: 'div', className: 'BuildingPicker_TopButtons', elements:[
+                            CreateElement({
+                                type: 'button',
+                                className: 'BuildingPicker_Add_Button',
+                                text: 'Add New Project',
+                                onClick: CreateFunction(this, this.addBuilding)
+                            }),
+                            CreateElement({
+                                type: 'button',
+                                className: 'BuildingPicker_Edit_Name_Button',
+                                text: 'Edit Name',
+                                onClick: CreateFunction(this, this.editBuildingName)
+                            }),
+                            CreateElement({
+                                type: 'button',
+                                className: 'BuildingPicker_Remove_Button',
+                                text: 'Remove Project',
+                                onClick: CreateFunction(this, this.removeBuilding)
+                            })
+                        ]}),
+                        CreateElement({type: 'div', className: 'BuildingPicker_BottomButtons', elements: [
+                            CreateElement({
+                                type: 'button',
+                                className: 'BuildingPicker_Load_Button',
+                                text: 'Load from Disk',
+                                onClick: CreateFunction(this, function(){})
+                            }),
+                            CreateElement({
+                                type: 'button',
+                                className: 'BuildingPicker_Save_Button',
+                                text: 'Save to Disk',
+                                onClick: CreateFunction(this, function(){})
+                            })
+                        ]})
                     ]
                 })
             ]

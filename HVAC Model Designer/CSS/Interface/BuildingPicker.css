@@ -48,19 +48,44 @@ This is a CSS Stylesheet that affects the way the Building Picker appears and ac
 
 .BuildingPicker_Bottom_Bar {
     width: 100%;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .BuildingPicker_Add_Button {
     float: left;
+    margin-left: 2px;
 }
 
 .BuildingPicker_Edit_Name_Button {
     position: absolute;
-    bottom: 0px;
+    top: 0px;
     left: calc(50% - 41px);
     width: 84px;
 }
 
 .BuildingPicker_Remove_Button {
     float: right;
+    margin-right: 2px;
+}
+.BuildingPicker_TopButtons {
+    position: relative;
+    width: 100%;
+    height: 17px;
+}
+.BuildingPicker_BottomButtons {
+    position: relative;
+    width: 100%;
+    height: 17px;
+    margin-top: 2px;
+}
+.BuildingPicker_Load_Button {
+    position: absolute;
+    left: calc(33% - 50px);
+    width: 100px;
+}
+.BuildingPicker_Save_Button {
+    position: absolute;
+    right: calc(33% - 50px);
+    width: 100px;
 }

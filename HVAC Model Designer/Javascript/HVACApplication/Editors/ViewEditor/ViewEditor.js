@@ -26,6 +26,12 @@ class ViewEditor {
                     type: 'div',
                     className: 'ViewEditor_TopBar',
                     elements: [
+                        this.view3DTab = CreateElement({
+                            type: 'div',
+                            className: 'ViewEditor_View3DTab',
+                            onClick: CreateFunction(this, this.view3DTabClick),
+                            text: "View 3D"
+                        }),
                         this.dragTab = CreateElement({
                             type: 'div',
                             className: 'ViewEditor_DragTab',
@@ -37,12 +43,6 @@ class ViewEditor {
                             className: 'ViewEditor_RotateTab',
                             onClick: CreateFunction(this, this.rotateTabClick),
                             text: "Rotate 2D"
-                        }),
-                        this.view3DTab = CreateElement({
-                            type: 'div',
-                            className: 'ViewEditor_View3DTab',
-                            onClick: CreateFunction(this, this.view3DTabClick),
-                            text: "View 3D"
                         })
                     ]
                 }),
@@ -59,7 +59,7 @@ class ViewEditor {
 
         this.viewController = null;
 
-        this.dragTabClick();
+        this.view3DTabClick();
     }
 
     /**
