@@ -42,6 +42,7 @@ class WallConnection {
      *
      * @param cornerPoint: Coordinate point that connects two walls.
      * @param connectedWall: The wall that is connected to the cornerPoint.
+     * @constructor
      */
     constructor(cornerPoint, connectedWall) {
         this.cornerPoint = cornerPoint;
@@ -80,6 +81,7 @@ class Canvas2D {
      * @param allowDeletingWalls: Determines if the current mode allows deleting existing walls.
      * @param allowDragging: Determines if the mouse is able to drag the canvas.
      * @param allowRotating: Determines if the mouse is able to rotate the canvas.
+     * @constructor
      */
     constructor({hvacApplication, allowCreatingWalls = false, allowEditingPoints = false, allowCornerEditing = false,
                 allowDeletingWalls = false, allowDragging = false, allowRotating = false} = {}) {

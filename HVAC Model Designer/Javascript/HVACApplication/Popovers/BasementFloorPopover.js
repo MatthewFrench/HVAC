@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Basement Floor Popover code that will allow a user to input Information about the
+ * Basement Floor for calculating the U Value.
  */
 
 /**
- * This Code is the Basement Floor Popover code that will allow a user to input Information about the
- * Basement Floor for calculating the U Value.
+ * Creates a new Basement Floor Popover and handles the functionality of it.
  */
 class BasementFloorPopover {
 
     /**
      * This function creates the Basement Floor Popover.
+     *
+     * @constructor
      */
     constructor() {
         this.backgroundDiv = CreateElement({

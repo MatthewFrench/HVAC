@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Window Popover code that will allow a user to input Information about windows for calculating
+ * the U Value.
  */
 
 /**
- * This Code is the Window Popover code that will allow a user to input Information about windows for calculating
- * the U Value.
+ * Creates a new Window Popover and handles the functionality of it.
  */
 class WindowPopover {
 
     /**
      * This function creates the Window Popover.
+     *
+     * @constructor
      */
     constructor() {
         this.backgroundDiv = CreateElement({

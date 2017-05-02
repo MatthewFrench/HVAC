@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Basement and Attic Popover code that will allow a user to input Information about Basements
+ * and Attics for calculating the U Value.
  */
 
 /**
- * This Code is the Basement and Attic Popover code that will allow a user to input Information about Basements
- * and Attics for calculating the U Value.
+ * Creates a new Top And Bottom Data Popover and handles the functionality of it.
  */
 class TopAndBottomDataPopover {
 
     /**
      * This function creates the TopAndBottom Popover.
+     *
+     * @constructor
      */
     constructor() {
         var attic_stud_spacing_text;

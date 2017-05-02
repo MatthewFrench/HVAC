@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Ceiling Popover code that will allow a user to input Information about Ceilings for calculating
+ * the U Value.
  */
 
 /**
- * This Code is the Ceiling Popover code that will allow a user to input Information about Ceilings for calculating
- * the U Value.
+ * Creates a new Ceiling Popover and handles the functionality of it.
  */
 class CeilingPopover {
 
     /**
      * This function creates the Ceiling Popover.
+     *
+     * @constructor
      */
     constructor() {
         this.backgroundDiv = CreateElement({

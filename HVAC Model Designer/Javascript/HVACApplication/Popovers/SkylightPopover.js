@@ -1,15 +1,19 @@
 /**
  * Created by AJ Massey on 10/26/2016.
+ *
+ * This Code is the Skylight Popover code that will allow a user to input Information about Skylights for calculating
+ * the U Value.
  */
 
 /**
- * This Code is the Skylight Popover code that will allow a user to input Information about Skylights for calculating
- * the U Value.
+ * Creates a new Skylight Popover and handles the functionality of it.
  */
 class SkylightPopover {
 
     /**
      * This function creates the Skylight Popover.
+     *
+     * @constructor
      */
     constructor() {
         this.backgroundDiv = CreateElement({

@@ -11,6 +11,7 @@ class BuildingPicker {
      * This function creates the Building Picker window on the canvas.
      *
      * @param hvacApplication: The overall control that the Building Picker is a part of.
+     * @constructor
      */
     constructor(hvacApplication, hvacData) {
         this.hvacApplication = hvacApplication;

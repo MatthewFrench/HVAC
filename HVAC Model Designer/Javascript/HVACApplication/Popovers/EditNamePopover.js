@@ -1,9 +1,11 @@
 /**
  * Created by Austin03 on 2/21/17.
+ *
+ * This is a popover that allows editing project names and floor names.
  */
 
 /**
- * This class Creates the form that allows the user to edit building or floor names.
+ * Creates the form that allows the user to edit building or floor names.
  */
 class EditNamePopover {
 
@@ -13,6 +15,7 @@ class EditNamePopover {
      * @param currentName: The name of the building/floor to be edited.
      * @param saveName: The function that will update the name of the building/floor.
      * @param labelText: The question being populated in the popover.
+     * @constructor
      */
     constructor(currentName, saveName, labelText) {
         this.EditNamePopoverBlock = CreateElement({
