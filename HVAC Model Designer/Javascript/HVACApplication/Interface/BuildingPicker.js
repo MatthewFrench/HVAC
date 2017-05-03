@@ -94,18 +94,22 @@ class BuildingPicker {
         download.click();
     }
     loadFromDisk(e) {
+        console.log("Loading from disk called");
         var file = e.target.files[0];
         if (!file) {
+            console.log("No file");
             return;
         }
+        console.log("Setting up reader");
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = CreateFunction(this, function(e) {
+            console.log("On load called");
             var contents = e.target.result;
 
             var buildingMap = JSON.parse(contents);
 
 
-                var building = new BuildingPlan({hvacData: this.hvacData});
+                var building = new BuildingPlan({hvacData: this.hvacData, buildingName: buildingMap["name"]});
                 for (var floorIndex in buildingMap['floors']) {
                     var floorMap = buildingMap['floors'][floorIndex];
                     var floorName = "";
@@ -127,8 +131,11 @@ class BuildingPicker {
                 }
 
             this.hvacApplication.selectBuilding(building);
-        };
+            this.loadBuildings();
+        });
         reader.readAsText(file);
+
+        this.loadInput.value = "";
     }
 
     /**
@@ -211,7 +218,7 @@ class BuildingPicker {
      */
     addBuilding() {
         var newBuilding = new BuildingPlan({hvacData: this.hvacData});
-        newBuilding.addFloor(new FloorPlan({building: newBuilding}));
+        newBuilding.addFloor(new FloorPlan());
 
         this.loadBuildings();
         this.buildingClicked(this.buildingRows[0]);

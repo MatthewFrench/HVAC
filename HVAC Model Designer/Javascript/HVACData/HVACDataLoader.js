@@ -40,7 +40,7 @@ class HVACDataLoader {
                     var hvacData = new HVACData();
                     for (var buildingIndex in hvacDataMap['buildings']) {
                         var buildingMap = hvacDataMap['buildings'][buildingIndex];
-                        var building = new BuildingPlan({hvacData: hvacData});
+                        var building = new BuildingPlan({hvacData: hvacData, buildingName: buildingMap["name"]});
                         for (var floorIndex in buildingMap['floors']) {
                             var floorMap = buildingMap['floors'][floorIndex];
                             var floorName = "";

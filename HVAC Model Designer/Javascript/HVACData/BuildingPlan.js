@@ -67,6 +67,6 @@ class BuildingPlan {
             var floor = this.floorList[i];
             floorMaps.push(floor.getHashmap());
         }
-        return {floors: floorMaps};
+        return {floors: floorMaps, name: this.buildingName};
     }
 }
