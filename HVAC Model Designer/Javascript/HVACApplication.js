@@ -37,7 +37,7 @@ class HVACApplication {
                 this.currentProjectLabel = CreateElement({
                     type: 'label',
                     className: 'CurrentProjectLabel',
-                    text: 'Current Project: ' + this.getCurrentBuilding().buildingName
+                    text: 'Current Project: '
                 }),
                 this.topBarDiv = CreateElement({
                     type: 'div', className: 'HVACApplication_TopBar', elements: [
@@ -181,8 +181,8 @@ class HVACApplication {
 
     //Loads in the HVACData and gets a list of all current buildings
     loadData() {
-        this.hvacData = HVACDataLoader.getHVACData();
-        this.selectBuilding(this.hvacData.getBuildingList()[0]);
+        this.hvacData = HVACDataLoader.getHVACData(this);
+        if (this.hvacData.getBuildingList().length > 0) this.selectBuilding(this.hvacData.getBuildingList()[0]);
     };
 
     //Saves the HVACData to a JSON object for mapping
@@ -218,6 +218,7 @@ class HVACApplication {
 
     //Gets a list of the current walls that have been created
     getCurrentWallList() {
+        if (this.selectedFloor == null) return null;
         return this.selectedFloor.getWallList();
     }
 

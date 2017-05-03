@@ -10,7 +10,7 @@ class HVACDataLoader {
  *
  * @returns: hvacData that contains the different projects on local storage.
  */
-    static getHVACData() {
+    static getHVACData(hvacApplication) {
         var hvacDataMap = JSON.parse(window.localStorage.getItem("HVACData"));
         if (hvacDataMap != null) {
             if ("Version" in hvacDataMap) hvacDataMap["version"] = hvacDataMap["Version"];
@@ -72,9 +72,41 @@ class HVACDataLoader {
                 }
             }
         } else {
+
             var newHVACData = new HVACData();
-            var building = new BuildingPlan({hvacData: newHVACData});
-            var floor = new FloorPlan({building: building});
+            //Load default data
+            var client = new XMLHttpRequest();
+            client.open('GET', 'Miscellaneous/Schematic - Example Building.txt');
+            client.send(null);
+
+            client.onload = CreateFunction( this, function() {
+                var text = client.responseText;
+                var buildingMap = JSON.parse(text);
+
+                var building = new BuildingPlan({hvacData: newHVACData, buildingName: buildingMap["name"]});
+                for (var floorIndex in buildingMap['floors']) {
+                    var floorMap = buildingMap['floors'][floorIndex];
+                    var floorName = "";
+                    if (floorMap.hasOwnProperty("floorName")) floorName = floorMap["floorName"];
+                    var floor = new FloorPlan({building: building, floorName: floorName});
+                    for (var wallIndex in floorMap['walls']) {
+                        var wallMap = floorMap['walls'][wallIndex];
+                        var x1 = wallMap["point1"]['x'];
+                        var y1 = wallMap["point1"]['y'];
+                        var x2 = wallMap["point2"]['x'];
+                        var y2 = wallMap["point2"]['y'];
+                        if (x1 == undefined || y1 == undefined || x2 == undefined || y2 == undefined) continue;
+                        var wall = new Wall({
+                            point1: new CornerPoint({x: x1, y: y1}),
+                            point2: new CornerPoint({x: x2, y: y2}),
+                            floor: floor
+                        });
+                    }
+                }
+                hvacApplication.selectBuilding(newHVACData.getBuildingList()[0]);
+                hvacApplication.projectEditor.buildingPickerWindow.loadBuildings();
+            });
+
             return newHVACData;
         }
     }

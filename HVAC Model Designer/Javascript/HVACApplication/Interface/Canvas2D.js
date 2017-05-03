@@ -148,6 +148,7 @@ class Canvas2D {
      * Repeated process for refreshing the layout of the canvas.
      */
     logic() {
+        if (this.hvacApplication.getCurrentBuilding() == null) return;
         var ctx = this.beginDraw(this.canvas, this.hvacApplication.viewAngle, this.hvacApplication.viewScale);
 
         //Draw above and below floors

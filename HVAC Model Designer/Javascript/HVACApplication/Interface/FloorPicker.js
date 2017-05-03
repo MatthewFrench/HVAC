@@ -52,6 +52,7 @@ class FloorPicker {
         }
 
         var building = this.hvacApplication.getCurrentBuilding();
+        if (building == null) return;
         var floorList = building.getFloorList();
 
         //Iterate through floors and add each to the Floor Picker

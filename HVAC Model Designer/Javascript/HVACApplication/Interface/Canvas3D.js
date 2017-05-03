@@ -227,6 +227,12 @@ class Canvas3D {
      */
     createBasicScene() {
 
+        for( var i = this.layoutViewMode3DScene.children.length - 1; i >= 0; i--) {
+            var obj = this.layoutViewMode3DScene.children[i];
+            this.layoutViewMode3DScene.remove(obj);
+        }
+
+        if (this.hvacApplication.getCurrentWallList() == null) return;
         //Iterate through the current list of walls
          for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
 
@@ -292,7 +298,7 @@ class Canvas3D {
      * Displays the 2D view of the wall list first before the 3D walls are populated.
      */
     addFlatFloor() {
-
+        if (this.hvacApplication.getCurrentWallList() == null) return;
         //Iterate through the current list of walls.
         for (var i = 0; i < this.hvacApplication.getCurrentWallList().length; i++) {
 
@@ -429,6 +435,12 @@ class Canvas3D {
      * Stacks all of the floors on top of each other for the complete 3D model instead of just showing 1 floor.
      */
     showAllFloors() {
+        for( var i = this.layoutViewMode3DScene.children.length - 1; i >= 0; i--) {
+            var obj = this.layoutViewMode3DScene.children[i];
+            this.layoutViewMode3DScene.remove(obj);
+        }
+        this.createBasicScene();
+
         var floorList = this.hvacApplication.getCurrentBuilding().getFloorList();
         var currentFloor = this.hvacApplication.getCurrentFloorPlan();
         var currentFloorIndex = floorList.indexOf(currentFloor);
