@@ -59,23 +59,76 @@ class BuildingPicker {
                                 type: 'button',
                                 className: 'BuildingPicker_Load_Button',
                                 text: 'Load from Disk',
-                                onClick: CreateFunction(this, function(){})
+                                onClick: CreateFunction(this, function(){this.loadInput.click();})
+                            }),
+                            this.loadInput = CreateElement({
+                                type: 'input',
+                                inputType: 'file',
+                                onChange: CreateFunction(this, this.loadFromDisk)
                             }),
                             CreateElement({
                                 type: 'button',
                                 className: 'BuildingPicker_Save_Button',
                                 text: 'Save to Disk',
-                                onClick: CreateFunction(this, function(){})
+                                onClick: CreateFunction(this, this.saveToDisk)
                             })
                         ]})
                     ]
                 })
             ]
         });
+        this.loadInput.style.display = "none";
 
         this.buildingRows = [];
         this.currentBuildingRow = null;
         this.loadBuildings();
+    }
+
+    saveToDisk() {
+        var building = this.hvacApplication.getCurrentBuilding();
+        var blob = new Blob([JSON.stringify(building.getHashmap())], {type: "text/plain;charset=utf-8"});
+
+        let download = document.createElement('a');
+        download.href = URL.createObjectURL(blob);
+        download.download = "Schematic - " + building.buildingName + ".txt";
+        download.click();
+    }
+    loadFromDisk(e) {
+        var file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var contents = e.target.result;
+
+            var buildingMap = JSON.parse(contents);
+
+
+                var building = new BuildingPlan({hvacData: this.hvacData});
+                for (var floorIndex in buildingMap['floors']) {
+                    var floorMap = buildingMap['floors'][floorIndex];
+                    var floorName = "";
+                    if (floorMap.hasOwnProperty("floorName")) floorName = floorMap["floorName"];
+                    var floor = new FloorPlan({building: building, floorName: floorName});
+                    for (var wallIndex in floorMap['walls']) {
+                        var wallMap = floorMap['walls'][wallIndex];
+                        var x1 = wallMap["point1"]['x'];
+                        var y1 = wallMap["point1"]['y'];
+                        var x2 = wallMap["point2"]['x'];
+                        var y2 = wallMap["point2"]['y'];
+                        if (x1 == undefined || y1 == undefined || x2 == undefined || y2 == undefined) continue;
+                        var wall = new Wall({
+                            point1: new CornerPoint({x: x1, y: y1}),
+                            point2: new CornerPoint({x: x2, y: y2}),
+                            floor: floor
+                        });
+                    }
+                }
+
+            this.hvacApplication.selectBuilding(building);
+        };
+        reader.readAsText(file);
     }
 
     /**
